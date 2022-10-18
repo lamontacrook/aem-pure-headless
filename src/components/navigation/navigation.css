@@ -1,0 +1,92 @@
+nav .navigation {
+  position: fixed;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  background: rgba(15,15,30,.25);
+  opacity: 1;
+  z-index: 9;
+  padding: 17px 0 16px;
+  transition: all .3s;
+  border-bottom: 1px solid hsla(0,0%,100%,.2);
+  overflow: hidden;
+}
+
+nav .navigation .container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+nav .navigation img {
+  width: 249px;
+  padding-left: 20px;
+}
+
+nav .navigation ol {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  justify-self: flex-end;
+  width:100%;
+  justify-content: center;
+  padding-left: unset;
+}
+
+nav .navigation a.navItem {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.125rem;
+  line-height: 1.125rem;
+  text-transform: none;
+  white-space: nowrap;
+  font-family: Futura PT W02 Book,Futura,Trebuchet MS,Arial,sans-serif;
+  display: block;
+  position: relative;
+  padding: 0.2em 0;
+  display: inline-block;
+}
+
+nav .navigation li {
+  margin: 0 16px;
+  display: inline;
+  margin-top: 2px;
+}
+
+nav .navigation a.navItem::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.1em;
+  background-color: #ffc719;
+  opacity: 0;
+  transition: opacity 300ms, transform 300ms;
+}
+
+nav .navigation a.navItem:hover {
+  color: #ffc719;
+}
+
+nav .navigation a.navItem:hover::after,
+a:focus::after {
+  opacity: 1;
+  transform: translate3d(0, 0.2em, 0);
+}
+
+a.button {
+  border: 1.25px solid #FFC718;
+  color: #FFC718;
+  align-self:center;
+  right:0;
+  padding: 5px 50px;
+  margin-right: 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  white-space: nowrap;
+}
