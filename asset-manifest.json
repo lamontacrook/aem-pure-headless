@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/lamontacrook/aem-pure-headless/demo/static/css/main.1d42b074.css",
+    "main.js": "/lamontacrook/aem-pure-headless/demo/static/js/main.7ab4e5da.js",
+    "static/js/787.182dcdc1.chunk.js": "/lamontacrook/aem-pure-headless/demo/static/js/787.182dcdc1.chunk.js",
+    "static/media/fin-de-semana.png": "/lamontacrook/aem-pure-headless/demo/static/media/fin-de-semana.fbe11bb608613b6c63b7.png",
+    "index.html": "/lamontacrook/aem-pure-headless/demo/index.html",
+    "main.1d42b074.css.map": "/lamontacrook/aem-pure-headless/demo/static/css/main.1d42b074.css.map",
+    "main.7ab4e5da.js.map": "/lamontacrook/aem-pure-headless/demo/static/js/main.7ab4e5da.js.map",
+    "787.182dcdc1.chunk.js.map": "/lamontacrook/aem-pure-headless/demo/static/js/787.182dcdc1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1d42b074.css",
+    "static/js/main.7ab4e5da.js"
+  ]
+}
