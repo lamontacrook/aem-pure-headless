@@ -1,7 +1,7 @@
 import React from 'react';
 import ModelManager from '../modelmanager';
 import gql from '../api/gql.json';
-//import { ScreenQry } from '../api/query';
+import { ScreenQry } from '../api/query';
 
 import './screen.css';
 
@@ -16,10 +16,20 @@ const Screen = () => {
     document.querySelector('.fly-out-gql').style.display = 'none';
   }
 
+  function showPayload() {
+    document.querySelector('.fly-out-gql > pre').innerHTML = `<pre>${ScreenQry()}</pre>`;
+  }
+
+  function showResponse() {
+    document.querySelector('.fly-out-gql > pre').innerHTML = `<pre>${JSON.stringify(gql, null, 2)}</pre>`;
+  }
+
   return (
     <React.Fragment>
       <div className='main-body'>
         <div className='fly-out-gql payload'>
+          <button onClick={showResponse} className='button'>Show Response</button>
+          <button onClick={showPayload} className='button'>Show Request</button>
           <button onClick={hideGQL} className='button'>Hide GQL</button>
           <pre>{JSON.stringify(gql, null, 2)}</pre>
         </div>
