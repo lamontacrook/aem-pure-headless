@@ -1,0 +1,18 @@
+{
+  "data": {
+    "screenList": {
+      "items": [
+        {
+          "screenName": "Magazine",
+          "positionInNavigation": "pos4",
+          "_path": "/content/dam/gql-demo/site/magazine/magazine"
+        },
+        {
+          "screenName": "Seasons",
+          "positionInNavigation": "pos3",
+          "_path": "/content/dam/gql-demo/site/seasons/seasons"
+        }
+      ]
+    }
+  }
+}

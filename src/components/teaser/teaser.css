@@ -7,3 +7,27 @@
     left: 0;
     z-index: -1;
 }
+
+.teaser .content-block {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    text-align: center;
+    width: 70%;
+}
+
+.seperator {
+    width: 128px;
+    display: block;
+    content: "";
+    background-color: #ffc719;
+    transition: width .4s ease-in-out;
+    height: 10px;
+    margin: auto;
+}
+
+.teaser h1, h2 {
+    color: white;
+}

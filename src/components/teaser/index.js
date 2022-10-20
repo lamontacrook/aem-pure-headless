@@ -1,1 +1,2 @@
-export {default} from './teaser.js';
+export {default} from './teaser';
+export {TeaserGQL} from './teaser';

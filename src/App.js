@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Navigation from './components/navigation';
-import Teaser from './components/teaser';
+import Screen from './components/screen';
 
 function App() {
   return (
@@ -9,9 +9,11 @@ function App() {
       <nav>
         <Navigation />
       </nav>
-      <header className="home-hero" role="banner">
+      {/* <header className="home-hero" role="banner">
         <Teaser />
-      </header>
+      </header> */}
+      <Screen />
+
     </div>
   );
 }
