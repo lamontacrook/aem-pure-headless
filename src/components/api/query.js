@@ -1,6 +1,6 @@
 import { TeaserGQL } from '../teaser';
 
-export const Screen = () => {
+export const ScreenQry = () => {
   return `{
     screen: screenList {
       body: items {
@@ -31,5 +31,5 @@ export const Nav = () => {
         }
       }
     }
-  }`
-}
+  }`;
+};

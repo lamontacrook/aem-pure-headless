@@ -5,6 +5,11 @@
         {
           "screenName": "Magazine",
           "positionInNavigation": "pos4",
+          "_path": "#featured"
+        },
+        {
+          "screenName": "Magazine",
+          "positionInNavigation": "pos4",
           "_path": "/content/dam/gql-demo/site/magazine/magazine"
         },
         {

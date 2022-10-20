@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Video from '../video';
 
@@ -29,6 +29,25 @@ export const TeaserGQL = `
 
 
 const Teaser = ({ content }) => {
+
+  //const [offset, setOffset] = useState(0);
+
+  useEffect(() => {
+    const video = document.querySelector('video').offsetHeight;
+    const featured = document.querySelector('.featured').offsetHeight;
+    let i = .1;
+    window.onscroll = function () {
+      document.querySelector('video').style.opacity = 1 - ((window.pageYOffset + 180) / video);
+      if (window.pageYOffset > (video - featured)) {
+        console.log(document.querySelector('.featured').style.opacity);
+        document.querySelector('.featured').style.opacity = i;
+        i = i + .01;
+      }
+    };
+  }, []);
+
+
+
   return (
     <React.Fragment>
       {content.headerOfPage && (
@@ -65,7 +84,13 @@ const Teaser = ({ content }) => {
 
       {!content.headerOfPage && (
         <section className='featured'>
-          <p>hello</p>
+          <div className='content-block'>
+            <h2>{content.teaserTitle}</h2>
+            <h5>{content.teaserPreTitle}</h5>
+          </div>
+          <div className="teaser-image">
+            <img src={content.teaserAsset._publishUrl} />
+          </div>
         </section>
       )}
     </React.Fragment>

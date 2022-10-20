@@ -8,3 +8,21 @@
   left:unset;
   position: unset;
 }
+
+.fly-out-gql {
+  position: absolute;
+  right:0;
+  top:0;
+  height:100%;
+  width:900px;
+  background-color: white;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: small;
+  padding: 50px;
+  z-index: 60;
+  opacity: .9;
+}
+
+.fly-out-gql .payload {
+  display: none;
+}

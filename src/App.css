@@ -21,20 +21,6 @@ nav {
   left: 0;
 }
 
-header {
-  top:0;
-  left:0;
-}
-
-header img {
-  width: 100%;
-  object-fit: cover;
-}
-
-header video {
-  width: 100%;
-}
-
 .App {
   padding:0;
   margin:0;
@@ -42,9 +28,5 @@ header video {
 
 body {
   margin: 0;
-}
-
-.video-section video{
-  max-width:100%;
-  height:auto;
+  background-color: black;
 }

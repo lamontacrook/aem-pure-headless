@@ -34,7 +34,44 @@
               "headerOfPage": false,
               "teaserTitle": "Featured Article",
               "teaserPreTitle": "Lorem Ipsum",
-              "teaserAsset": {},
+              "teaserAsset": {
+                "_authorUrl": "https://author-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/hero.png",
+                "_publishUrl": "https://publish-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/hero.png"
+              },
+              "teaserDescription": {
+                "html": null
+              },
+              "teaserCallToAction": "Read More"
+            },
+            {
+              "_model": {
+                "title": "Teaser",
+                "_path": "/conf/gql-demo/settings/dam/cfm/models/teaser"
+              },
+              "headerOfPage": false,
+              "teaserTitle": "Featured Article",
+              "teaserPreTitle": "Lorem Ipsum",
+              "teaserAsset": {
+                "_authorUrl": "https://author-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/hero.png",
+                "_publishUrl": "https://publish-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/hero.png"
+              },
+              "teaserDescription": {
+                "html": null
+              },
+              "teaserCallToAction": "Read More"
+            },
+            {
+              "_model": {
+                "title": "Teaser",
+                "_path": "/conf/gql-demo/settings/dam/cfm/models/teaser"
+              },
+              "headerOfPage": false,
+              "teaserTitle": "Featured Article",
+              "teaserPreTitle": "Lorem Ipsum",
+              "teaserAsset": {
+                "_authorUrl": "https://author-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/hero.png",
+                "_publishUrl": "https://publish-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/hero.png"
+              },
               "teaserDescription": {
                 "html": null
               },
