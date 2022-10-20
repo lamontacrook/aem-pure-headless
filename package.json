@@ -21,7 +21,7 @@
     "lint:js": "eslint src/**/*.js",
     "lint:css": "eslint src/**/*.css",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -b demo -d build"
   },
   "eslintConfig": {
     "extends": [
