@@ -13,14 +13,16 @@
   position: absolute;
   right:0;
   top:0;
-  height:100%;
+  height:auto;
   width:900px;
-  background-color: white;
+  background-color: #000000;
   font-family: 'Courier New', Courier, monospace;
+  color:white;
   font-size: small;
   padding: 50px;
   z-index: 60;
   opacity: .9;
+  display: none;
 }
 
 .fly-out-gql .payload {

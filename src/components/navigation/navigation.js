@@ -5,6 +5,11 @@ import Logo from '../../media/fin-de-semana.png';
 import Nav from '../api/navigation.json';
 
 const Navigation = () => {
+
+  function viewGQL() {
+    document.querySelector('.fly-out-gql').style.display = 'block';
+  }
+
   let obj = {
     pos1: { name: 'Hold', path: '#' },
     pos2: { name: 'Hold', path: '#' },
@@ -32,7 +37,7 @@ const Navigation = () => {
           <li><a href={obj.pos6.path} className='navItem'>{obj.pos6.name}</a></li>
 
         </ol>
-        <a href='#' className='button contact-us'>Contact Us</a>
+        <a href='#' className='button view-gql' onClick={viewGQL}>View GraphQL</a>
       </div>
     </section>
   );

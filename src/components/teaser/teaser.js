@@ -36,13 +36,18 @@ const Teaser = ({ content }) => {
     const video = document.querySelector('video').offsetHeight;
     const featured = document.querySelector('.featured').offsetHeight;
     let i = .1;
+    console.log(window.pageYOffset);
     window.onscroll = function () {
       document.querySelector('video').style.opacity = 1 - ((window.pageYOffset + 180) / video);
       if (window.pageYOffset > (video - featured)) {
         console.log(document.querySelector('.featured').style.opacity);
         document.querySelector('.featured').style.opacity = i;
         i = i + .01;
-      }
+      } 
+      // if(window.pageYOffset > .8 ) {
+      //   console.log('here');
+      //   document.querySelector('.featured').style.opacity = 1;
+      // }
     };
   }, []);
 

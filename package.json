@@ -1,7 +1,7 @@
 {
   "name": "pure-headless",
   "version": "0.1.0",
-  "homepage": "https://github.com/lamontacrook/aem-pure-headless/demo",
+  "homepage": "https://lamontacrook.github.io/aem-pure-headless",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -21,7 +21,7 @@
     "lint:js": "eslint src/**/*.js",
     "lint:css": "eslint src/**/*.css",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -b demo -d build"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

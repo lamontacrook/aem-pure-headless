@@ -79,14 +79,18 @@ a:focus::after {
   transform: translate3d(0, 0.2em, 0);
 }
 
-a.button {
+.button {
   border: 1.25px solid #FFC718;
   color: #FFC718;
   align-self:center;
   right:0;
-  padding: 5px 50px;
+  padding: 5px 20px;
   margin-right: 20px;
   border-radius: 5px;
   text-decoration: none;
   white-space: nowrap;
+}
+
+button.button {
+  background-color: black;
 }
