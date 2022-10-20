@@ -1,0 +1,10 @@
+.main-body {
+  display: flex;
+  flex-direction: column;
+}
+.main-body > .block {
+  width: 100%;
+  top:unset;
+  left:unset;
+  position: unset;
+}

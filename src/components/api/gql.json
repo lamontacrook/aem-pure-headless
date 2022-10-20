@@ -6,6 +6,7 @@
           "_model": {
             "title": "Screen"
           },
+          "screenName": "Home",
           "block": [
             {
               "_model": {
@@ -24,6 +25,20 @@
                 "html": null
               },
               "teaserCallToAction": "Destinations"
+            },
+            {
+              "_model": {
+                "title": "Teaser",
+                "_path": "/conf/gql-demo/settings/dam/cfm/models/teaser"
+              },
+              "headerOfPage": false,
+              "teaserTitle": "Featured Article",
+              "teaserPreTitle": "Lorem Ipsum",
+              "teaserAsset": {},
+              "teaserDescription": {
+                "html": null
+              },
+              "teaserCallToAction": "Read More"
             }
           ]
         }

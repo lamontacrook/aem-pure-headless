@@ -2,6 +2,8 @@ import React from 'react';
 import ModelManager from '../modelmanager';
 import gql from '../api/gql.json';
 
+import './screen.css';
+
 const Screen = () => {
 
   const data = gql['data'];
@@ -31,6 +33,7 @@ const Screen = () => {
             </ModelManager>
           </div>
         ))}
+        
       </div>
     </React.Fragment>
   );

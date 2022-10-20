@@ -9,9 +9,7 @@ function App() {
       <nav>
         <Navigation />
       </nav>
-      {/* <header className="home-hero" role="banner">
-        <Teaser />
-      </header> */}
+      
       <Screen />
 
     </div>
