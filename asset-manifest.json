@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/aem-pure-headless/static/css/main.8de09cd9.css",
-    "main.js": "/aem-pure-headless/static/js/main.b3260d23.js",
+    "main.js": "/aem-pure-headless/static/js/main.1d3ac819.js",
     "static/js/787.182dcdc1.chunk.js": "/aem-pure-headless/static/js/787.182dcdc1.chunk.js",
     "static/media/fin-de-semana.png": "/aem-pure-headless/static/media/fin-de-semana.fbe11bb608613b6c63b7.png",
     "index.html": "/aem-pure-headless/index.html",
     "main.8de09cd9.css.map": "/aem-pure-headless/static/css/main.8de09cd9.css.map",
-    "main.b3260d23.js.map": "/aem-pure-headless/static/js/main.b3260d23.js.map",
+    "main.1d3ac819.js.map": "/aem-pure-headless/static/js/main.1d3ac819.js.map",
     "787.182dcdc1.chunk.js.map": "/aem-pure-headless/static/js/787.182dcdc1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8de09cd9.css",
-    "static/js/main.b3260d23.js"
+    "static/js/main.1d3ac819.js"
   ]
 }
