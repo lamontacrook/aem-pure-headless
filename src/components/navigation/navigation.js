@@ -3,6 +3,7 @@ import React from 'react';
 import './navigation.css';
 import Logo from '../../media/fin-de-semana.png';
 import Nav from '../api/navigation.json';
+import { Link } from 'react-router-dom';
 
 const Navigation = () => {
 
@@ -16,7 +17,7 @@ const Navigation = () => {
     pos3: { name: 'Hold', path: '#' },
     pos4: { name: 'Hold', path: '#' },
     pos5: { name: 'Hold', path: '#' },
-    pos6: { name: 'Hold', path: '#' },
+    pos6: { name: 'Settings', path: '/settings' },
   };
   Nav.data.screenList.items.forEach((item) => {
     obj[item.positionInNavigation] = { name: item.screenName, path: item._path };
@@ -29,12 +30,12 @@ const Navigation = () => {
       <div className="container">
         <img src={Logo} alt='logo' />
         <ol>
-          <li><a href={obj.pos1.path} className='navItem'>{obj.pos1.name}</a></li>
-          <li><a href={obj.pos2.path} className='navItem'>{obj.pos2.name}</a></li>
-          <li><a href={obj.pos3.path} className='navItem'>{obj.pos3.name}</a></li>
-          <li><a href={obj.pos4.path} className='navItem'>{obj.pos4.name}</a></li>
-          <li><a href={obj.pos5.path} className='navItem'>{obj.pos5.name}</a></li>
-          <li><a href={obj.pos6.path} className='navItem'>{obj.pos6.name}</a></li>
+          <li><Link to={obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
+          <li><Link to={obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
+          <li><Link to={obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
+          <li><Link to={obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
+          <li><Link to={obj.pos5.path} className='navItem'>{obj.pos5.name}</Link></li>
+          <li><Link to={obj.pos6.path} className='navItem'>{obj.pos6.name}</Link></li>
 
         </ol>
         <a href='#' className='button view-gql' onClick={viewGQL}>View GraphQL</a>

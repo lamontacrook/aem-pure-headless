@@ -39,7 +39,7 @@ nav .navigation ol {
 
 nav .navigation a.navItem {
   text-decoration: none;
-  color: #fff;
+  color: var(--main-text-color);
   font-size: 1.125rem;
   line-height: 1.125rem;
   text-transform: none;
@@ -64,13 +64,13 @@ nav .navigation a.navItem::after {
   left: 0;
   width: 100%;
   height: 0.1em;
-  background-color: #ffc719;
+  background-color: var(--main-accent-color);
   opacity: 0;
   transition: opacity 300ms, transform 300ms;
 }
 
 nav .navigation a.navItem:hover {
-  color: #ffc719;
+  color: var(--main-accent-color);
 }
 
 nav .navigation a.navItem:hover::after,
@@ -80,8 +80,8 @@ a:focus::after {
 }
 
 .button {
-  border: 1.25px solid #FFC718;
-  color: #FFC718;
+  border: 1.25px solid var(--main-accent-color);
+  color: var(--main-accent-color);
   align-self:center;
   right:0;
   padding: 5px 20px;
@@ -92,5 +92,5 @@ a:focus::after {
 }
 
 button.button {
-  background-color: black;
+  background-color: var(--main-color);
 }

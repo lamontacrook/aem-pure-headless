@@ -7,9 +7,20 @@ body {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--main-color);
+  background-image: url('./media/AdobeStock_109806363.jpeg');
+  background-size:cover;
+  background-repeat: no-repeat;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+:root {
+  --main-accent-color:#ffc719;
+  --main-color: rgba(41,41,41);
+  --main-text-color:#eeeeed;
+  --main-color-opacity:rgba(41,41,41,.75);
 }
