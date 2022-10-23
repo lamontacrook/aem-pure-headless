@@ -1,16 +1,20 @@
 {
   "files": {
-    "main.css": "/aem-pure-headless/static/css/main.8de09cd9.css",
-    "main.js": "/aem-pure-headless/static/js/main.1d3ac819.js",
+    "main.css": "/aem-pure-headless/static/css/main.b4d14d67.css",
+    "main.js": "/aem-pure-headless/static/js/main.15f7ed6d.js",
     "static/js/787.182dcdc1.chunk.js": "/aem-pure-headless/static/js/787.182dcdc1.chunk.js",
+    "static/media/AdobeStock_109806363.jpeg": "/aem-pure-headless/static/media/AdobeStock_109806363.3e2094c128e6d6f29826.jpeg",
     "static/media/fin-de-semana.png": "/aem-pure-headless/static/media/fin-de-semana.fbe11bb608613b6c63b7.png",
     "index.html": "/aem-pure-headless/index.html",
-    "main.8de09cd9.css.map": "/aem-pure-headless/static/css/main.8de09cd9.css.map",
-    "main.1d3ac819.js.map": "/aem-pure-headless/static/js/main.1d3ac819.js.map",
+    "static/media/serviceURL.md": "/aem-pure-headless/static/media/serviceURL.e88692564b8d2c5e0d76.md",
+    "static/media/endpoint.md": "/aem-pure-headless/static/media/endpoint.500afc08005ad2eb6cc7.md",
+    "static/media/auth.md": "/aem-pure-headless/static/media/auth.f7c1a433403559317f18.md",
+    "main.b4d14d67.css.map": "/aem-pure-headless/static/css/main.b4d14d67.css.map",
+    "main.15f7ed6d.js.map": "/aem-pure-headless/static/js/main.15f7ed6d.js.map",
     "787.182dcdc1.chunk.js.map": "/aem-pure-headless/static/js/787.182dcdc1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8de09cd9.css",
-    "static/js/main.1d3ac819.js"
+    "static/css/main.b4d14d67.css",
+    "static/js/main.15f7ed6d.js"
   ]
 }
