@@ -22,6 +22,13 @@ module.exports = {
 			'error',
 			2
 		],
+		'no-unused-vars': [
+			'warn', { 
+				'vars': 'all',
+				'args': 'after-used', 
+				'ignoreRestSiblings': false 
+			}
+		],
 		'linebreak-style': [
 			'error',
 			'unix'

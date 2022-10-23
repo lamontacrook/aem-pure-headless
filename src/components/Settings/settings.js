@@ -16,9 +16,11 @@ const instructionsData = {
   'authenticate': 'My error message'
 };
 
-
 const Settings = () => {
   const [instructions, setInstructions] = useState('');
+  const [serviceURL, setServiceURL] = useState('');
+  const [auth, setAuth] = useState('');
+  const [endpoint, setEndpoint] = useState('');
 
   useEffect(() => {
     for (let [key, value] of Object.entries(instructionsData)) {
@@ -29,24 +31,13 @@ const Settings = () => {
         });
     }
 
-    // useQuery();
+    setServiceURL(localStorage.getItem('serviceURL'));
+    setEndpoint(localStorage.getItem('endpoint'));
+    setAuth(localStorage.getItem('auth'));
 
   }, []);
 
-  const clearStorage = e => {
-    // console.log(`clearStorage ${e.name} ${localStorage.getItem(e.name)}`);
-    if (localStorage.getItem(e.name) !== null) {
-      e.value = '';
-      localStorage.removeItem(e.name);
-    }
-  };
-
   const handleSubmit = e => {
-    // e.preventDefault();
-    // console.log(e);
-
-    // let [errors, setErrors] = useState(null);
-    // let [data, setData] = useState(null);
 
     localStorage.setItem('serviceURL', document.querySelector('.author-url').value);
     localStorage.setItem('endpoint', document.querySelector('.graphql-endpoint').value);
@@ -90,8 +81,8 @@ const Settings = () => {
                 placeholder='Enter the URL of your author environment'
                 name='serviceURL'
                 onSelect={(e) => setInstructions(e.target)}
-                value={localStorage.getItem('serviceURL')}
-                onChange={(e) => clearStorage(e.target)}>
+                value={serviceURL}
+                onChange={(e) => setServiceURL(e.target.value)}>
 
               </input>
             </label>
@@ -102,8 +93,8 @@ const Settings = () => {
                 placeholder='Paste your Bearer Token'
                 name='auth'
                 onSelect={(e) => setInstructions(e.target)}
-                value={localStorage.getItem('auth')}
-                onChange={(e) => clearStorage(e.target)}>
+                value={auth}
+                onChange={(e) => setAuth(e.target.value)}>
               </textarea>
             </label>
             <label>GraphQL Endpoint
@@ -112,8 +103,8 @@ const Settings = () => {
                 placeholder='Paste your Bearer Token'
                 name='endpoint'
                 onSelect={(e) => setInstructions(e.target)}
-                value={localStorage.getItem('endpoint')}
-                onChange={(e) => clearStorage(e.target)}>
+                value={endpoint}
+                onChange={(e) => setEndpoint(e.target.value)}>
               </input>
             </label>
             <button className='button'
