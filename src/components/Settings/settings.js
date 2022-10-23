@@ -1,42 +1,83 @@
 import React, { useState, useEffect } from 'react';
 import { marked } from 'marked';
-
+import { NavigationGQL } from '../../components/navigation';
 
 import './settings.css';
-import md from '../../media/instructions.md';
+import endpoint from './endpoint.md';
+import serviceURL from './serviceURL.md';
+import auth from './auth.md';
+
+import { AEMHeadless } from '@adobe/aem-headless-client-js';
 
 const instructionsData = {
-  'author-url': 'Author URL - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-  'developer-token': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-  'graphql-endpoint': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+  'serviceURL': serviceURL,
+  'auth': auth,
+  'endpoint': endpoint,
+  'authenticate': 'My error message'
 };
+
 
 const Settings = () => {
   const [instructions, setInstructions] = useState('');
-  const [fetchedData, setFetchedData] = useState('');
-
-  async function fetchData() {
-
-    setFetchedData('null');
-  }
 
   useEffect(() => {
-    fetchData();
+    for (let [key, value] of Object.entries(instructionsData)) {
+      fetch(value)
+        .then((r) => r.text())
+        .then(text => {
+          instructionsData[key] = marked.parse(text);
+        });
+    }
+
+    // useQuery();
+
   }, []);
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    fetchData();
+  const clearStorage = e => {
+    // console.log(`clearStorage ${e.name} ${localStorage.getItem(e.name)}`);
+    if (localStorage.getItem(e.name) !== null) {
+      e.value = '';
+      localStorage.removeItem(e.name);
+    }
   };
 
-  console.log(fetchedData);
-  fetch(md)
-    .then((r) => r.text())
-    .then(text  => {
-      instructionsData['author-url'] = marked.parse(text);
-    }) ;
-  console.log(md);
-  console.log(marked.parse(md));
+  const handleSubmit = e => {
+    // e.preventDefault();
+    // console.log(e);
+
+    // let [errors, setErrors] = useState(null);
+    // let [data, setData] = useState(null);
+
+    localStorage.setItem('serviceURL', document.querySelector('.author-url').value);
+    localStorage.setItem('endpoint', document.querySelector('.graphql-endpoint').value);
+    localStorage.setItem('auth', document.querySelector('.developer-token').value);
+
+    const sdk = new AEMHeadless({
+      serviceURL: localStorage.getItem('serviceURL'),
+      endpoint: localStorage.getItem('endpoint'),
+      auth: localStorage.getItem('auth')
+    });
+
+    //const request = sdk.runQuery.bind(sdk);
+    //console.log(request);
+    sdk.runQuery(NavigationGQL)
+      .then(({ data }) => {
+
+        //if (errors) console.log(mapErrors(errors));
+        if (data) console.log(data);
+      })
+      .catch((error) => {
+        if (error.toJSON().message.includes('There was a problem parsing response data')) {
+          instructionsData[e.target.name] = `<h5>Error</h5> 403 Error for ${document.querySelector('.author-url').value}`;
+          setInstructions(e.target);
+          console.log(instructions);
+          console.log(instructionsData);
+
+        }
+        //console.log('here');
+        console.log(JSON.stringify(error));
+      });
+  };
 
   return (
     <React.Fragment>
@@ -44,25 +85,53 @@ const Settings = () => {
         <div className='settings-form'>
           <form>
             <label>Author URL
-              <input className='author-url' type='text' placeholder='Enter the URL of your author environment' name='author-url' onSelect={(e) => setInstructions(e.target)}></input>
+              <input className='author-url'
+                type='text'
+                placeholder='Enter the URL of your author environment'
+                name='serviceURL'
+                onSelect={(e) => setInstructions(e.target)}
+                value={localStorage.getItem('serviceURL')}
+                onChange={(e) => clearStorage(e.target)}>
+
+              </input>
             </label>
             <label>Developer Token
-              <textarea className='developer-token' type='text' rows={6} placeholder='Paste your Bearer Token' name='developer-token' onSelect={(e) => setInstructions(e.target)}>
+              <textarea className='developer-token'
+                type='text'
+                rows={28}
+                placeholder='Paste your Bearer Token'
+                name='auth'
+                onSelect={(e) => setInstructions(e.target)}
+                value={localStorage.getItem('auth')}
+                onChange={(e) => clearStorage(e.target)}>
               </textarea>
             </label>
             <label>GraphQL Endpoint
-              <input className='graphql-endpoint' type='text' placeholder='Paste your Bearer Token' name='graphql-endpoint' onSelect={(e) => setInstructions(e.target)}>
+              <input className='graphql-endpoint'
+                type='text'
+                placeholder='Paste your Bearer Token'
+                name='endpoint'
+                onSelect={(e) => setInstructions(e.target)}
+                value={localStorage.getItem('endpoint')}
+                onChange={(e) => clearStorage(e.target)}>
               </input>
             </label>
-            <button className='button' type='button' name='Authenticate' onClick={handleSubmit}>Authenticate</button>
+            <button className='button'
+              type='button'
+              name='authenticate'
+              onClick={(e) => handleSubmit(e)}>Authenticate</button>
           </form>
-          <div className='instructions'>
-            {instructionsData[instructions.name]}
+          <div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name] }}>
+
           </div>
         </div>
       </div>
     </React.Fragment>
   );
 };
+
+export function mapErrors(errors) {
+  return errors.map((error) => error.message ? error.message : error).join(',');
+}
 
 export default Settings;

@@ -2,8 +2,25 @@ import React from 'react';
 
 import './navigation.css';
 import Logo from '../../media/fin-de-semana.png';
-import Nav from '../api/navigation.json';
+
 import { Link } from 'react-router-dom';
+import navGQL from '../api/navigation.json';
+
+export const NavigationGQL = `{
+  screenList(filter: {
+    positionInNavigation: {
+      _expressions: [{
+        value: "dni",
+        _operator: CONTAINS_NOT
+      }]
+    }
+  }) {
+    items {
+      screenName
+      positionInNavigation
+    }
+  }
+}`;
 
 const Navigation = () => {
 
@@ -19,11 +36,9 @@ const Navigation = () => {
     pos5: { name: 'Hold', path: '#' },
     pos6: { name: 'Settings', path: '/settings' },
   };
-  Nav.data.screenList.items.forEach((item) => {
+  navGQL.data.screenList.items.forEach((item) => {
     obj[item.positionInNavigation] = { name: item.screenName, path: item._path };
   });
-
-  console.log(obj);
 
   return (
     <section className='navigation'>
