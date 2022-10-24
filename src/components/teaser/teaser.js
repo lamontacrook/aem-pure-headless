@@ -43,10 +43,6 @@ const Teaser = ({ content }) => {
         document.querySelector('.featured').style.opacity = i;
         i = i + .01;
       } 
-      // if(window.pageYOffset > .8 ) {
-      //   console.log('here');
-      //   document.querySelector('.featured').style.opacity = 1;
-      // }
     };
   }, []);
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { marked } from 'marked';
-import { NavigationGQL } from '../../components/navigation';
+// import { NavigationGQL } from '../../components/navigation';
 
 import './settings.css';
 import endpoint from './endpoint.md';
@@ -51,19 +51,23 @@ const Settings = () => {
 
     //const request = sdk.runQuery.bind(sdk);
     //console.log(request);
-    sdk.runQuery(NavigationGQL)
+    console.log(sdk.listPersistedQueries());
+    sdk.runPersistedQuery('/gql-demo/navigation')
+    //sdk.runQuery(NavigationGQL)
       .then(({ data }) => {
 
         //if (errors) console.log(mapErrors(errors));
-        if (data) console.log(data);
+        if (data) {
+          instructionsData[e.target.name] = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+          setInstructions(e.target);
+          localStorage.setItem('loggedin', 1);
+        }
       })
       .catch((error) => {
         if (error.toJSON().message.includes('There was a problem parsing response data')) {
           instructionsData[e.target.name] = `<h5>Error</h5> 403 Error for ${document.querySelector('.author-url').value}`;
           setInstructions(e.target);
-          console.log(instructions);
-          console.log(instructionsData);
-
+          localStorage.setItem('loggedin', 0);
         }
         //console.log('here');
         console.log(JSON.stringify(error));
