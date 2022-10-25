@@ -53,7 +53,7 @@ const Settings = () => {
     //console.log(request);
     console.log(sdk.listPersistedQueries());
     sdk.runPersistedQuery('/gql-demo/navigation')
-    //sdk.runQuery(NavigationGQL)
+      //sdk.runQuery(NavigationGQL)
       .then(({ data }) => {
 
         //if (errors) console.log(mapErrors(errors));
@@ -110,6 +110,12 @@ const Settings = () => {
                 value={endpoint}
                 onChange={(e) => setEndpoint(e.target.value)}>
               </input>
+            </label>
+            <label>Shared Project
+              <input className='shared-project'
+                type='text'
+                placeholder='Possible Project'
+                name='project'></input>
             </label>
             <button className='button'
               type='button'

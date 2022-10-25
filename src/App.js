@@ -15,7 +15,7 @@ function App() {
       setStatus(1);
     }).catch((error) => {
       console.error(error);
-      setStatus(0);
+      setStatus(1);
     });
   });
 

@@ -1,12 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ModelManager from '../../utils/modelmanager';
 import gql from '../../api/gql.json';
 import { ScreenQry } from '../../api/query';
-import Navigation from '../navigation';
-
+import AEMHeadless from '@adobe/aem-headless-client-js';
 import './screen.css';
+import Header from '../header';
 
 const Screen = () => {
+  const [header, setHeader] = useState('');
+
+  useEffect(() => {
+    
+    const sdk = new AEMHeadless({
+      serviceURL: localStorage.getItem('serviceURL'),
+      endpoint: localStorage.getItem('endpoint'),
+      auth: localStorage.getItem('auth')
+    });
+
+    sdk.runPersistedQuery('/gql-demo/configuration')
+      .then(({ data }) => {
+        if (data)
+          setHeader(data.configurationByPath.item.headerExperienceFragment);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+
 
   const data = gql['data'];
   let i = 0;
@@ -28,7 +48,7 @@ const Screen = () => {
   return (
     <React.Fragment>
       <nav>
-        <Navigation />
+        <Header content={header} />
       </nav>
 
       <div className='main-body'>

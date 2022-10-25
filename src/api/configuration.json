@@ -1,0 +1,13 @@
+{
+  "data": {
+    "configurationByPath": {
+      "item": {
+        "headerExperienceFragment": {
+          "__typename": "PageRef",
+          "_authorUrl": "https://author-p24020-e217804.adobeaemcloud.com/content/experience-fragments/wknd-site/language-masters/en/site/header.html",
+          "_publishUrl": "https://publish-p24020-e217804.adobeaemcloud.com/content/experience-fragments/wknd-site/language-masters/en/site/header.html"
+        }
+      }
+    }
+  }
+}
