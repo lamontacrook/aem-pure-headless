@@ -4,7 +4,7 @@ import './navigation.css';
 import Logo from '../../media/fin-de-semana.png';
 
 import { Link } from 'react-router-dom';
-import navGQL from '../api/navigation.json';
+import navGQL from '../../api/navigation.json';
 
 export const NavigationGQL = `{
   screenList(filter: {

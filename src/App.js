@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Hibernated from './components/hibernated';
+import Hibernated from './utils/hibernated';
 import Screen from './components/screen';
-import Settings from './components/settings';
+import Settings from './utils/settings';
 
 function App() {
   const [status, setStatus] = useState(0);

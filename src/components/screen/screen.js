@@ -1,7 +1,7 @@
 import React from 'react';
-import ModelManager from '../modelmanager';
-import gql from '../api/gql.json';
-import { ScreenQry } from '../api/query';
+import ModelManager from '../../utils/modelmanager';
+import gql from '../../api/gql.json';
+import { ScreenQry } from '../../api/query';
 import Navigation from '../navigation';
 
 import './screen.css';

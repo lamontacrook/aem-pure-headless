@@ -1,5 +1,5 @@
 import React from 'react';
-import Teaser from '../teaser';
+import Teaser from '../../components/teaser';
 import PropTypes from 'prop-types';
 
 

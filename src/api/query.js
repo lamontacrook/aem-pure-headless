@@ -1,4 +1,4 @@
-import { TeaserGQL } from '../teaser';
+import { TeaserGQL } from '../components/teaser';
 
 export const ScreenQry = () => {
   return `{
