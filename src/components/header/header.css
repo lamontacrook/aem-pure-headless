@@ -27,7 +27,7 @@ nav .navigation img {
   padding-left: 20px;
 }
 
-nav .navigation ol {
+nav .navigation ul {
   display: flex;
   flex-direction: row;
   list-style: none;
@@ -37,7 +37,7 @@ nav .navigation ol {
   padding-left: unset;
 }
 
-nav .navigation a.navItem {
+nav .navigation a.cmp-navigation__item-link {
   text-decoration: none;
   color: var(--main-text-color);
   font-size: 1.125rem;
@@ -57,7 +57,7 @@ nav .navigation li {
   margin-top: 2px;
 }
 
-nav .navigation a.navItem::after {
+nav .navigation a.cmp-navigation__item-link::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -69,11 +69,11 @@ nav .navigation a.navItem::after {
   transition: opacity 300ms, transform 300ms;
 }
 
-nav .navigation a.navItem:hover {
+nav .navigation a.cmp-navigation__item-link:hover {
   color: var(--main-accent-color);
 }
 
-nav .navigation a.navItem:hover::after,
+nav .navigation a.cmp-navigation__item-link:hover::after,
 a:focus::after {
   opacity: 1;
   transform: translate3d(0, 0.2em, 0);

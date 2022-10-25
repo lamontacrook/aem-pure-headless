@@ -6,17 +6,17 @@ import Screen from './components/screen';
 import Settings from './utils/settings';
 
 function App() {
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(1);
 
   useEffect(() => {
-    let url = localStorage.getItem('serviceURL').replace('author', 'publish');
-    fetch(url).then((response) => {
-      console.info(response);
-      setStatus(1);
-    }).catch((error) => {
-      console.error(error);
-      setStatus(1);
-    });
+    // let url = localStorage.getItem('serviceURL').replace('author', 'publish');
+    // fetch(url).then((response) => {
+    //   console.info(response);
+    //   setStatus(1);
+    // }).catch((error) => {
+    //   console.error(error);
+    //   setStatus(1);
+    // });
   });
 
   return (

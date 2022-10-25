@@ -7,25 +7,26 @@ import './screen.css';
 import Header from '../header';
 
 const Screen = () => {
-  const [header, setHeader] = useState('');
+  const [header, setHeader] = useState({});
 
   useEffect(() => {
-    
-    const sdk = new AEMHeadless({
-      serviceURL: localStorage.getItem('serviceURL'),
-      endpoint: localStorage.getItem('endpoint'),
-      auth: localStorage.getItem('auth')
-    });
-
-    sdk.runPersistedQuery('/gql-demo/configuration')
-      .then(({ data }) => {
-        if (data)
-          setHeader(data.configurationByPath.item.headerExperienceFragment);
-      })
-      .catch((error) => {
-        console.log(error);
+    if (!Object.keys(header).length) {
+      const sdk = new AEMHeadless({
+        serviceURL: localStorage.getItem('serviceURL'),
+        endpoint: localStorage.getItem('endpoint'),
+        auth: localStorage.getItem('auth')
       });
-  });
+
+      sdk.runPersistedQuery('/gql-demo/configuration')
+        .then(({ data }) => {
+          if (data)
+            setHeader(data.configurationByPath.item.headerExperienceFragment);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }), [header];
 
 
   const data = gql['data'];
