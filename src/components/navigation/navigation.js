@@ -1,10 +1,10 @@
 import React from 'react';
 
 import './navigation.css';
-import Logo from '../../media/fin-de-semana.png';
 
 import { Link } from 'react-router-dom';
 import navGQL from '../../api/navigation.json';
+import PropTypes from 'prop-types';
 
 export const NavigationGQL = `{
   screenList(filter: {
@@ -22,7 +22,7 @@ export const NavigationGQL = `{
   }
 }`;
 
-const Navigation = () => {
+const Navigation = ({logo}) => {
 
   function viewGQL() {
     document.querySelector('.fly-out-gql').style.display = 'block';
@@ -43,7 +43,7 @@ const Navigation = () => {
   return (
     <section className='navigation'>
       <div className="container">
-        <img src={Logo} alt='logo' />
+        <img src={logo._publishUrl} alt='logo' />
         <ol>
           <li><Link to={obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
           <li><Link to={obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
@@ -57,6 +57,10 @@ const Navigation = () => {
       </div>
     </section>
   );
+};
+
+Navigation.propTypes = {
+  logo: PropTypes.object
 };
 
 export default Navigation;

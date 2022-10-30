@@ -30,20 +30,45 @@ export const TeaserGQL = `
 
 const Teaser = ({ content }) => {
 
-  //const [offset, setOffset] = useState(0);
+  const scrollHandler = () => {
+    const hero = document.querySelector('.hero');
+    const distanceToTop = window.pageYOffset + hero.getBoundingClientRect().top;
+    const elementHeight = hero.offsetHeight - 500;
+    const scrollTop = document.documentElement.scrollTop;
+
+    let opacity = .8;
+
+    if(scrollTop > distanceToTop)
+      opacity = 1 - (scrollTop - distanceToTop) / elementHeight;
+
+    if(opacity >= 0) {
+      hero.style.opacity = opacity;
+      // console.log(opacity);
+    }
+  };
+
+  const fadeInHandler = () => {
+    const featured = document.querySelector('.featured');
+    const distanceToTop = window.pageYOffset + featured.getBoundingClientRect().top;
+    const elementHeight = featured.offsetHeight;
+    const scrollTop = document.documentElement.scrollTop;
+
+    let opacity = .1;
+
+    if(scrollTop > distanceToTop)
+      opacity = .5 + (scrollTop + distanceToTop) / elementHeight;
+
+    if(opacity >= 0) {
+      featured.style.opacity = opacity;
+      console.log(opacity);
+    }
+  };
+
+  window.addEventListener('scroll', scrollHandler);
+  window.addEventListener('scroll', fadeInHandler);
 
   useEffect(() => {
-    const video = document.querySelector('video').offsetHeight;
-    const featured = document.querySelector('.featured').offsetHeight;
-    let i = .1;
-    window.onscroll = function () {
-      document.querySelector('video').style.opacity = 1 - ((window.pageYOffset + 180) / video);
-      if (window.pageYOffset > (video - featured)) {
-        console.log(document.querySelector('.featured').style.opacity);
-        document.querySelector('.featured').style.opacity = i;
-        i = i + .01;
-      } 
-    };
+    
   }, []);
 
 
@@ -54,8 +79,11 @@ const Teaser = ({ content }) => {
         <header className='home-hero' role='banner'>
           <section className='teaser hero'>
             <div className='container'>
-              {content.teaserAsset.format.includes('video') &&
+              {Object.prototype.hasOwnProperty.call(content.teaserAsset, 'format') &&
                 (<Video content={content.teaserAsset} />)}
+
+              {Object.prototype.hasOwnProperty.call(content.teaserAsset, 'mimeType') && 
+                (<picture><img src={content.teaserAsset._publishUrl} /></picture>)}
 
               <div className='content-block'>
                 {content.teaserTitle && (

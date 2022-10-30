@@ -2,31 +2,34 @@ import React, { useEffect, useState } from 'react';
 import ModelManager from '../../utils/modelmanager';
 import gql from '../../api/gql.json';
 import { ScreenQry } from '../../api/query';
-import AEMHeadless from '@adobe/aem-headless-client-js';
+// import AEMHeadless from '@adobe/aem-headless-client-js';
 import './screen.css';
-import Header from '../header';
+import Navigation from '../navigation';
+import Configuration from '../../api/configuration.json';
 
 const Screen = () => {
-  const [header, setHeader] = useState({});
+  // const [config, setConfiguration] = useState({});
 
-  useEffect(() => {
-    if (!Object.keys(header).length) {
-      const sdk = new AEMHeadless({
-        serviceURL: localStorage.getItem('serviceURL'),
-        endpoint: localStorage.getItem('endpoint'),
-        auth: localStorage.getItem('auth')
-      });
+  // useEffect(() => {
+  //   if (!Object.keys(header).length) {
+  //     const sdk = new AEMHeadless({
+  //       serviceURL: localStorage.getItem('serviceURL'),
+  //       endpoint: localStorage.getItem('endpoint'),
+  //       auth: localStorage.getItem('auth')
+  //     });
 
-      sdk.runPersistedQuery('/gql-demo/configuration')
-        .then(({ data }) => {
-          if (data)
-            setHeader(data.configurationByPath.item.headerExperienceFragment);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }), [header];
+  //     sdk.runPersistedQuery('/gql-demo/configuration')
+  //       .then(({ data }) => {
+  //         if (data)
+  //           setHeader(data.configurationByPath.item.headerExperienceFragment);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+
+    
+  // }), [config];
 
 
   const data = gql['data'];
@@ -49,7 +52,7 @@ const Screen = () => {
   return (
     <React.Fragment>
       <nav>
-        <Header content={header} />
+        <Navigation logo={Configuration.data.configurationByPath.item.siteLogo}/>
       </nav>
 
       <div className='main-body'>

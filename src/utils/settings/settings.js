@@ -52,7 +52,7 @@ const Settings = () => {
     //const request = sdk.runQuery.bind(sdk);
     //console.log(request);
     console.log(sdk.listPersistedQueries());
-    sdk.runPersistedQuery('/gql-demo/navigation')
+    sdk.runPersistedQuery('gql-demo/navigation')
       //sdk.runQuery(NavigationGQL)
       .then(({ data }) => {
 
