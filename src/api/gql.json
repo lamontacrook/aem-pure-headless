@@ -37,15 +37,15 @@
                 "_path": "/conf/gql-demo/settings/dam/cfm/models/teaser"
               },
               "headerOfPage": false,
-              "teaserTitle": "Featured Article",
-              "teaserPreTitle": "Lorem Ipsum",
+              "teaserTitle": "Camping in Western Australia",
+              "teaserPreTitle": "Featured Article",
               "teaserAsset": {
                 "_authorUrl": "https://author-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/hero.png",
                 "_publishUrl": "https://publish-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/hero.png",
                 "mimeType": "image/png"
               },
               "teaserDescription": {
-                "html": null
+                "html": "The Australian West coast is a camper’s heaven. Endless miles of desert roads leading to secret beaches, vast canyons and crystal clear rivers, and the very few people you are likely to meet on your journey will be some of the most easy-going characters you’ll find anywhere in the world."
               },
               "teaserCallToAction": "Read More"
             }

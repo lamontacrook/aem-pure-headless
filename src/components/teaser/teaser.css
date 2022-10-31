@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
 }
+
 .hero {
   position: sticky;
   width: 100vw;
@@ -9,9 +10,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   opacity: 1;
 }
+
 .hero img {
   width: 100%;
   height: 100%;
@@ -19,8 +21,9 @@ body {
   overflow: hidden;
   position: absolute;
   left: 0;
-  top:0;
+  top: 0;
 }
+
 .hero::before {
   content: "";
   position: absolute;
@@ -30,6 +33,7 @@ body {
   height: 100%;
   filter: brightness(60%);
 }
+
 .hero-content {
   position: relative;
 }
@@ -40,12 +44,24 @@ body {
   align-items: center;
   margin: auto;
   min-width: 1200px;
-  background-color: aqua;
-  justify-content: space-between;
-  padding: 10px 50px;
+  justify-content: space-around;
   opacity: 0;
+  height: 80vh;
+  background-color: var(--main-light-background);
+  margin-top: 30px;
 }
 
 .featured img {
   width: 500px;
+}
+
+.featured .content-block {
+  max-width: 500px;
+}
+
+.content-block p {
+  font-size: 17px;
+  line-height: 1.5;
+  margin: 16px 0 13.5px;
+  text-align: justify;
 }

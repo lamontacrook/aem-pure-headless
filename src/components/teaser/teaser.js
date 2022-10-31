@@ -30,17 +30,22 @@ export const TeaserGQL = `
 
 const Teaser = ({ content }) => {
 
-  const scrollHandler = () => {
+  const fadeOutHandler = () => {
     const hero = document.querySelector('.hero');
     const distanceToTop = window.pageYOffset + hero.getBoundingClientRect().top;
-    const elementHeight = hero.offsetHeight - 500;
+    const elementHeight = hero.offsetHeight;
     const scrollTop = document.documentElement.scrollTop;
 
-    let opacity = .8;
+    // console.log(`distanceToTop ${distanceToTop}`);
+    // console.log(`elementHeight ${elementHeight}`);
+    // console.log(`scrollTop ${scrollTop}`);
 
-    if(scrollTop > distanceToTop)
+    let opacity = 1;
+
+    if(scrollTop > distanceToTop) {
       opacity = 1 - (scrollTop - distanceToTop) / elementHeight;
-
+      // console.log(`opacity ${opacity}`);
+    }
     if(opacity >= 0) {
       hero.style.opacity = opacity;
       // console.log(opacity);
@@ -53,18 +58,24 @@ const Teaser = ({ content }) => {
     const elementHeight = featured.offsetHeight;
     const scrollTop = document.documentElement.scrollTop;
 
-    let opacity = .1;
+    console.log(`distanceToTop ${distanceToTop}`);
+    console.log(`elementHeight ${elementHeight}`);
+    console.log(`scrollTop ${scrollTop}`);
 
-    if(scrollTop > distanceToTop)
-      opacity = .5 + (scrollTop + distanceToTop) / elementHeight;
+    let opacity = 1;
+
+    if(scrollTop < elementHeight) {
+      opacity = scrollTop / elementHeight;
+      console.log(opacity);
+    }
 
     if(opacity >= 0) {
       featured.style.opacity = opacity;
-      console.log(opacity);
     }
+    
   };
 
-  window.addEventListener('scroll', scrollHandler);
+  window.addEventListener('scroll', fadeOutHandler);
   window.addEventListener('scroll', fadeInHandler);
 
   useEffect(() => {
@@ -115,6 +126,7 @@ const Teaser = ({ content }) => {
           <div className='content-block'>
             <h2>{content.teaserTitle}</h2>
             <h5>{content.teaserPreTitle}</h5>
+            <p>{content.teaserDescription.html}</p>
           </div>
           <div className="teaser-image">
             <img src={content.teaserAsset._publishUrl} />

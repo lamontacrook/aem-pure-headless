@@ -151,8 +151,10 @@ p {
 
 :root {
   --main-accent-color:#ffc719;
-  --main-color: rgba(41,41,41);
-  --main-text-color:#eeeeed;
+  --main-text-color: rgba(41,41,41);
+  --main-color:#fff;
   --main-color-opacity:rgba(41,41,41,.75);
-  --font-family: "wknd-icon-font" !default;
+  --main-light-background: #EBEBEB;
+  --font-family: "wknd-icon-font" !important;
+  
 }

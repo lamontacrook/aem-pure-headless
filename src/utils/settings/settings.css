@@ -1,25 +1,21 @@
 .main-body>.settings-form {
   background-color: var(--main-color-opacity);
-  height: 70%;
-  width: 80%;
-  padding: 30px;
+  min-width: 1200px;
+  margin: auto;
+  padding: 30px 12px;
   display: flex;
   flex-direction: row;
   color: white;
   font-size: small;
   align-items: flex-start;
   align-content: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .settings {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: (var(--main-color-opacity));
-  position: absolute;
+  display: flex;
   background-image: url('../../media/AdobeStock_109806363.jpeg');
   top: 0;
   left: 0;
@@ -27,8 +23,11 @@
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100%;
-  height: 100%;
+}
+
+.settings-form > form {
+  width: 50%;
+  margin-right: 10px;
 }
 
 .settings input[type=text],
@@ -40,16 +39,16 @@ textarea {
   background: var(--main-color-opacity);
   /* opacity: .3; */
   color: var(--main-accent-color);
-  padding: 10px;
+  /* padding: 10px; */
   border-radius: 5px;
   box-shadow: .5px .5px 2px;
-  width: 400px;
+  width: 450px;
 }
 
 .settings label {
   display: block;
-  padding-right: 10px;
-  width: 560px;
+  padding-right: 5px;
+  width: 610px;
   text-align: end;
   margin-bottom: 10px;
 }
@@ -76,4 +75,10 @@ textarea {
   font-size: smaller;
   padding-left: 30px;
   height: 100%;
+}
+
+button.button {
+  background-color: unset;
+  display: flex;
+  align-self: flex-end;
 }

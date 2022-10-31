@@ -16,11 +16,23 @@ const instructionsData = {
   'authenticate': 'My error message'
 };
 
+
+
 const Settings = () => {
+  function decoratePayload(data){
+    let teaserList = data.teaserList;
+    let pl = '';
+    teaserList.items.map((item) => {
+      pl += `<li class='path'>${item._path}</li><li class='url'>${item.teaserAsset._publishUrl}</li>`;
+    });
+    setInstructions('');
+    return `<ul>${pl}</ul>`;
+  }
   const [instructions, setInstructions] = useState('');
   const [serviceURL, setServiceURL] = useState('');
   const [auth, setAuth] = useState('');
   const [endpoint, setEndpoint] = useState('');
+  const [payload, setPayload] = useState('');
 
   useEffect(() => {
     for (let [key, value] of Object.entries(instructionsData)) {
@@ -51,15 +63,16 @@ const Settings = () => {
 
     //const request = sdk.runQuery.bind(sdk);
     //console.log(request);
-    console.log(sdk.listPersistedQueries());
-    sdk.runPersistedQuery('gql-demo/navigation')
+    sdk.runPersistedQuery('gql-demo/teaser-assets')
       //sdk.runQuery(NavigationGQL)
       .then(({ data }) => {
 
         //if (errors) console.log(mapErrors(errors));
         if (data) {
           instructionsData[e.target.name] = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-          setInstructions(e.target);
+          //setPayload(data); 
+          setPayload(decoratePayload(data));
+          //setInstructions(decoratePayload(data));
           localStorage.setItem('loggedin', 1);
         }
       })
@@ -111,19 +124,18 @@ const Settings = () => {
                 onChange={(e) => setEndpoint(e.target.value)}>
               </input>
             </label>
-            <label>Shared Project
+            {/* <label>Shared Project
               <input className='shared-project'
                 type='text'
                 placeholder='Possible Project'
                 name='project'></input>
-            </label>
+            </label> */}
             <button className='button'
               type='button'
               name='authenticate'
               onClick={(e) => handleSubmit(e)}>Authenticate</button>
           </form>
-          <div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name] }}>
-
+          <div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name]||payload }}>
           </div>
         </div>
       </div>
