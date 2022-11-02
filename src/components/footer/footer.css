@@ -1,17 +1,21 @@
-.footer-xf .aem-Grid {
+.footer-xf {
+  background-color: #202020;
+  width: 100%;
   display: flex;
-  flex-direction: row;
-  left:0;
-  width:100%;
-  margin:unset;
+  margin-top: 30px;
 }
 
-.footer-xf .aem-Grid .image img {
-  width: 400px;
-  background-color: red;
+.footer-xf > .container {
+  margin: auto;
 }
-
-.footer-xf .seperator {
-  display: block;
+.footer-xf > .container .container {
+  padding: unset;
+  max-width: 1200px !important;
+  margin: auto !important;
   
+}
+
+.footer-xf .buildingblock > div {
+  display: flex;
+  justify-content: space-evenly;
 }

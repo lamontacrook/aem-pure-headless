@@ -9,33 +9,26 @@ const Footer = ({ config }) => {
     const parser = new DOMParser();
     let doc = parser.parseFromString(html, 'text/html');
 
-    let body = externalizeImages(doc.querySelector('body'));
+    doc = externalizeResources(doc, 'img', 'src');
+    doc = externalizeResources(doc, 'script', 'src');
+    doc = externalizeResources(doc, 'link', 'href');
     
-    let grid = body.querySelector('.aem-Grid');
-
-    // let top = document.createElement('div');
-    // top.setAttribute('class', 'top-grid');
-    // top.appendChild(grid.querySelector('image'));
-    // top.appendChild(grid.appendChild('navigation'));
-    // top.appendChild(grid.querySelector('title'));
-    
-    // console.log(top);
-    return body.innerHTML;
-
-
+    return new XMLSerializer().serializeToString(doc);
   };
 
-  const externalizeImages = (doc) => {
+  const externalizeResources = (doc, tag, attribute) => {
     const pub = localStorage.getItem('serviceURL').replace('author', 'publish') + '/';
-    for(let i in doc.getElementsByTagName('img')) {
-      let image = doc.getElementsByTagName('img')[i];
-      image['src'] && (image['src'] = image.src.replace(document.location.href, pub));
+    for(let i in doc.getElementsByTagName(tag)) {
+      let element = doc.getElementsByTagName(tag)[i];
+      element[attribute] && (element[attribute] = element[attribute].replace(document.location.href, pub));
     }
     return doc;
   };
 
+
   useEffect(() => {
-    fetch(config.replace('.html', '.content.html?wcmmode=disabled'), {
+    console.log(footer);
+    fetch(config.replace('.html', '.html?wcmmode=disabled'), {
       method: 'get',
       headers: new Headers({
         'Authorization': `Bearer ${localStorage.auth}`,
@@ -45,17 +38,20 @@ const Footer = ({ config }) => {
       .then((response) => {
         if (response) {
           response.text().then((html) => {
-            setFooter(decorateFooter(html));
+            // setFooter(decorateFooter(html));
+            if(html) {
+              setFooter(decorateFooter(html));
+            }
           });
         }
       })
       .catch((error) => {
         console.log(error);
       });
-    setFooter(config);
-  }, [config, decorateFooter]);
+    
+  }, []);
 
-  // console.log(footer);
+  console.log(footer);
 
   return (
     <React.Fragment>
