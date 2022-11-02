@@ -2,35 +2,33 @@ import React, { useEffect, useState } from 'react';
 import ModelManager from '../../utils/modelmanager';
 import gql from '../../api/gql.json';
 import { ScreenQry } from '../../api/query';
-// import AEMHeadless from '@adobe/aem-headless-client-js';
+import AEMHeadless from '@adobe/aem-headless-client-js';
 import './screen.css';
 import Navigation from '../navigation';
-import Configuration from '../../api/configuration.json';
+import Footer from '../footer';
 
 const Screen = () => {
-  // const [config, setConfiguration] = useState({});
+  const [config, setConfiguration] = useState('');
 
-  // useEffect(() => {
-  //   if (!Object.keys(header).length) {
-  //     const sdk = new AEMHeadless({
-  //       serviceURL: localStorage.getItem('serviceURL'),
-  //       endpoint: localStorage.getItem('endpoint'),
-  //       auth: localStorage.getItem('auth')
-  //     });
+  useEffect(() => {
 
-  //     sdk.runPersistedQuery('/gql-demo/configuration')
-  //       .then(({ data }) => {
-  //         if (data)
-  //           setHeader(data.configurationByPath.item.headerExperienceFragment);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   }
+    const sdk = new AEMHeadless({
+      serviceURL: localStorage.getItem('serviceURL'),
+      endpoint: localStorage.getItem('endpoint'),
+      auth: localStorage.getItem('auth')
+    });
 
-    
-  // }), [config];
+    sdk.runPersistedQuery('/gql-demo/configuration')
+      .then(({ data }) => {
+        if (data)
+          setConfiguration(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
+
+  }, []);
 
   const data = gql['data'];
   let i = 0;
@@ -52,7 +50,9 @@ const Screen = () => {
   return (
     <React.Fragment>
       <nav>
-        <Navigation logo={Configuration.data.configurationByPath.item.siteLogo}/>
+        {config.configurationByPath &&
+          <Navigation logo={config.configurationByPath.item.siteLogo} />
+        }
       </nav>
 
       <div className='main-body'>
@@ -82,8 +82,12 @@ const Screen = () => {
             </ModelManager>
           </div>
         ))}
-
       </div>
+      <footer>
+        {config.configurationByPath &&
+          <Footer config={config.configurationByPath.item.footerExperienceFragment._authorUrl} />
+        }
+      </footer>
     </React.Fragment>
   );
 };

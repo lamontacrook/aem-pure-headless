@@ -54,19 +54,19 @@ const Teaser = ({ content }) => {
 
   const fadeInHandler = () => {
     const featured = document.querySelector('.featured');
-    const distanceToTop = window.pageYOffset + featured.getBoundingClientRect().top;
+    // const distanceToTop = window.pageYOffset + featured.getBoundingClientRect().top;
     const elementHeight = featured.offsetHeight;
     const scrollTop = document.documentElement.scrollTop;
 
-    console.log(`distanceToTop ${distanceToTop}`);
-    console.log(`elementHeight ${elementHeight}`);
-    console.log(`scrollTop ${scrollTop}`);
+    // console.log(`distanceToTop ${distanceToTop}`);
+    // console.log(`elementHeight ${elementHeight}`);
+    // console.log(`scrollTop ${scrollTop}`);
 
     let opacity = 1;
 
     if(scrollTop < elementHeight) {
       opacity = scrollTop / elementHeight;
-      console.log(opacity);
+      // console.log(opacity);
     }
 
     if(opacity >= 0) {

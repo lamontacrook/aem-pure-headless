@@ -1,0 +1,17 @@
+.footer-xf .aem-Grid {
+  display: flex;
+  flex-direction: row;
+  left:0;
+  width:100%;
+  margin:unset;
+}
+
+.footer-xf .aem-Grid .image img {
+  width: 400px;
+  background-color: red;
+}
+
+.footer-xf .seperator {
+  display: block;
+  
+}

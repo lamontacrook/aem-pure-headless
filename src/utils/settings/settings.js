@@ -49,7 +49,7 @@ const Settings = () => {
 
   }, []);
 
-  const handleSubmit = e => {
+  const validateAssets = e => {
 
     localStorage.setItem('serviceURL', document.querySelector('.author-url').value);
     localStorage.setItem('endpoint', document.querySelector('.graphql-endpoint').value);
@@ -133,7 +133,7 @@ const Settings = () => {
             <button className='button'
               type='button'
               name='authenticate'
-              onClick={(e) => handleSubmit(e)}>Authenticate</button>
+              onClick={(e) => validateAssets(e)}>Validate Assets</button>
           </form>
           <div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name]||payload }}>
           </div>
