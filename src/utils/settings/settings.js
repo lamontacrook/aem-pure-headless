@@ -17,6 +17,18 @@ const instructionsData = {
 };
 
 
+export const expiry = () => {
+  const now = new Date();
+  if(localStorage.getItem('expiry') && (now.getTime() > localStorage.getItem('expiry'))) {
+    localStorage.removeItem('expiry');
+    localStorage.removeItem('auth');
+    return false;
+  } else if (!localStorage.getItem('expiry')) {
+    return false;
+  } else {
+    return true;
+  }
+};
 
 const Settings = () => {
   function decoratePayload(data){
@@ -33,9 +45,10 @@ const Settings = () => {
   const [auth, setAuth] = useState('');
   const [endpoint, setEndpoint] = useState('');
   const [payload, setPayload] = useState('');
-
+  
   useEffect(() => {
     for (let [key, value] of Object.entries(instructionsData)) {
+      console.log(value);
       fetch(value)
         .then((r) => r.text())
         .then(text => {
@@ -43,17 +56,23 @@ const Settings = () => {
         });
     }
 
-    setServiceURL(localStorage.getItem('serviceURL'));
-    setEndpoint(localStorage.getItem('endpoint'));
-    setAuth(localStorage.getItem('auth'));
 
+    localStorage.getItem('serviceURL') && setServiceURL(localStorage.getItem('serviceURL'));
+    localStorage.getItem('endpoint') && setEndpoint(localStorage.getItem('endpoint'));
+    localStorage.getItem('auth') && setAuth(localStorage.getItem('auth'));
+    console.log(expiry());
+    !expiry() && setAuth('');
   }, []);
 
   const validateAssets = e => {
-
+    const now = new Date();
     localStorage.setItem('serviceURL', document.querySelector('.author-url').value);
     localStorage.setItem('endpoint', document.querySelector('.graphql-endpoint').value);
     localStorage.setItem('auth', document.querySelector('.developer-token').value);
+
+  
+    if(localStorage.getItem('expiry') === null)
+      localStorage.setItem('expiry', now.getTime() + 8280000);
 
     const sdk = new AEMHeadless({
       serviceURL: localStorage.getItem('serviceURL'),

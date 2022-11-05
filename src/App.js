@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Hibernated from './utils/hibernated';
 import Screen from './components/screen';
-import Settings from './utils/settings';
+import Settings, {expiry} from './utils/settings';
 
 function App() {
   const [status, setStatus] = useState(1);
@@ -24,10 +24,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route exact={false} path={'/aem-pure-headless'} element={
-            status && localStorage.getItem('loggedin') ? <Screen /> : (!status ? <Hibernated /> : <Settings />)
+            status && localStorage.getItem('loggedin') &&  expiry() ? <Screen /> : (!status ? <Hibernated /> : <Settings />)
           } />
           <Route exact={false} path={'/'} element={
-            status && localStorage.getItem('loggedin') ? <Screen /> : (!status ? <Hibernated /> : <Settings />)
+            status && localStorage.getItem('loggedin') &&  expiry() ? <Screen /> : (!status ? <Hibernated /> : <Settings />)
           } />
           <Route exact={true} path={'/settings'} element={<Settings />} />
         </Routes>

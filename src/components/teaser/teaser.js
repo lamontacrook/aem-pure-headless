@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Video from '../video';
+import Image from '../image';
 
 import './teaser.css';
 
@@ -94,7 +95,7 @@ const Teaser = ({ content }) => {
                 (<Video content={content.teaserAsset} />)}
 
               {Object.prototype.hasOwnProperty.call(content.teaserAsset, 'mimeType') && 
-                (<picture><img src={content.teaserAsset._publishUrl} /></picture>)}
+                (<Image src={content.teaserAsset._publishUrl} />)}
 
               <div className='content-block'>
                 {content.teaserTitle && (
