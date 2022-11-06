@@ -18,7 +18,7 @@ const Screen = () => {
       auth: localStorage.getItem('auth')
     });
 
-    sdk.runPersistedQuery('/gql-demo/configuration')
+    sdk.runPersistedQuery('gql-demo/configuration')
       .then(({ data }) => {
         if (data)
           setConfiguration(data);

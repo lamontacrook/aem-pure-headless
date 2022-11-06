@@ -33,8 +33,7 @@ const Navigation = ({logo}) => {
     pos2: { name: 'Hold', path: '#' },
     pos3: { name: 'Hold', path: '#' },
     pos4: { name: 'Hold', path: '#' },
-    pos5: { name: 'Hold', path: '#' },
-    pos6: { name: 'Settings', path: '/settings' },
+    pos5: { name: 'Settings', path: '/settings' },
   };
   navGQL.data.screenList.items.forEach((item) => {
     obj[item.positionInNavigation] = { name: item.screenName, path: item._path };
@@ -50,7 +49,6 @@ const Navigation = ({logo}) => {
           <li><Link to={obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
           <li><Link to={obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
           <li><Link to={obj.pos5.path} className='navItem'>{obj.pos5.name}</Link></li>
-          <li><Link to={obj.pos6.path} className='navItem'>{obj.pos6.name}</Link></li>
 
         </ol>
         <a href='#' className='button view-gql' onClick={viewGQL}>View GraphQL</a>

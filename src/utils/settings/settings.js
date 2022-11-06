@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactDOM } from 'react';
 import { marked } from 'marked';
-// import { NavigationGQL } from '../../components/navigation';
-
 import './settings.css';
 import endpoint from './endpoint.md';
 import serviceURL from './serviceURL.md';
 import auth from './auth.md';
+import Screen from '../../components/screen';
 
 import { AEMHeadless } from '@adobe/aem-headless-client-js';
 
@@ -48,7 +47,6 @@ const Settings = () => {
   
   useEffect(() => {
     for (let [key, value] of Object.entries(instructionsData)) {
-      console.log(value);
       fetch(value)
         .then((r) => r.text())
         .then(text => {
@@ -80,19 +78,15 @@ const Settings = () => {
       auth: localStorage.getItem('auth')
     });
 
-    //const request = sdk.runQuery.bind(sdk);
-    //console.log(request);
     sdk.runPersistedQuery('gql-demo/teaser-assets')
-      //sdk.runQuery(NavigationGQL)
       .then(({ data }) => {
 
-        //if (errors) console.log(mapErrors(errors));
         if (data) {
           instructionsData[e.target.name] = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-          //setPayload(data); 
           setPayload(decoratePayload(data));
-          //setInstructions(decoratePayload(data));
           localStorage.setItem('loggedin', 1);
+          const root = ReactDOM.createRoot(document.getElementById('root'));
+          root.render(<Screen />);
         }
       })
       .catch((error) => {
