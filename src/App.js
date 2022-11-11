@@ -74,7 +74,7 @@ const App = () => {
               ><Settings /></ErrorBoundary>
           } />
 
-          <Route exact={true} path={'aem-pure-headless/:folder/:screen'} element={
+          <Route exact={true} path={'/aem-pure-headless'} element={
             status && localStorage.getItem('loggedin') && expiry() ?
               <ErrorBoundary
                 FallbackComponent={ErrorFallback}
@@ -90,7 +90,7 @@ const App = () => {
               ><Settings /></ErrorBoundary>
           } />
 
-          <Route exact={true} path={'aem-pure-headless/:folder/:screen'} element={
+          <Route exact={true} path={'/aem-pure-headless/:folder/:screen'} element={
             status && localStorage.getItem('loggedin') && expiry() ?
               <ErrorBoundary
                 FallbackComponent={ErrorFallback}

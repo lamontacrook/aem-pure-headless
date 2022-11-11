@@ -32,3 +32,8 @@ body {
 .fly-out-gql .payload {
   display: none;
 }
+
+.fly-out-gql > .button-group {
+  display: flex;
+  flex-direction: row;
+}

@@ -42,7 +42,7 @@ const Screen = () => {
       });
 
     //'gql-demo/screen', { path: '/content/dam/gql-demo/site/home/home'}) //
-    sdk.runPersistedQuery('gql-demo/screen', { path: '/content/dam/gql-demo/site/home/home'})
+    sdk.runPersistedQuery('gql-demo/screen', { path: '/content/dam/gql-demo/site/home/home' })
       .then(({ data }) => {
         if (data) {
           if (Array.isArray(data.screen.body)) {
@@ -86,9 +86,11 @@ const Screen = () => {
 
       <div className='main-body'>
         <div className='fly-out-gql payload'>
-          <button onClick={showResponse} className='button'>Show Response</button>
-          <button onClick={showPayload} className='button'>Show Request</button>
-          <button onClick={hideGQL} className='button'>Hide GQL</button>
+          <div className='button-group'>
+            <button onClick={showResponse} className='button'>Show Response</button>
+            <button onClick={showPayload} className='button'>Show Request</button>
+            <button onClick={hideGQL} className='button'>Hide GQL</button>
+          </div>
           <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
         {data && data.screen.body.block.map((item) => (

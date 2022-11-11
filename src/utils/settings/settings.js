@@ -35,7 +35,7 @@ const Settings = () => {
   const [success, setSuccess] = useState(0);
 
   const navigate = useNavigate();
-  return success ? navigate('/', { state: 'pass-data' } ) : <SettingComp success={setSuccess} />;
+  return success ? navigate('/aem-pure-headless', { state: 'pass-data' } ) : <SettingComp success={setSuccess} />;
 
 };
 
@@ -100,6 +100,7 @@ const SettingComp = (success) => {
     localStorage.getItem('serviceURL') && setServiceURL(localStorage.getItem('serviceURL'));
     localStorage.getItem('endpoint') && setEndpoint(localStorage.getItem('endpoint'));
     localStorage.getItem('auth') && setAuth(localStorage.getItem('auth'));
+    localStorage.getItem('project') && setProject(localStorage.getItem('project'));
     !expiry() && setAuth('');
   }, []);
 
