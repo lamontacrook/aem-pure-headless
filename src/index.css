@@ -81,8 +81,8 @@ h6 {
 }
 
 .h1,
-h1 {
-  font-size: var(--fontSizeH1, 40px)
+.hero h1 {
+  font-size: var(--fontSizeH1, 60px)
 }
 
 .h2,

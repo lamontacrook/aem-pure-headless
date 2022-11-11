@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ModelManager from '../../utils/modelmanager';
-import gql from '../../api/gql.json';
+// import gql from '../../api/gql.json';
 import { ScreenQry } from '../../api/query';
 import AEMHeadless from '@adobe/aem-headless-client-js';
 import './screen.css';
@@ -9,6 +9,7 @@ import Footer from '../footer';
 
 const Screen = () => {
   const [config, setConfiguration] = useState('');
+  const [data, setData] = useState('');
 
   useEffect(() => {
 
@@ -27,13 +28,27 @@ const Screen = () => {
         console.log(error);
       });
 
+    sdk.runPersistedQuery('gql-demo/home')
+      .then(({ data }) => {
+        if (data) {
+          if (Array.isArray(data.screen.body)) {
+            data.screen.body = data.screen.body[0];
+          }
+          setData(data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
   }, []);
 
-  const data = gql['data'];
+
+  // const data = gql['data'];
+  // console.log(data.screen);
   let i = 0;
 
-  if (Array.isArray(data.screen.body)) data.screen.body = data.screen.body[0];
+  // if (Array.isArray(data.screen.body)) data.screen.body = data.screen.body[0];
 
   function hideGQL() {
     document.querySelector('.fly-out-gql').style.display = 'none';
@@ -44,9 +59,9 @@ const Screen = () => {
   }
 
   function showResponse() {
-    document.querySelector('.fly-out-gql > pre').innerHTML = `<pre>${JSON.stringify(gql, null, 2)}</pre>`;
+    document.querySelector('.fly-out-gql > pre').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
   }
-
+  // console.log(screen);
   return (
     <React.Fragment>
       <nav>
@@ -60,9 +75,9 @@ const Screen = () => {
           <button onClick={showResponse} className='button'>Show Response</button>
           <button onClick={showPayload} className='button'>Show Request</button>
           <button onClick={hideGQL} className='button'>Hide GQL</button>
-          <pre>{JSON.stringify(gql, null, 2)}</pre>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
-        {data.screen.body.block.map((item) => (
+        {data && data.screen.body.block.map((item) => (
           <div
             key={`${item._model.title
               .toLowerCase()
@@ -81,7 +96,9 @@ const Screen = () => {
 
             </ModelManager>
           </div>
+          // <div key='1'>{item._model && JSON.stringify(item._model['title'])}</div>
         ))}
+        {/* <div>{data.screen}</div> */}
       </div>
       <footer>
         {config.configurationByPath &&

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './navigation.css';
 
 import { Link } from 'react-router-dom';
 import navGQL from '../../api/navigation.json';
+import AEMHeadless from '@adobe/aem-headless-client-js';
 import PropTypes from 'prop-types';
 
 export const NavigationGQL = `{
@@ -22,11 +23,8 @@ export const NavigationGQL = `{
   }
 }`;
 
-const Navigation = ({logo}) => {
-
-  function viewGQL() {
-    document.querySelector('.fly-out-gql').style.display = 'block';
-  }
+const Navigation = ({ logo }) => {
+  const [nav, setNav] = useState('');
 
   let obj = {
     pos1: { name: 'Hold', path: '#' },
@@ -35,9 +33,32 @@ const Navigation = ({logo}) => {
     pos4: { name: 'Hold', path: '#' },
     pos5: { name: 'Settings', path: '/settings' },
   };
-  navGQL.data.screenList.items.forEach((item) => {
+
+  useEffect(() => {
+    const sdk = new AEMHeadless({
+      serviceURL: localStorage.getItem('serviceURL'),
+      endpoint: localStorage.getItem('endpoint'),
+      auth: localStorage.getItem('auth')
+    });
+
+    sdk.runPersistedQuery('gql-demo/navigation')
+      .then((data) => {
+        if (data) {
+          setNav(data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  nav && nav.data.screenList.items.forEach((item) => {
     obj[item.positionInNavigation] = { name: item.screenName, path: item._path };
   });
+
+  function viewGQL() {
+    document.querySelector('.fly-out-gql').style.display = 'block';
+  }
 
   return (
     <section className='navigation'>

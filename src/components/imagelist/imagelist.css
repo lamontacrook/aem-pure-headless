@@ -8,30 +8,31 @@
   align-items:baseline;
   padding: 0; */
   justify-content: space-between;
+  padding: unset;
 }
 
-.image-list > .list-item {
-  width: 260px;
+.image-list > li > .list-item {
+  /* width: 260px; */
   margin-left: 0;
   padding-left: 0;
 }
 
-.image-list > .list-item a:link {
+.image-list > li > .list-item a:link {
   text-decoration: none;
 }
 
 /* visited link */
-.image-list > .list-item a:visited {
+.image-list > li > .list-item a:visited {
   color: #696969;
 }
 
 /* mouse over link */
-.image-list > .list-item a:hover {
+.image-list > li > .list-item a:hover {
   color: #696969;
 }
 
 /* selected link */
-.image-list > .list-item a:active {
+.image-list > li > .list-item a:active {
   color: #696969;
 }
 
@@ -55,9 +56,41 @@
   width: 260px;
 }
 
-.image-list > .list-item img {
-    width:260px;
-    height:180px;
+.image-list > li > .list-item img {
+    /* width:260px;
+    height:180px; */
     overflow: cover;
+}
+
+.list-item span.cmp-image__title {
+  display: none;
+}
+
+.image-list .tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  margin: auto;
+}
+
+/* Tooltip text */
+.image-list .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 100%;
+  top:40%;
+  background-color: rgba(0, 0, 0, .45);
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.image-list .tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, ReactDOM } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { marked } from 'marked';
 import './settings.css';
 import endpoint from './endpoint.md';
 import serviceURL from './serviceURL.md';
 import auth from './auth.md';
-import Screen from '../../components/screen';
+import PropTypes from 'prop-types';
 
 import { AEMHeadless } from '@adobe/aem-headless-client-js';
 
@@ -18,7 +19,7 @@ const instructionsData = {
 
 export const expiry = () => {
   const now = new Date();
-  if(localStorage.getItem('expiry') && (now.getTime() > localStorage.getItem('expiry'))) {
+  if (localStorage.getItem('expiry') && (now.getTime() > localStorage.getItem('expiry'))) {
     localStorage.removeItem('expiry');
     localStorage.removeItem('auth');
     return false;
@@ -30,21 +31,59 @@ export const expiry = () => {
 };
 
 const Settings = () => {
-  function decoratePayload(data){
-    let teaserList = data.teaserList;
-    let pl = '';
-    teaserList.items.map((item) => {
-      pl += `<li class='path'>${item._path}</li><li class='url'>${item.teaserAsset._publishUrl}</li>`;
-    });
-    setInstructions('');
-    return `<ul>${pl}</ul>`;
-  }
+  const [success, setSuccess] = useState(0);
+
+  const navigate = useNavigate();
+  return success ? navigate('/', { state: 'pass-data' } ) : <SettingComp success={setSuccess} />;
+
+};
+
+const SettingComp = (success) => {
   const [instructions, setInstructions] = useState('');
   const [serviceURL, setServiceURL] = useState('');
   const [auth, setAuth] = useState('');
   const [endpoint, setEndpoint] = useState('');
   const [payload, setPayload] = useState('');
-  
+
+
+  const validateAssets = e => {
+    const now = new Date();
+    localStorage.setItem('serviceURL', document.querySelector('.author-url').value);
+    localStorage.setItem('endpoint', document.querySelector('.graphql-endpoint').value);
+    localStorage.setItem('auth', document.querySelector('.developer-token').value);
+
+
+    if (localStorage.getItem('expiry') === null)
+      localStorage.setItem('expiry', now.getTime() + 82800000);
+
+    const sdk = new AEMHeadless({
+      serviceURL: localStorage.getItem('serviceURL'),
+      endpoint: localStorage.getItem('endpoint'),
+      auth: localStorage.getItem('auth')
+    });
+
+    sdk.runPersistedQuery('gql-demo/teaser-assets')
+      .then(({ data }) => {
+
+        if (data) {
+          instructionsData[e.target.name] = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+          setPayload(data);
+          localStorage.setItem('loggedin', 1);
+          success.success(1);
+        }
+      })
+      .catch((error) => {
+        // if (error && error.toJSON().message.includes('There was a problem parsing response data')) {
+        //   instructionsData[e.target.name] = `<h5>Error</h5> 403 Error for ${document.querySelector('.author-url').value}`;
+        //   setInstructions(e.target);
+        //   localStorage.setItem('loggedin', 0);
+        // }
+        // //console.log('here');
+        // console.log(JSON.stringify(error));
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     for (let [key, value] of Object.entries(instructionsData)) {
       fetch(value)
@@ -58,47 +97,8 @@ const Settings = () => {
     localStorage.getItem('serviceURL') && setServiceURL(localStorage.getItem('serviceURL'));
     localStorage.getItem('endpoint') && setEndpoint(localStorage.getItem('endpoint'));
     localStorage.getItem('auth') && setAuth(localStorage.getItem('auth'));
-    console.log(expiry());
     !expiry() && setAuth('');
   }, []);
-
-  const validateAssets = e => {
-    const now = new Date();
-    localStorage.setItem('serviceURL', document.querySelector('.author-url').value);
-    localStorage.setItem('endpoint', document.querySelector('.graphql-endpoint').value);
-    localStorage.setItem('auth', document.querySelector('.developer-token').value);
-
-  
-    if(localStorage.getItem('expiry') === null)
-      localStorage.setItem('expiry', now.getTime() + 8280000);
-
-    const sdk = new AEMHeadless({
-      serviceURL: localStorage.getItem('serviceURL'),
-      endpoint: localStorage.getItem('endpoint'),
-      auth: localStorage.getItem('auth')
-    });
-
-    sdk.runPersistedQuery('gql-demo/teaser-assets')
-      .then(({ data }) => {
-
-        if (data) {
-          instructionsData[e.target.name] = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-          setPayload(decoratePayload(data));
-          localStorage.setItem('loggedin', 1);
-          const root = ReactDOM.createRoot(document.getElementById('root'));
-          root.render(<Screen />);
-        }
-      })
-      .catch((error) => {
-        if (error.toJSON().message.includes('There was a problem parsing response data')) {
-          instructionsData[e.target.name] = `<h5>Error</h5> 403 Error for ${document.querySelector('.author-url').value}`;
-          setInstructions(e.target);
-          localStorage.setItem('loggedin', 0);
-        }
-        //console.log('here');
-        console.log(JSON.stringify(error));
-      });
-  };
 
   return (
     <React.Fragment>
@@ -148,7 +148,7 @@ const Settings = () => {
               name='authenticate'
               onClick={(e) => validateAssets(e)}>Validate Assets</button>
           </form>
-          <div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name]||payload }}>
+          <div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name] || payload }}>
           </div>
         </div>
       </div>
@@ -156,8 +156,8 @@ const Settings = () => {
   );
 };
 
-export function mapErrors(errors) {
-  return errors.map((error) => error.message ? error.message : error).join(',');
-}
+SettingComp.propTypes = {
+  success: PropTypes.func
+};
 
 export default Settings;
