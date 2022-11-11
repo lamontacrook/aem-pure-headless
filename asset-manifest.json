@@ -1,20 +1,22 @@
 {
   "files": {
-    "main.css": "/aem-pure-headless/static/css/main.b4d14d67.css",
-    "main.js": "/aem-pure-headless/static/js/main.15f7ed6d.js",
+    "main.css": "/aem-pure-headless/static/css/main.3f1ec7ac.css",
+    "main.js": "/aem-pure-headless/static/js/main.e4610f08.js",
     "static/js/787.182dcdc1.chunk.js": "/aem-pure-headless/static/js/787.182dcdc1.chunk.js",
     "static/media/AdobeStock_109806363.jpeg": "/aem-pure-headless/static/media/AdobeStock_109806363.3e2094c128e6d6f29826.jpeg",
-    "static/media/fin-de-semana.png": "/aem-pure-headless/static/media/fin-de-semana.fbe11bb608613b6c63b7.png",
+    "static/media/wknd-icon-font.svg": "/aem-pure-headless/static/media/wknd-icon-font.95b1b2122aa613be3689.svg",
+    "static/media/wknd-icon-font.woff": "/aem-pure-headless/static/media/wknd-icon-font.0aae9d8d69ad5f3ece36.woff",
+    "static/media/wknd-icon-font.ttf": "/aem-pure-headless/static/media/wknd-icon-font.4437151df2607e98e655.ttf",
     "index.html": "/aem-pure-headless/index.html",
     "static/media/serviceURL.md": "/aem-pure-headless/static/media/serviceURL.e88692564b8d2c5e0d76.md",
-    "static/media/endpoint.md": "/aem-pure-headless/static/media/endpoint.500afc08005ad2eb6cc7.md",
     "static/media/auth.md": "/aem-pure-headless/static/media/auth.f7c1a433403559317f18.md",
-    "main.b4d14d67.css.map": "/aem-pure-headless/static/css/main.b4d14d67.css.map",
-    "main.15f7ed6d.js.map": "/aem-pure-headless/static/js/main.15f7ed6d.js.map",
+    "static/media/endpoint.md": "/aem-pure-headless/static/media/endpoint.8434d2fcde1ec294007b.md",
+    "main.3f1ec7ac.css.map": "/aem-pure-headless/static/css/main.3f1ec7ac.css.map",
+    "main.e4610f08.js.map": "/aem-pure-headless/static/js/main.e4610f08.js.map",
     "787.182dcdc1.chunk.js.map": "/aem-pure-headless/static/js/787.182dcdc1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b4d14d67.css",
-    "static/js/main.15f7ed6d.js"
+    "static/css/main.3f1ec7ac.css",
+    "static/js/main.e4610f08.js"
   ]
 }
