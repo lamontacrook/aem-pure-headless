@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/aem-pure-headless/static/css/main.e96b9072.css",
-    "main.js": "/aem-pure-headless/static/js/main.95a5e051.js",
+    "main.css": "/aem-pure-headless/static/css/main.380977b4.css",
+    "main.js": "/aem-pure-headless/static/js/main.f52d9105.js",
     "static/js/787.182dcdc1.chunk.js": "/aem-pure-headless/static/js/787.182dcdc1.chunk.js",
     "static/media/AdobeStock_109806363.jpeg": "/aem-pure-headless/static/media/AdobeStock_109806363.3e2094c128e6d6f29826.jpeg",
     "static/media/wknd-icon-font.svg": "/aem-pure-headless/static/media/wknd-icon-font.95b1b2122aa613be3689.svg",
@@ -11,12 +11,12 @@
     "static/media/serviceURL.md": "/aem-pure-headless/static/media/serviceURL.e88692564b8d2c5e0d76.md",
     "static/media/auth.md": "/aem-pure-headless/static/media/auth.f7c1a433403559317f18.md",
     "static/media/endpoint.md": "/aem-pure-headless/static/media/endpoint.8434d2fcde1ec294007b.md",
-    "main.e96b9072.css.map": "/aem-pure-headless/static/css/main.e96b9072.css.map",
-    "main.95a5e051.js.map": "/aem-pure-headless/static/js/main.95a5e051.js.map",
+    "main.380977b4.css.map": "/aem-pure-headless/static/css/main.380977b4.css.map",
+    "main.f52d9105.js.map": "/aem-pure-headless/static/js/main.f52d9105.js.map",
     "787.182dcdc1.chunk.js.map": "/aem-pure-headless/static/js/787.182dcdc1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e96b9072.css",
-    "static/js/main.95a5e051.js"
+    "static/css/main.380977b4.css",
+    "static/js/main.f52d9105.js"
   ]
 }
