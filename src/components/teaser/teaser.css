@@ -65,7 +65,7 @@ body {
   margin: auto;
   min-width: 1200px;
   justify-content: space-around;
-  opacity: 0;
+  opacity: 1  ;
   height: 80vh;
   background-color: var(--main-light-background);
   margin-top: 30px;

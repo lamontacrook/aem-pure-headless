@@ -13,7 +13,8 @@ const instructionsData = {
   'serviceURL': serviceURL,
   'auth': auth,
   'endpoint': endpoint,
-  'authenticate': 'My error message'
+  'authenticate': 'My error message',
+  'project': auth
 };
 
 
@@ -44,6 +45,7 @@ const SettingComp = (success) => {
   const [auth, setAuth] = useState('');
   const [endpoint, setEndpoint] = useState('');
   const [payload, setPayload] = useState('');
+  const [project, setProject] = useState('');
 
 
   const validateAssets = e => {
@@ -51,6 +53,7 @@ const SettingComp = (success) => {
     localStorage.setItem('serviceURL', document.querySelector('.author-url').value);
     localStorage.setItem('endpoint', document.querySelector('.graphql-endpoint').value);
     localStorage.setItem('auth', document.querySelector('.developer-token').value);
+    localStorage.setItem('project', document.querySelector('.shared-project').value);
 
 
     if (localStorage.getItem('expiry') === null)
@@ -137,12 +140,15 @@ const SettingComp = (success) => {
                 onChange={(e) => setEndpoint(e.target.value)}>
               </input>
             </label>
-            {/* <label>Shared Project
+            <label>Project Name
               <input className='shared-project'
                 type='text'
-                placeholder='Possible Project'
-                name='project'></input>
-            </label> */}
+                placeholder='/content/dam/gql-demo'
+                name='project'
+                onSelect={(e) => setInstructions(e.target)}
+                value={project}
+                onChange={(e) => setProject(e.target.value)}></input>
+            </label>
             <button className='button'
               type='button'
               name='authenticate'

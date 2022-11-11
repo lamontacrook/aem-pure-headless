@@ -90,7 +90,7 @@ const Teaser = ({ content }) => {
   return (
     <React.Fragment>
       {content.headerOfPage && (
-        <Parallax>
+        <Parallax speed={50}>
           <header className='home-hero' role='banner'>
             <section className='teaser hero'>
 

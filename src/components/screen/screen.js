@@ -1,13 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import ModelManager from '../../utils/modelmanager';
-// import gql from '../../api/gql.json';
 import { ScreenQry } from '../../api/query';
 import AEMHeadless from '@adobe/aem-headless-client-js';
 import './screen.css';
 import Navigation from '../navigation';
 import Footer from '../footer';
+import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const Screen = () => {
+  const props = useParams();
+  const re = new RegExp('{([^}]*)}');
+
+  const filters = re.exec(props.screen);
+
+  if (filters && filters.length === 2) {
+    props.screen = props.screen.replace(filters[0], '');
+    props.filter = filters[1];
+  }
+
+  console.log(`${localStorage.getItem('project')}/site/${props.folder}/${props.screen}/${props.screen}`);
+
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
 
@@ -28,7 +41,8 @@ const Screen = () => {
         console.log(error);
       });
 
-    sdk.runPersistedQuery('gql-demo/home')
+    //'gql-demo/screen', { path: '/content/dam/gql-demo/site/home/home'}) //
+    sdk.runPersistedQuery('gql-demo/screen', { path: '/content/dam/gql-demo/site/home/home'})
       .then(({ data }) => {
         if (data) {
           if (Array.isArray(data.screen.body)) {
@@ -101,12 +115,17 @@ const Screen = () => {
         {/* <div>{data.screen}</div> */}
       </div>
       <footer>
-        {config.configurationByPath &&
+        {config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
           <Footer config={config.configurationByPath.item.footerExperienceFragment._authorUrl} />
         }
       </footer>
     </React.Fragment>
   );
+};
+
+Screen.propTypes = {
+  screen: PropTypes.string,
+  folder: PropTypes.string
 };
 
 export default Screen;

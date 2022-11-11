@@ -33,13 +33,16 @@ const App = () => {
     //   console.error(error);
     //   setStatus(1);
     // });
+    setStatus(1);
   });
+
+
 
   return (
     <div className='App'>
       <BrowserRouter>
         <Routes>
-          <Route exact={false} path={'/aem-pure-headless'} element={
+          <Route exact={false} path={'  /aem-pure-headless'} element={
             status && localStorage.getItem('loggedin') && expiry() ?
               <ErrorBoundary
                 FallbackComponent={ErrorFallback}
@@ -56,6 +59,54 @@ const App = () => {
           } />
 
           <Route exact={false} path={'/'} element={
+            status && localStorage.getItem('loggedin') && expiry() ?
+              <ErrorBoundary
+                FallbackComponent={ErrorFallback}
+                onReset={() => {
+                  // reset the state of your app so the error doesn't happen again
+                }}
+              ><Screen /></ErrorBoundary> :
+              <ErrorBoundary
+                FallbackComponent={ErrorFallback}
+                onReset={() => {
+                  // reset the state of your app so the error doesn't happen again
+                }}
+              ><Settings /></ErrorBoundary>
+          } />
+
+          <Route exact={true} path={'aem-pure-headless/:folder/:screen'} element={
+            status && localStorage.getItem('loggedin') && expiry() ?
+              <ErrorBoundary
+                FallbackComponent={ErrorFallback}
+                onReset={() => {
+                  // reset the state of your app so the error doesn't happen again
+                }}
+              ><Screen /></ErrorBoundary> :
+              <ErrorBoundary
+                FallbackComponent={ErrorFallback}
+                onReset={() => {
+                  // reset the state of your app so the error doesn't happen again
+                }}
+              ><Settings /></ErrorBoundary>
+          } />
+
+          <Route exact={true} path={'aem-pure-headless/:folder/:screen'} element={
+            status && localStorage.getItem('loggedin') && expiry() ?
+              <ErrorBoundary
+                FallbackComponent={ErrorFallback}
+                onReset={() => {
+                  // reset the state of your app so the error doesn't happen again
+                }}
+              ><Screen /></ErrorBoundary> :
+              <ErrorBoundary
+                FallbackComponent={ErrorFallback}
+                onReset={() => {
+                  // reset the state of your app so the error doesn't happen again
+                }}
+              ><Settings /></ErrorBoundary>
+          } />
+
+          <Route exact={true} path={'/:folder/:screen'} element={
             status && localStorage.getItem('loggedin') && expiry() ?
               <ErrorBoundary
                 FallbackComponent={ErrorFallback}
