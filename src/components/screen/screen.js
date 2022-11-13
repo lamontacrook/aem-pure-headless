@@ -7,19 +7,17 @@ import Navigation from '../navigation';
 import Footer from '../footer';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { MagazineStore, rootPath } from '../../utils';
 
 const Screen = () => {
   const props = useParams();
-  const re = new RegExp('{([^}]*)}');
-
-  const filters = re.exec(props.screen);
-
-  if (filters && filters.length === 2) {
-    props.screen = props.screen.replace(filters[0], '');
-    props.filter = filters[1];
+  let path = '/content/dam/gql-demo/site/home/home';
+  if (props.pos1 && props.pos2 && props.pos3) {
+    path = `${rootPath}/site/${Object.values(props).join('/')}`;
+    // console.log(MagazineStore[Object.values(props).join('/')]);
   }
 
-  console.log(`${localStorage.getItem('project')}/site/${props.folder}/${props.screen}/${props.screen}`);
+  //console.log(`${localStorage.getItem('project')}/site/${props.folder}/${props.screen}/${props.screen}`);
 
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
@@ -41,8 +39,7 @@ const Screen = () => {
         console.log(error);
       });
 
-    //'gql-demo/screen', { path: '/content/dam/gql-demo/site/home/home'}) //
-    sdk.runPersistedQuery('gql-demo/screen', { path: '/content/dam/gql-demo/site/home/home' })
+    sdk.runPersistedQuery('gql-demo/screen', { path: path })
       .then(({ data }) => {
         if (data) {
           if (Array.isArray(data.screen.body)) {
@@ -55,7 +52,7 @@ const Screen = () => {
         console.log(error);
       });
 
-  }, []);
+  }, [path]);
 
 
   // const data = gql['data'];
@@ -78,11 +75,11 @@ const Screen = () => {
   // console.log(screen);
   return (
     <React.Fragment>
-      <nav>
-        {config.configurationByPath &&
-          <Navigation logo={config.configurationByPath.item.siteLogo} />
-        }
-      </nav>
+
+      {config.configurationByPath &&
+        <Navigation logo={config.configurationByPath.item.siteLogo} />
+      }
+
 
       <div className='main-body'>
         <div className='fly-out-gql payload'>
@@ -126,8 +123,9 @@ const Screen = () => {
 };
 
 Screen.propTypes = {
-  screen: PropTypes.string,
-  folder: PropTypes.string
+  pos1: PropTypes.string,
+  pos2: PropTypes.string,
+  pos3: PropTypes.string
 };
 
 export default Screen;

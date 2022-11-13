@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+import Navigation from '../../components/navigation';
 import { marked } from 'marked';
 import './settings.css';
 import endpoint from './endpoint.md';
 import serviceURL from './serviceURL.md';
 import auth from './auth.md';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import { AEMHeadless } from '@adobe/aem-headless-client-js';
 
@@ -31,21 +32,22 @@ export const expiry = () => {
   }
 };
 
+// const Settings = () => {
+//   const [success, setSuccess] = useState(0);
+
+//   const navigate = useNavigate();
+//   return success ? navigate('/aem-pure-headless', { state: 'pass-data' } ) : <SettingComp success={setSuccess} />;
+
+// };
+
 const Settings = () => {
-  const [success, setSuccess] = useState(0);
-
-  const navigate = useNavigate();
-  return success ? navigate('/aem-pure-headless', { state: 'pass-data' } ) : <SettingComp success={setSuccess} />;
-
-};
-
-const SettingComp = (success) => {
   const [instructions, setInstructions] = useState('');
   const [serviceURL, setServiceURL] = useState('');
   const [auth, setAuth] = useState('');
   const [endpoint, setEndpoint] = useState('');
   const [payload, setPayload] = useState('');
   const [project, setProject] = useState('');
+  const [success, setSuccess] = useState('');
 
 
   const validateAssets = e => {
@@ -72,7 +74,7 @@ const SettingComp = (success) => {
           instructionsData[e.target.name] = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
           setPayload(data);
           localStorage.setItem('loggedin', 1);
-          success.success(1);
+          setSuccess(1);
         }
       })
       .catch((error) => {
@@ -106,6 +108,7 @@ const SettingComp = (success) => {
 
   return (
     <React.Fragment>
+      {success & <Navigation />}
       <div className='main-body settings'>
         <div className='settings-form'>
           <form>
@@ -163,8 +166,8 @@ const SettingComp = (success) => {
   );
 };
 
-SettingComp.propTypes = {
-  success: PropTypes.func
-};
+// SettingComp.propTypes = {
+//   success: PropTypes.func
+// };
 
 export default Settings;

@@ -34,7 +34,7 @@ const App = () => {
     //   setStatus(1);
     // });
     setStatus(1);
-  });
+  }, []);
 
 
 
@@ -90,7 +90,7 @@ const App = () => {
               ><Settings /></ErrorBoundary>
           } />
 
-          <Route exact={true} path={'/aem-pure-headless/:folder/:screen'} element={
+          <Route exact={true} path={'/aem-pure-headless/:pos1/:pos2/:pos3'} element={
             status && localStorage.getItem('loggedin') && expiry() ?
               <ErrorBoundary
                 FallbackComponent={ErrorFallback}
@@ -106,7 +106,7 @@ const App = () => {
               ><Settings /></ErrorBoundary>
           } />
 
-          <Route exact={true} path={'/:folder/:screen'} element={
+          <Route exact={true} path={'/:pos1/:pos2/:pos3'} element={
             status && localStorage.getItem('loggedin') && expiry() ?
               <ErrorBoundary
                 FallbackComponent={ErrorFallback}

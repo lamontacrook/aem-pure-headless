@@ -2,37 +2,40 @@
   display: flex;
   flex-direction: row;
   list-style: none;
-  width: 130%;
-  /* max-width: 1136px;
-  margin: 0 auto;
-  align-items:baseline;
-  padding: 0; */
+  height: 400px;
   justify-content: space-between;
   padding: unset;
 }
 
-.image-list > li > .list-item {
+.image-list-container {
+  overflow: scroll;
+  overflow-y: hidden;
+  background-color: var(--main-light-background);
+  padding: 0;
+}
+
+.image-list>li>.list-item {
   /* width: 260px; */
   margin-left: 0;
   padding-left: 0;
 }
 
-.image-list > li > .list-item a:link {
+.image-list>li>.list-item a:link {
   text-decoration: none;
 }
 
 /* visited link */
-.image-list > li > .list-item a:visited {
+.image-list>li>.list-item a:visited {
   color: #696969;
 }
 
 /* mouse over link */
-.image-list > li > .list-item a:hover {
+.image-list>li>.list-item a:hover {
   color: #696969;
 }
 
 /* selected link */
-.image-list > li > .list-item a:active {
+.image-list>li>.list-item a:active {
   color: #696969;
 }
 
@@ -56,10 +59,12 @@
   width: 260px;
 }
 
-.image-list > li > .list-item img {
-    /* width:260px;
+.image-list>li .list-item>div>img {
+  /* width:260px;
     height:180px; */
-    overflow: cover;
+  /* overflow: cover; */
+  width: unset;
+  height: 400px;
 }
 
 .list-item span.cmp-image__title {
@@ -69,7 +74,8 @@
 .image-list .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  border-bottom: 1px dotted black;
+  /* If you want dots under the hoverable text */
   margin: auto;
 }
 
@@ -77,13 +83,13 @@
 .image-list .tooltip .tooltiptext {
   visibility: hidden;
   width: 100%;
-  top:40%;
+  top: 40%;
   background-color: rgba(0, 0, 0, .45);
   color: #fff;
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
- 
+
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
@@ -94,3 +100,16 @@
   visibility: visible;
 }
 
+.image-list-container>h4 {
+  color: #000;
+  padding-left: 35px;
+  font-size: larger;
+}
+
+.image-list-container>h4::after {
+  display: block;
+  width: 84px;
+  padding-top: 8px;
+  content: "";
+  border-bottom: 2px solid var(--main-accent-color);
+}

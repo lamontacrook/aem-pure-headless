@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './navigation.css';
 
 import { Link } from 'react-router-dom';
-import navGQL from '../../api/navigation.json';
+import { LinkManager } from '../../utils';
 import AEMHeadless from '@adobe/aem-headless-client-js';
 import PropTypes from 'prop-types';
 
@@ -53,7 +53,8 @@ const Navigation = ({ logo }) => {
   }, []);
 
   nav && nav.data.screenList.items.forEach((item) => {
-    obj[item.positionInNavigation] = { name: item.screenName, path: item._path };
+    obj[item.positionInNavigation] = { name: item.screenName, path: LinkManager(item._path) };
+    // console.log(LinkManager(item._path));
   });
 
   function viewGQL() {
@@ -61,20 +62,21 @@ const Navigation = ({ logo }) => {
   }
 
   return (
-    <section className='navigation'>
-      <div className="container">
-        <img src={logo._publishUrl} alt='logo' />
-        <ol>
-          <li><Link to={obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
-          <li><Link to={obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
-          <li><Link to={obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
-          <li><Link to={obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
-          <li><Link to={obj.pos5.path} className='navItem'>{obj.pos5.name}</Link></li>
-
-        </ol>
-        <a href='#' className='button view-gql' onClick={viewGQL}>View GraphQL</a>
-      </div>
-    </section>
+    <nav>
+      <section className='navigation'>
+        <div className="container">
+          <Link to={'/'}><img src={logo._publishUrl} alt='logo' /></Link>
+          <ol>
+            <li><Link to={obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
+            <li><Link to={obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
+            <li><Link to={obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
+            <li><Link to={obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
+            <li><Link to={obj.pos5.path} className='navItem'>{obj.pos5.name}</Link></li>
+          </ol>
+          <a href='#' className='button view-gql' onClick={viewGQL}>View GraphQL</a>
+        </div>
+      </section>
+    </nav>
   );
 };
 
