@@ -30,7 +30,6 @@ const ImageList = ({ content }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    // if (i++ == 0) {
     content.imageListItems.map(({ _path, _authorUrl }) => {
       let promise = fetch(_authorUrl.replace('.html', '.content.html'), {
         method: 'get',
@@ -47,11 +46,15 @@ const ImageList = ({ content }) => {
             let image = body.querySelector('.cmp-image');
             image = externalizeImages(image.innerHTML);
 
-            setItems(item => [...item, { title: title.innerHTML, image: image, path: _path }]);
+            setItems((item) => {
+              MagazineStore(LinkManager(_path), {path: _path, article: body});
+              
+              return [...item, { title: title.innerHTML, image: image, path: _path }];
+            });
+            
           }
         }).catch(err => console.log(err)), promise: 'promise'
       }));
-
 
       promises.push(promise);
     });
@@ -60,15 +63,15 @@ const ImageList = ({ content }) => {
     // }
 
   }, []);
-
+ 
   return (
     <React.Fragment>
       <div className='image-list-container'>
         {content._metadata.stringMetadata[0].value && <h4>{content._metadata.stringMetadata[0].value}</h4>}
         <ul className='image-list'>
-          {items.map((item) => (
+          {[...new Map(items.map(itm => [itm['path'], itm])).values()].map((item) => (
             <li key={item.title}>
-              <Link key={item.path} to={LinkManager(item.path)}>
+              <Link key={item.path} to={LinkManager(item.path)} state={{xf: item}}>
                 <div className='list-item tooltip'>
                   <span className='list-item-title tooltiptext'>{item.title}</span>
                   <div dangerouslySetInnerHTML={{ __html: item.image }} />
@@ -77,6 +80,16 @@ const ImageList = ({ content }) => {
             </li>
           ))}
         </ul>
+
+        {/* <div className="paddles">
+          <button className="left-paddle paddle hidden">
+            {'<'}
+          </button>
+          <button className="right-paddle paddle">
+            {'>'}
+          </button>
+        </div> */}
+
       </div>
     </React.Fragment>
   );

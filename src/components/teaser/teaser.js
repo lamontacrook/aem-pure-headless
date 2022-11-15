@@ -34,6 +34,8 @@ const Teaser = ({ content }) => {
 
   const fadeOutHandler = () => {
     const hero = document.querySelector('.hero');
+    if(!hero) return;
+
     const distanceToTop = window.pageYOffset + hero.getBoundingClientRect().top;
     const elementHeight = hero.offsetHeight;
     const scrollTop = document.documentElement.scrollTop;
@@ -56,7 +58,8 @@ const Teaser = ({ content }) => {
 
   const fadeInHandler = () => {
     const featured = document.querySelector('.featured');
-
+    if(!featured) return;
+    
     // const distanceToTop = window.pageYOffset + featured.getBoundingClientRect().top;
     const elementHeight = featured.offsetHeight;
     const scrollTop = document.documentElement.scrollTop;
@@ -78,11 +81,11 @@ const Teaser = ({ content }) => {
 
   };
 
-  window.addEventListener('scroll', fadeOutHandler);
-  window.addEventListener('scroll', fadeInHandler);
+
 
   useEffect(() => {
-
+    window.addEventListener('scroll', fadeOutHandler);
+    window.addEventListener('scroll', fadeInHandler);
   }, []);
 
 

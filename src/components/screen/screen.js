@@ -5,13 +5,20 @@ import AEMHeadless from '@adobe/aem-headless-client-js';
 import './screen.css';
 import Navigation from '../navigation';
 import Footer from '../footer';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MagazineStore, rootPath } from '../../utils';
 
 const Screen = () => {
   const props = useParams();
   let path = '/content/dam/gql-demo/site/home/home';
+  
+  const location = useLocation();
+  console.log(location.state);
+
+  console.log(Object.values(props).join('/'));
+  console.log(MagazineStore(`/${Object.values(props).join('/')}`));
+
   if (props.pos1 && props.pos2 && props.pos3) {
     path = `${rootPath}/site/${Object.values(props).join('/')}`;
     // console.log(MagazineStore[Object.values(props).join('/')]);
@@ -125,7 +132,8 @@ const Screen = () => {
 Screen.propTypes = {
   pos1: PropTypes.string,
   pos2: PropTypes.string,
-  pos3: PropTypes.string
+  pos3: PropTypes.string,
+  location: PropTypes.object
 };
 
 export default Screen;

@@ -1,7 +1,16 @@
 import PropTypes from 'prop-types';
 
 export const rootPath = `${localStorage.getItem('project')}`;
-export const MagazineStore = {};
+const store = {};
+export const MagazineStore = (key, value) => {
+  if(key && value)
+    store[key] = value;
+  else if(key)
+    return store[key];
+    
+  return store;
+};
+
 export const LinkManager = (path) => {
 
   let site = path.indexOf('/site/');
