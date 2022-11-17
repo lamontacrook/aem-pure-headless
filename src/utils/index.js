@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 export const rootPath = `${localStorage.getItem('project')}`;
 const store = {};
 export const MagazineStore = (key, value) => {
-  if(key && value)
+  if (key && value)
     store[key] = value;
-  else if(key)
+  else if (key)
     return store[key];
-    
+
   return store;
 };
 
 export const LinkManager = (path) => {
+  if (!path) return '';
 
   let site = path.indexOf('/site/');
 
@@ -25,14 +26,6 @@ export const LinkManager = (path) => {
     path = `/${pos1}/${pos2}/${pos3}`;
 
   }
-  // console.log(path);
-
-  // const paths = path.split('/');
-  // const folder = paths.pop();
-  // const screen = paths.pop();
-
-  // const route = folder === screen ? screen : `${folder}/${screen}`;
-
   return (
     path
   );
@@ -43,6 +36,12 @@ LinkManager.propTypes = {
 };
 
 export const externalizeImages = (image) => {
-  image = image.replaceAll('/content/', `${localStorage.getItem('serviceURL').replace('author', 'publish')}/content/`);
+
+  if (image.includes('/content'))
+    image = image.replaceAll('/content/', `${localStorage.getItem('serviceURL').replace('author', 'publish')}/content/`);
+  else if (image.includes('/adobe/dynamicmedia'))
+    image = image.replaceAll('/adobe/dynamicmedia/', `${localStorage.getItem('serviceURL').replace('author', 'publish')}/adobe/dynamicmedia/`);
+
+  console.log(image);
   return image;
 };

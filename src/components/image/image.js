@@ -3,36 +3,27 @@ import PropTypes from 'prop-types';
 
 import './image.css';
 
-const SrcSet = ({ src }) => {
-  const renditions = {
-    '140': 'thumbnail.140.11.png',
-    '319': 'thumbnail.319.319.png',
-    '48': 'thumbnail.48.48.png',
-    '1280': 'web.1280.1280.jpeg',
-    '2048': 'zoom.2048.2048.jpeg'
-  };
+const renditions = {
+  '1900': 'web-optimized-xlarge.webp',
+  '1200': 'web-optimized-large.webp',
+  '900': 'web-optimized-medium.webp',
+  '600': 'web-optimized-medium.webp'
+};
 
-  return (
-    <React.Fragment>
-      {
-        Object.keys(renditions).map((key) => (
-          <source key={key} 
-            type={'image/' + renditions[key].substring(renditions[key].lastIndexOf('.') + 1, renditions[key].length)} 
-            srcSet={`${src}/jcr:content/renditions/cq5dam.${renditions[key]}`} media={`(max-width: ${key}px)`} />
-        ))
-      }
-    </React.Fragment>
-  );
+const SrcSet = (src) => {
+  
+  const srcset = Object.keys(renditions).map((key) => (
+    `${src}/jcr:content/renditions/${renditions[key]} ${key}w`
+  ));
+
+  return (srcset.join(', '));
+
 };
 
 const Image = ({ src }) => {
-
-  // (typeof src === 'string') && SrcSet(src);
-
   return (
     <picture>
-      <SrcSet src={src} />
-      <img src={src} />
+      <img src={`${src}/jcr:content/renditions/${renditions['1200']}`} srcSet={SrcSet(src)} />
     </picture>
   );
 };

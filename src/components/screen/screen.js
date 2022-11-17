@@ -3,28 +3,22 @@ import ModelManager from '../../utils/modelmanager';
 import { ScreenQry } from '../../api/query';
 import AEMHeadless from '@adobe/aem-headless-client-js';
 import './screen.css';
-import Navigation from '../navigation';
 import Footer from '../footer';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MagazineStore, rootPath } from '../../utils';
+import Header from '../header';
+import gql from '../../api/gql.json';
 
 const Screen = () => {
   const props = useParams();
   let path = '/content/dam/gql-demo/site/home/home';
-  
-  const location = useLocation();
-  console.log(location.state);
 
-  console.log(Object.values(props).join('/'));
-  console.log(MagazineStore(`/${Object.values(props).join('/')}`));
+  const location = useLocation();
 
   if (props.pos1 && props.pos2 && props.pos3) {
     path = `${rootPath}/site/${Object.values(props).join('/')}`;
-    // console.log(MagazineStore[Object.values(props).join('/')]);
   }
-
-  //console.log(`${localStorage.getItem('project')}/site/${props.folder}/${props.screen}/${props.screen}`);
 
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
@@ -49,6 +43,7 @@ const Screen = () => {
     sdk.runPersistedQuery('gql-demo/screen', { path: path })
       .then(({ data }) => {
         if (data) {
+
           if (Array.isArray(data.screen.body)) {
             data.screen.body = data.screen.body[0];
           }
@@ -68,35 +63,20 @@ const Screen = () => {
 
   // if (Array.isArray(data.screen.body)) data.screen.body = data.screen.body[0];
 
-  function hideGQL() {
-    document.querySelector('.fly-out-gql').style.display = 'none';
-  }
-
-  function showPayload() {
-    document.querySelector('.fly-out-gql > pre').innerHTML = `<pre>${ScreenQry()}</pre>`;
-  }
-
-  function showResponse() {
-    document.querySelector('.fly-out-gql > pre').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-  }
   // console.log(screen);
   return (
     <React.Fragment>
-
+      {/* 
       {config.configurationByPath &&
         <Navigation logo={config.configurationByPath.item.siteLogo} />
+      } */}
+
+      {data.screen && data.screen.body.screenHeader && config.configurationByPath &&
+        <Header content={data.screen.body.screenHeader} config={config.configurationByPath.item} />
       }
 
-
       <div className='main-body'>
-        <div className='fly-out-gql payload'>
-          <div className='button-group'>
-            <button onClick={showResponse} className='button'>Show Response</button>
-            <button onClick={showPayload} className='button'>Show Request</button>
-            <button onClick={hideGQL} className='button'>Hide GQL</button>
-          </div>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
+        <Flyout />
         {data && data.screen.body.block.map((item) => (
           <div
             key={`${item._model.title
@@ -126,6 +106,31 @@ const Screen = () => {
         }
       </footer>
     </React.Fragment>
+  );
+};
+
+const Flyout = () => {
+  function hideGQL() {
+    document.querySelector('.fly-out-gql').style.display = 'none';
+  }
+
+  function showPayload() {
+    document.querySelector('.fly-out-gql > pre').innerHTML = `<pre>${ScreenQry()}</pre>`;
+  }
+
+  function showResponse() {
+    document.querySelector('.fly-out-gql > pre').innerHTML = `<pre>${JSON.stringify(gql, null, 2)}</pre>`;
+  }
+  
+  return (
+    <div className='fly-out-gql payload'>
+      <div className='button-group'>
+        <button onClick={showResponse} className='button'>Show Response</button>
+        <button onClick={showPayload} className='button'>Show Request</button>
+        <button onClick={hideGQL} className='button'>Hide GQL</button>
+      </div>
+      <pre>{JSON.stringify(gql, null, 2)}</pre>
+    </div>
   );
 };
 

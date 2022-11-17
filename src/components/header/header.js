@@ -1,66 +1,58 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Navigation from '../navigation';
+import ModelManager from '../../utils/modelmanager';
+import Image from '../image';
 
 import './header.css';
-// import Logo from '../../media/fin-de-semana.png';
 
-const Header = ({ content }) => {
+const Header = ({ content, config }) => {
+  const fadeOutHandler = () => {
+    const hero = document.querySelector('header');
+    if (!hero) return;
 
-  const [header, setHeader] = useState('');
-  const [logo, setLogo] = useState('');
+    const distanceToTop = window.pageYOffset + hero.getBoundingClientRect().top;
+    const elementHeight = hero.offsetHeight;
+    const scrollTop = document.documentElement.scrollTop;
 
-  const viewGQL = () => {
-    document.querySelector('.fly-out-gql').style.display = 'block';
+    let opacity = 1;
+
+    if (scrollTop > distanceToTop) {
+      opacity = 1 - (scrollTop - distanceToTop) / elementHeight;
+    }
+
+    if (opacity >= 0) {
+      hero.style.opacity = opacity;
+    }
   };
 
   useEffect(() => {
-    if (!header && content._authorUrl) {
-      console.log(content._authorUrl.replace('.html', '/master.content.html?wcmmode=disabled'));
-      fetch(content._authorUrl.replace('.html', '/master.content.html?wcmmode=disabled'), {
-        method: 'get',
-        headers: new Headers({
-          'Authorization': `Bearer ${localStorage.auth}`,
-          'Content-Type': 'text/html'
-        })
-      })
-        .then((response) => {
-          if (response) {
-            response.text().then((html) => {
-
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(html, 'text/html');
-              setHeader(new XMLSerializer().serializeToString(doc.querySelectorAll('.cmp-navigation__group')[1]));
-              //setLogo(doc.querySelector('.cmp-image--logo img').src.replace(document.location.href, `${localStorage.getItem('serviceURL')}/`));
-              setLogo(doc.querySelector('.cmp-image--logo img').src.replace(document.location.href, 'https://publish-p24020-e217804.adobeaemcloud.com/'));
-              
-              // console.log(document.location.href);
-              // setLogo(localStorage.getItem('serviceURL') + doc.querySelector('.cmp-image--logo img').src);
-              // https://author-p24020-e217804.adobeaemcloud.com/content/experience-fragments/wknd-site/language-masters/en/site/header/master/_jcr_content/root/container/container_1195249223/image.coreimg.svg/1594412560447/wknd-logo-dk.svg
-              // https://author-p24020-e217804.adobeaemcloud.comcontent/experience-fragments/wknd-site/language-masters/en/site/header/master/_jcr_content/root/container/container_1195249223/image.coreimg.svg/1594412560447/wknd-logo-dk.svg
-            });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }), [content, header];
-
+    window.addEventListener('scroll', fadeOutHandler);
+  }), [];
 
   return (
-    <section className='navigation'>
-      <div className="container">
-        <img src={logo} alt='logo' />
-        <div dangerouslySetInnerHTML={{ __html: header }} />
-        
-        <a href='#' className='button view-gql' onClick={viewGQL}>View GraphQL</a>
-      </div>
-    </section>
+    <header className={`home-${content.headerTeaser?'hero':'article'}`} role='banner'>
+      <Navigation logo={config.siteLogo} />
+
+      {content.headerTeaser &&
+        <ModelManager
+          key={`${content.headerTeaser._model.title
+            .toLowerCase()
+            .replace(' ', '-')}-entity-${content.headerTeaser._model._path}-header`}
+          type={content.headerTeaser._model.title}
+          content={content.headerTeaser}
+        ></ModelManager>}
+
+      {content.headerBanner &&
+        <Image src={content.headerBanner._publishUrl} />
+      }
+    </header>
   );
 };
 
 Header.propTypes = {
-  content: PropTypes.object
+  content: PropTypes.object,
+  config: PropTypes.object
 };
 
 export default Header;

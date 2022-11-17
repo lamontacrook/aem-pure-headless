@@ -24,7 +24,6 @@ export const ImageListGQL = `
   }
 }`;
 
-let i = 0;
 const promises = [];
 const ImageList = ({ content }) => {
   const [items, setItems] = useState([]);
@@ -40,18 +39,17 @@ const ImageList = ({ content }) => {
       }).then(res => ({
         res: res.text().then(html => {
           if (html) {
-            // MagazineStore[LinkManager(_path)] = [_path, html];
             let body = new DOMParser().parseFromString(html, 'text/html');
             let title = body.querySelector('h1');
             let image = body.querySelector('.cmp-image');
             image = externalizeImages(image.innerHTML);
 
             setItems((item) => {
-              MagazineStore(LinkManager(_path), {path: _path, article: body});
-              
+              MagazineStore(LinkManager(_path), { path: _path, article: body });
+
               return [...item, { title: title.innerHTML, image: image, path: _path }];
             });
-            
+
           }
         }).catch(err => console.log(err)), promise: 'promise'
       }));
@@ -60,36 +58,18 @@ const ImageList = ({ content }) => {
     });
 
     Promise.all(promises);
-    // }
 
-  }, []);
- 
+  }, [content.imageListItems]);
+
   return (
     <React.Fragment>
       <div className='image-list-container'>
         {content._metadata.stringMetadata[0].value && <h4>{content._metadata.stringMetadata[0].value}</h4>}
         <ul className='image-list'>
           {[...new Map(items.map(itm => [itm['path'], itm])).values()].map((item) => (
-            <li key={item.title}>
-              <Link key={item.path} to={LinkManager(item.path)} state={{xf: item}}>
-                <div className='list-item tooltip'>
-                  <span className='list-item-title tooltiptext'>{item.title}</span>
-                  <div dangerouslySetInnerHTML={{ __html: item.image }} />
-                </div>
-              </Link>
-            </li>
+            <Card key={item.title} item={item} />
           ))}
         </ul>
-
-        {/* <div className="paddles">
-          <button className="left-paddle paddle hidden">
-            {'<'}
-          </button>
-          <button className="right-paddle paddle">
-            {'>'}
-          </button>
-        </div> */}
-
       </div>
     </React.Fragment>
   );
@@ -97,6 +77,23 @@ const ImageList = ({ content }) => {
 
 ImageList.propTypes = {
   content: PropTypes.object
+};
+
+const Card = ({item}) => {
+  return (
+    <li key={item.title}>
+      <Link key={item.path} to={LinkManager(item.path)}>
+        <div className='list-item tooltip'>
+          <span className='list-item-title tooltiptext'>{item.title}</span>
+          <div dangerouslySetInnerHTML={{ __html: item.image }} />
+        </div>
+      </Link>
+    </li>
+  );
+};
+
+Card.propTypes = {
+  item: PropTypes.object
 };
 
 export default ImageList;

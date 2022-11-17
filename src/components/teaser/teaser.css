@@ -58,7 +58,7 @@ body {
   position: relative;
 }
 
-.featured {
+.featured > .container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -75,7 +75,7 @@ body {
   width: 500px;
 }
 
-.featured .content-block {
+.featured > .container > .content-block {
   max-width: 500px;
 }
 
