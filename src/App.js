@@ -42,7 +42,23 @@ const App = () => {
     <div className='App'>
       <BrowserRouter>
         <Routes>
-          <Route exact={false} path={'  /aem-pure-headless'} element={
+          {/* <Route exact={false} path={'  /aem-pure-headless'} element={
+            status && localStorage.getItem('loggedin') && expiry() ?
+              <ErrorBoundary
+                FallbackComponent={ErrorFallback}
+                onReset={() => {
+                  // reset the state of your app so the error doesn't happen again
+                }}
+              ><Screen /></ErrorBoundary> :
+              <ErrorBoundary
+                FallbackComponent={ErrorFallback}
+                onReset={() => {
+                  // reset the state of your app so the error doesn't happen again
+                }}
+              ><Settings /></ErrorBoundary>
+          } /> */}
+
+          <Route exact={false} path={'/*'} element={
             status && localStorage.getItem('loggedin') && expiry() ?
               <ErrorBoundary
                 FallbackComponent={ErrorFallback}
@@ -58,7 +74,7 @@ const App = () => {
               ><Settings /></ErrorBoundary>
           } />
 
-          <Route exact={false} path={'/'} element={
+          <Route exact={true} path={'/aem-pure-headless/*'} element={
             status && localStorage.getItem('loggedin') && expiry() ?
               <ErrorBoundary
                 FallbackComponent={ErrorFallback}
@@ -74,23 +90,7 @@ const App = () => {
               ><Settings /></ErrorBoundary>
           } />
 
-          <Route exact={true} path={'/aem-pure-headless'} element={
-            status && localStorage.getItem('loggedin') && expiry() ?
-              <ErrorBoundary
-                FallbackComponent={ErrorFallback}
-                onReset={() => {
-                  // reset the state of your app so the error doesn't happen again
-                }}
-              ><Screen /></ErrorBoundary> :
-              <ErrorBoundary
-                FallbackComponent={ErrorFallback}
-                onReset={() => {
-                  // reset the state of your app so the error doesn't happen again
-                }}
-              ><Settings /></ErrorBoundary>
-          } />
-
-          <Route exact={true} path={'/aem-pure-headless/:pos1/:pos2/:pos3'} element={
+          {/* <Route exact={true} path={'/aem-pure-headless/:pos1/:pos2/:pos3'} element={
             status && localStorage.getItem('loggedin') && expiry() ?
               <ErrorBoundary
                 FallbackComponent={ErrorFallback}
@@ -120,7 +120,7 @@ const App = () => {
                   // reset the state of your app so the error doesn't happen again
                 }}
               ><Settings /></ErrorBoundary>
-          } />
+          } /> */}
 
           <Route exact={true} path={'/settings'} element={<Settings />} />
         </Routes>

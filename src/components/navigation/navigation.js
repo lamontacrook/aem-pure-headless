@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import './navigation.css';
-
+import wkndlogo from '../../media/wknd-logo-light.png';
 import { Link } from 'react-router-dom';
 import { LinkManager } from '../../utils';
 import AEMHeadless from '@adobe/aem-headless-client-js';
@@ -25,12 +25,12 @@ export const NavigationGQL = `{
 
 const Navigation = ({ logo }) => {
   const [nav, setNav] = useState('');
-
+  
   let obj = {
-    pos1: { name: 'Hold', path: '#' },
-    pos2: { name: 'Hold', path: '#' },
-    pos3: { name: 'Hold', path: '#' },
-    pos4: { name: 'Hold', path: '#' },
+    pos1: { name: '', path: '#' },
+    pos2: { name: '', path: '#' },
+    pos3: { name: '', path: '#' },
+    pos4: { name: '', path: '#' },
     pos5: { name: 'Settings', path: '/settings' },
   };
 
@@ -53,8 +53,8 @@ const Navigation = ({ logo }) => {
   }, []);
 
   nav && nav.data.screenList.items.forEach((item) => {
+    console.log(item._path);
     obj[item.positionInNavigation] = { name: item.screenName, path: LinkManager(item._path) };
-    // console.log(LinkManager(item._path));
   });
 
   function viewGQL() {
@@ -65,12 +65,12 @@ const Navigation = ({ logo }) => {
     <nav>
       <section className='navigation'>
         <div className="container">
-          <Link to={'/'}><img src={logo._publishUrl} alt='logo' /></Link>
+          <Link to={'/'}><img src={logo ? logo._publishUrl : wkndlogo} alt='logo' /></Link>
           <ol>
-            <li><Link to={obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
-            <li><Link to={obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
-            <li><Link to={obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
-            <li><Link to={obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
+            <li><Link to={'/' + obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
+            <li><Link to={'/' + obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
+            <li><Link to={'/' + obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
+            <li><Link to={'/' + obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
             <li><Link to={obj.pos5.path} className='navItem'>{obj.pos5.name}</Link></li>
           </ol>
           <a href='#' className='button view-gql' onClick={viewGQL}>View GraphQL</a>

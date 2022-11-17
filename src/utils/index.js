@@ -14,18 +14,12 @@ export const MagazineStore = (key, value) => {
 export const LinkManager = (path) => {
   if (!path) return '';
 
-  let site = path.indexOf('/site/');
+  const pos = path.split('/');
+  const pos3 = pos.pop();
+  const pos2 = pos.pop();
+  const pos1 = pos.pop();
+  path = `${path.indexOf('/experience-fragments/') >= 0?'/site/':''}${pos1}/${pos2}/${pos3}`;
 
-  if (site > 0)
-    path = path.substring(path.indexOf(rootPath) + rootPath.length, path.length);
-  else { //if(path.includes('/experience-fragments/')) {
-    path = path.split('/');
-    const pos3 = path.pop();
-    const pos2 = path.pop();
-    const pos1 = path.pop();
-    path = `/${pos1}/${pos2}/${pos3}`;
-
-  }
   return (
     path
   );
@@ -41,7 +35,5 @@ export const externalizeImages = (image) => {
     image = image.replaceAll('/content/', `${localStorage.getItem('serviceURL').replace('author', 'publish')}/content/`);
   else if (image.includes('/adobe/dynamicmedia'))
     image = image.replaceAll('/adobe/dynamicmedia/', `${localStorage.getItem('serviceURL').replace('author', 'publish')}/adobe/dynamicmedia/`);
-
-  console.log(image);
   return image;
 };

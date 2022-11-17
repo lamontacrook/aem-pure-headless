@@ -4,24 +4,22 @@ import { ScreenQry } from '../../api/query';
 import AEMHeadless from '@adobe/aem-headless-client-js';
 import './screen.css';
 import Footer from '../footer';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { MagazineStore, rootPath } from '../../utils';
+import { rootPath } from '../../utils';
 import Header from '../header';
 import gql from '../../api/gql.json';
 
 const Screen = () => {
-  const props = useParams();
-  let path = '/content/dam/gql-demo/site/home/home';
-
-  const location = useLocation();
-
-  if (props.pos1 && props.pos2 && props.pos3) {
-    path = `${rootPath}/site/${Object.values(props).join('/')}`;
-  }
-
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
+  const [title, setTitle] = useState('');
+
+  const props = useParams();
+  let path = '';
+  
+  if(Object.values(props)[0] !== '')
+    path = `${rootPath}/${Object.values(props)[0]}`;
 
   useEffect(() => {
 
@@ -33,37 +31,39 @@ const Screen = () => {
 
     sdk.runPersistedQuery('gql-demo/configuration')
       .then(({ data }) => {
-        if (data)
-          setConfiguration(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    sdk.runPersistedQuery('gql-demo/screen', { path: path })
-      .then(({ data }) => {
         if (data) {
+          setConfiguration(data);
+          sdk.runPersistedQuery('gql-demo/screen', { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
+            .then(({ data }) => {
+              if (data) {
+                data.screen.body._metadata.stringMetadata.map((metadata) => {
+                  if(metadata.name === 'title')
+                    setTitle(metadata.value);
+                });
 
-          if (Array.isArray(data.screen.body)) {
-            data.screen.body = data.screen.body[0];
-          }
-          setData(data);
+                if (Array.isArray(data.screen.body)) {
+                  data.screen.body = data.screen.body[0];
+                }
+                setData(data);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+
         }
       })
       .catch((error) => {
         console.log(error);
       });
 
+
   }, [path]);
 
-
-  // const data = gql['data'];
-  // console.log(data.screen);
   let i = 0;
 
-  // if (Array.isArray(data.screen.body)) data.screen.body = data.screen.body[0];
+  document.title = title;
 
-  // console.log(screen);
   return (
     <React.Fragment>
       {/* 
@@ -121,7 +121,7 @@ const Flyout = () => {
   function showResponse() {
     document.querySelector('.fly-out-gql > pre').innerHTML = `<pre>${JSON.stringify(gql, null, 2)}</pre>`;
   }
-  
+
   return (
     <div className='fly-out-gql payload'>
       <div className='button-group'>

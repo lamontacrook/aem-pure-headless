@@ -2,7 +2,8 @@
   background-color: var(--main-color-opacity);
   min-width: 1200px;
   margin: auto;
-  padding: 30px 12px;
+  padding: 10px 12px;
+  margin-top: 120px;
   display: flex;
   flex-direction: row;
   color: white;
@@ -28,6 +29,11 @@
 .settings-form > form {
   width: 50%;
   margin-right: 10px;
+  padding: 20px 0;
+}
+
+.settings-form > form > button {
+  margin-left: 130px;
 }
 
 .settings input[type=text],

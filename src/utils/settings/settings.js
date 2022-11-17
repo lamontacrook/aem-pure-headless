@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import Navigation from '../../components/navigation';
 import { marked } from 'marked';
 import './settings.css';
 import endpoint from './endpoint.md';
 import serviceURL from './serviceURL.md';
 import auth from './auth.md';
-// import PropTypes from 'prop-types';
-
 import { AEMHeadless } from '@adobe/aem-headless-client-js';
 
 const instructionsData = {
@@ -42,20 +39,23 @@ export const expiry = () => {
 
 const Settings = () => {
   const [instructions, setInstructions] = useState('');
-  const [serviceURL, setServiceURL] = useState('');
+  // const [payload, setPayload] = useState('');
+
+  // const [expir, setExpiry] = useState('');
+  const [endpoint, setEndpoint] = useState('/content/_cq_graphql/gql-demo/endpoint.json');
+  const [project, setProject] = useState('/content/dam/gql-demo');
+  const [loggedin, setLoggedin] = useState(0);
   const [auth, setAuth] = useState('');
-  const [endpoint, setEndpoint] = useState('');
-  const [payload, setPayload] = useState('');
-  const [project, setProject] = useState('');
-  const [success, setSuccess] = useState('');
+  const [serviceURL, setServiceURL] = useState('');
+  const [config, setConfig] = useState();
 
-
-  const validateAssets = e => {
+  const getConfiguration = React.useCallback(() => {
     const now = new Date();
-    localStorage.setItem('serviceURL', document.querySelector('.author-url').value);
-    localStorage.setItem('endpoint', document.querySelector('.graphql-endpoint').value);
-    localStorage.setItem('auth', document.querySelector('.developer-token').value);
-    localStorage.setItem('project', document.querySelector('.shared-project').value);
+
+    syncLocalStorage('serviceURL', serviceURL);
+    syncLocalStorage('endpoint', endpoint);
+    syncLocalStorage('auth', auth);
+    syncLocalStorage('project', project);
 
 
     if (localStorage.getItem('expiry') === null)
@@ -67,14 +67,13 @@ const Settings = () => {
       auth: localStorage.getItem('auth')
     });
 
-    sdk.runPersistedQuery('gql-demo/teaser-assets')
+    sdk.runPersistedQuery('gql-demo/configuration')
       .then(({ data }) => {
 
         if (data) {
-          instructionsData[e.target.name] = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-          setPayload(data);
+          console.log(data);
+          setConfig(<Navigation logo={data.configurationByPath.item.siteLogo} />);
           localStorage.setItem('loggedin', 1);
-          setSuccess(1);
         }
       })
       .catch((error) => {
@@ -87,7 +86,8 @@ const Settings = () => {
         // console.log(JSON.stringify(error));
         console.log(error);
       });
-  };
+  }, [auth, endpoint, project, serviceURL]);
+
 
   useEffect(() => {
     for (let [key, value] of Object.entries(instructionsData)) {
@@ -99,16 +99,34 @@ const Settings = () => {
     }
 
 
-    localStorage.getItem('serviceURL') && setServiceURL(localStorage.getItem('serviceURL'));
-    localStorage.getItem('endpoint') && setEndpoint(localStorage.getItem('endpoint'));
-    localStorage.getItem('auth') && setAuth(localStorage.getItem('auth'));
-    localStorage.getItem('project') && setProject(localStorage.getItem('project'));
-    !expiry() && setAuth('');
-  }, []);
+
+    syncState('endpoint', setEndpoint);
+    syncState('auth', setAuth);
+    syncState('project', setProject);
+    syncState('loggedin', setLoggedin);
+    syncState('serviceURL', setServiceURL);
+
+    // if (!expiry()) {
+    //   setAuth('');
+    //   localStorage.setItem('auth', '');
+    // }
+
+    if (auth && endpoint && project && serviceURL && loggedin)
+      getConfiguration();
+
+  }, [auth, endpoint, getConfiguration, loggedin, project, serviceURL]);
+
+  const syncState = (value, func) => {
+    localStorage.getItem(value) && func(localStorage.getItem(value));
+  };
+
+  const syncLocalStorage = (key, value) => {
+    localStorage.setItem(key, value);
+  };
 
   return (
     <React.Fragment>
-      {success & <Navigation />}
+      <header>{config}</header>
       <div className='main-body settings'>
         <div className='settings-form'>
           <form>
@@ -137,7 +155,7 @@ const Settings = () => {
             <label>GraphQL Endpoint
               <input className='graphql-endpoint'
                 type='text'
-                placeholder='Paste your Bearer Token'
+                placeholder='/content/_cq_graphql/gql-demo/endpoint.json'
                 name='endpoint'
                 onSelect={(e) => setInstructions(e.target)}
                 value={endpoint}
@@ -156,9 +174,9 @@ const Settings = () => {
             <button className='button'
               type='button'
               name='authenticate'
-              onClick={(e) => validateAssets(e)}>Validate Assets</button>
+              onClick={(e) => getConfiguration(e)}>Authenticate</button>
           </form>
-          <div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name] || payload }}>
+          <div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name] }}>
           </div>
         </div>
       </div>
