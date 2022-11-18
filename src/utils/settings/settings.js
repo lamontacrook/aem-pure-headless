@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 import Navigation from '../../components/navigation';
 import { marked } from 'marked';
 import './settings.css';
-import endpoint from './endpoint.md';
-import serviceURL from './serviceURL.md';
-import auth from './auth.md';
+import endpointmd from './endpoint.md';
+import serviceURLmd from './serviceURL.md';
+import authmd from './auth.md';
 import { AEMHeadless } from '@adobe/aem-headless-client-js';
+import { useErrorHandler } from 'react-error-boundary';
 
 const instructionsData = {
-  'serviceURL': serviceURL,
-  'auth': auth,
-  'endpoint': endpoint,
+  'serviceURL': serviceURLmd,
+  'auth': authmd,
+  'endpoint': endpointmd,
   'authenticate': 'My error message',
-  'project': auth
+  'project': authmd
 };
-
 
 export const expiry = () => {
   const now = new Date();
@@ -29,27 +29,20 @@ export const expiry = () => {
   }
 };
 
-// const Settings = () => {
-//   const [success, setSuccess] = useState(0);
-
-//   const navigate = useNavigate();
-//   return success ? navigate('/aem-pure-headless', { state: 'pass-data' } ) : <SettingComp success={setSuccess} />;
-
-// };
-
 const Settings = () => {
-  const [instructions, setInstructions] = useState('');
-  // const [payload, setPayload] = useState('');
+  const handleError = useErrorHandler();
 
-  // const [expir, setExpiry] = useState('');
+  const [instructions, setInstructions] = useState('');
   const [endpoint, setEndpoint] = useState('/content/_cq_graphql/gql-demo/endpoint.json');
   const [project, setProject] = useState('/content/dam/gql-demo');
   const [loggedin, setLoggedin] = useState(0);
   const [auth, setAuth] = useState('');
   const [serviceURL, setServiceURL] = useState('');
-  const [config, setConfig] = useState();
+  const [config, setConfig] = useState('');
 
-  const getConfiguration = React.useCallback(() => {
+  const getConfiguration = () => {
+    if (config) return;
+
     const now = new Date();
 
     syncLocalStorage('serviceURL', serviceURL);
@@ -62,67 +55,65 @@ const Settings = () => {
       localStorage.setItem('expiry', now.getTime() + 82800000);
 
     const sdk = new AEMHeadless({
-      serviceURL: localStorage.getItem('serviceURL'),
-      endpoint: localStorage.getItem('endpoint'),
-      auth: localStorage.getItem('auth')
+      serviceURL: serviceURL,
+      endpoint: endpoint,
+      auth: auth
     });
 
     sdk.runPersistedQuery('gql-demo/configuration')
       .then(({ data }) => {
 
         if (data) {
-          console.log(data);
           setConfig(<Navigation logo={data.configurationByPath.item.siteLogo} />);
           localStorage.setItem('loggedin', 1);
         }
       })
       .catch((error) => {
-        // if (error && error.toJSON().message.includes('There was a problem parsing response data')) {
-        //   instructionsData[e.target.name] = `<h5>Error</h5> 403 Error for ${document.querySelector('.author-url').value}`;
-        //   setInstructions(e.target);
-        //   localStorage.setItem('loggedin', 0);
-        // }
-        // //console.log('here');
-        // console.log(JSON.stringify(error));
-        console.log(error);
+        // localStorage.setItem('auth', 'There is an issue with the Developer Token.');
+        handleError(error);
       });
-  }, [auth, endpoint, project, serviceURL]);
+  };
 
+
+
+  if (!expiry() && auth !== '' && expiry !== '') {
+    localStorage.setItem('auth', '');
+  }
 
   useEffect(() => {
     for (let [key, value] of Object.entries(instructionsData)) {
-      fetch(value)
-        .then((r) => r.text())
-        .then(text => {
-          instructionsData[key] = marked.parse(text);
-        });
+      if (value.includes('/static/media')) {
+        fetch(value)
+          .then((r) => r.text())
+          .then(text => {
+            instructionsData[key] = marked.parse(text);
+          }).catch(error => {
+            handleError(error);
+          }).catch(error => {
+            handleError(error);
+          });
+      }
     }
-
-
-
     syncState('endpoint', setEndpoint);
     syncState('auth', setAuth);
     syncState('project', setProject);
     syncState('loggedin', setLoggedin);
     syncState('serviceURL', setServiceURL);
-
-    // if (!expiry()) {
-    //   setAuth('');
-    //   localStorage.setItem('auth', '');
-    // }
-
-    if (auth && endpoint && project && serviceURL && loggedin)
-      getConfiguration();
-
-  }, [auth, endpoint, getConfiguration, loggedin, project, serviceURL]);
+  }, [instructions, handleError]);
 
   const syncState = (value, func) => {
     localStorage.getItem(value) && func(localStorage.getItem(value));
   };
 
+
+
+
   const syncLocalStorage = (key, value) => {
     localStorage.setItem(key, value);
   };
+
+  if (auth && endpoint && project && serviceURL && loggedin)
+    getConfiguration();
 
   return (
     <React.Fragment>

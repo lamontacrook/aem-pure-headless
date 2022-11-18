@@ -53,7 +53,6 @@ const Navigation = ({ logo }) => {
   }, []);
 
   nav && nav.data.screenList.items.forEach((item) => {
-    console.log(item._path);
     obj[item.positionInNavigation] = { name: item.screenName, path: LinkManager(item._path) };
   });
 
