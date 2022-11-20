@@ -60,7 +60,7 @@ const Settings = () => {
       auth: auth
     });
 
-    sdk.runPersistedQuery('gql-demo/configuration')
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration')
       .then(({ data }) => {
 
         if (data) {
@@ -146,7 +146,7 @@ const Settings = () => {
             <label>GraphQL Endpoint
               <input className='graphql-endpoint'
                 type='text'
-                placeholder='/content/_cq_graphql/gql-demo/endpoint.json'
+                placeholder='/content/_cq_graphql/aem-demo-assets/endpoint.json'
                 name='endpoint'
                 onSelect={(e) => setInstructions(e.target)}
                 value={endpoint}
@@ -175,8 +175,5 @@ const Settings = () => {
   );
 };
 
-// SettingComp.propTypes = {
-//   success: PropTypes.func
-// };
 
 export default Settings;

@@ -9,8 +9,12 @@ import PropTypes from 'prop-types';
 import { rootPath } from '../../utils';
 import Header from '../header';
 import gql from '../../api/gql.json';
+import { useErrorHandler } from 'react-error-boundary';
+
 
 const Screen = () => {
+  const handleError = useErrorHandler();
+
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
   const [title, setTitle] = useState('');
@@ -29,11 +33,11 @@ const Screen = () => {
       auth: localStorage.getItem('auth')
     });
 
-    sdk.runPersistedQuery('gql-demo/configuration')
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration')
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-          sdk.runPersistedQuery('gql-demo/screen', { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
+          sdk.runPersistedQuery('aem-demo-assets/gql-demo-screen', { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
@@ -48,17 +52,17 @@ const Screen = () => {
               }
             })
             .catch((error) => {
-              console.log(error);
+              handleError(error);
             });
 
         }
       })
       .catch((error) => {
-        console.log(error);
+        handleError(error);
       });
 
 
-  }, [path]);
+  }, [path, handleError]);
 
   let i = 0;
 

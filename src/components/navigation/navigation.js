@@ -41,7 +41,7 @@ const Navigation = ({ logo }) => {
       auth: localStorage.getItem('auth')
     });
 
-    sdk.runPersistedQuery('gql-demo/navigation')
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation')
       .then((data) => {
         if (data) {
           setNav(data);

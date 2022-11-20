@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, redirect } from 'react-router-dom';
 import './App.css';
 import PropTypes from 'prop-types';
 import Screen from './components/screen';
@@ -15,6 +15,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }) => {
     </div>
   );
 };
+
 
 ErrorFallback.propTypes = {
   error: PropTypes.object,
@@ -79,7 +80,8 @@ const App = () => {
               <ErrorBoundary
                 FallbackComponent={ErrorFallback}
                 onReset={() => {
-                  // reset the state of your app so the error doesn't happen again
+                  localStorage.removeItem('loggedin');
+                  location.href = '/settings';
                 }}
               ><Screen /></ErrorBoundary> :
               <ErrorBoundary
