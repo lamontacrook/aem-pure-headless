@@ -75,34 +75,30 @@ const Screen = () => {
         <Navigation logo={config.configurationByPath.item.siteLogo} />
       } */}
 
-      {data.screen && data.screen.body.screenHeader && config.configurationByPath &&
-        <Header content={data.screen.body.screenHeader} config={config.configurationByPath.item} />
+      {data.screen && data.screen.body.header && config.configurationByPath &&
+        <Header content={data.screen.body.header} config={config.configurationByPath.item} />
       }
 
       <div className='main-body'>
         <Flyout />
         {data && data.screen.body.block.map((item) => (
           <div
-            key={`${item._model.title
+            key={`${item.__typename
               .toLowerCase()
-              .replace(' ', '-')}-block-${item._model._path}-${i}`}
+              .replace(' ', '-')}-block-${i}`}
             className='block'
           >
 
             <ModelManager
-              key={`${item._model.title
-                .toLowerCase()
-                .replace(' ', '-')}-entity-${item._model._path}-${i++}`}
-              type={item._model.title}
+              key={`${item.__typename}-entity-${i++}`}
+              type={item.__typename}
               content={item}
               references={data.screen._references}
             >
 
             </ModelManager>
           </div>
-          // <div key='1'>{item._model && JSON.stringify(item._model['title'])}</div>
         ))}
-        {/* <div>{data.screen}</div> */}
       </div>
       <footer>
         {config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&

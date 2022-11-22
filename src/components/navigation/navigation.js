@@ -53,7 +53,12 @@ const Navigation = ({ logo }) => {
   }, []);
 
   nav && nav.data.screenList.items.forEach((item) => {
-    obj[item.positionInNavigation] = { name: item.screenName, path: LinkManager(item._path) };
+    let name = '';
+    item._metadata.stringMetadata.forEach(meta => {
+      meta.name === 'title' && (name = meta.value);
+    });
+    
+    obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path) };
   });
 
   function viewGQL() {

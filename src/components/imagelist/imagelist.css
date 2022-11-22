@@ -59,10 +59,7 @@
   width: 260px;
 }
 
-.image-list>li .list-item>div>img {
-  /* width:260px;
-    height:180px; */
-  /* overflow: cover; */
+.image-list>li .list-item>div img {
   width: unset;
   height: 400px;
 }

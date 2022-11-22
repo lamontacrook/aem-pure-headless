@@ -1,18 +1,18 @@
 import React from 'react';
 import Teaser from '../../components/teaser';
 import ImageList from '../../components/imagelist';
-import Article from '../../components/article';
+import PageRef from '../../components/pageref';
 import PropTypes from 'prop-types';
 
 
 export const componentMapping = {
   Teaser,
   ImageList,
-  Article
+  PageRef
 };
 
 const ModelManager = ({ type, content, references }) => {
-  type = type.replace(/\s/g, '');
+  type = type.replace(/Model/g, '');
   const Component = componentMapping[type];
  
   if (typeof Component !== 'undefined')

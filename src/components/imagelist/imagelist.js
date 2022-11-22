@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { LinkManager, externalizeImages, MagazineStore } from '../../utils';
+import Image from '../image';
 
 import './imagelist.css';
 
@@ -29,35 +30,46 @@ const ImageList = ({ content }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    content.imageListItems.map(({ _path, _authorUrl }) => {
-      let promise = fetch(_authorUrl.replace('.html', '.content.html'), {
-        method: 'get',
-        headers: new Headers({
-          'Authorization': `Bearer ${localStorage.auth}`,
-          'Content-Type': 'text/html'
-        })
-      }).then(res => ({
-        res: res.text().then(html => {
-          if (html) {
-            let body = new DOMParser().parseFromString(html, 'text/html');
-            let title = body.querySelector('h1');
-            let image = body.querySelector('.cmp-image');
-            image = externalizeImages(image.innerHTML);
 
-            setItems((item) => {
-              MagazineStore(LinkManager(_path), { path: _path, article: body });
+    content.imageListItems.map(({ _path, _authorUrl, __typename, title, primaryImage }) => {
+      if (__typename === 'PageRef') {
+        let promise = fetch(_authorUrl.replace('.html', '.content.html'), {
+          method: 'get',
+          headers: new Headers({
+            'Authorization': `Bearer ${localStorage.auth}`,
+            'Content-Type': 'text/html'
+          })
+        }).then(res => ({
+          res: res.text().then(html => {
+            if (html) {
+              let body = new DOMParser().parseFromString(html, 'text/html');
+              let title = body.querySelector('h1');
+              let image = body.querySelector('.cmp-image');
+              image = externalizeImages(image.innerHTML);
 
-              return [...item, { title: title.innerHTML, image: image, path: _path }];
-            });
+              setItems((item) => {
+                MagazineStore(LinkManager(_path), { path: _path, article: body });
 
-          }
-        }).catch(err => console.log(err)), promise: 'promise'
-      }));
+                return [...item, { title: title.innerHTML, image: image, path: _path, type: 'xf' }];
+              });
 
-      promises.push(promise);
+            }
+          }).catch(err => console.log(err)), promise: 'promise'
+        }));
+
+        promises.push(promise);
+      } else if (__typename === 'AdventureModel') {
+        setItems((item) => {
+          return [...item, { title: title, image: primaryImage._publishUrl, path: _path, type: 'cf' }];
+        });
+      }
     });
 
-    Promise.all(promises);
+
+
+
+
+    if (promises.length > 0) Promise.all(promises);
 
   }, [content.imageListItems]);
 
@@ -79,13 +91,18 @@ ImageList.propTypes = {
   content: PropTypes.object
 };
 
-const Card = ({item}) => {
+const Card = ({ item }) => {
   return (
     <li key={item.title}>
       <Link key={item.path} to={LinkManager(item.path)}>
         <div className='list-item tooltip'>
           <span className='list-item-title tooltiptext'>{item.title}</span>
-          <div dangerouslySetInnerHTML={{ __html: item.image }} />
+          {item.type ==='xf' && (
+            <div dangerouslySetInnerHTML={{ __html: item.image }} />)}
+          {item.type === 'cf' && (
+            <div><Image src={item.image} /></div>
+          )}
+          
         </div>
       </Link>
     </li>

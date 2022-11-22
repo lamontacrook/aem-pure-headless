@@ -31,20 +31,20 @@ const Header = ({ content, config }) => {
   }), [];
 
   return (
-    <header className={`home-${content.headerTeaser?'hero':'article'}`} role='banner'>
+    <header className={`home-${content.teaser?'hero':'article'}`} role='banner'>
       <Navigation logo={config.siteLogo} />
 
-      {content.headerTeaser &&
+      {content.teaser &&
         <ModelManager
-          key={`${content.headerTeaser._model.title
+          key={`${content.teaser.__typename
             .toLowerCase()
-            .replace(' ', '-')}-entity-${content.headerTeaser._model._path}-header`}
-          type={content.headerTeaser._model.title}
-          content={content.headerTeaser}
+            .replace(' ', '-')}-entity-header`}
+          type={content.teaser.__typename}
+          content={content.teaser}
         ></ModelManager>}
 
       {content.headerBanner &&
-        <Image src={content.headerBanner._publishUrl} />
+        <Image src={content.banner._publishUrl} />
       }
     </header>
   );

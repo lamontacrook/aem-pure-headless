@@ -13,20 +13,19 @@ export const TeaserGQL = `
       title
       _path
     }
-    headerOfPage
-    teaserTitle
-    teaserPreTitle
-    teaserAsset {
+    title
+    preTitle
+    asset {
       ...on MultimediaRef {
         _authorUrl
         format
         _publishUrl
       }
     }
-    teaserDescription {
+    description {
       html
     }
-    teaserCallToAction
+    callToAction
   }`;
 
 
@@ -66,43 +65,41 @@ const Teaser = ({ content }) => {
     // window.addEventListener('scroll', fadeInHandler);
   }, []);
 
-
-
   return (
     <React.Fragment>
 
 
-      <section className={'teaser ' + content.teaserStyle}>
+      <section className={'teaser ' + content.style}>
 
         <div className='container'>
-          {Object.prototype.hasOwnProperty.call(content.teaserAsset, 'format') &&
-            (<Video content={content.teaserAsset} />)}
+          {Object.prototype.hasOwnProperty.call(content.asset, 'format') &&
+            (<Video content={content.asset} />)}
 
-          {Object.prototype.hasOwnProperty.call(content.teaserAsset, 'mimeType') &&
-            (<Image src={content.teaserAsset._publishUrl} />)}
+          {Object.prototype.hasOwnProperty.call(content.asset, 'mimeType') &&
+            (<Image src={content.asset._publishUrl} />)}
 
           <div className='content-block'>
-            {content.teaserTitle && content.teaserStyle === 'hero' && (
-              <h1>{content.teaserTitle}</h1>
+            {content.title && content.style === 'hero' && (
+              <h1>{content.title}</h1>
             )}
 
-            {content.teaserTitle && content.teaserStyle === 'featured' && (
-              <h2>{content.teaserTitle}</h2>
+            {content.title && content.style === 'featured' && (
+              <h2>{content.title}</h2>
             )}
 
             <span className='seperator'></span>
 
-            {content.teaserPreTitle && content.teaserStyle === 'hero' && (
-              <h2>{content.teaserPreTitle}</h2>
+            {content.preTitle && content.style === 'hero' && (
+              <h2>{content.preTitle}</h2>
             )}
 
-            {content.teaserPreTitle && content.teaserStyle === 'featured' && (
-              <h5>{content.teaserPreTitle}</h5>
+            {content.preTitle && content.style === 'featured' && (
+              <h5>{content.preTitle}</h5>
             )}
 
 
-            {content.teaserDescription && (
-              <p>{content.teaserDescription.plaintext}</p>
+            {content.description && (
+              <p>{content.description.plaintext}</p>
             )}
           </div>
         </div>
@@ -116,11 +113,11 @@ const Teaser = ({ content }) => {
 
 
       {/* {!content.headerOfPage && (
-        <section className={'teaser ' + content.teaserStyle}>
+        <section className={'teaser ' + content.style}>
           <div className='content-block'>
             <h2>{content.teaserTitle}</h2>
-            <h5>{content.teaserPreTitle}</h5>
-            <p>{content.teaserDescription.plaintext}</p>
+            <h5>{content.preTitle}</h5>
+            <p>{content.description.plaintext}</p>
           </div>
           <div className="teaser-image">
             {Object.prototype.hasOwnProperty.call(content.teaserAsset, 'mimeType') &&
