@@ -70,11 +70,7 @@ const Screen = () => {
 
   return (
     <React.Fragment>
-      {/* 
-      {config.configurationByPath &&
-        <Navigation logo={config.configurationByPath.item.siteLogo} />
-      } */}
-
+     
       {data.screen && data.screen.body.header && config.configurationByPath &&
         <Header content={data.screen.body.header} config={config.configurationByPath.item} />
       }

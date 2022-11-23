@@ -31,9 +31,15 @@ const ImageList = ({ content }) => {
 
   useEffect(() => {
 
-    content.imageListItems.map(({ _path, _authorUrl, __typename, title, primaryImage }) => {
+    content.imageListItems.map(({ _path, _authorUrl, _publishUrl, __typename, title, primaryImage }) => {
       if (__typename === 'PageRef') {
-        let promise = fetch(_authorUrl.replace('.html', '.content.html'), {
+        const usePub = JSON.parse(localStorage.getItem('usePub'));
+        
+        const url = usePub ? 
+          _publishUrl.replace('.html', '.content.html') : 
+          _authorUrl.replace('.html', '.content.html?wcmmode=disabled');
+
+        let promise = fetch(url, {
           method: 'get',
           headers: new Headers({
             'Authorization': `Bearer ${localStorage.auth}`,
@@ -48,7 +54,7 @@ const ImageList = ({ content }) => {
               image = externalizeImages(image.innerHTML);
 
               setItems((item) => {
-                MagazineStore(LinkManager(_path), { path: _path, article: body });
+                MagazineStore(LinkManager(_path), { path: _path, article: html });
 
                 return [...item, { title: title.innerHTML, image: image, path: _path, type: 'xf' }];
               });
@@ -97,12 +103,12 @@ const Card = ({ item }) => {
       <Link key={item.path} to={LinkManager(item.path)}>
         <div className='list-item tooltip'>
           <span className='list-item-title tooltiptext'>{item.title}</span>
-          {item.type ==='xf' && (
+          {item.type === 'xf' && (
             <div dangerouslySetInnerHTML={{ __html: item.image }} />)}
           {item.type === 'cf' && (
             <div><Image src={item.image} /></div>
           )}
-          
+
         </div>
       </Link>
     </li>
