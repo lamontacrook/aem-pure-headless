@@ -35,7 +35,7 @@ const Settings = () => {
   const [instructions, setInstructions] = useState('');
   const [endpoint, setEndpoint] = useState('/content/_cq_graphql/gql-demo/endpoint.json');
   const [project, setProject] = useState('/content/dam/gql-demo');
-  const [loggedin, setLoggedin] = useState(0);
+  const [loggedin, setLoggedin] = useState(false);
   const [auth, setAuth] = useState('');
   const [serviceURL, setServiceURL] = useState('');
   const [config, setConfig] = useState('');
@@ -65,7 +65,7 @@ const Settings = () => {
 
         if (data) {
           setConfig(<Navigation logo={data.configurationByPath.item.siteLogo} />);
-          localStorage.setItem('loggedin', 1);
+          localStorage.setItem('loggedin', true);
         }
       })
       .catch((error) => {
@@ -77,6 +77,7 @@ const Settings = () => {
 
 
   if (!expiry() && auth !== '' && expiry !== '') {
+    localStorage.setItem('loggedin', 0);
     localStorage.setItem('auth', '');
   }
 
@@ -112,8 +113,9 @@ const Settings = () => {
     localStorage.setItem(key, value);
   };
 
-  if (auth && endpoint && project && serviceURL && loggedin)
+  if (auth && endpoint && project && serviceURL && JSON.parse(loggedin)) {
     getConfiguration();
+  }
 
   return (
     <React.Fragment>

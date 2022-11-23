@@ -43,7 +43,7 @@ const Header = ({ content, config }) => {
           content={content.teaser}
         ></ModelManager>}
 
-      {content.headerBanner &&
+      {content.banner && !content.teaser &&
         <Image src={content.banner._publishUrl} />
       }
     </header>

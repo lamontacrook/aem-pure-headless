@@ -72,10 +72,10 @@ const Teaser = ({ content }) => {
       <section className={'teaser ' + content.style}>
 
         <div className='container'>
-          {Object.prototype.hasOwnProperty.call(content.asset, 'format') &&
+          {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'format') &&
             (<Video content={content.asset} />)}
 
-          {Object.prototype.hasOwnProperty.call(content.asset, 'mimeType') &&
+          {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType') &&
             (<Image src={content.asset._publishUrl} />)}
 
           <div className='content-block'>
