@@ -64,7 +64,7 @@ const Teaser = ({ content }) => {
     
     // window.addEventListener('scroll', fadeInHandler);
   }, []);
-
+  console.log(content.asset._publishUrl);
   return (
     <React.Fragment>
 
@@ -76,7 +76,7 @@ const Teaser = ({ content }) => {
             (<Video content={content.asset} />)}
 
           {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType') &&
-            (<Image src={content.asset._publishUrl} />)}
+            (<Image src={content.asset._publishUrl} width={content.asset.width} height={content.asset.height} />)}
 
           <div className='content-block'>
             {content.title && content.style === 'hero' && (

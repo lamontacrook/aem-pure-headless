@@ -23,7 +23,7 @@ export const NavigationGQL = `{
   }
 }`;
 
-const Navigation = ({ logo }) => {
+const Navigation = ({ logo, config }) => {
   const [nav, setNav] = useState('');
   
   let obj = {
@@ -57,7 +57,8 @@ const Navigation = ({ logo }) => {
     item._metadata.stringMetadata.forEach(meta => {
       meta.name === 'title' && (name = meta.value);
     });
-    
+    console.log(item._path);
+    console.log(LinkManager(item._path));
     obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path) };
   });
 
@@ -71,10 +72,10 @@ const Navigation = ({ logo }) => {
         <div className="container">
           <Link to={'/'}><img src={logo ? logo._publishUrl : wkndlogo} alt='logo' /></Link>
           <ol>
-            <li><Link to={'/' + obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
-            <li><Link to={'/' + obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
-            <li><Link to={'/' + obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
-            <li><Link to={'/' + obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
+            <li><Link to={obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
+            <li><Link to={obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
+            <li><Link to={obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
+            <li><Link to={obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
             <li><Link to={obj.pos5.path} className='navItem'>{obj.pos5.name}</Link></li>
           </ol>
           <a href='#' className='button view-gql' onClick={viewGQL}>View GraphQL</a>
@@ -85,7 +86,8 @@ const Navigation = ({ logo }) => {
 };
 
 Navigation.propTypes = {
-  logo: PropTypes.object
+  logo: PropTypes.object,
+  config: PropTypes.object
 };
 
 export default Navigation;

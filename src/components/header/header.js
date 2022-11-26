@@ -7,6 +7,7 @@ import Image from '../image';
 import './header.css';
 
 const Header = ({ content, config }) => {
+  console.log(content.teaser);
   const fadeOutHandler = () => {
     const hero = document.querySelector('header');
     if (!hero) return;

@@ -21,11 +21,11 @@ const Screen = () => {
 
   const props = useParams();
   let path = '';
-  
-  if(Object.values(props)[0] !== '')
+
+  if (Object.values(props)[0] !== '')
     path = `${rootPath}/${Object.values(props)[0]}`;
 
- 
+
   useEffect(() => {
 
     const sdk = new AEMHeadless({
@@ -42,7 +42,7 @@ const Screen = () => {
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
-                  if(metadata.name === 'title')
+                  if (metadata.name === 'title')
                     setTitle(metadata.value);
                 });
 
@@ -55,7 +55,6 @@ const Screen = () => {
             .catch((error) => {
               handleError(error);
             });
-
         }
       })
       .catch((error) => {
@@ -71,7 +70,7 @@ const Screen = () => {
 
   return (
     <React.Fragment>
-     
+
       {data.screen && data.screen.body.header && config.configurationByPath &&
         <Header content={data.screen.body.header} config={config.configurationByPath.item} />
       }

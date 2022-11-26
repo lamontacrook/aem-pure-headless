@@ -20,20 +20,22 @@ const SrcSet = (src) => {
 
 };
 
-const Image = ({ src }) => {
+const Image = ({ src, width, height }) => {
   return (
     <picture>
-      <img src={`${src}/jcr:content/renditions/${renditions['1200']}`} srcSet={SrcSet(src)} />
+      <img src={`${src}/jcr:content/renditions/${renditions['1200']}`} width={width} height={height} srcSet={SrcSet(src)} />
     </picture>
   );
 };
 
 Image.propTypes = {
-  src: PropTypes.string
+  src: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number
 };
 
 SrcSet.propTypes = {
-  src: PropTypes.string
+  src: PropTypes.string,
 };
 
 export default Image;

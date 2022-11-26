@@ -12,20 +12,25 @@ export const MagazineStore = (key, value) => {
 };
 
 export const LinkManager = (path, config) => {
-  console.log(path);
-  console.log(config && config.configurationByPath.item.adventuresHome);
   if (!path) return '';
 
   const pos = path.split('/');
   const pos3 = pos.pop();
   const pos2 = pos.pop();
   const pos1 = pos.pop();
+
+  console.log(path);
   if(path.indexOf('/experience-fragments/') >= 0) {
     path = `/site/${pos1}/${pos2}/${pos3}`;
   } else if(config && path.indexOf(config.configurationByPath.item.adventuresHome) === 0) {
-    path = `/aem-demo-assets/${pos1}/${pos2}/${pos3}`;
+  
+    let v = config.configurationByPath.item.adventuresHome.indexOf('/') == 0 ? 
+      config.configurationByPath.item.adventuresHome.substring(1, config.configurationByPath.item.adventuresHome.length): 
+      config.configurationByPath.item.adventuresHome;
+    path = `${v.replace('content/dam', '')}/${pos2}/${pos3}`;
+  
   } else {
-    path = '';
+    path = path.replace(rootPath, '');
   }
   
   return (
