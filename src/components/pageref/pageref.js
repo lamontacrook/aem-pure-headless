@@ -5,15 +5,15 @@ import { useErrorHandler } from 'react-error-boundary';
 
 import './pageref.css';
 
-const PageRef = ({ content }) => {
+const PageRef = ({ content, config }) => {
   const [article, setArticle] = useState('');
   const handleError = useErrorHandler();
   const usePub = JSON.parse(localStorage.getItem('usePub'));
 
   useEffect(() => {
    
-    if (MagazineStore(LinkManager(content._path)) !== undefined) {
-      const article = usePub ? LinkManager(content._path).article : externalizeImagesFromHtml(LinkManager(content._path).article);
+    if (MagazineStore(LinkManager(content._path, config)) !== undefined) {
+      const article = usePub ? LinkManager(content._path, config).article : externalizeImagesFromHtml(LinkManager(content._path, config).article);
       setArticle(article);
     }
     else {
@@ -43,7 +43,7 @@ const PageRef = ({ content }) => {
           handleError(error);
         });
     }
-  }, [content, handleError, usePub]);
+  }, [content, handleError, usePub, config]);
 
   return (
     <React.Fragment>
@@ -53,7 +53,8 @@ const PageRef = ({ content }) => {
 };
 
 PageRef.propTypes = {
-  content: Proptypes.object
+  content: Proptypes.object,
+  config: Proptypes.object
 };
 
 export default PageRef;

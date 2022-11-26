@@ -25,6 +25,7 @@ const Screen = () => {
   if(Object.values(props)[0] !== '')
     path = `${rootPath}/${Object.values(props)[0]}`;
 
+ 
   useEffect(() => {
 
     const sdk = new AEMHeadless({
@@ -90,6 +91,7 @@ const Screen = () => {
               type={item.__typename}
               content={item}
               references={data.screen._references}
+              config={config}
             >
 
             </ModelManager>

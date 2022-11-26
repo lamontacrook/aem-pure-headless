@@ -32,7 +32,7 @@ const Header = ({ content, config }) => {
 
   return (
     <header className={`home-${content.teaser?'hero':'article'}`} role='banner'>
-      <Navigation logo={config.siteLogo} />
+      <Navigation logo={config.siteLogo} config={config} />
 
       {content.teaser &&
         <ModelManager

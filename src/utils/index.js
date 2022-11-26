@@ -11,15 +11,23 @@ export const MagazineStore = (key, value) => {
   return store;
 };
 
-export const LinkManager = (path) => {
+export const LinkManager = (path, config) => {
+  console.log(path);
+  console.log(config && config.configurationByPath.item.adventuresHome);
   if (!path) return '';
 
   const pos = path.split('/');
   const pos3 = pos.pop();
   const pos2 = pos.pop();
   const pos1 = pos.pop();
-  path = `${path.indexOf('/experience-fragments/') >= 0 ? '/site/' : ''}${pos1}/${pos2}/${pos3}`;
-
+  if(path.indexOf('/experience-fragments/') >= 0) {
+    path = `/site/${pos1}/${pos2}/${pos3}`;
+  } else if(config && path.indexOf(config.configurationByPath.item.adventuresHome) === 0) {
+    path = `/aem-demo-assets/${pos1}/${pos2}/${pos3}`;
+  } else {
+    path = '';
+  }
+  
   return (
     path
   );

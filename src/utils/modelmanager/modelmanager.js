@@ -11,19 +11,20 @@ export const componentMapping = {
   PageRef
 };
 
-const ModelManager = ({ type, content, references }) => {
+const ModelManager = ({ type, content, references, config }) => {
   type = type.replace(/Model/g, '');
   const Component = componentMapping[type];
  
   if (typeof Component !== 'undefined')
-    return <Component content={content} references={references} />;
+    return <Component content={content} references={references} config={config} />;
   else return <p>Neet to add {type} to ModelManager.</p>;
 };
 
 ModelManager.propTypes = {
   type: PropTypes.string,
   content: PropTypes.object,
-  references: PropTypes.string
+  references: PropTypes.string,
+  config: PropTypes.object
 };
 
 export default ModelManager;

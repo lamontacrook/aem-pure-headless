@@ -1,45 +1,98 @@
-.image-list {
+/* .image-list-container.image-grid {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.slider-list .image-list {
   display: flex;
   flex-direction: row;
-  list-style: none;
   height: 400px;
+}
+
+.image-grid .image-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.slider-list .image-list {
+  list-style: none;
   justify-content: space-between;
   padding: unset;
 }
 
-.image-list-container {
+.image-grid .image-list {
+  list-style: none;
+}
+
+.image-list-container.slider-list, .image-list-container.image-grid {
   overflow: scroll;
   overflow-y: hidden;
   background-color: var(--main-color);
   padding: 0;
 }
 
-.image-list>li>.list-item {
-  /* width: 260px; */
+.image-grid .list-item {
+  border: #000 1px solid;
+  width: 200px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.image-grid .list-item img {
+  width: 200px;
+} */
+/* .slider-list, .image-grid .image-list>li>.list-item {
   margin-left: 0;
   padding-left: 0;
 }
 
-.image-list>li>.list-item a:link {
+.slider-list, .image-grid .image-list>li>.list-item a:link {
   text-decoration: none;
+} */
+
+.image-list .list-item picture {
+  margin-right: 22px;
+}
+
+.image-list .list-item img {
+  height: 600px;
+  width: auto;
+  object-fit: cover;
+}
+
+.image-list-container {
+  overflow: initial;
+  white-space: nowrap;
+  /* padding: 5px 70px 5px 20px; */
+  background: transparent;
+  height: 100%;
+}
+
+.image-list-container .image-list {
+  display: inline-block;
+  width: 100%;
 }
 
 /* visited link */
-.image-list>li>.list-item a:visited {
+.slider-list,
+.image-grid .image-list>li>.list-item a:visited {
   color: #696969;
 }
 
 /* mouse over link */
-.image-list>li>.list-item a:hover {
+.slider-list,
+.image-grid .image-list>li>.list-item a:hover {
   color: #696969;
 }
 
 /* selected link */
-.image-list>li>.list-item a:active {
+.slider-list,
+.image-grid .image-list>li>.list-item a:active {
   color: #696969;
 }
 
-.list-item-title {
+/* .slider-list, .image-grid .list-item-title {
   color: #202020;
   font-size: 18px;
   font-family: Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -48,7 +101,7 @@
 
 }
 
-.list-item-description {
+.slider-list .list-item-description {
   display: block;
   font-size: 14px;
   margin-top: 1rem;
@@ -59,25 +112,25 @@
   width: 260px;
 }
 
-.image-list>li .list-item>div img {
+.slider-list .image-list>li .list-item>div img {
   width: unset;
   height: 400px;
 }
-
-.list-item span.cmp-image__title {
+*/
+.slider-list .list-item span.cmp-image__title {
   display: none;
 }
 
-.image-list .tooltip {
+.slider-list .image-list .tooltip {
   position: relative;
   display: inline-block;
   border-bottom: 1px dotted black;
-  /* If you want dots under the hoverable text */
+
   margin: auto;
 }
 
-/* Tooltip text */
-.image-list .tooltip .tooltiptext {
+
+.slider-list .image-list .tooltip .tooltiptext {
   visibility: hidden;
   width: 100%;
   top: 40%;
@@ -87,43 +140,26 @@
   padding: 5px 0;
   border-radius: 6px;
 
-  /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
 }
 
-/* Show the tooltip text when you mouse over the tooltip container */
-.image-list .tooltip:hover .tooltiptext {
+.slider-list .image-list .tooltip:hover .tooltiptext {
   visibility: visible;
 }
 
-.image-list-container>h4 {
+.image-list-container.slider-list>h4,
+.image-list-container.image-grid>h4 {
   color: #000;
   padding-left: 35px;
   font-size: larger;
 }
 
-.image-list-container>h4::after {
+.image-list-container.slider-list>h4::after,
+.image-list-container.image-grid>h4::after {
   display: block;
   width: 84px;
   padding-top: 8px;
   content: "";
   border-bottom: 2px solid var(--main-accent-color);
-}
-
-.paddles {}
-
-.paddle {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 3em;
-}
-
-.left-paddle {
-  left: 0;
-}
-
-.right-paddle {
-  right: 0;
 }

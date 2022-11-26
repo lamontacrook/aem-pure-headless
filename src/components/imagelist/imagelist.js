@@ -26,17 +26,16 @@ export const ImageListGQL = `
 }`;
 
 const promises = [];
-const ImageList = ({ content }) => {
+const ImageList = ({ content, config }) => {
   const [items, setItems] = useState([]);
-
+  
   useEffect(() => {
-
     content.imageListItems.map(({ _path, _authorUrl, _publishUrl, __typename, title, primaryImage }) => {
       if (__typename === 'PageRef') {
         const usePub = JSON.parse(localStorage.getItem('usePub'));
-        
-        const url = usePub ? 
-          _publishUrl.replace('.html', '.content.html') : 
+
+        const url = usePub ?
+          _publishUrl.replace('.html', '.content.html') :
           _authorUrl.replace('.html', '.content.html?wcmmode=disabled');
 
         let promise = fetch(url, {
@@ -54,8 +53,7 @@ const ImageList = ({ content }) => {
               image = externalizeImages(image.innerHTML);
 
               setItems((item) => {
-                MagazineStore(LinkManager(_path), { path: _path, article: html });
-
+                MagazineStore(LinkManager(_path, config), { path: _path, article: html });
                 return [...item, { title: title.innerHTML, image: image, path: _path, type: 'xf' }];
               });
 
@@ -77,46 +75,47 @@ const ImageList = ({ content }) => {
 
     if (promises.length > 0) Promise.all(promises);
 
-  }, [content.imageListItems]);
+  }, [content.imageListItems, config]);
 
   return (
     <React.Fragment>
-      <div className='image-list-container'>
+      <div className={`image-list-container ${content.style}`}>
         {content._metadata.stringMetadata[0].value && <h4>{content._metadata.stringMetadata[0].value}</h4>}
-        <ul className='image-list'>
+        <div className='image-list'>
           {[...new Map(items.map(itm => [itm['path'], itm])).values()].map((item) => (
-            <Card key={item.title} item={item} />
+            <Card key={item.title} item={item} config={config} />
           ))}
-        </ul>
+        </div>
       </div>
     </React.Fragment>
   );
 };
 
 ImageList.propTypes = {
-  content: PropTypes.object
+  content: PropTypes.object,
+  config: PropTypes.object
 };
 
-const Card = ({ item }) => {
+const Card = ({ item, config }) => {
   return (
-    <li key={item.title}>
-      <Link key={item.path} to={LinkManager(item.path)}>
-        <div className='list-item tooltip'>
-          <span className='list-item-title tooltiptext'>{item.title}</span>
-          {item.type === 'xf' && (
-            <div dangerouslySetInnerHTML={{ __html: item.image }} />)}
-          {item.type === 'cf' && (
-            <div><Image src={item.image} /></div>
-          )}
+    <div className='list-item tooltip' key={item.title}>
+      <Link key={item.path} to={LinkManager(item.path, config)}>
 
-        </div>
+        <span className='list-item-title tooltiptext'>{item.title}</span>
+        {item.type === 'xf' && (
+          <picture dangerouslySetInnerHTML={{ __html: item.image }} />)}
+        {item.type === 'cf' && (
+          <Image src={item.image} />
+        )}
+
       </Link>
-    </li>
+    </div>
   );
 };
 
 Card.propTypes = {
-  item: PropTypes.object
+  item: PropTypes.object,
+  config: PropTypes.object
 };
 
 export default ImageList;
