@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Video from '../video';
 import Image from '../image';
-import { Parallax } from 'react-scroll-parallax';
 
 import './teaser.css';
+import { LinkManager } from '../../utils';
 
 export const TeaserGQL = `
   ..on TeaserModel {
@@ -29,47 +29,16 @@ export const TeaserGQL = `
   }`;
 
 
-const Teaser = ({ content }) => {
-
-  
-
-  const fadeInHandler = () => {
-    const featured = document.querySelector('.featured');
-    if (!featured) return;
-
-    // const distanceToTop = window.pageYOffset + featured.getBoundingClientRect().top;
-    const elementHeight = featured.offsetHeight;
-    const scrollTop = document.documentElement.scrollTop;
-
-    // console.log(`distanceToTop ${distanceToTop}`);
-    // console.log(`elementHeight ${elementHeight}`);
-    // console.log(`scrollTop ${scrollTop}`);
-
-    let opacity = 1;
-
-    if (scrollTop < elementHeight) {
-      opacity = scrollTop / elementHeight;
-      // console.log(opacity);
-    }
-
-    if (opacity >= 0) {
-      featured.style.opacity = opacity;
-    }
-
-  };
-
-
-
+const Teaser = ({ content, config }) => {
   useEffect(() => {
-    
-    // window.addEventListener('scroll', fadeInHandler);
+   
   }, []);
-  console.log(content.asset._publishUrl);
+  
   return (
     <React.Fragment>
 
 
-      <section className={'teaser ' + content.style}>
+      <section className={'teaser ' + content.style} data-model={content.title} data-fragment={content._path}>
 
         <div className='container'>
           {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'format') &&
@@ -98,8 +67,12 @@ const Teaser = ({ content }) => {
             )}
 
 
-            {content.description && (
+            {content.description && content.style === 'featured' && (
               <p>{content.description.plaintext}</p>
+            )}
+
+            {content.callToAction && content.callToActionLink && (
+              <a href={LinkManager(content.callToActionLink._path, config)} className='button'>{content.callToAction}</a>
             )}
           </div>
         </div>
@@ -108,29 +81,13 @@ const Teaser = ({ content }) => {
 
       </section>
 
-
-
-
-
-      {/* {!content.headerOfPage && (
-        <section className={'teaser ' + content.style}>
-          <div className='content-block'>
-            <h2>{content.teaserTitle}</h2>
-            <h5>{content.preTitle}</h5>
-            <p>{content.description.plaintext}</p>
-          </div>
-          <div className="teaser-image">
-            {Object.prototype.hasOwnProperty.call(content.teaserAsset, 'mimeType') &&
-              (<Image src={content.teaserAsset._publishUrl} />)}
-          </div>
-        </section>
-      )} */}
     </React.Fragment>
   );
 };
 
 Teaser.propTypes = {
-  content: PropTypes.object
+  content: PropTypes.object,
+  config: PropTypes.object
 };
 
 export default Teaser;

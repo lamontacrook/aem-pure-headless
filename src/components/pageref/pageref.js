@@ -8,22 +8,27 @@ import './pageref.css';
 const PageRef = ({ content, config }) => {
   const [article, setArticle] = useState('');
   const handleError = useErrorHandler();
-  const usePub = JSON.parse(localStorage.getItem('usePub'));
+  const usePub = JSON.parse(localStorage.getItem('publish'));
 
   useEffect(() => {
-   
+
     if (MagazineStore(LinkManager(content._path, config)) !== undefined) {
       const article = usePub ? LinkManager(content._path, config).article : externalizeImagesFromHtml(LinkManager(content._path, config).article);
       setArticle(article);
     }
     else {
-      
+
       const url = usePub ?
         content._publishUrl.replace('.html', '.content.html') :
         content._authorUrl.replace('.html', '.content.html?wcmmode=disabled');
 
+
       var options = usePub ? {
         method: 'get',
+        headers: new Headers({
+          'Authorization': `Bearer ${localStorage.auth}`,
+          'Content-Type': 'text/html'
+        })
       } : {
         method: 'get',
         headers: new Headers({
@@ -35,7 +40,7 @@ const PageRef = ({ content, config }) => {
 
       fetch(url, options)
         .then(res => ({
-          res: res.text().then(html => { 
+          res: res.text().then(html => {
             setArticle(usePub ? html : externalizeImagesFromHtml(html));
           })
         }))
@@ -47,7 +52,7 @@ const PageRef = ({ content, config }) => {
 
   return (
     <React.Fragment>
-      <div className={content.__typename.toLowerCase()} dangerouslySetInnerHTML={{ __html: article}} />
+      <div className={content.__typename.toLowerCase()} dangerouslySetInnerHTML={{ __html: article }} />
     </React.Fragment>
   );
 };

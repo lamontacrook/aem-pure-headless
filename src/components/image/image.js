@@ -23,7 +23,7 @@ const SrcSet = (src) => {
 const Image = ({ src, width, height }) => {
   return (
     <picture>
-      <img src={`${src}/jcr:content/renditions/${renditions['1200']}`} width={width} height={height} srcSet={SrcSet(src)} />
+      <img src={`${src}/jcr:content/renditions/${renditions[Object.keys(renditions).pop()]}`} width={width} height={height} srcSet={SrcSet(src)} />
     </picture>
   );
 };

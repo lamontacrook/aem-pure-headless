@@ -1,87 +1,50 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import PropTypes from 'prop-types';
 import Screen from './components/screen';
-import Settings, { expiry } from './utils/settings';
+import Settings from './utils/settings';
 import { ErrorBoundary } from 'react-error-boundary';
 import Screendetails from './components/screendetails';
-
-const ErrorFallback = ({ error, resetErrorBoundary }) => {
-  return (
-    <div role="alert">
-      <p>Something went wrong:</p>
-      <pre>{error.message}</pre>
-      <button onClick={resetErrorBoundary}>Try again</button>
-    </div>
-  );
-};
-
-
-ErrorFallback.propTypes = {
-  error: PropTypes.object,
-  resetErrorBoundary: PropTypes.object
-};
+import Error from './components/error';
 
 const App = () => {
-
-
-  useEffect(() => {
-
-  }, []);
-
-
+  const [explode, setExplode] = useState(false);
 
   return (
     <div className='App'>
       <BrowserRouter>
         <Routes>
-          <Route exact={false} path={'/*'} element={localStorage.getItem('loggedin') && expiry() ?
+          <Route exact={false} path={'/*'} element={
             <ErrorBoundary
-              FallbackComponent={ErrorFallback}
+              FallbackComponent={Error}
               onReset={() => {
-                // reset the state of your app so the error doesn't happen again
+                setExplode(false);
+                localStorage.setItem('loggedin', false);
+                localStorage.removeItem('auth');
               }}
-            ><Screen /></ErrorBoundary> :
+              resetKeys={[explode]}
+            ><Screen /></ErrorBoundary>
+          } />
+         
+          <Route exact={true} path={'/aem-pure-headless/*'} element={
             <ErrorBoundary
-              FallbackComponent={ErrorFallback}
+              FallbackComponent={Error}
               onReset={() => {
-                // reset the state of your app so the error doesn't happen again
+                localStorage.removeItem('loggedin');
+                location.href = '/settings';
               }}
-            ><Settings /></ErrorBoundary>
+            ><Screen /></ErrorBoundary>
+          } />
+          <Route exact={true} path={`/${localStorage.getItem('project')}/*`} element={
+            <ErrorBoundary
+              FallbackComponent={Error}
+              onReset={() => {
+                localStorage.removeItem('loggedin');
+                location.href = '/settings';
+              }}
+            ><Screendetails /></ErrorBoundary>
           } />
 
-          <Route exact={true} path={'/aem-pure-headless/*'} element={localStorage.getItem('loggedin') && expiry() ?
-            <ErrorBoundary
-              FallbackComponent={ErrorFallback}
-              onReset={() => {
-                localStorage.removeItem('loggedin');
-                location.href = '/settings';
-              }}
-            ><Screen /></ErrorBoundary> :
-            <ErrorBoundary
-              FallbackComponent={ErrorFallback}
-              onReset={() => {
-                // reset the state of your app so the error doesn't happen again
-              }}
-            ><Settings /></ErrorBoundary>
-          } />
-          <Route exact={true} path={`/${localStorage.getItem('demo-assets')}/*`} element={localStorage.getItem('loggedin') && expiry() ?
-            <ErrorBoundary
-              FallbackComponent={ErrorFallback}
-              onReset={() => {
-                localStorage.removeItem('loggedin');
-                location.href = '/settings';
-              }}
-            ><Screendetails /></ErrorBoundary> :
-            <ErrorBoundary
-              FallbackComponent={ErrorFallback}
-              onReset={() => {
-                // reset the state of your app so the error doesn't happen again
-              }}
-            ><Settings /></ErrorBoundary> 
-          } />
-          
           <Route exact={true} path={'/settings'} element={<Settings />} />
         </Routes>
       </BrowserRouter>

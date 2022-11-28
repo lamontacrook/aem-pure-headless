@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const rootPath = `${localStorage.getItem('project')}`;
+export const rootPath = `/content/dam/${localStorage.getItem('project')}`;
 const store = {};
 export const MagazineStore = (key, value) => {
   if (key && value)
@@ -19,7 +19,6 @@ export const LinkManager = (path, config) => {
   const pos2 = pos.pop();
   const pos1 = pos.pop();
 
-  console.log(path);
   if(path.indexOf('/experience-fragments/') >= 0) {
     path = `/site/${pos1}/${pos2}/${pos3}`;
   } else if(config && path.indexOf(config.configurationByPath.item.adventuresHome) === 0) {
@@ -27,7 +26,11 @@ export const LinkManager = (path, config) => {
     let v = config.configurationByPath.item.adventuresHome.indexOf('/') == 0 ? 
       config.configurationByPath.item.adventuresHome.substring(1, config.configurationByPath.item.adventuresHome.length): 
       config.configurationByPath.item.adventuresHome;
-    path = `${v.replace('content/dam', '')}/${pos2}/${pos3}`;
+    v = v.replace('content/dam', '');
+    let arry = v.split('/');
+    arry.shift();
+    arry.shift();
+    path = `${localStorage.getItem('project')}/${arry.join('/')}/${pos2}/${pos3}`;
   
   } else {
     path = path.replace(rootPath, '');

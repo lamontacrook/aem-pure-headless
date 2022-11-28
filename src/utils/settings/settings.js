@@ -4,23 +4,34 @@ import { marked } from 'marked';
 import './settings.css';
 import endpointmd from './endpoint.md';
 import serviceURLmd from './serviceURL.md';
+import projectmd from './project.md';
 import authmd from './auth.md';
 import { AEMHeadless } from '@adobe/aem-headless-client-js';
 import { useErrorHandler } from 'react-error-boundary';
+import { createGlobalStyle } from 'styled-components';
 
 const instructionsData = {
   'serviceURL': serviceURLmd,
   'auth': authmd,
   'endpoint': endpointmd,
   'authenticate': 'My error message',
-  'project': authmd
+  'project': projectmd,
+  'publish': projectmd
 };
+
+const GlobalStyles = createGlobalStyle`
+:root {
+  
+}
+`;
 
 export const expiry = () => {
   const now = new Date();
   if (localStorage.getItem('expiry') && (now.getTime() > localStorage.getItem('expiry'))) {
     localStorage.removeItem('expiry');
     localStorage.removeItem('auth');
+    localStorage.setItem('loggedin', false);
+    console.log('whaat');
     return false;
   } else if (!localStorage.getItem('expiry')) {
     return false;
@@ -28,20 +39,23 @@ export const expiry = () => {
     return true;
   }
 };
+document.title = 'Settings';
 
 const Settings = () => {
   const handleError = useErrorHandler();
 
   const [instructions, setInstructions] = useState('');
   const [endpoint, setEndpoint] = useState('/content/_cq_graphql/gql-demo/endpoint.json');
-  const [project, setProject] = useState('/content/dam/gql-demo');
+  const [project, setProject] = useState('gql-demo');
   const [loggedin, setLoggedin] = useState(false);
   const [auth, setAuth] = useState('');
   const [serviceURL, setServiceURL] = useState('');
   const [config, setConfig] = useState('');
+  const [schema, setSchema] = useState('');
+  const [publish, setPublish] = useState(false);
 
   const getConfiguration = () => {
-    if (config) return;
+    if (config && schema) return;
 
     const now = new Date();
 
@@ -49,6 +63,7 @@ const Settings = () => {
     syncLocalStorage('endpoint', endpoint);
     syncLocalStorage('auth', auth);
     syncLocalStorage('project', project);
+    syncLocalStorage('publish', publish);
 
 
     if (localStorage.getItem('expiry') === null)
@@ -60,24 +75,45 @@ const Settings = () => {
       auth: auth
     });
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration')
-      .then(({ data }) => {
+    if (!config) {
+      sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration')
+        .then(({ data }) => {
 
-        if (data) {
-          setConfig(<Navigation logo={data.configurationByPath.item.siteLogo} />);
-          localStorage.setItem('loggedin', true);
+          if (data) {
+            setConfig(<Navigation logo={data.configurationByPath.item.siteLogo} />);
+            console.log(data.configurationByPath.item);
+            console.log(GlobalStyles);
+            localStorage.setItem('loggedin', true);
+          }
+        })
+        .catch((error) => {
+          handleError(error);
+        });
+    }
+
+    if (!schema) {
+      fetch(`${serviceURL}content/cq:graphql/aem-demo-assets/endpoint.GQLschema.md`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'text/markdown',
+          'Authorization': 'Bearer ' + auth,
         }
-      })
-      .catch((error) => {
-        // localStorage.setItem('auth', 'There is an issue with the Developer Token.');
-        handleError(error);
-      });
+      }).
+        then(res => res.text()
+          .then(data => {
+            data = data.substring(data.indexOf('AdventureModel {'), data.length);
+            data = data.substring(0, data.indexOf('}') + 1);
+            if (data.includes('adventureTitle'))
+              localStorage.setItem('rda', 'v1');
+            else
+              localStorage.setItem('rda', 'v2');
+            setSchema(data);
+          }));
+    }
   };
 
-
-
   if (!expiry() && auth !== '' && expiry !== '') {
-    localStorage.setItem('loggedin', 0);
+    localStorage.setItem('loggedin', false);
     localStorage.setItem('auth', '');
   }
 
@@ -100,14 +136,18 @@ const Settings = () => {
     syncState('project', setProject);
     syncState('loggedin', setLoggedin);
     syncState('serviceURL', setServiceURL);
-  }, [instructions, handleError]);
+    syncState('publish', setPublish);
+
+  }, [instructionsData, handleError]);
 
   const syncState = (value, func) => {
-    localStorage.getItem(value) && func(localStorage.getItem(value));
+    if(localStorage.getItem(value)) {
+      if(value === 'publish')
+        func(JSON.parse(localStorage.getItem(value)));
+      else
+        func(localStorage.getItem(value));
+    }
   };
-
-
-
 
   const syncLocalStorage = (key, value) => {
     localStorage.setItem(key, value);
@@ -117,8 +157,11 @@ const Settings = () => {
     getConfiguration();
   }
 
+  console.log(typeof JSON.parse(publish));
+
   return (
     <React.Fragment>
+      <GlobalStyles></GlobalStyles>
       <header>{config}</header>
       <div className='main-body settings'>
         <div className='settings-form'>
@@ -155,24 +198,40 @@ const Settings = () => {
                 onChange={(e) => setEndpoint(e.target.value)}>
               </input>
             </label>
+
             <label>Project Name
               <input className='shared-project'
                 type='text'
-                placeholder='/content/dam/gql-demo'
+                placeholder='gql-demo'
                 name='project'
                 onSelect={(e) => setInstructions(e.target)}
                 value={project}
                 onChange={(e) => setProject(e.target.value)}></input>
             </label>
+
+            <label>Use Publish
+              <input className='use-publish'
+                type='checkbox'
+                name='publish'
+                placeholder={publish}
+                onSelect={(e) => setInstructions(e.target)}
+                checked={publish}
+                value={publish}
+                onChange={(e) => setPublish(JSON.parse(e.target.value))}></input>
+            </label>
+
+
             <button className='button'
               type='button'
               name='authenticate'
               onClick={(e) => getConfiguration(e)}>Authenticate</button>
           </form>
-          <div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name] }}>
-          </div>
+          {!schema && (<div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name] }}>
+          </div>)}
+          <pre>{schema}</pre>
         </div>
       </div>
+
     </React.Fragment>
   );
 };

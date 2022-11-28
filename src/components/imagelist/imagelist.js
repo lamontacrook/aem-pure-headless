@@ -28,22 +28,29 @@ export const ImageListGQL = `
 const promises = [];
 const ImageList = ({ content, config }) => {
   const [items, setItems] = useState([]);
-  
+
   useEffect(() => {
     content.imageListItems.map(({ _path, _authorUrl, _publishUrl, __typename, title, primaryImage }) => {
       if (__typename === 'PageRef') {
-        const usePub = JSON.parse(localStorage.getItem('usePub'));
+        const usePub = JSON.parse(localStorage.getItem('publish'));
 
         const url = usePub ?
           _publishUrl.replace('.html', '.content.html') :
           _authorUrl.replace('.html', '.content.html?wcmmode=disabled');
 
-        let promise = fetch(url, {
-          method: 'get',
-          headers: new Headers({
+        const headers = usePub ?
+          new Headers({
             'Authorization': `Bearer ${localStorage.auth}`,
             'Content-Type': 'text/html'
-          })
+          }) :
+          new Headers({
+            'Authorization': `Bearer ${localStorage.auth}`,
+            'Content-Type': 'text/html'
+          });
+
+        let promise = fetch(url, {
+          method: 'get',
+          headers: headers
         }).then(res => ({
           res: res.text().then(html => {
             if (html) {
@@ -69,24 +76,25 @@ const ImageList = ({ content, config }) => {
       }
     });
 
-
-
-
-
     if (promises.length > 0) Promise.all(promises);
 
   }, [content.imageListItems, config]);
 
+  const title = content._metadata.stringMetadata.map(item => {
+    if (item.name === 'title') return item.value;
+    else return '';
+  });
+
   return (
     <React.Fragment>
-      <div className={`image-list-container ${content.style}`}>
-        {content._metadata.stringMetadata[0].value && <h4>{content._metadata.stringMetadata[0].value}</h4>}
+      <section className={`image-list-container ${content.style}`} data-model={title.join('')} data-fragment={content._path}>
+        {title && <h4>{title.join('')}</h4>}
         <div className='image-list'>
           {[...new Map(items.map(itm => [itm['path'], itm])).values()].map((item) => (
             <Card key={item.title} item={item} config={config} />
           ))}
         </div>
-      </div>
+      </section>
     </React.Fragment>
   );
 };

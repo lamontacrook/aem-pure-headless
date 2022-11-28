@@ -23,9 +23,10 @@ export const NavigationGQL = `{
   }
 }`;
 
-const Navigation = ({ logo, config }) => {
+const Navigation = ({ logo }) => {
   const [nav, setNav] = useState('');
-  
+  const [expanded, setExpanded] = useState(false);
+
   let obj = {
     pos1: { name: '', path: '#' },
     pos2: { name: '', path: '#' },
@@ -57,8 +58,6 @@ const Navigation = ({ logo, config }) => {
     item._metadata.stringMetadata.forEach(meta => {
       meta.name === 'title' && (name = meta.value);
     });
-    console.log(item._path);
-    console.log(LinkManager(item._path));
     obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path) };
   });
 
@@ -66,22 +65,34 @@ const Navigation = ({ logo, config }) => {
     document.querySelector('.fly-out-gql').style.display = 'block';
   }
 
+
   return (
-    <nav>
-      <section className='navigation'>
-        <div className="container">
-          <Link to={'/'}><img src={logo ? logo._publishUrl : wkndlogo} alt='logo' /></Link>
-          <ol>
-            <li><Link to={obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
-            <li><Link to={obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
-            <li><Link to={obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
-            <li><Link to={obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
-            <li><Link to={obj.pos5.path} className='navItem'>{obj.pos5.name}</Link></li>
-          </ol>
-          <a href='#' className='button view-gql' onClick={viewGQL}>View GraphQL</a>
-        </div>
-      </section>
-    </nav>
+    <nav aria-expanded={expanded}>
+      <div className='nav-hamburger' onClick={() =>{
+        if(expanded) setExpanded(false);
+        else setExpanded(true);
+        document.body.style.overflowY = expanded ? '' : 'hidden';
+      }}>
+        <div className='nav-hamburger-icon'></div>
+      </div>
+      <div className='nav-brand'>
+        <Link to={'/'}><img src={logo ? logo._publishUrl : wkndlogo} alt='logo' /></Link>
+      </div>
+      <div className='nav-sections'>
+        <ul>
+          <li><Link to={obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
+          <li><Link to={obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
+          <li><Link to={obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
+          <li><Link to={obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
+          <li><Link to={obj.pos5.path} className='navItem'>{obj.pos5.name}</Link></li>
+        </ul>
+      </div>
+      <div className='nav-tools'>
+        <a href='#' className='button view-gql' onClick={viewGQL}>View GraphQL</a>
+      </div>
+
+
+    </nav >
   );
 };
 

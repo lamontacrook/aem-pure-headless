@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useErrorHandler } from 'react-error-boundary';
 import AEMHeadless from '@adobe/aem-headless-client-js';
 import Header from '../header/header';
 import Footer from '../footer/footer';
-
+import { expiry } from '../../utils/settings';
 import './screendetails.css';
 
 const Screendetails = () => {
@@ -15,8 +15,11 @@ const Screendetails = () => {
   const [title, setTitle] = useState('');
 
   const props = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    let loggedin = JSON.parse(localStorage.getItem('loggedin'));
+    if(!expiry() && !loggedin) navigate('/settings');
 
     let path = Object.values(props).pop();
 
@@ -69,7 +72,7 @@ const Screendetails = () => {
       });
 
 
-  }, [props, handleError]);
+  }, [props, handleError, navigate]);
 
   document.title = title;
 

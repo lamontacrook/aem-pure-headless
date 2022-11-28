@@ -84,6 +84,8 @@ body {
 .featured > .container > picture > img {
   width: 500px;
   margin-right: 134px;
+  height: auto;
+  box-shadow: 20px 20px var(--main-accent-color);
 }
 
 .featured > .container > .content-block {

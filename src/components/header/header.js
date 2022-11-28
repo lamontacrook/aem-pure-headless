@@ -7,7 +7,6 @@ import Image from '../image';
 import './header.css';
 
 const Header = ({ content, config }) => {
-  console.log(content.teaser);
   const fadeOutHandler = () => {
     const hero = document.querySelector('header');
     if (!hero) return;
@@ -31,8 +30,13 @@ const Header = ({ content, config }) => {
     window.addEventListener('scroll', fadeOutHandler);
   }), [];
 
+  const title = content._metadata.stringMetadata.map(item => {
+    if (item.name === 'title') return item.value;
+    else return '';
+  });
+
   return (
-    <header className={`home-${content.teaser?'hero':'article'}`} role='banner'>
+    <header className={`home-${content.teaser?'hero':'article'}`} role='banner' data-fragment={content._path} data-model={title.join('')}>
       <Navigation logo={config.siteLogo} config={config} />
 
       {content.teaser &&

@@ -11,6 +11,7 @@ body {
   top:unset;
   left:unset;
   position: unset;
+  margin: 22px 0;
 }
 
 .fly-out-gql {
@@ -36,4 +37,22 @@ body {
 .fly-out-gql > .button-group {
   display: flex;
   flex-direction: row;
+}
+
+.fly-out-gql > .button-group > .tab {
+  margin: 0;
+  border: 0;
+  font-size: larger;
+}
+
+.fly-out-gql > .button-group > .tab:hover {
+  font-weight: 700;
+  border-bottom: 1px solid;
+  border-radius: 0;
+}
+
+.fly-out-gql > .button-group > .tab.selected {
+  font-weight: 700;
+  border-bottom: 1px solid;
+  border-radius: 0;
 }

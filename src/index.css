@@ -151,10 +151,12 @@ p {
 
 :root {
   --main-accent-color:#ffc719;
+  --highlight-background-color: red;
   --main-text-color: rgba(41,41,41);
   --main-color:#fff;
   --main-color-opacity:rgba(41,41,41,.75);
   --main-light-background: #EBEBEB;
   --font-family: "wknd-icon-font" !important;
-  
+  --main-nav-link-color: #fff;
+  --main-nav-color: red;
 }

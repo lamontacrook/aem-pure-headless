@@ -1,0 +1,40 @@
+.error {
+  width: 100%;
+  height: 100vh;
+  background: (var(--main-color-opacity));
+  display: flex;
+  background-image: url('../../media/AdobeStock_109806363.jpeg');
+  top: 0;
+  left: 0;
+  background-position: 0px;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.error .alert {
+  position: relative;
+  margin: auto;
+  color:var(--main-accent-color);
+  background-color: var(--main-color-opacity);
+  padding: 20px 60px;
+}
+
+.error .alert p {
+  font-size: 17px;
+  line-height: 1.5;
+  margin: 16px 0 13.5px;
+  text-align: justify;
+  color: var(--main-accent-color);
+}
+
+.error .alert h1 {
+  color: var(--main-accent-color);
+  text-shadow: 1px 1px #333;
+}
+
+.error .alert button.button {
+  background-color: unset;
+  display: flex;
+  align-self: flex-end;
+}

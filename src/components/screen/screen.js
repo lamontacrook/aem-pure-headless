@@ -4,17 +4,19 @@ import { ScreenQry } from '../../api/query';
 import AEMHeadless from '@adobe/aem-headless-client-js';
 import './screen.css';
 import Footer from '../footer';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { rootPath } from '../../utils';
 import Header from '../header';
 import gql from '../../api/gql.json';
 import { useErrorHandler } from 'react-error-boundary';
+import { expiry } from '../../utils/settings';
 
 
 const Screen = () => {
   const handleError = useErrorHandler();
-
+  const navigate = useNavigate();
+  
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
   const [title, setTitle] = useState('');
@@ -27,6 +29,8 @@ const Screen = () => {
 
 
   useEffect(() => {
+    let loggedin = JSON.parse(localStorage.getItem('loggedin'));
+    if(!expiry() && !loggedin) navigate('/settings');
 
     const sdk = new AEMHeadless({
       serviceURL: localStorage.getItem('serviceURL'),
@@ -62,7 +66,7 @@ const Screen = () => {
       });
 
 
-  }, [path, handleError]);
+  }, [path, handleError, navigate]);
 
   let i = 0;
 
@@ -111,22 +115,36 @@ const Flyout = () => {
     document.querySelector('.fly-out-gql').style.display = 'none';
   }
 
-  function showPayload() {
-    document.querySelector('.fly-out-gql > pre').innerHTML = `<pre>${ScreenQry()}</pre>`;
+  function showPayload(e) {
+    e.target.classList.toggle('selected');
+    document.querySelector('.fly-out-gql > section.content').innerHTML = `<pre>${ScreenQry()}</pre>`;
   }
 
-  function showResponse() {
-    document.querySelector('.fly-out-gql > pre').innerHTML = `<pre>${JSON.stringify(gql, null, 2)}</pre>`;
+  function showResponse(e) {
+    e.target.classList.toggle('selected');
+    document.querySelector('.fly-out-gql > section.content').innerHTML = `<pre>${JSON.stringify(gql, null, 2)}</pre>`;
+  }
+
+  function getSections(e) {
+    e.target.classList.toggle('selected');
+    let items = [];
+    document.querySelectorAll('section, header').forEach(item => {
+      console.log(item);
+      if(item.getAttribute('data-fragment'))
+        items.push(`<a href='${localStorage.getItem('serviceURL')}editor.html${item.getAttribute('data-fragment')}' target='_blank'>${item.getAttribute('data-model')}</a>`);
+    });
+    document.querySelector('.fly-out-gql > section.content').innerHTML = `<ul><li>${items.join('</li><li>')}</li></ul>`;
   }
 
   return (
     <div className='fly-out-gql payload'>
       <div className='button-group'>
-        <button onClick={showResponse} className='button'>Show Response</button>
-        <button onClick={showPayload} className='button'>Show Request</button>
-        <button onClick={hideGQL} className='button'>Hide GQL</button>
+        <a onClick={(e) => showResponse(e)} className='button tab'>Show Response</a>
+        <a onClick={showPayload} className='button tab'>Show Request</a>
+        <a onClick={getSections} className='button tab'>Edit Content Fragments</a>
+        <a onClick={hideGQL} className='button tab'>Hide GQL</a>
       </div>
-      <pre>{JSON.stringify(gql, null, 2)}</pre>
+      <section className='content'><pre>{JSON.stringify(gql, null, 2)}</pre></section>
     </div>
   );
 };
