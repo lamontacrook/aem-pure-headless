@@ -138,7 +138,7 @@ const Settings = () => {
     syncState('serviceURL', setServiceURL);
     syncState('publish', setPublish);
 
-  }, [instructionsData, handleError]);
+  }, [handleError]);
 
   const syncState = (value, func) => {
     if(localStorage.getItem(value)) {
@@ -156,8 +156,6 @@ const Settings = () => {
   if (auth && endpoint && project && serviceURL && JSON.parse(loggedin)) {
     getConfiguration();
   }
-
-  console.log(typeof JSON.parse(publish));
 
   return (
     <React.Fragment>

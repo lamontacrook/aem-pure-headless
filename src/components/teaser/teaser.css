@@ -1,7 +1,7 @@
-body {
+/* body {
   margin: 0;
   padding: 0;
-}
+} */
 
 .hero {
   position: sticky;
@@ -59,43 +59,43 @@ body {
 }
 
 .teaser.featured {
-  height: 80vh;
+  /* height: 80vh; */
   background-color: var(--main-light-background);
-  min-height: 700px;
-  max-width: 1481px;
+  /* min-height: 700px; */
+  /* max-width: 1481px; */
   margin-top: 30px;
   margin: auto;
+  width: 100%;
 }
-.featured > .container {
+.teaser.featured > .container {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column-reverse;
   align-items: center;
   margin: auto;
   justify-content: space-around;
   opacity: 1;
-  width: 1381px;
+  
+  max-width: 1381px;
   align-items: center;
   height:70%;
   margin-top: 7%;
 }
 
-
-
-.featured > .container > picture > img {
+.teaser.featured > .container > picture > img {
   width: 500px;
   margin-right: 134px;
   height: auto;
   box-shadow: 20px 20px var(--main-accent-color);
 }
 
-.featured > .container > .content-block {
+.teaser.featured > .container > .content-block {
   max-width: 500px;
-  margin-left:134px
+  /* margin-left:134px */
 }
 
-.content-block p {
+.teaser.featured > .container > .content-block p {
   font-size: 17px;
   line-height: 1.5;
   margin: 16px 0 13.5px;
   text-align: justify;
-}
+} 

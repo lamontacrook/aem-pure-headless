@@ -62,37 +62,37 @@ const Navigation = ({ logo }) => {
   });
 
   function viewGQL() {
-    document.querySelector('.fly-out-gql').style.display = 'block';
+    console.log('view gql');
+    document.querySelector('#flyout') && document.querySelector('#flyout').setAttribute('aria-expanded', true);
   }
 
-
   return (
-    <nav aria-expanded={expanded}>
-      <div className='nav-hamburger' onClick={() =>{
-        if(expanded) setExpanded(false);
-        else setExpanded(true);
-        document.body.style.overflowY = expanded ? '' : 'hidden';
-      }}>
-        <div className='nav-hamburger-icon'></div>
-      </div>
-      <div className='nav-brand'>
-        <Link to={'/'}><img src={logo ? logo._publishUrl : wkndlogo} alt='logo' /></Link>
-      </div>
-      <div className='nav-sections'>
-        <ul>
-          <li><Link to={obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
-          <li><Link to={obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
-          <li><Link to={obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
-          <li><Link to={obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
-          <li><Link to={obj.pos5.path} className='navItem'>{obj.pos5.name}</Link></li>
-        </ul>
-      </div>
-      <div className='nav-tools'>
-        <a href='#' className='button view-gql' onClick={viewGQL}>View GraphQL</a>
-      </div>
-
-
-    </nav >
+    <React.Fragment>
+      <nav aria-expanded={expanded}>
+        <div className='nav-hamburger' onClick={() => {
+          if (expanded) setExpanded(false);
+          else setExpanded(true);
+          document.body.style.overflowY = expanded ? '' : 'hidden';
+        }}>
+          <div className='nav-hamburger-icon'></div>
+        </div>
+        <div className='nav-brand'>
+          <Link to={'/'}><img src={logo ? logo._publishUrl : wkndlogo} alt='logo' /></Link>
+        </div>
+        <div className='nav-sections'>
+          <ul>
+            <li><Link to={obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
+            <li><Link to={obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
+            <li><Link to={obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
+            <li><Link to={obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
+            <li><Link to={obj.pos5.path} className='navItem'>{obj.pos5.name}</Link></li>
+          </ul>
+        </div>
+        <div className='nav-tools'>
+          <a href='#' className='button view-gql' aria-expanded='false' aria-controls='flyout' onClick={viewGQL}>View GraphQL</a>
+        </div>
+      </nav >
+    </React.Fragment>
   );
 };
 

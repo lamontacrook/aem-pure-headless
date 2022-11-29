@@ -4,7 +4,7 @@
 body {
   margin: 0;
   font-family: future-pt Futura PT W02 Book,Futura,Trebuchet MS,Arial,sans-serif;
-
+  width: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--main-color);

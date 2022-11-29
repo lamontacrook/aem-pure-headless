@@ -40,7 +40,7 @@ const ImageList = ({ content, config }) => {
 
         const headers = usePub ?
           new Headers({
-            'Authorization': `Bearer ${localStorage.auth}`,
+            'Authorization':'',
             'Content-Type': 'text/html'
           }) :
           new Headers({
