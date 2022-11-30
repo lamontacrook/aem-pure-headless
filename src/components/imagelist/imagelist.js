@@ -40,7 +40,7 @@ const ImageList = ({ content, config }) => {
 
         const headers = usePub ?
           new Headers({
-            'Authorization':'',
+            'Authorization': '',
             'Content-Type': 'text/html'
           }) :
           new Headers({
@@ -85,15 +85,56 @@ const ImageList = ({ content, config }) => {
     else return '';
   });
 
+  let rightPos = 0;
+  const scrollLeft = (e, num) => {
+    rightPos -= num;
+    const element = document.getElementById('list-container-body');
+    element.scrollTo({
+      left: rightPos,
+      behavior: 'smooth'
+    });
+
+    setArrows();
+  };
+ 
+  const scrollRight = (e, num) => {
+    rightPos += num;
+    const element = document.getElementById('list-container-body');
+    element.scrollTo({
+      left: rightPos,
+      behavior: 'smooth'
+    });
+
+    setArrows();
+  };
+
+  const setArrows = () => {
+    document.querySelectorAll('.list-container.slider-list .arrow').forEach(item => {
+      const element = document.getElementById('list-container-body');
+      if (element.scrollWidth - element.clientWidth - rightPos > 0) {
+        if (!item.classList.value.includes('left') || rightPos > 0)
+          item.style.display = 'unset';
+        if(item.classList.value.includes('left') && rightPos <= 0)
+          item.style.display = 'none';
+      }
+    });
+  };
+
+  setArrows();
+
   return (
     <React.Fragment>
-      <section className={`image-list-container ${content.style}`} data-model={title.join('')} data-fragment={content._path}>
+      <section className={`list-container ${content.style}`} data-model={title.join('')} data-fragment={content._path}>
         {title && <h4>{title.join('')}</h4>}
-        <div className='image-list'>
+        <i className='arrow left' onClick={e => scrollLeft(e, 300)}></i>
+        <div className='list' id='list-container-body'>
+
           {[...new Map(items.map(itm => [itm['path'], itm])).values()].map((item) => (
             <Card key={item.title} item={item} config={config} />
           ))}
+
         </div>
+        <i className='arrow right' onClick={e => scrollRight(e, 300)}></i>
       </section>
     </React.Fragment>
   );
