@@ -11,6 +11,8 @@ export const MagazineStore = (key, value) => {
   return store;
 };
 
+// ${dm.api-server}is/image/${dm.file}:Medium
+// https://s7sps1apissl.scene7.com/is/image/DynamicMediaNA/AdobeStock_238607111:54vert
 export const LinkManager = (path, config) => {
   if (!path) return '';
 
@@ -21,11 +23,11 @@ export const LinkManager = (path, config) => {
 
   if(path.indexOf('/experience-fragments/') >= 0) {
     path = `/site/${pos1}/${pos2}/${pos3}`;
-  } else if(config && path.indexOf(config.configurationByPath.item.adventuresHome) === 0) {
+  } else if(config && path.indexOf(config.adventuresHome) === 0) {
   
-    let v = config.configurationByPath.item.adventuresHome.indexOf('/') == 0 ? 
-      config.configurationByPath.item.adventuresHome.substring(1, config.configurationByPath.item.adventuresHome.length): 
-      config.configurationByPath.item.adventuresHome;
+    let v = config.adventuresHome.indexOf('/') == 0 ? 
+      config.adventuresHome.substring(1, config.adventuresHome.length): 
+      config.adventuresHome;
     v = v.replace('content/dam', '');
     let arry = v.split('/');
     arry.shift();

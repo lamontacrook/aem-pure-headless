@@ -45,7 +45,7 @@ const Teaser = ({ content, config }) => {
             (<Video content={content.asset} />)}
 
           {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType') &&
-            (<Image src={content.asset._publishUrl} width={content.asset.width} height={content.asset.height} />)}
+            (<Image src={content.asset._publishUrl} config={config} width={content.asset.width} height={content.asset.height} />)}
 
           <div className='content-block'>
             {content.title && content.style === 'hero' && (

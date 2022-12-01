@@ -92,7 +92,7 @@ const Screen = () => {
               type={item.__typename}
               content={item}
               references={data.screen._references}
-              config={config}
+              config={config.configurationByPath.item}
             >
 
             </ModelManager>

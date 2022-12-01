@@ -28,9 +28,10 @@ export const ImageListGQL = `
 const promises = [];
 const ImageList = ({ content, config }) => {
   const [items, setItems] = useState([]);
+  const [position, setPosition] = useState(0);
 
   useEffect(() => {
-    content.imageListItems.map(({ _path, _authorUrl, _publishUrl, __typename, title, primaryImage }) => {
+    content.imageListItems.map(({ _path, _authorUrl, type, activity, tripLength, price, _publishUrl, __typename, title, primaryImage }) => {
       if (__typename === 'PageRef') {
         const usePub = JSON.parse(localStorage.getItem('publish'));
 
@@ -71,63 +72,63 @@ const ImageList = ({ content, config }) => {
         promises.push(promise);
       } else if (__typename === 'AdventureModel') {
         setItems((item) => {
-          return [...item, { title: title, image: primaryImage._publishUrl, path: _path, type: 'cf' }];
+          return [...item, { style: content.style, title: title, activityType: type, activity: activity, tripLength: tripLength, price: price, image: primaryImage._publishUrl, path: _path, type: 'cf' }];
         });
       }
     });
 
     if (promises.length > 0) Promise.all(promises);
 
-  }, [content.imageListItems, config]);
+  }, [content.imageListItems, content.style, config]);
 
   const title = content._metadata.stringMetadata.map(item => {
     if (item.name === 'title') return item.value;
     else return '';
   });
 
-  let rightPos = 0;
+
   const scrollLeft = (e, num) => {
-    rightPos -= num;
-    const element = document.getElementById('list-container-body');
+    const element = e.target.nextElementSibling;
     element.scrollTo({
-      left: rightPos,
+      left: position - num,
       behavior: 'smooth'
     });
 
-    setArrows();
+    setPosition(position - num);
+
   };
- 
+
   const scrollRight = (e, num) => {
-    rightPos += num;
-    const element = document.getElementById('list-container-body');
+    const element = e.target.previousElementSibling;
     element.scrollTo({
-      left: rightPos,
+      left: position + num,
       behavior: 'smooth'
     });
 
-    setArrows();
+    setPosition(position + num);
+
   };
 
-  const setArrows = () => {
-    document.querySelectorAll('.list-container.slider-list .arrow').forEach(item => {
-      const element = document.getElementById('list-container-body');
-      if (element.scrollWidth - element.clientWidth - rightPos > 0) {
-        if (!item.classList.value.includes('left') || rightPos > 0)
-          item.style.display = 'unset';
-        if(item.classList.value.includes('left') && rightPos <= 0)
-          item.style.display = 'none';
-      }
-    });
-  };
+  const containerChange = (e) => {
+    console.log(`${e.target.scrollWidth} ${e.target.clientWidth} ${e.target.scrollLeft}`);
+    if ((e.target.scrollWidth - e.target.clientWidth - .5) <= e.target.scrollLeft) {
+      e.target.nextElementSibling.style.visibility = 'hidden';
+    } else {
+      e.target.nextElementSibling.style.visibility = 'visible';
+    }
 
-  setArrows();
+    if (e.target.scrollLeft === 0)
+      e.target.previousElementSibling.style.display = 'none';
+    else
+      e.target.previousElementSibling.style.display = 'unset';
+  };
 
   return (
     <React.Fragment>
-      <section className={`list-container ${content.style}`} data-model={title.join('')} data-fragment={content._path}>
+      <section className={`${content.style} list-container`} data-model={title.join('')} data-fragment={content._path}>
         {title && <h4>{title.join('')}</h4>}
         <i className='arrow left' onClick={e => scrollLeft(e, 300)}></i>
-        <div className='list' id='list-container-body'>
+        <div className='list' id='list-container-body' onScroll={e => containerChange(e)}>
 
           {[...new Map(items.map(itm => [itm['path'], itm])).values()].map((item) => (
             <Card key={item.title} item={item} config={config} />
@@ -148,15 +149,24 @@ ImageList.propTypes = {
 const Card = ({ item, config }) => {
   return (
     <div className='list-item tooltip' key={item.title}>
+
+      {item.type === 'xf' && (
+        <picture dangerouslySetInnerHTML={{ __html: item.image }} />)}
+      {item.type === 'cf' && (
+        <Image src={item.image} config={config} />
+      )}
+
       <Link key={item.path} to={LinkManager(item.path, config)}>
-
-        <span className='list-item-title tooltiptext'>{item.title}</span>
-        {item.type === 'xf' && (
-          <picture dangerouslySetInnerHTML={{ __html: item.image }} />)}
-        {item.type === 'cf' && (
-          <Image src={item.image} />
+        <span className='title tooltiptext'>{item.title}</span>
+        {item.style === 'image-grid' && (
+          <div className='details'>
+            <ul>
+              <li>{item.activityType}</li>
+              <li>{item.activity}</li>
+              <li>{item.tripLength}</li>
+            </ul>
+          </div>
         )}
-
       </Link>
     </div>
   );

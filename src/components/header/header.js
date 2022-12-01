@@ -30,13 +30,14 @@ const Header = ({ content, config }) => {
     window.addEventListener('scroll', fadeOutHandler);
   }), [];
 
-  const title = content._metadata.stringMetadata.map(item => {
+
+  const title = content._metadata && content._metadata.stringMetadata.map(item => {
     if (item.name === 'title') return item.value;
     else return '';
   });
 
   return (
-    <header className={`home-${content.teaser?'hero':'article'}`} role='banner' data-fragment={content._path} data-model={title.join('')}>
+    <header className={`home-${content.teaser?'hero':'article'}`} role='banner' data-fragment={content._path} data-model={title && title.join('')}>
       <Navigation logo={config.siteLogo} config={config} />
 
       {content.teaser &&
@@ -46,10 +47,11 @@ const Header = ({ content, config }) => {
             .replace(' ', '-')}-entity-header`}
           type={content.teaser.__typename}
           content={content.teaser}
+          config={config}
         ></ModelManager>}
 
       {content.banner && !content.teaser &&
-        <Image src={content.banner._publishUrl} />
+        <Image src={content.banner._publishUrl} config={config} />
       }
     </header>
   );

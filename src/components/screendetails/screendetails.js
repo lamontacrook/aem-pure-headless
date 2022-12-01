@@ -55,6 +55,7 @@ const Screendetails = () => {
                   asset: data.adventureByPath.item.primaryImage,
                   title: data.adventureByPath.item.title,
                   description: data.adventureByPath.item.description,
+                  _metadata: data.adventureByPath.item._metadata,
                   style: 'hero'
                 }};
                 setTitle(data.adventureByPath.item.title);
