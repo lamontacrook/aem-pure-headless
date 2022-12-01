@@ -57,12 +57,15 @@ const ImageList = ({ content, config }) => {
             if (html) {
               let body = new DOMParser().parseFromString(html, 'text/html');
               let title = body.querySelector('h1');
+              let name = body.querySelector('h3');
+              let profession = body.querySelector('h5');
+
               let image = body.querySelector('.cmp-image');
               image = externalizeImages(image.innerHTML);
 
               setItems((item) => {
                 MagazineStore(LinkManager(_path, config), { path: _path, article: html });
-                return [...item, { title: title.innerHTML, image: image, path: _path, type: 'xf' }];
+                return [...item, { style: content.style, name: name && name.innerHTML, profession: profession && profession.innerHTML, title: title && title.innerHTML, image: image, path: _path, type: 'xf' }];
               });
 
             }
@@ -157,12 +160,12 @@ const Card = ({ item, config }) => {
       )}
 
       <Link key={item.path} to={LinkManager(item.path, config)}>
-        <span className='title tooltiptext'>{item.title}</span>
+        <span className='title tooltiptext'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (
           <div className='details'>
             <ul>
-              <li>{item.activityType}</li>
-              <li>{item.activity}</li>
+              <li>{item.activityType || item.profession}</li>
+              <li>{item.activity || item.profession}</li>
               <li>{item.tripLength}</li>
             </ul>
           </div>
