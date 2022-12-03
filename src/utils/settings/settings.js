@@ -87,6 +87,8 @@ const Settings = () => {
           }
         })
         .catch((error) => {
+          localStorage.setItem('loggedin', false);
+          setAuth('');
           handleError(error);
         });
     }
@@ -207,6 +209,7 @@ const Settings = () => {
                 onChange={(e) => setProject(e.target.value)}></input>
             </label>
 
+            
             <label>Use Publish
               <input className='use-publish'
                 type='checkbox'

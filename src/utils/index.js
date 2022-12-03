@@ -14,6 +14,7 @@ export const MagazineStore = (key, value) => {
 // ${dm.api-server}is/image/${dm.file}:Medium
 // https://s7sps1apissl.scene7.com/is/image/DynamicMediaNA/AdobeStock_238607111:54vert
 export const LinkManager = (path, config) => {
+  console.log(path);
   if (!path) return '';
 
   const pos = path.split('/');
@@ -22,7 +23,7 @@ export const LinkManager = (path, config) => {
   const pos1 = pos.pop();
 
   if(path.indexOf('/experience-fragments/') >= 0) {
-    path = `/site/${pos1}/${pos2}/${pos3}`;
+    path = `/site/en/${pos1}/${pos2}/${pos3}`;
   } else if(config && path.indexOf(config.adventuresHome) === 0) {
   
     let v = config.adventuresHome.indexOf('/') == 0 ? 

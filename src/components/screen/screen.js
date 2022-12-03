@@ -37,11 +37,13 @@ const Screen = () => {
       auth: localStorage.getItem('auth')
     });
 
+    const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
+
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration')
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-          sdk.runPersistedQuery('aem-demo-assets/gql-demo-screen', { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
+          sdk.runPersistedQuery(`aem-demo-assets/gql-demo-screen-${version}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {

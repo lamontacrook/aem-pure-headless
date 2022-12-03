@@ -2,7 +2,7 @@ header nav {
   position: fixed;
   width: 100%;
   background: rgba(15,15,30,.25);
-  z-index: 9;
+  z-index: 90;
   transition: all .3s;
   border-bottom: 1px solid hsla(0,0%,100%,.2);
   overflow: hidden;

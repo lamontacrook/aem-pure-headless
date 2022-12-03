@@ -42,7 +42,7 @@ const Navigation = ({ logo }) => {
       auth: localStorage.getItem('auth')
     });
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation')
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', {locale: 'en'})
       .then((data) => {
         if (data) {
           setNav(data);
@@ -66,9 +66,20 @@ const Navigation = ({ logo }) => {
     document.querySelector('#flyout') && document.querySelector('#flyout').setAttribute('aria-expanded', true);
   }
 
+  let prevScrollPos = window.pageYOffset;
+  window.onscroll = function() {
+    let currentScrollPos = window.pageYOffset;
+    if(prevScrollPos > currentScrollPos) {
+      document.getElementById('navbar').style.top = '0';
+    } else {
+      document.getElementById('navbar').style.top = '-80px';
+    }
+    prevScrollPos = currentScrollPos;
+  };
+
   return (
     <React.Fragment>
-      <nav aria-expanded={expanded}>
+      <nav id="navbar" aria-expanded={expanded}>
         <div className='nav-hamburger' onClick={() => {
           if (expanded) setExpanded(false);
           else setExpanded(true);
