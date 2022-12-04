@@ -7,27 +7,6 @@ import Image from '../image';
 import './teaser.css';
 import { LinkManager } from '../../utils';
 
-export const TeaserGQL = `
-  ..on TeaserModel {
-    _model {
-      title
-      _path
-    }
-    title
-    preTitle
-    asset {
-      ...on MultimediaRef {
-        _authorUrl
-        format
-        _publishUrl
-      }
-    }
-    description {
-      html
-    }
-    callToAction
-  }`;
-
 
 const Teaser = ({ content, config }) => {
   useEffect(() => {

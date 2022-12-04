@@ -93,7 +93,6 @@ const Screen = () => {
               key={`${item.__typename}-entity-${i++}`}
               type={item.__typename}
               content={item}
-              references={data.screen._references}
               config={config.configurationByPath.item}
             >
 

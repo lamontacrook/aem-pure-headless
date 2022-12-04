@@ -65,7 +65,7 @@ const ImageList = ({ content, config }) => {
 
               setItems((item) => {
                 MagazineStore(LinkManager(_path, config), { path: _path, article: html });
-                return [...item, { style: content.style, name: name && name.innerHTML, profession: profession && profession.innerHTML, title: title && title.innerHTML, image: image, path: _path, type: 'xf' }];
+                return [...item, { kind: __typename, style: content.style, name: name && name.innerHTML, profession: profession && profession.innerHTML, title: title && title.innerHTML, image: image, path: _path, type: 'xf' }];
               });
 
             }
@@ -75,7 +75,7 @@ const ImageList = ({ content, config }) => {
         promises.push(promise);
       } else if (__typename === 'AdventureModel') {
         setItems((item) => {
-          return [...item, { style: content.style, title: title, activityType: type, activity: activity, tripLength: tripLength, price: price, image: primaryImage._publishUrl, path: _path, type: 'cf' }];
+          return [...item, { kind: __typename, style: content.style, title: title, activityType: type, activity: activity, tripLength: tripLength, price: price, image: primaryImage._publishUrl, path: _path, type: 'cf' }];
         });
       }
     });
@@ -88,7 +88,6 @@ const ImageList = ({ content, config }) => {
     if (item.name === 'title') return item.value;
     else return '';
   });
-
 
   const scrollLeft = (e, num) => {
     const element = e.target.nextElementSibling;
@@ -134,7 +133,10 @@ const ImageList = ({ content, config }) => {
         <div className='list' id='list-container-body' onScroll={e => containerChange(e)}>
 
           {[...new Map(items.map(itm => [itm['path'], itm])).values()].map((item) => (
-            <Card key={item.title} item={item} config={config} />
+            <React.Fragment key={`${item.kind}-${item.title}`}>
+              {(item.kind === 'PageRef') && <Card key={item.title} item={item} config={config} />}
+              {(item.kind === 'AdventureModel') && <AdventureCard key={item.title} item={item} config={config} />}
+            </React.Fragment>
           ))}
 
         </div>
@@ -151,22 +153,17 @@ ImageList.propTypes = {
 
 const Card = ({ item, config }) => {
   return (
-    <div className='list-item tooltip' key={item.title}>
-
-      {item.type === 'xf' && (
-        <picture dangerouslySetInnerHTML={{ __html: item.image }} />)}
-      {item.type === 'cf' && (
-        <Image src={item.image} config={config} />
-      )}
-
+    <div className='list-item' key={item.title}>
+      <picture dangerouslySetInnerHTML={{ __html: item.image }} />
+      
       <Link key={item.path} to={LinkManager(item.path, config)}>
-        <span className='title tooltiptext'>{item.title || item.name}</span>
+        <span className='title'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (
           <div className='details'>
             <ul>
-              <li>{item.activityType || item.profession}</li>
-              <li>{item.activity || item.profession}</li>
-              <li>{item.tripLength}</li>
+              <li>{item.profession}</li>
+              <li>{item.profession}</li>
+              <li>Hold</li>
             </ul>
           </div>
         )}
@@ -176,6 +173,33 @@ const Card = ({ item, config }) => {
 };
 
 Card.propTypes = {
+  item: PropTypes.object,
+  config: PropTypes.object
+};
+
+const AdventureCard = ({ item, config }) => {
+  return (
+    <div className='list-item' key={item.title}>
+
+      <Image src={item.image} config={config} />
+    
+      <Link key={item.path} to={LinkManager(item.path, config)}>
+        <span className='title'>{item.title || item.name}</span>
+        {item.style === 'image-grid' && (
+          <div className='details'>
+            <ul>
+              <li>{item.activityType}</li>
+              <li>{item.activity}</li>
+              <li>{item.tripLength}</li>
+            </ul>
+          </div>
+        )}
+      </Link>
+    </div>
+  );
+};
+
+AdventureCard.propTypes = {
   item: PropTypes.object,
   config: PropTypes.object
 };

@@ -1,4 +1,4 @@
-header.home-article .content-block > p {
+/* header.home-article .content-block > p {
   display: none;
 }
 
@@ -9,4 +9,9 @@ header.home-article img {
 header.home-article {
   height: 460px;
   overflow: hidden;
+} */
+
+header {
+  position: relative;
+  /* z-index: -999; */
 }

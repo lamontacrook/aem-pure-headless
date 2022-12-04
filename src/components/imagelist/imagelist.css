@@ -106,7 +106,7 @@ image-grid>.list .list-item::after {
 }
 
 
-.slider-list .list .tooltip {
+.slider-list .list .list-item {
   position: relative;
   display: inline-block;
   margin: auto;
@@ -122,10 +122,6 @@ image-grid>.list .list-item::after {
   left: 48%;
   transform: translateX(-50%);
   bottom: 35px;
-}
-
-.slider-list .list .tooltip:hover .tooltiptext {
-  visibility: visible;
 }
 
 .slider-list.list-container>h4,

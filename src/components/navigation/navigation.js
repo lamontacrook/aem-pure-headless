@@ -66,16 +66,16 @@ const Navigation = ({ logo }) => {
     document.querySelector('#flyout') && document.querySelector('#flyout').setAttribute('aria-expanded', true);
   }
 
-  let prevScrollPos = window.pageYOffset;
-  window.onscroll = function() {
-    let currentScrollPos = window.pageYOffset;
-    if(prevScrollPos > currentScrollPos) {
-      document.getElementById('navbar').style.top = '0';
-    } else {
-      document.getElementById('navbar').style.top = '-80px';
-    }
-    prevScrollPos = currentScrollPos;
-  };
+  // let prevScrollPos = window.pageYOffset;
+  // window.onscroll = function() {
+  //   let currentScrollPos = window.pageYOffset;
+  //   if(prevScrollPos > currentScrollPos) {
+  //     document.getElementById('navbar').style.top = '0';
+  //   } else {
+  //     document.getElementById('navbar').style.top = '-80px';
+  //   }
+  //   prevScrollPos = currentScrollPos;
+  // };
 
   return (
     <React.Fragment>
