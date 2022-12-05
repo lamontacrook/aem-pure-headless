@@ -36,6 +36,8 @@ const Screendetails = () => {
       auth: localStorage.getItem('auth')
     });
 
+    const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
+
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration')
       .then(({ data }) => {
         if (data) {
@@ -46,7 +48,7 @@ const Screendetails = () => {
             path = data.configurationByPath.item.adventuresHome + path.replace(ovlp, '');
           }
 
-          sdk.runPersistedQuery('aem-demo-assets/gql-demo-adventure', { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
+          sdk.runPersistedQuery(`aem-demo-assets/gql-demo-adventure-${version}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
               if (data) {
                 console.log(data);

@@ -89,7 +89,7 @@ header .hero {
   opacity: 1;
 }
 
-.teaser.featured>.container>picture>img {
+.teaser.featured>.container>picture>img, .teaser.featured>.container>video {
   height: auto;
   max-width: 100%;
   object-fit: cover;
@@ -113,8 +113,9 @@ header .hero {
     box-shadow: 20px 20px var(--main-accent-color);
   }
 
-  .teaser.featured>.container>picture>video {
+  .teaser.featured>.container>video {
     width: 660px;
+    box-shadow: 20px 20px var(--main-accent-color);
   }
 
   .teaser.featured>.container {

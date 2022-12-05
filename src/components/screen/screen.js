@@ -15,7 +15,7 @@ import './screen.css';
 const Screen = () => {
   const handleError = useErrorHandler();
   const navigate = useNavigate();
-  
+
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
   const [title, setTitle] = useState('');
@@ -29,7 +29,7 @@ const Screen = () => {
 
   useEffect(() => {
     let loggedin = JSON.parse(localStorage.getItem('loggedin'));
-    if(!expiry() && !loggedin) navigate('/settings');
+    if (!expiry() && !loggedin) navigate('/settings');
 
     const sdk = new AEMHeadless({
       serviceURL: localStorage.getItem('serviceURL'),
@@ -38,8 +38,9 @@ const Screen = () => {
     });
 
     const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
+    const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration')
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
