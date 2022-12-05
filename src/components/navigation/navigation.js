@@ -35,9 +35,14 @@ const Navigation = ({ logo }) => {
     pos5: { name: 'Settings', path: '/settings' },
   };
 
+  const usePub = JSON.parse(localStorage.getItem('publish'));
+  const url = usePub ?
+    localStorage.getItem('serviceURL').replace('author', 'publish') :
+    localStorage.getItem('serviceURL');
+
   useEffect(() => {
     const sdk = new AEMHeadless({
-      serviceURL: localStorage.getItem('serviceURL'),
+      serviceURL: url,
       endpoint: localStorage.getItem('endpoint'),
       auth: localStorage.getItem('auth')
     });

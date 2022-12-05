@@ -31,14 +31,19 @@ const Screen = () => {
     let loggedin = JSON.parse(localStorage.getItem('loggedin'));
     if (!expiry() && !loggedin) navigate('/settings');
 
+    const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
+    const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
+
+    const usePub = JSON.parse(localStorage.getItem('publish'));
+    const url = usePub ?
+      localStorage.getItem('serviceURL').replace('author', 'publish') :
+      localStorage.getItem('serviceURL');
+
     const sdk = new AEMHeadless({
-      serviceURL: localStorage.getItem('serviceURL'),
+      serviceURL: url,
       endpoint: localStorage.getItem('endpoint'),
       auth: localStorage.getItem('auth')
     });
-
-    const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
-    const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
 
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
       .then(({ data }) => {

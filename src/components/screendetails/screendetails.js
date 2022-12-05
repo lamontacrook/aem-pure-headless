@@ -37,8 +37,9 @@ const Screendetails = () => {
     });
 
     const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
-
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration')
+    const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
+    
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
