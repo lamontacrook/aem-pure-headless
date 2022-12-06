@@ -1,3 +1,0 @@
-# auth
-
-how are you

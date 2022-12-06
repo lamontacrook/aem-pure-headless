@@ -1,3 +1,0 @@
-# serviceURL
-
-how are you
