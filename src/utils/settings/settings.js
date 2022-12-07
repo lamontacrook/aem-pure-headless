@@ -45,8 +45,8 @@ const Settings = () => {
   const handleError = useErrorHandler();
 
   const [instructions, setInstructions] = useState('');
-  const [endpoint, setEndpoint] = useState('/content/_cq_graphql/gql-demo/endpoint.json');
-  const [project, setProject] = useState('gql-demo');
+  const [endpoint, setEndpoint] = useState('/content/_cq_graphql/aem-demo-assets/endpoint.json');
+  const [project, setProject] = useState('');
   const [loggedin, setLoggedin] = useState(false);
   const [auth, setAuth] = useState('');
   const [serviceURL, setServiceURL] = useState('');
@@ -75,8 +75,10 @@ const Settings = () => {
       auth: auth
     });
 
+    const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
+
     if (!config) {
-      sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration')
+      sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
         .then(({ data }) => {
 
           if (data) {

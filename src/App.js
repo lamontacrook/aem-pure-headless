@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Screen from './components/screen';
 import Settings from './utils/settings';
@@ -12,7 +12,7 @@ const App = () => {
 
   return (
     <div className='App'>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route exact={false} path={'/*'} element={
             <ErrorBoundary
@@ -47,7 +47,7 @@ const App = () => {
 
           <Route exact={true} path={'/settings'} element={<Settings />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 };

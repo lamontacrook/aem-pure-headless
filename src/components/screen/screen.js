@@ -39,7 +39,11 @@ const Screen = () => {
       localStorage.getItem('serviceURL').replace('author', 'publish') :
       localStorage.getItem('serviceURL');
 
-    const sdk = new AEMHeadless({
+    const sdk = usePub ? new AEMHeadless({
+      serviceURL: url,
+      endpoint: localStorage.getItem('endpoint'),
+      auth: localStorage.getItem('auth')
+    }) : new AEMHeadless({
       serviceURL: url,
       endpoint: localStorage.getItem('endpoint'),
       auth: localStorage.getItem('auth')
@@ -108,7 +112,7 @@ const Screen = () => {
       </div>
       <footer>
         {config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
-          <Footer config={config.configurationByPath.item.footerExperienceFragment._authorUrl} />
+          <Footer config={config.configurationByPath.item.footerExperienceFragment} />
         }
       </footer>
     </React.Fragment>

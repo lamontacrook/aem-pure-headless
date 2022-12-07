@@ -41,17 +41,19 @@ const ImageList = ({ content, config }) => {
 
         const headers = usePub ?
           new Headers({
-            'Authorization': '',
+          
             'Content-Type': 'text/html'
           }) :
           new Headers({
             'Authorization': `Bearer ${localStorage.auth}`,
-            'Content-Type': 'text/html'
+            'Content-Type': 'text/html',
           });
 
         let promise = fetch(url, {
           method: 'get',
-          headers: headers
+          headers: headers,
+          mode:'cors',
+          referrerPolicy: 'origin-when-cross-origin'
         }).then(res => ({
           res: res.text().then(html => {
             if (html) {

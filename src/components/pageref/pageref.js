@@ -18,6 +18,7 @@ const PageRef = ({ content, config }) => {
       content._publishUrl.replace('.html', '.content.html') :
       content._authorUrl.replace('.html', '.content.html?wcmmode=disabled');
 
+    console.log(url);
 
     var options = usePub ? {
       method: 'get',

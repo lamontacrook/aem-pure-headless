@@ -7,17 +7,34 @@ const Footer = ({ config }) => {
   const [footer, setFooter] = useState('');
 
   useEffect(() => {
-    fetch(config.replace('.html', '.content.html?wcmmode=disabled'), {
-      method: 'get',
-      headers: new Headers({
+    //if(!_publishUrl && !_authorUrl) return;
+
+    const usePub = true; //JSON.parse(localStorage.getItem('publish'));
+
+    const url = usePub ?
+      config._publishUrl.replace('.html', '.content.html') :
+      config._authorUrl.replace('.html', '.content.html?wcmmode=disabled');
+
+    const headers = usePub ?
+      new Headers({
         'Authorization': `Bearer ${localStorage.auth}`,
         'Content-Type': 'text/html'
-      })
+      }) :
+      new Headers({
+        'Authorization': `Bearer ${localStorage.auth}`,
+        'Content-Type': 'text/html',
+      });
+
+    fetch(url, {
+      method: 'get',
+      headers: headers,
+      mode: 'cors',
+      referrerPolicy: 'origin-when-cross-origin',
     })
       .then((response) => {
         if (response) {
           response.text().then((html) => {
-            if(html) {
+            if (html) {
               setFooter(externalizeImagesFromHtml(html));
             }
           });
@@ -26,8 +43,8 @@ const Footer = ({ config }) => {
       .catch((error) => {
         console.log(error);
       });
-    
-  }, [footer, config]);
+
+  }, [config]);
 
   return (
     <React.Fragment>
@@ -37,7 +54,7 @@ const Footer = ({ config }) => {
 };
 
 Footer.propTypes = {
-  config: PropTypes.string
+  config: PropTypes.object
 };
 
 export default Footer;

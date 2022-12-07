@@ -56,7 +56,7 @@ const Navigation = ({ logo }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [url]);
 
   nav && nav.data.screenList.items.forEach((item) => {
     let name = '';
