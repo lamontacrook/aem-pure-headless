@@ -55,6 +55,7 @@ export const externalizeImagesFromHtml = (html) => {
 
     [...body.images][i].src = [...body.images][i].src.replace(document.location.origin, pub);
     [...body.images][i].srcset = [...body.images][i].srcset.replaceAll('/adobe/dynamicmedia/', `${pub}/adobe/dynamicmedia/`);
+    [...body.images][i].srcset = [...body.images][i].srcset.replaceAll('/content/experience-fragments/', `${pub}/content/experience-fragments/`);
 
   }
   return new XMLSerializer().serializeToString(body, 'text/html');

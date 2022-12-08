@@ -21,6 +21,7 @@ const App = () => {
                 setExplode(false);
                 localStorage.setItem('loggedin', false);
                 localStorage.removeItem('auth');
+                location.href = '#/settings';
               }}
               resetKeys={[explode]}
             ><Screen /></ErrorBoundary>
@@ -31,7 +32,7 @@ const App = () => {
               FallbackComponent={Error}
               onReset={() => {
                 localStorage.removeItem('loggedin');
-                location.href = '/settings';
+                location.href = '#/settings';
               }}
             ><Screen /></ErrorBoundary>
           } />
@@ -40,7 +41,7 @@ const App = () => {
               FallbackComponent={Error}
               onReset={() => {
                 localStorage.removeItem('loggedin');
-                location.href = '/settings';
+                location.href = '#/settings';
               }}
             ><Screendetails /></ErrorBoundary>
           } />
@@ -52,5 +53,6 @@ const App = () => {
   );
 };
 
+//OW31eBTamBf6
 export default App;
 

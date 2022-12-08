@@ -76,7 +76,7 @@ const Settings = () => {
     });
 
     const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
-
+  
     if (!config) {
       sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
         .then(({ data }) => {
@@ -216,11 +216,8 @@ const Settings = () => {
               <input className='use-publish'
                 type='checkbox'
                 name='publish'
-                placeholder={publish}
-                onSelect={(e) => setInstructions(e.target)}
-                checked={publish}
-                value={publish}
-                onChange={(e) => setPublish(JSON.parse(e.target.value))}></input>
+                placeholder=''
+                onSelect={(e) => setInstructions(e.target)}></input>
             </label>
 
 

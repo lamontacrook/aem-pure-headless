@@ -18,24 +18,39 @@ const PageRef = ({ content, config }) => {
       content._publishUrl.replace('.html', '.content.html') :
       content._authorUrl.replace('.html', '.content.html?wcmmode=disabled');
 
-    console.log(url);
+    // console.log(url);
 
-    var options = usePub ? {
-      method: 'get',
-      headers: new Headers({
+    // var options = usePub ? {
+    //   method: 'get',
+    //   headers: new Headers({
+    //     'Authorization': '',
+    //     'Content-Type': 'text/html'
+    //   })
+    // } : {
+    //   method: 'get',
+    //   headers: new Headers({
+    //     'Authorization': `Bearer ${localStorage.auth}`,
+    //     'Content-Type': 'text/html'
+    //   })
+    // };
+
+    const headers = usePub ?
+      new Headers({
         'Authorization': '',
-        'Content-Type': 'text/html'
-      })
-    } : {
-      method: 'get',
-      headers: new Headers({
+        'Content-Type': 'text/html',
+      }) :
+      new Headers({
         'Authorization': `Bearer ${localStorage.auth}`,
-        'Content-Type': 'text/html'
-      })
-    };
+        'Content-Type': 'text/html',
+      });
 
 
-    fetch(url, options)
+    fetch(url, {
+      method: 'get',
+      headers: headers,
+      mode: 'cors',
+      referrerPolicy: 'origin-when-cross-origin',
+    })
       .then(res => ({
         res: res.text().then(html => {
           setArticle(usePub ? html : externalizeImagesFromHtml(html));

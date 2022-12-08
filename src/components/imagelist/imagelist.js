@@ -41,7 +41,7 @@ const ImageList = ({ content, config }) => {
 
         const headers = usePub ?
           new Headers({
-          
+            'Authorization': '',
             'Content-Type': 'text/html'
           }) :
           new Headers({
