@@ -1,7 +1,7 @@
 header nav {
   position: fixed;
   width: 100%;
-  background: rgba(15,15,30,.25);
+  background: var(--main-color-opacity);
   z-index: 90;
   transition: all .3s;
   border-bottom: 1px solid hsla(0,0%,100%,.2);
@@ -10,8 +10,8 @@ header nav {
 }
 
 header nav[aria-expanded='true'] {
-  grid-template: 'hamburger brand' 'sections sections' 'tools tools';
-  grid-template-columns:  56px 1fr;
+  /* grid-template: 'hamburger brand' 'sections sections' 'tools tools'; */
+  /* grid-template-columns:  100px 1fr 100px; */
   overflow-y: scroll;
   min-height: 100vh;
   background-color: var(--main-accent-color);
@@ -155,7 +155,6 @@ header nav[aria-expanded='true'] .nav-tools li {
 
 header .nav-sections a.navItem {
   text-decoration: none;
-  color: var(--main-text-color);
   font-size: 2.125rem;
   line-height: 3.125rem;
   text-transform: none;
@@ -165,6 +164,14 @@ header .nav-sections a.navItem {
   position: relative;
   padding: 0.2em 0;
   display: inline-block;
+}
+
+header .nav-sections a.navItem.dark-nav {
+  color: var(--dark-nav);
+}
+
+header .nav-sections a.navItem.light-nav {
+  color: var(--light-nav);
 }
 
 header nav .nav-sections li {
@@ -205,6 +212,7 @@ a:focus::after {
   border-radius: 5px;
   text-decoration: none;
   white-space: nowrap;
+  background: var(--main-color-opacity-lighter);
 }
 
 button.button {
@@ -324,7 +332,7 @@ button.button {
   }
 
   header nav .nav-tools {
-    margin-right: 20px;
+    margin-right: 40px;
     display: unset;
   }
 

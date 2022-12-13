@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import ModelManager from '../../utils/modelmanager';
-import AEMHeadless from '@adobe/aem-headless-client-js';
 import Footer from '../footer';
 import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { rootPath } from '../../utils';
+import { prepareRequest, rootPath } from '../../utils';
 import Header from '../header';
 import { useErrorHandler } from 'react-error-boundary';
 import { expiry } from '../../utils/settings';
-import Flyout from '../../utils/flyout/flyout';
 import './screen.css';
 
+const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
 
 const Screen = () => {
   const handleError = useErrorHandler();
@@ -26,28 +25,16 @@ const Screen = () => {
   if (Object.values(props)[0] !== '')
     path = `${rootPath}/${Object.values(props)[0]}`;
 
+  let loggedin = JSON.parse(localStorage.getItem('loggedin'));
+  if (!expiry() && !loggedin) navigate('/settings');
 
   useEffect(() => {
     let loggedin = JSON.parse(localStorage.getItem('loggedin'));
     if (!expiry() && !loggedin) navigate('/settings');
 
     const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
-    const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
-
-    const usePub = JSON.parse(localStorage.getItem('publish'));
-    const url = usePub ?
-      localStorage.getItem('serviceURL').replace('author', 'publish') :
-      localStorage.getItem('serviceURL');
-
-    const sdk = usePub ? new AEMHeadless({
-      serviceURL: url,
-      endpoint: localStorage.getItem('endpoint'),
-      auth: localStorage.getItem('auth')
-    }) : new AEMHeadless({
-      serviceURL: url,
-      endpoint: localStorage.getItem('endpoint'),
-      auth: localStorage.getItem('auth')
-    });
+    
+    const sdk = prepareRequest();
 
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
       .then(({ data }) => {
@@ -73,11 +60,12 @@ const Screen = () => {
         }
       })
       .catch((error) => {
+        error.message = `Error with gql-demo-configuration request:\n ${error.message}`;
         handleError(error);
       });
 
 
-  }, [path, handleError, navigate]);
+  }, [handleError, navigate, path]);
 
   let i = 0;
 
@@ -86,12 +74,12 @@ const Screen = () => {
   return (
     <React.Fragment>
 
-      {data.screen && data.screen.body.header && config.configurationByPath &&
-        <Header content={data.screen.body.header} config={config.configurationByPath.item} />
+      {data && data.screen && data.screen.body.header && config.configurationByPath &&
+        <Header data={data} content={data.screen.body.header} config={config} />
       }
-      <Flyout show={false} />
+      
       <div className='main-body'>
-        {data && data.screen.body.block.map((item) => (
+        {data && data.screen && data.screen.body.block.map((item) => (
           <div
             key={`${item.__typename
               .toLowerCase()
@@ -111,7 +99,7 @@ const Screen = () => {
         ))}
       </div>
       <footer>
-        {config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
+        {config && config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
           <Footer config={config.configurationByPath.item.footerExperienceFragment} />
         }
       </footer>
@@ -125,5 +113,37 @@ Screen.propTypes = {
   pos3: PropTypes.string,
   location: PropTypes.object
 };
+
+export const ConfigurationGQL = `query ConfigurationByPath($path: String!)
+{
+	configurationByPath(_path: $path) {
+    item {
+      adventuresHome
+      homePage {
+        ...on ScreenModel {
+          _path
+        }
+      }
+      footerExperienceFragment {
+        ...on PageRef {
+          __typename
+          _authorUrl
+          _publishUrl
+        }
+      }
+      siteLogo {
+        ...on ImageRef {
+          _authorUrl
+          _publishUrl
+        }
+      }
+      renditionsConfiguration
+    }
+  }
+}
+
+{
+  "path":"${configPath}"
+}`;
 
 export default Screen;

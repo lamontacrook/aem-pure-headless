@@ -1,31 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './navigation.css';
 import wkndlogo from '../../media/wknd-logo-light.png';
 import { Link } from 'react-router-dom';
-import { LinkManager } from '../../utils';
-import AEMHeadless from '@adobe/aem-headless-client-js';
+import { LinkManager, prepareRequest } from '../../utils';
 import PropTypes from 'prop-types';
+import { useErrorHandler } from 'react-error-boundary';
+import Flyout from '../../utils/flyout';
 
-export const NavigationGQL = `{
-  screenList(filter: {
-    positionInNavigation: {
-      _expressions: [{
-        value: "dni",
-        _operator: CONTAINS_NOT
-      }]
-    }
-  }) {
+export const NavigationGQL = `query ScreenList($locale: String!) {
+  screenList(
+    filter: {positionInNavigation: {_expressions: [{value: "dni", _operator: CONTAINS_NOT}]}}
+    _locale: $locale
+  ) {
     items {
-      screenName
+      _metadata {
+        stringMetadata {
+          name
+          value
+        }
+      }
+      _path
       positionInNavigation
     }
   }
 }`;
 
-const Navigation = ({ logo }) => {
+const Navigation = ({ className, config, screen }) => {
   const [nav, setNav] = useState('');
   const [expanded, setExpanded] = useState(false);
+  const handleError = useErrorHandler();
 
   let obj = {
     pos1: { name: '', path: '#' },
@@ -35,28 +39,21 @@ const Navigation = ({ logo }) => {
     pos5: { name: 'Settings', path: '/settings' },
   };
 
-  const usePub = JSON.parse(localStorage.getItem('publish'));
-  const url = usePub ?
-    localStorage.getItem('serviceURL').replace('author', 'publish') :
-    localStorage.getItem('serviceURL');
+  const logo = config.configurationByPath.item.siteLogo;
 
   useEffect(() => {
-    const sdk = new AEMHeadless({
-      serviceURL: url,
-      endpoint: localStorage.getItem('endpoint'),
-      auth: localStorage.getItem('auth')
-    });
+    const sdk = prepareRequest();
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', {locale: 'en'})
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en' })
       .then((data) => {
         if (data) {
           setNav(data);
         }
       })
       .catch((error) => {
-        console.log(error);
+        handleError(error);
       });
-  }, [url]);
+  }, [handleError]);
 
   nav && nav.data.screenList.items.forEach((item) => {
     let name = '';
@@ -67,14 +64,13 @@ const Navigation = ({ logo }) => {
   });
 
   function viewGQL() {
-    console.log('view gql');
     document.querySelector('#flyout') && document.querySelector('#flyout').setAttribute('aria-expanded', true);
   }
 
   let prevScrollPos = window.pageYOffset;
-  window.onscroll = function() {
+  window.onscroll = function () {
     let currentScrollPos = window.pageYOffset;
-    if(prevScrollPos > currentScrollPos) {
+    if (prevScrollPos > currentScrollPos) {
       document.getElementById('navbar').style.top = '0';
     } else {
       document.getElementById('navbar').style.top = '-80px';
@@ -97,24 +93,26 @@ const Navigation = ({ logo }) => {
         </div>
         <div className='nav-sections'>
           <ul>
-            <li><Link to={obj.pos1.path} className='navItem'>{obj.pos1.name}</Link></li>
-            <li><Link to={obj.pos2.path} className='navItem'>{obj.pos2.name}</Link></li>
-            <li><Link to={obj.pos3.path} className='navItem'>{obj.pos3.name}</Link></li>
-            <li><Link to={obj.pos4.path} className='navItem'>{obj.pos4.name}</Link></li>
-            <li><Link to={obj.pos5.path} className='navItem'>{obj.pos5.name}</Link></li>
+            <li><Link to={obj.pos1.path} className={`navItem ${className}`}>{obj.pos1.name}</Link></li>
+            <li><Link to={obj.pos2.path} className={`navItem ${className}`}>{obj.pos2.name}</Link></li>
+            <li><Link to={obj.pos3.path} className={`navItem ${className}`}>{obj.pos3.name}</Link></li>
+            <li><Link to={obj.pos4.path} className={`navItem ${className}`}>{obj.pos4.name}</Link></li>
+            <li><Link to={obj.pos5.path} className={`navItem ${className}`}>{obj.pos5.name}</Link></li>
           </ul>
         </div>
         <div className='nav-tools'>
           <a href='#' className='button view-gql' aria-expanded='false' aria-controls='flyout' onClick={viewGQL}>View GraphQL</a>
         </div>
       </nav >
+      <Flyout show={false} config={config} screen={screen} />
     </React.Fragment>
   );
 };
 
 Navigation.propTypes = {
-  logo: PropTypes.object,
-  config: PropTypes.object
+  className: PropTypes.string,
+  config: PropTypes.object,
+  screen: PropTypes.object
 };
 
 export default Navigation;

@@ -154,9 +154,12 @@ p {
   --highlight-background-color: red;
   --main-text-color: rgba(41,41,41);
   --main-color:#fff;
-  --main-color-opacity:rgba(41,41,41,.75);
+  --main-color-opacity:rgba(4,25,45,.55);
+  --main-color-opacity-lighter:rgba(4,25,45,.45);
   --main-light-background: #EBEBEB;
   --font-family: "wknd-icon-font" !important;
   --main-nav-link-color: #fff;
   --main-nav-color: red;
+  --dark-nav: rgba(41,41,41);
+  --light-nav: #fff;
 }

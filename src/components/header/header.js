@@ -6,7 +6,9 @@ import Image from '../image';
 
 import './header.css';
 
-const Header = ({ content, config }) => {
+const Header = ({ data, config }) => {
+  const content = data.screen.body.header;
+
   const fadeOutHandler = () => {
     const hero = document.querySelector('header');
     if (!hero) return;
@@ -38,7 +40,7 @@ const Header = ({ content, config }) => {
   
   return (
     <header className={`home-${content.teaser?'hero':'article'}`} role='banner' data-fragment={content._path} data-model={title && title.join('')}>
-      <Navigation logo={config.siteLogo} config={config} />
+      <Navigation className={content.navigationColor} config={config} screen={data} />
 
       {content.teaser &&
         <ModelManager
@@ -47,18 +49,18 @@ const Header = ({ content, config }) => {
             .replace(' ', '-')}-entity-header`}
           type={content.teaser.__typename}
           content={content.teaser}
-          config={config}
+          config={config.configurationByPath.item}
         ></ModelManager>}
 
       {content.banner && !content.teaser &&
-        <Image src={content.banner._publishUrl} config={config} />
+        <Image src={content.banner._publishUrl} config={config.configurationByPath.item} />
       }
     </header>
   );
 };
 
 Header.propTypes = {
-  content: PropTypes.object,
+  data: PropTypes.object,
   config: PropTypes.object
 };
 

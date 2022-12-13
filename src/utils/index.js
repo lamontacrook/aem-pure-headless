@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import AEMHeadless from '@adobe/aem-headless-client-js';
 
 export const rootPath = `/content/dam/${localStorage.getItem('project')}`;
 const store = {};
@@ -68,4 +69,17 @@ export const externalizeImages = (image) => {
   else if (image.includes('/adobe/dynamicmedia'))
     image = image.replaceAll('/adobe/dynamicmedia/', `${localStorage.getItem('serviceURL').replace('author', 'publish')}/adobe/dynamicmedia/`);
   return image;
+};
+
+export const prepareRequest = () => {
+  const usePub = JSON.parse(localStorage.getItem('publish'));
+  const url = usePub ?
+    localStorage.getItem('serviceURL').replace('author', 'publish') :
+    localStorage.getItem('serviceURL');
+
+  return new AEMHeadless({
+    serviceURL: url,
+    endpoint: localStorage.getItem('endpoint'),
+    auth: localStorage.getItem('auth').split(':')
+  });
 };

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useErrorHandler } from 'react-error-boundary';
-import AEMHeadless from '@adobe/aem-headless-client-js';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import { expiry } from '../../utils/settings';
 import './screendetails.css';
+import { prepareRequest } from '../../utils';
 
 const Screendetails = () => {
   const handleError = useErrorHandler();
@@ -30,11 +30,7 @@ const Screendetails = () => {
       return findOverlap(a, b.substring(0, b.length - 1));
     };
 
-    const sdk = new AEMHeadless({
-      serviceURL: localStorage.getItem('serviceURL'),
-      endpoint: localStorage.getItem('endpoint'),
-      auth: localStorage.getItem('auth')
-    });
+    const sdk = prepareRequest();
 
     const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
     const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;

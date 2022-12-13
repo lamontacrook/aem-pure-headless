@@ -38,14 +38,14 @@ const ImageList = ({ content, config }) => {
         const url = usePub ?
           _publishUrl.replace('.html', '.content.html') :
           _authorUrl.replace('.html', '.content.html?wcmmode=disabled');
-
+ 
         const headers = usePub ?
           new Headers({
             'Authorization': '',
             'Content-Type': 'text/html'
           }) :
           new Headers({
-            'Authorization': `Bearer ${localStorage.auth}`,
+            'Authorization': `Basic ${Buffer.from(localStorage.getItem('auth'), 'utf8').toString('base64')}`,
             'Content-Type': 'text/html',
           });
 
