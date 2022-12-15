@@ -7,12 +7,13 @@ import { ErrorBoundary } from 'react-error-boundary';
 import Screendetails from './components/screendetails';
 import Error from './components/error';
 import { useErrorHandler } from 'react-error-boundary';
+import { ThreeDots } from 'react-loader-spinner';
 
 const App = () => {
   const [explode, setExplode] = useState(false);
   const handleError = useErrorHandler();
   const [loggedin, setLoggedIn] = useState(false);
-  
+
 
   useEffect(() => {
     fetch(process.env.REACT_APP_ACCESS_TOKEN)
@@ -26,7 +27,7 @@ const App = () => {
             localStorage.setItem('loggedin', 'true');
             localStorage.setItem('publish', 'false');
             localStorage.setItem('auth', token);
-  
+
             setLoggedIn(true);
           }
         }).catch(error => handleError(error))
@@ -35,7 +36,16 @@ const App = () => {
 
 
   if (!JSON.parse(localStorage.getItem('loggedin')) && !localStorage.getItem('project')) {
-    return (<div>loading</div>);
+    return (<ThreeDots
+      height='120'
+      width='120'
+      radius='9'
+      color='rgba(41,41,41)'
+      ariaLabel='three-dots-loading'
+      wrapperStyle={{}}
+      wrapperClassName='.loading'
+      visible={true}
+    />);
   } else {
     return (
       <div className='App'>
@@ -51,7 +61,7 @@ const App = () => {
                   location.href = '#/settings';
                 }}
                 resetKeys={[explode]}
-              ><Screen/></ErrorBoundary>
+              ><Screen /></ErrorBoundary>
             } />
 
             <Route exact={true} path={'/aem-pure-headless/*'} element={
@@ -81,7 +91,5 @@ const App = () => {
   }
 };
 
-
-//OW31eBTamBf6
 export default App;
 
