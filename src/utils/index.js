@@ -12,8 +12,6 @@ export const MagazineStore = (key, value) => {
   return store;
 };
 
-// ${dm.api-server}is/image/${dm.file}:Medium
-// https://s7sps1apissl.scene7.com/is/image/DynamicMediaNA/AdobeStock_238607111:54vert
 export const LinkManager = (path, config) => {
   if (!path) return '';
 

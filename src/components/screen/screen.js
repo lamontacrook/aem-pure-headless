@@ -9,9 +9,9 @@ import { useErrorHandler } from 'react-error-boundary';
 import { expiry } from '../../utils/settings';
 import './screen.css';
 
-const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
-
+let configPath = '';
 const Screen = () => {
+ 
   const handleError = useErrorHandler();
   const navigate = useNavigate();
 
@@ -25,15 +25,18 @@ const Screen = () => {
   if (Object.values(props)[0] !== '')
     path = `${rootPath}/${Object.values(props)[0]}`;
 
+  configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
   let loggedin = JSON.parse(localStorage.getItem('loggedin'));
-  if (!expiry() && !loggedin) navigate('/settings');
 
+  console.log(loggedin);
   useEffect(() => {
-    let loggedin = JSON.parse(localStorage.getItem('loggedin'));
+
+    if (!expiry() && !loggedin) navigate('/settings');
+    // let loggedin = JSON.parse(localStorage.getItem('loggedin'));
     if (!expiry() && !loggedin) navigate('/settings');
 
     const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
-    
+
     const sdk = prepareRequest();
 
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
@@ -65,7 +68,7 @@ const Screen = () => {
       });
 
 
-  }, [handleError, navigate, path]);
+  }, [handleError, navigate, path, loggedin]);
 
   let i = 0;
 
@@ -77,7 +80,7 @@ const Screen = () => {
       {data && data.screen && data.screen.body.header && config.configurationByPath &&
         <Header data={data} content={data.screen.body.header} config={config} />
       }
-      
+
       <div className='main-body'>
         {data && data.screen && data.screen.body.block.map((item) => (
           <div
@@ -111,7 +114,7 @@ Screen.propTypes = {
   pos1: PropTypes.string,
   pos2: PropTypes.string,
   pos3: PropTypes.string,
-  location: PropTypes.object
+  location: PropTypes.object,
 };
 
 export const ConfigurationGQL = `query ConfigurationByPath($path: String!)

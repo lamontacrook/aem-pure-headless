@@ -45,7 +45,7 @@ const ImageList = ({ content, config }) => {
             'Content-Type': 'text/html'
           }) :
           new Headers({
-            'Authorization': `Basic ${Buffer.from(localStorage.getItem('auth'), 'utf8').toString('base64')}`,
+            'Authorization': `Bearer ${Buffer.from(localStorage.getItem('auth'))}`,
             'Content-Type': 'text/html',
           });
 

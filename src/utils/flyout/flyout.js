@@ -94,7 +94,6 @@ const Payload = () => {
 };
 
 const Response = ({ config, screen }) => {
-  console.log(JSON.stringify(config, null, 2));
   return (
     <React.Fragment>
       <fieldset className='code-block'>
