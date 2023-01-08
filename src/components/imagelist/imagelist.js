@@ -136,8 +136,6 @@ const ImageList = ({ content, config, context }) => {
       e.target.previousElementSibling.style.display = 'unset';
   };
 
-  console.log(pageType);
-
   return (
     <React.Fragment>
       <section className={`${content.style} list-container`} data-model={title.join('')} data-fragment={content._path}>

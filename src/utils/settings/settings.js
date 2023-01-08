@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navigation from '../../components/navigation';
+// import Navigation from '../../components/navigation';
 import { marked } from 'marked';
 import './settings.css';
 import endpointmd from './endpoint.md';
@@ -9,6 +9,7 @@ import authmd from './auth.md';
 import { AEMHeadless } from '@adobe/aem-headless-client-js';
 import { useErrorHandler } from 'react-error-boundary';
 import { createGlobalStyle } from 'styled-components';
+import PropTypes from 'prop-types';
 
 const instructionsData = {
   'serviceURL': serviceURLmd,
@@ -41,18 +42,17 @@ export const expiry = () => {
 };
 document.title = 'Settings';
 
-const Settings = () => {
+const Settings = ({context}) => {
   const handleError = useErrorHandler();
-
   const [instructions, setInstructions] = useState('');
-  const [endpoint, setEndpoint] = useState('/content/_cq_graphql/aem-demo-assets/endpoint.json');
-  const [project, setProject] = useState('');
-  const [loggedin, setLoggedin] = useState(false);
-  const [auth, setAuth] = useState('');
-  const [serviceURL, setServiceURL] = useState('');
+  const [endpoint, setEndpoint] = useState(context.endpoint);
+  const [project, setProject] = useState(context.project);
+  const [loggedin, setLoggedin] = useState(context.loggedin);
+  const [auth, setAuth] = useState(context.auth);
+  const [serviceURL, setServiceURL] = useState(context.serviceURL);
   const [config, setConfig] = useState({});
   const [schema, setSchema] = useState('');
-  const [publish, setPublish] = useState(false);
+  const [publish, setPublish] = useState(context.publish);
 
   const getConfiguration = () => {
     if (config && schema) return;
@@ -165,7 +165,7 @@ const Settings = () => {
   return (
     <React.Fragment>
       <GlobalStyles></GlobalStyles>
-      <header className='home-hero'><Navigation className='light-nav' config={config} /></header>
+      {/* <header className='home-hero'><Navigation className='light-nav' config={config} /></header> */}
       <div className='main-body settings'>
         <div className='settings-form'>
           <form>
@@ -227,5 +227,8 @@ const Settings = () => {
   );
 };
 
+Settings.propTypes = {
+  context: PropTypes.object
+};
 
 export default Settings;

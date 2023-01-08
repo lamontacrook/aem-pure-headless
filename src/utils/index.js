@@ -73,6 +73,8 @@ export const externalizeImages = (image, context) => {
 };
 
 export const prepareRequest = (context) => {
+  if(!context) return;
+  
   const usePub = JSON.parse(context.publish);
   const url = usePub ?
     context.serviceURL.replace('author', 'publish') :

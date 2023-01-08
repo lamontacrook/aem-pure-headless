@@ -11,7 +11,7 @@ import { ThreeDots } from 'react-loader-spinner';
 
 const App = () => {
 
-  const [authState, setAuthState] = useState({loggedin:false});
+  const [authState, setAuthState] = useState({ loggedin: false });
   const handleError = useErrorHandler();
 
   useEffect(() => {
@@ -56,6 +56,7 @@ const App = () => {
       <div className='App'>
         <HashRouter>
           <Routes>
+            <Route exact={true} path={'/settings'} element={<Settings context={authState} />} />
             <Route exact={false} path={'/*'} element={
 
               <ErrorBoundary
@@ -90,7 +91,7 @@ const App = () => {
               ><Screendetails context={authState} /></ErrorBoundary>
             } />
 
-            <Route exact={true} path={'/settings'} element={<Settings />} />
+
           </Routes>
         </HashRouter>
       </div>
