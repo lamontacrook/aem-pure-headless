@@ -1,0 +1,135 @@
+.hero {
+  position: sticky;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+
+/* .hero>.container {
+  height: 100vh;
+  padding-bottom: 50px;
+  padding-top: 50px;
+} */
+
+header .hero>.container img {
+  /* min-width: 100%; */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: fixed;
+  top: 0;
+  z-index: -999;
+}
+
+header .hero {
+  z-index: -999;
+}
+
+.hero .content-block {
+  position: relative;
+  text-align: center;
+}
+
+.hero .content-block h1,
+.hero .content-block h2 {
+  color: #fff;
+  text-shadow: 1px 1px #333;
+}
+
+.hero video, .hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: brightness(60%);
+}
+
+.hero .content-block .seperator {
+  width: 128px;
+  height: 5px;
+  display: block;
+  content: "";
+  background-color: #ffc719;
+  transition: width .4s ease-in-out;
+  margin: auto;
+}
+
+.hero-content {
+  position: relative;
+}
+
+/** featured **/
+.teaser.featured {
+  background-color: var(--main-light-background);
+  margin: auto;
+  width: 100%;
+}
+
+.teaser.featured>.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  justify-content: space-around;
+  opacity: 1;
+}
+
+.teaser.featured>.container>picture>img, .teaser.featured>.container>video {
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.teaser.featured>.container>.content-block {
+  max-width: 500px;
+  padding: 0 22px 22px;
+}
+
+.teaser.featured>.container>.content-block p {
+  font-size: 3vw;
+  line-height: 1.5;
+  margin: 16px 0 13.5px;
+  text-align: justify;
+}
+
+@media only screen and (min-width: 1000px) {
+  .teaser.featured>.container>picture>img {
+    width: 660px;
+    box-shadow: 20px 20px var(--main-accent-color);
+  }
+
+  .teaser.featured>.container>video {
+    width: 660px;
+    box-shadow: 20px 20px var(--main-accent-color);
+  }
+
+  .teaser.featured>.container {
+    flex-direction: row-reverse;
+    align-items: center;
+    padding: 7% 5%;
+  }
+
+  .teaser.featured {
+    max-width: 1430px;
+  }
+
+  .teaser.featured>.container>.content-block p {
+    font-size: 1vw;
+    text-align: left;
+  }
+}

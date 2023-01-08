@@ -1,0 +1,86 @@
+{
+  "data": {
+    "screen": {
+      "body": [
+        {
+          "_model": {
+            "title": "Screen"
+          },
+          "screenName": "Home",
+          "block": [
+            {
+              "_model": {
+                "title": "Teaser",
+                "_path": "/conf/gql-demo/settings/dam/cfm/models/teaser"
+              },
+              "headerOfPage": true,
+              "teaserTitle": "Explore. Discover. Live.",
+              "teaserPreTitle": "Join us for your next adventures.",
+              "teaserAsset": {
+                "_authorUrl": "https://author-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/AdobeStock_238607111.jpeg",
+                "_publishUrl": "https://publish-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/AdobeStock_238607111.jpeg",
+                "mimeType": "image/jpeg"
+              },
+              "teaserDescription": {
+                "html": null
+              },
+              "teaserCallToAction": "Destinations"
+            },
+            {
+              "_model": {
+                "title": "Teaser",
+                "_path": "/conf/gql-demo/settings/dam/cfm/models/teaser"
+              },
+              "headerOfPage": false,
+              "teaserTitle": "Featured Article",
+              "teaserPreTitle": "Lorem Ipsum",
+              "teaserAsset": {
+                "_authorUrl": "https://author-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/hero.png",
+                "_publishUrl": "https://publish-p24020-e217804.adobeaemcloud.com/content/dam/gql-demo/assets/hero.png",
+                "mimeType": "image/png"
+              },
+              "teaserDescription": {
+                "html": null
+              },
+              "teaserCallToAction": "Read More"
+            },
+            {
+              "_model": {
+                "title": "Image List",
+                "_path": "/conf/gql-demo/settings/dam/cfm/models/image-list"
+              },
+              "_metadata": {
+                "stringMetadata": [
+                  {
+                    "value": "Recent Articles"
+                  },
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              "imageListItems": [
+                {
+                  "_authorUrl": "https://author-p24020-e217804.adobeaemcloud.com/content/experience-fragments/wknd-site/language-masters/en/magazine/arctic-surfing.html",
+                  "_publishUrl": "https://publish-p24020-e217804.adobeaemcloud.com/content/experience-fragments/wknd-site/language-masters/en/magazine/arctic-surfing.html"
+                },
+                {
+                  "_authorUrl": "https://author-p24020-e217804.adobeaemcloud.com/content/experience-fragments/wknd-site/language-masters/en/magazine/san-diego-surf.html",
+                  "_publishUrl": "https://publish-p24020-e217804.adobeaemcloud.com/content/experience-fragments/wknd-site/language-masters/en/magazine/san-diego-surf.html"
+                },
+                {
+                  "_authorUrl": "https://author-p24020-e217804.adobeaemcloud.com/content/experience-fragments/wknd-site/language-masters/en/magazine/ski-touring.html",
+                  "_publishUrl": "https://publish-p24020-e217804.adobeaemcloud.com/content/experience-fragments/wknd-site/language-masters/en/magazine/ski-touring.html"
+                },
+                {
+                  "_authorUrl": "https://author-p24020-e217804.adobeaemcloud.com/content/experience-fragments/wknd-site/language-masters/en/magazine/western-australia.html",
+                  "_publishUrl": "https://publish-p24020-e217804.adobeaemcloud.com/content/experience-fragments/wknd-site/language-masters/en/magazine/western-australia.html"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

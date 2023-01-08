@@ -1,0 +1,1025 @@
+{
+  "title": "Header",
+  "templateType": "experience-fragment-web-variation-template",
+  ":items": {
+    "root": {
+      "columnCount": 12,
+      "columnClassNames": {
+        "container": "aem-GridColumn aem-GridColumn--default--12"
+      },
+      "gridClassNames": "aem-Grid aem-Grid--12 aem-Grid--default--12",
+      "allowedComponents": {},
+      ":items": {
+        "container": {
+          "columnCount": 12,
+          "columnClassNames": {
+            "container": "aem-GridColumn aem-GridColumn--default--12",
+            "container_1195249223": "aem-GridColumn aem-GridColumn--default--12"
+          },
+          "gridClassNames": "aem-Grid aem-Grid--12 aem-Grid--default--12",
+          "allowedComponents": {},
+          ":items": {
+            "container": {
+              "columnCount": 12,
+              "columnClassNames": {
+                "languagenavigation": "aem-GridColumn aem-GridColumn--tablet--4 aem-GridColumn--offset--tablet--0 aem-GridColumn--tablet--none aem-GridColumn--default--2 aem-GridColumn--offset--default--0 aem-GridColumn--default--none aem-GridColumn--phone--4 aem-GridColumn--offset--phone--0 aem-GridColumn--phone--none",
+                "sign-in-buttons": "aem-GridColumn aem-GridColumn--tablet--8 aem-GridColumn--offset--tablet--0 aem-GridColumn--tablet--none aem-GridColumn--default--10 aem-GridColumn--offset--default--0 aem-GridColumn--default--none aem-GridColumn--phone--8 aem-GridColumn--offset--phone--0 aem-GridColumn--phone--none"
+              },
+              "gridClassNames": "aem-Grid aem-Grid--12 aem-Grid--tablet--12 aem-Grid--default--12 aem-Grid--phone--12",
+              "appliedCssClassNames": "cmp-layoutcontainer--utility",
+              "allowedComponents": {
+                "components": [
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/cq/experience-fragments/editor/components/buildingblock",
+                    "title": "Building Block"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/accordion",
+                    "title": "Accordion"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/breadcrumb",
+                    "title": "Breadcrumb"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/button",
+                    "title": "Button"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/byline",
+                    "title": "Byline"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/carousel",
+                    "title": "Carousel"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/container",
+                    "title": "Container"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/contentfragment",
+                    "title": "Content Fragment"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/contentfragmentlist",
+                    "title": "Content Fragment List"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/download",
+                    "title": "Download"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/embed",
+                    "title": "Embed"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/experiencefragment",
+                    "title": "Experience Fragment"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/cq/graphql/sites/graphiql/components/content/explorer",
+                    "title": "GraphiQL"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/helloworld",
+                    "title": "Hello World Component"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/image",
+                    "title": "Image"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/image-list",
+                    "title": "Image List"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/list",
+                    "title": "List"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/separator",
+                    "title": "Separator"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/sharing",
+                    "title": "Social Media Sharing"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/tabs",
+                    "title": "Tabs"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/teaser",
+                    "title": "Teaser"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/text",
+                    "title": "Text"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/title",
+                    "title": "Title"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/form/button",
+                    "title": "Form Button"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/form/container",
+                    "title": "Form Container"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/form/hidden",
+                    "title": "Form Hidden"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/form/options",
+                    "title": "Form Options"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/progressbar",
+                    "title": "Progress Bar"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/form/sign-in-buttons",
+                    "title": "WKND Sign in/Sign out Buttons"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/form/sign-in-form",
+                    "title": "WKND Sign in/Sign out Form"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/form/text",
+                    "title": "Form Text"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/languagenavigation",
+                    "title": "Language Navigation"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/navigation",
+                    "title": "Navigation"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container/wknd/components/search",
+                    "title": "Quick Search"
+                  }
+                ],
+                "applicable": false
+              },
+              ":items": {
+                "sign-in-buttons": {
+                  "assets": [],
+                  "paths": [],
+                  ":type": "asset-share-commons/components/modals/cart"
+                },
+                "languagenavigation": {
+                  "id": "languagenavigation-10b296bf6e",
+                  "items": [
+                    {
+                      "id": "languagenavigation-10b296bf6e-item-09bc148f4c",
+                      "path": "/content/wknd-site/us",
+                      "link": {
+                        "valid": true,
+                        "url": "/content/wknd-site/us.html"
+                      },
+                      "children": [
+                        {
+                          "id": "languagenavigation-10b296bf6e-item-128aa1f5a7",
+                          "path": "/content/wknd-site/us/en",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/us/en.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "title": "WKND Adventures and Travel",
+                          "locale": "en_US",
+                          "country": "US",
+                          "language": "en-US",
+                          "lastModified": 1601512686578,
+                          "description": "WKND is a collective of outdoors, music, crafts, adventure sports, and travel enthusiasts that want to share our experiences, connections, and expertise with the world.",
+                          "dataLayer": {
+                            "languagenavigation-10b296bf6e-item-128aa1f5a7": {
+                              "@type": "wknd/components/languagenavigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:16Z",
+                              "dc:title": "WKND Adventures and Travel",
+                              "xdm:linkURL": "/content/wknd-site/us/en.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        },
+                        {
+                          "id": "languagenavigation-10b296bf6e-item-d90a4eb7b6",
+                          "path": "/content/wknd-site/us/es",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/us/es.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "title": "Español",
+                          "locale": "es_US",
+                          "country": "US",
+                          "language": "es-US",
+                          "lastModified": 1594310660091,
+                          "dataLayer": {
+                            "languagenavigation-10b296bf6e-item-d90a4eb7b6": {
+                              "@type": "wknd/components/languagenavigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:21Z",
+                              "dc:title": "Español",
+                              "xdm:linkURL": "/content/wknd-site/us/es.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        }
+                      ],
+                      "level": 0,
+                      "active": false,
+                      "current": false,
+                      "title": "United States",
+                      "locale": "en_US",
+                      "country": "US",
+                      "language": "en-US",
+                      "lastModified": 1569521282231,
+                      "dataLayer": {
+                        "languagenavigation-10b296bf6e-item-09bc148f4c": {
+                          "@type": "wknd/components/languagenavigation/item",
+                          "repo:modifyDate": "2022-04-14T13:46:16Z",
+                          "dc:title": "United States",
+                          "xdm:linkURL": "/content/wknd-site/us.html"
+                        }
+                      },
+                      ":type": "wknd/components/page"
+                    },
+                    {
+                      "id": "languagenavigation-10b296bf6e-item-7c723e7aad",
+                      "path": "/content/wknd-site/ca",
+                      "link": {
+                        "valid": true,
+                        "url": "/content/wknd-site/ca.html"
+                      },
+                      "children": [
+                        {
+                          "id": "languagenavigation-10b296bf6e-item-9b67ea4582",
+                          "path": "/content/wknd-site/ca/en",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/ca/en.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "title": "WKND Adventures and Travel",
+                          "locale": "en_CA",
+                          "country": "CA",
+                          "language": "en-CA",
+                          "lastModified": 1601512685651,
+                          "description": "WKND is a collective of outdoors, music, crafts, adventure sports, and travel enthusiasts that want to share our experiences, connections, and expertise with the world.",
+                          "dataLayer": {
+                            "languagenavigation-10b296bf6e-item-9b67ea4582": {
+                              "@type": "wknd/components/languagenavigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:04Z",
+                              "dc:title": "WKND Adventures and Travel",
+                              "xdm:linkURL": "/content/wknd-site/ca/en.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        },
+                        {
+                          "id": "languagenavigation-10b296bf6e-item-5ea3b19ecb",
+                          "path": "/content/wknd-site/ca/fr",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/ca/fr.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "title": "Français",
+                          "locale": "fr_CA",
+                          "country": "CA",
+                          "language": "fr-CA",
+                          "lastModified": 1594310773644,
+                          "dataLayer": {
+                            "languagenavigation-10b296bf6e-item-5ea3b19ecb": {
+                              "@type": "wknd/components/languagenavigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:10Z",
+                              "dc:title": "Français",
+                              "xdm:linkURL": "/content/wknd-site/ca/fr.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        }
+                      ],
+                      "level": 0,
+                      "active": false,
+                      "current": false,
+                      "title": "Canada",
+                      "locale": "en_CA",
+                      "country": "CA",
+                      "language": "en-CA",
+                      "lastModified": 1569519297589,
+                      "dataLayer": {
+                        "languagenavigation-10b296bf6e-item-7c723e7aad": {
+                          "@type": "wknd/components/languagenavigation/item",
+                          "repo:modifyDate": "2022-04-14T13:46:04Z",
+                          "dc:title": "Canada",
+                          "xdm:linkURL": "/content/wknd-site/ca.html"
+                        }
+                      },
+                      ":type": "wknd/components/page"
+                    },
+                    {
+                      "id": "languagenavigation-10b296bf6e-item-05333016ad",
+                      "path": "/content/wknd-site/ch",
+                      "link": {
+                        "valid": true,
+                        "url": "/content/wknd-site/ch.html"
+                      },
+                      "children": [
+                        {
+                          "id": "languagenavigation-10b296bf6e-item-53ffb9a68c",
+                          "path": "/content/wknd-site/ch/de",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/ch/de.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "title": "Deutsch",
+                          "locale": "de_CH",
+                          "country": "CH",
+                          "language": "de-CH",
+                          "lastModified": 1594310792817,
+                          "dataLayer": {
+                            "languagenavigation-10b296bf6e-item-53ffb9a68c": {
+                              "@type": "wknd/components/languagenavigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:10Z",
+                              "dc:title": "Deutsch",
+                              "xdm:linkURL": "/content/wknd-site/ch/de.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        },
+                        {
+                          "id": "languagenavigation-10b296bf6e-item-24844e1f75",
+                          "path": "/content/wknd-site/ch/fr",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/ch/fr.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "title": "Français",
+                          "locale": "fr_CH",
+                          "country": "CH",
+                          "language": "fr-CH",
+                          "lastModified": 1594310822669,
+                          "dataLayer": {
+                            "languagenavigation-10b296bf6e-item-24844e1f75": {
+                              "@type": "wknd/components/languagenavigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:10Z",
+                              "dc:title": "Français",
+                              "xdm:linkURL": "/content/wknd-site/ch/fr.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        },
+                        {
+                          "id": "languagenavigation-10b296bf6e-item-c53bddc791",
+                          "path": "/content/wknd-site/ch/it",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/ch/it.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "title": "Italiano",
+                          "locale": "it_CH",
+                          "country": "CH",
+                          "language": "it-CH",
+                          "lastModified": 1594310836258,
+                          "dataLayer": {
+                            "languagenavigation-10b296bf6e-item-c53bddc791": {
+                              "@type": "wknd/components/languagenavigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:10Z",
+                              "dc:title": "Italiano",
+                              "xdm:linkURL": "/content/wknd-site/ch/it.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        }
+                      ],
+                      "level": 0,
+                      "active": false,
+                      "current": false,
+                      "title": "Switzerland",
+                      "locale": "de_CH",
+                      "country": "CH",
+                      "language": "de-CH",
+                      "lastModified": 1569522729269,
+                      "dataLayer": {
+                        "languagenavigation-10b296bf6e-item-05333016ad": {
+                          "@type": "wknd/components/languagenavigation/item",
+                          "repo:modifyDate": "2022-04-14T13:46:10Z",
+                          "dc:title": "Switzerland",
+                          "xdm:linkURL": "/content/wknd-site/ch.html"
+                        }
+                      },
+                      ":type": "wknd/components/page"
+                    },
+                    {
+                      "id": "languagenavigation-10b296bf6e-item-79c55516ad",
+                      "path": "/content/wknd-site/de",
+                      "link": {
+                        "valid": true,
+                        "url": "/content/wknd-site/de.html"
+                      },
+                      "children": [
+                        {
+                          "id": "languagenavigation-10b296bf6e-item-7df3d12ebe",
+                          "path": "/content/wknd-site/de/de",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/de/de.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "title": "Deutsch",
+                          "locale": "de_DE",
+                          "country": "DE",
+                          "language": "de-DE",
+                          "lastModified": 1594310467071,
+                          "dataLayer": {
+                            "languagenavigation-10b296bf6e-item-7df3d12ebe": {
+                              "@type": "wknd/components/languagenavigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:10Z",
+                              "dc:title": "Deutsch",
+                              "xdm:linkURL": "/content/wknd-site/de/de.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        }
+                      ],
+                      "level": 0,
+                      "active": false,
+                      "current": false,
+                      "title": "Germany",
+                      "locale": "de_DE",
+                      "country": "DE",
+                      "language": "de-DE",
+                      "lastModified": 1569522794915,
+                      "dataLayer": {
+                        "languagenavigation-10b296bf6e-item-79c55516ad": {
+                          "@type": "wknd/components/languagenavigation/item",
+                          "repo:modifyDate": "2022-04-14T13:46:10Z",
+                          "dc:title": "Germany",
+                          "xdm:linkURL": "/content/wknd-site/de.html"
+                        }
+                      },
+                      ":type": "wknd/components/page"
+                    },
+                    {
+                      "id": "languagenavigation-10b296bf6e-item-a06d3b481f",
+                      "path": "/content/wknd-site/fr",
+                      "link": {
+                        "valid": true,
+                        "url": "/content/wknd-site/fr.html"
+                      },
+                      "children": [
+                        {
+                          "id": "languagenavigation-10b296bf6e-item-3f0c44e8e5",
+                          "path": "/content/wknd-site/fr/fr",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/fr/fr.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "title": "Français",
+                          "locale": "fr_FR",
+                          "country": "FR",
+                          "language": "fr-FR",
+                          "lastModified": 1594310324064,
+                          "dataLayer": {
+                            "languagenavigation-10b296bf6e-item-3f0c44e8e5": {
+                              "@type": "wknd/components/languagenavigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:10Z",
+                              "dc:title": "Français",
+                              "xdm:linkURL": "/content/wknd-site/fr/fr.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        }
+                      ],
+                      "level": 0,
+                      "active": false,
+                      "current": false,
+                      "title": "France",
+                      "locale": "fr_FR",
+                      "country": "FR",
+                      "language": "fr-FR",
+                      "lastModified": 1569522827922,
+                      "dataLayer": {
+                        "languagenavigation-10b296bf6e-item-a06d3b481f": {
+                          "@type": "wknd/components/languagenavigation/item",
+                          "repo:modifyDate": "2022-04-14T13:46:10Z",
+                          "dc:title": "France",
+                          "xdm:linkURL": "/content/wknd-site/fr.html"
+                        }
+                      },
+                      ":type": "wknd/components/page"
+                    },
+                    {
+                      "id": "languagenavigation-10b296bf6e-item-d9ea8c3565",
+                      "path": "/content/wknd-site/es",
+                      "link": {
+                        "valid": true,
+                        "url": "/content/wknd-site/es.html"
+                      },
+                      "children": [
+                        {
+                          "id": "languagenavigation-10b296bf6e-item-384f0718b0",
+                          "path": "/content/wknd-site/es/es",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/es/es.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "title": "Español",
+                          "locale": "es_ES",
+                          "country": "ES",
+                          "language": "es-ES",
+                          "lastModified": 1594310509170,
+                          "dataLayer": {
+                            "languagenavigation-10b296bf6e-item-384f0718b0": {
+                              "@type": "wknd/components/languagenavigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:10Z",
+                              "dc:title": "Español",
+                              "xdm:linkURL": "/content/wknd-site/es/es.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        }
+                      ],
+                      "level": 0,
+                      "active": false,
+                      "current": false,
+                      "title": "Spain",
+                      "locale": "es_ES",
+                      "country": "ES",
+                      "language": "es-ES",
+                      "lastModified": 1569522857692,
+                      "dataLayer": {
+                        "languagenavigation-10b296bf6e-item-d9ea8c3565": {
+                          "@type": "wknd/components/languagenavigation/item",
+                          "repo:modifyDate": "2022-04-14T13:46:10Z",
+                          "dc:title": "Spain",
+                          "xdm:linkURL": "/content/wknd-site/es.html"
+                        }
+                      },
+                      ":type": "wknd/components/page"
+                    },
+                    {
+                      "id": "languagenavigation-10b296bf6e-item-08807e4d3d",
+                      "path": "/content/wknd-site/it",
+                      "link": {
+                        "valid": true,
+                        "url": "/content/wknd-site/it.html"
+                      },
+                      "children": [
+                        {
+                          "id": "languagenavigation-10b296bf6e-item-96dab2a3c7",
+                          "path": "/content/wknd-site/it/it",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/it/it.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "title": "Italiano",
+                          "locale": "it_IT",
+                          "country": "IT",
+                          "language": "it-IT",
+                          "lastModified": 1594310395586,
+                          "dataLayer": {
+                            "languagenavigation-10b296bf6e-item-96dab2a3c7": {
+                              "@type": "wknd/components/languagenavigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:10Z",
+                              "dc:title": "Italiano",
+                              "xdm:linkURL": "/content/wknd-site/it/it.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        }
+                      ],
+                      "level": 0,
+                      "active": false,
+                      "current": false,
+                      "title": "Italy",
+                      "locale": "it_IT",
+                      "country": "IT",
+                      "language": "it-IT",
+                      "lastModified": 1569522882325,
+                      "dataLayer": {
+                        "languagenavigation-10b296bf6e-item-08807e4d3d": {
+                          "@type": "wknd/components/languagenavigation/item",
+                          "repo:modifyDate": "2022-04-14T13:46:10Z",
+                          "dc:title": "Italy",
+                          "xdm:linkURL": "/content/wknd-site/it.html"
+                        }
+                      },
+                      ":type": "wknd/components/page"
+                    }
+                  ],
+                  "dataLayer": {
+                    "languagenavigation-10b296bf6e": {
+                      "@type": "wknd/components/languagenavigation",
+                      "repo:modifyDate": "2019-09-16T20:42:32Z"
+                    }
+                  },
+                  ":type": "wknd/components/languagenavigation",
+                  "appliedCssClassNames": "cmp-languagenavigation--default cmp-languagenavigation--dark cmp-languagenavigation--header"
+                }
+              },
+              ":itemsOrder": [
+                "sign-in-buttons",
+                "languagenavigation"
+              ],
+              ":type": "wknd/components/container"
+            },
+            "container_1195249223": {
+              "columnCount": 12,
+              "columnClassNames": {
+                "image": "aem-GridColumn aem-GridColumn--tablet--6 aem-GridColumn--offset--tablet--0 aem-GridColumn--tablet--none aem-GridColumn--default--2 aem-GridColumn--offset--default--0 aem-GridColumn--default--none aem-GridColumn--phone--6 aem-GridColumn--offset--phone--0 aem-GridColumn--phone--none",
+                "navigation": "aem-GridColumn aem-GridColumn--tablet--12 aem-GridColumn--offset--tablet--0 aem-GridColumn--tablet--hide aem-GridColumn--default--8 aem-GridColumn--offset--default--0 aem-GridColumn--default--none",
+                "search": "aem-GridColumn aem-GridColumn--tablet--6 aem-GridColumn--offset--tablet--0 aem-GridColumn--tablet--none aem-GridColumn--default--2 aem-GridColumn--offset--default--0 aem-GridColumn--default--none aem-GridColumn--phone--6 aem-GridColumn--offset--phone--0 aem-GridColumn--phone--none"
+              },
+              "gridClassNames": "aem-Grid aem-Grid--12 aem-Grid--tablet--12 aem-Grid--default--12 aem-Grid--phone--12",
+              "appliedCssClassNames": "cmp-layoutcontainer--header",
+              "allowedComponents": {
+                "components": [
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/cq/experience-fragments/editor/components/buildingblock",
+                    "title": "Building Block"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/accordion",
+                    "title": "Accordion"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/breadcrumb",
+                    "title": "Breadcrumb"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/button",
+                    "title": "Button"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/byline",
+                    "title": "Byline"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/carousel",
+                    "title": "Carousel"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/container",
+                    "title": "Container"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/contentfragment",
+                    "title": "Content Fragment"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/contentfragmentlist",
+                    "title": "Content Fragment List"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/download",
+                    "title": "Download"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/embed",
+                    "title": "Embed"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/experiencefragment",
+                    "title": "Experience Fragment"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/cq/graphql/sites/graphiql/components/content/explorer",
+                    "title": "GraphiQL"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/helloworld",
+                    "title": "Hello World Component"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/image",
+                    "title": "Image"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/image-list",
+                    "title": "Image List"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/list",
+                    "title": "List"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/separator",
+                    "title": "Separator"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/sharing",
+                    "title": "Social Media Sharing"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/tabs",
+                    "title": "Tabs"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/teaser",
+                    "title": "Teaser"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/text",
+                    "title": "Text"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/title",
+                    "title": "Title"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/form/button",
+                    "title": "Form Button"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/form/container",
+                    "title": "Form Container"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/form/hidden",
+                    "title": "Form Hidden"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/form/options",
+                    "title": "Form Options"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/progressbar",
+                    "title": "Progress Bar"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/form/sign-in-buttons",
+                    "title": "WKND Sign in/Sign out Buttons"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/form/sign-in-form",
+                    "title": "WKND Sign in/Sign out Form"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/form/text",
+                    "title": "Form Text"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/languagenavigation",
+                    "title": "Language Navigation"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/navigation",
+                    "title": "Navigation"
+                  },
+                  {
+                    "path": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/jcr:content/root/container/container_1195249223/wknd/components/search",
+                    "title": "Quick Search"
+                  }
+                ],
+                "applicable": false
+              },
+              ":items": {
+                "image": {
+                  "id": "image-62f9ff9c8a",
+                  "alt": "WKND Logo",
+                  "src": "/content/experience-fragments/wknd-site/language-masters/en/site/header/master/_jcr_content/root/container/container_1195249223/image.coreimg.svg/1594412560447/wknd-logo-dk.svg",
+                  "imageLink": {
+                    "valid": true,
+                    "url": "/#"
+                  },
+                  "lazyEnabled": true,
+                  "dataLayer": {
+                    "image-62f9ff9c8a": {
+                      "@type": "wknd/components/image",
+                      "repo:modifyDate": "2020-07-10T20:22:40Z",
+                      "xdm:linkURL": "/#",
+                      "image": {
+                        "repo:id": "cd28256f-f150-4ccd-b247-88af24af6708",
+                        "repo:modifyDate": "2020-07-10T20:21:39Z",
+                        "@type": "image/svg+xml",
+                        "repo:path": "/content/dam/aem-demo-assets/en/site/wknd-logo-dk.svg"
+                      }
+                    }
+                  },
+                  ":type": "wknd/components/image",
+                  "appliedCssClassNames": "cmp-image--logo"
+                },
+                "navigation": {
+                  "id": "navigation-45ea417bf9",
+                  "items": [
+                    {
+                      "id": "navigation-45ea417bf9-item-686576a4b4",
+                      "path": "/content/wknd-site/language-masters/en",
+                      "link": {
+                        "valid": true,
+                        "url": "/content/wknd-site/language-masters/en.html"
+                      },
+                      "children": [
+                        {
+                          "id": "navigation-45ea417bf9-item-8399dcf9c2",
+                          "path": "/content/wknd-site/language-masters/en/magazine",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/language-masters/en/magazine.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "lastModified": 1601512618293,
+                          "description": "Read articles about adventures and activities that we've recently experienced and would love to share with our community.",
+                          "title": "Magazine",
+                          "dataLayer": {
+                            "navigation-45ea417bf9-item-8399dcf9c2": {
+                              "@type": "wknd/components/navigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:15Z",
+                              "dc:title": "Magazine",
+                              "xdm:linkURL": "/content/wknd-site/language-masters/en/magazine.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        },
+                        {
+                          "id": "navigation-45ea417bf9-item-31adcdec3c",
+                          "path": "/content/wknd-site/language-masters/en/adventures",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/language-masters/en/adventures.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "lastModified": 1601512176258,
+                          "description": "Join us on one of our next adventures.  Browse our list of curated experiences and sign up for one when you're ready to explore with us.",
+                          "title": "Adventures",
+                          "dataLayer": {
+                            "navigation-45ea417bf9-item-31adcdec3c": {
+                              "@type": "wknd/components/navigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:10Z",
+                              "dc:title": "Adventures",
+                              "xdm:linkURL": "/content/wknd-site/language-masters/en/adventures.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        },
+                        {
+                          "id": "navigation-45ea417bf9-item-0e72eaccea",
+                          "path": "/content/wknd-site/language-masters/en/faqs",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/language-masters/en/faqs.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "lastModified": 1594169897582,
+                          "description": "Here we answer some of the questions that we hear most often from the community.",
+                          "title": "FAQs",
+                          "dataLayer": {
+                            "navigation-45ea417bf9-item-0e72eaccea": {
+                              "@type": "wknd/components/navigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:15Z",
+                              "dc:title": "FAQs",
+                              "xdm:linkURL": "/content/wknd-site/language-masters/en/faqs.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        },
+                        {
+                          "id": "navigation-45ea417bf9-item-d223c5e5ac",
+                          "path": "/content/wknd-site/language-masters/en/about-us",
+                          "link": {
+                            "valid": true,
+                            "url": "/content/wknd-site/language-masters/en/about-us.html"
+                          },
+                          "children": [],
+                          "level": 1,
+                          "active": false,
+                          "current": false,
+                          "lastModified": 1594170071573,
+                          "description": "WKND is a collective of outdoors, music, crafts, adventure sports, and travel enthusiasts that want to share our experiences, connections, and expertise with the world. ",
+                          "title": "About Us",
+                          "dataLayer": {
+                            "navigation-45ea417bf9-item-d223c5e5ac": {
+                              "@type": "wknd/components/navigation/item",
+                              "repo:modifyDate": "2022-04-14T13:46:10Z",
+                              "dc:title": "About Us",
+                              "xdm:linkURL": "/content/wknd-site/language-masters/en/about-us.html"
+                            }
+                          },
+                          ":type": "wknd/components/page"
+                        }
+                      ],
+                      "level": 0,
+                      "active": false,
+                      "current": false,
+                      "lastModified": 1649960629460,
+                      "description": "WKND is a collective of outdoors, music, crafts, adventure sports, and travel enthusiasts that want to share our experiences, connections, and expertise with the world.",
+                      "title": "Home",
+                      "dataLayer": {
+                        "navigation-45ea417bf9-item-686576a4b4": {
+                          "@type": "wknd/components/navigation/item",
+                          "repo:modifyDate": "2022-04-14T13:46:10Z",
+                          "dc:title": "Home",
+                          "xdm:linkURL": "/content/wknd-site/language-masters/en.html"
+                        }
+                      },
+                      ":type": "wknd/components/page"
+                    }
+                  ],
+                  ":type": "wknd/components/navigation",
+                  "dataLayer": {
+                    "navigation-45ea417bf9": {
+                      "@type": "wknd/components/navigation",
+                      "repo:modifyDate": "2019-09-18T20:03:47Z"
+                    }
+                  },
+                  "appliedCssClassNames": "cmp-navigation--header"
+                },
+                "search": {
+                  "id": "search-0ec1860008",
+                  "relativePath": "/jcr:content/root/container/container_1195249223/search",
+                  "resultsSize": 5,
+                  "searchTermMinimumLength": 3,
+                  "searchRootPagePath": "/content/wknd-site/language-masters/en",
+                  ":type": "wknd/components/search",
+                  "dataLayer": {
+                    "search-0ec1860008": {
+                      "@type": "wknd/components/search",
+                      "repo:modifyDate": "2019-09-16T00:05:56Z"
+                    }
+                  },
+                  "appliedCssClassNames": "cmp-search--header"
+                }
+              },
+              ":itemsOrder": [
+                "image",
+                "navigation",
+                "search"
+              ],
+              ":type": "wknd/components/container"
+            }
+          },
+          ":itemsOrder": [
+            "container",
+            "container_1195249223"
+          ],
+          ":type": "wknd/components/container"
+        }
+      },
+      ":itemsOrder": [
+        "container"
+      ],
+      ":type": "wknd/components/container"
+    }
+  },
+  ":itemsOrder": [
+    "root"
+  ],
+  ":type": "wknd/components/xfpage"
+}

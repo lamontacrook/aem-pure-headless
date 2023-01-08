@@ -1,0 +1,175 @@
+
+@import url("https://use.typekit.net/qni5gzm.css");
+
+body {
+  margin: 0;
+  font-family: future-pt Futura PT W02 Book,Futura,Trebuchet MS,Arial,sans-serif;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--main-color);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@font-face {
+  font-display: block;
+  font-family: wknd-icon-font;
+  font-style: normal;
+  font-weight: 400;
+  src: url(./media/fonts/wknd-icon-font.ttf) format("truetype"), 
+    url(./media/fonts/wknd-icon-font.woff) format("woff"), 
+    url(./media/fonts/wknd-icon-font.svg#wknd-icon-font) format("svg")
+}
+
+[class$=-icon],
+[class$=__icon],
+[class*=-icon],
+[class*=__icon] {
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: wknd-icon-font !important;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: none
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--textColor, red);
+  line-height: 1.5
+}
+
+.h1,
+.h2,
+.h3,
+h1,
+h2,
+h3 {
+  font-family: var(--fontFamilySerif, "Asar", Georgia, "Times New Roman", Times, serif);
+  font-weight: var(--fontWeightNormal, normal);
+  margin-bottom: 13.5px;
+  margin-top: 27px
+}
+
+.h4,
+.h5,
+.h6,
+h4,
+h5,
+h6 {
+  font-family: var(--fontFamilySansSerif, "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif);
+  font-weight: var(--fontWeightBold, 600);
+  text-transform: uppercase
+}
+
+.h1,
+.hero h1 {
+  font-size: var(--fontSizeH1, 60px)
+}
+
+.h2,
+h2 {
+  font-size: var(--fontSizeH2, 1.75em)
+}
+
+.h3,
+h3 {
+  font-size: var(--fontSizeH3, 24px)
+}
+
+.h4,
+h4 {
+  font-size: var(--fontSizeH4, 1pc)
+}
+
+.h5,
+h5 {
+  font-size: var(--fontSizeH5, 14px)
+}
+
+.h6,
+h6 {
+  color: #696969;
+  font-size: 9pt;
+  padding-top: 1em;
+  padding-bottom: unset;
+  margin-bottom: unset;
+}
+
+a {
+  color: var(--linkColor, #0045ff);
+  text-decoration: none
+}
+
+h1 a,
+h2 a,
+h3 a {
+  color: var(--textColor, red)
+}
+
+h1 a:after,
+h2 a:after,
+h3 a:after {
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "";
+  font-family: wknd-icon-font !important;
+  font-size: 1.25rem;
+  font-size: var(--fontSizeXSmall, 9pt);
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  left: .75em;
+  line-height: 1;
+  position: relative;
+  text-transform: none;
+  top: -.5em
+}
+
+p {
+  font-size: 18px;
+  line-height: 2.5;
+  margin: 0 0 13.5px;
+  text-align: justify
+}
+
+div[role=status] {
+  display: flex;
+  justify-content: center;
+  padding-top: 200px;
+}
+
+:root {
+  --main-accent-color:#ffc719;
+  --highlight-background-color: red;
+  --main-text-color: rgba(41,41,41);
+  --main-color:#fff;
+  --main-color-opacity:rgba(4,25,45,.55);
+  --main-color-opacity-lighter:rgba(4,25,45,.45);
+  --main-color-opacity-darker:rgba(4,25,45,.95);
+  --main-light-background: #EBEBEB;
+  --font-family: "wknd-icon-font" !important;
+  --main-nav-link-color: #fff;
+  --main-nav-color: red;
+  --dark-nav: rgba(41,41,41);
+  --light-nav: #fff;
+}

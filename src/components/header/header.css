@@ -1,0 +1,23 @@
+/* header.home-article .content-block > p {
+  display: none;
+}
+
+header.home-article img {
+  width: 100%;
+}
+
+header.home-article {
+  height: 460px;
+  overflow: hidden;
+} */
+
+header {
+  position: relative;
+}
+
+header.home-article img {
+  max-height: 400px;
+  width: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}

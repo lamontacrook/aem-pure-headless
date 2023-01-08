@@ -1,0 +1,114 @@
+.fly-out-gql {
+  position: absolute;
+  top: 0;
+  background: var(--main-color-opacity-darker);
+  color: white;
+  font-size: small;
+  padding: 50px;
+  z-index: 60;
+  display: unset;
+  height: auto;
+  position: absolute;
+  min-height: 100vh;
+  z-index: 91;
+  max-width: 93%;
+  overflow-wrap: normal;
+}
+
+.fly-out-gql .content legend {
+  font-size: larger;
+  padding: 0 10px;
+}
+
+.fly-out-gql .response.content {
+  display: unset;
+}
+
+.fly-out-gql .payload.content {
+  display: none;
+}
+
+.fly-out-gql .sections.content {
+  display: none;
+}
+
+.fly-out-gql .content ul {
+  list-style: none;
+}
+
+.fly-out-gql .content ul>li>a {
+  color: white;
+  font-family: var(--font-family);
+  font-size: 32px;
+  line-height: 2.35em;
+}
+
+.fly-out-gql[aria-expanded='false'] {
+  display: none;
+}
+
+
+.fly-out-gql>.button-group {
+  display: flex;
+  flex-direction: row;
+}
+
+.fly-out-gql>.button-group>.tab {
+  margin: 0;
+  border: 0;
+  font-size: larger;
+}
+
+.fly-out-gql>.button-group>.tab:hover {
+  /* font-weight: 700; */
+  border-bottom: 1px solid;
+  border-radius: 0;
+}
+
+.fly-out-gql>.button-group>.tab.selected {
+  /* font-weight: 700; */
+  border-bottom: 1px solid;
+  border-radius: 0;
+}
+
+.fly-out-gql>.button-group>.tab:nth-last-child(1) {
+  width: 100%;
+  flex: .90 1 auto;
+  cursor: pointer;
+}
+
+.fly-out-gql[aria-expanded='true']>.button-group>.tab:nth-last-child(1) {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transform: translate(-3px, -2px);
+}
+
+.fly-out-gql .code-block {
+  border: 1px solid;
+  padding: 20px;
+  margin: 12px;
+}
+
+.fly-out-gql[aria-expanded='true']>.button-group>.tab:nth-last-child(1)::after,
+.fly-out-gql[aria-expanded='true']>.button-group>.tab:nth-last-child(1)::before {
+  content: '';
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 22px;
+  height: 2px;
+  background: currentcolor;
+  transform: rotate(45deg);
+  border-radius: 5px;
+  top: 8px;
+  right: 1px
+}
+
+.fly-out-gql[aria-expanded='true']>.button-group>.tab:nth-last-child(1)::after {
+  transform: rotate(-45deg)
+}

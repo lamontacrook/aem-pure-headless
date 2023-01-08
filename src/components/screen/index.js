@@ -1,0 +1,1 @@
+export {default, ConfigurationGQL, ScreenGQL} from './screen';

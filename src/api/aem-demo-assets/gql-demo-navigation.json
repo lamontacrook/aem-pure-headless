@@ -1,0 +1,88 @@
+{
+  "data": {
+    "screenList": {
+      "items": [
+        {
+          "_metadata": {
+            "stringMetadata": [
+              {
+                "name": "title",
+                "value": "Aboutd Us"
+              },
+              {
+                "name": "description",
+                "value": ""
+              },
+              {
+                "name": "cq:lastReplicationAction",
+                "value": "Activate"
+              }
+            ]
+          },
+          "_path": "/content/dam/gql-demo-template/site/en/about-us/about-us",
+          "positionInNavigation": "pos3"
+        },
+        {
+          "_metadata": {
+            "stringMetadata": [
+              {
+                "name": "title",
+                "value": "Adventures"
+              },
+              {
+                "name": "description",
+                "value": ""
+              },
+              {
+                "name": "cq:lastReplicationAction",
+                "value": "Activate"
+              }
+            ]
+          },
+          "_path": "/content/dam/gql-demo-template/site/en/adventures/adventures",
+          "positionInNavigation": "pos2"
+        },
+        {
+          "_metadata": {
+            "stringMetadata": [
+              {
+                "name": "title",
+                "value": "FAQ"
+              },
+              {
+                "name": "description",
+                "value": ""
+              },
+              {
+                "name": "cq:lastReplicationAction",
+                "value": "Activate"
+              }
+            ]
+          },
+          "_path": "/content/dam/gql-demo-template/site/en/faq/faq",
+          "positionInNavigation": "pos4"
+        },
+        {
+          "_metadata": {
+            "stringMetadata": [
+              {
+                "name": "title",
+                "value": "Magazine"
+              },
+              {
+                "name": "description",
+                "value": ""
+              },
+              {
+                "name": "cq:lastReplicationAction",
+                "value": "Activate"
+              }
+            ]
+          },
+          "_path": "/content/dam/gql-demo-template/site/en/magazine/magazine",
+          "positionInNavigation": "pos1"
+        }
+      ]
+    }
+  }
+}

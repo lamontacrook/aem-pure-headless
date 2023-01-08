@@ -1,0 +1,46 @@
+footer {
+  width: 100%;
+  background-color: #696969;
+  z-index: 9;
+}
+.footer-xf {
+  width: 92%;
+  display: flex;
+  padding: 30px 0;
+  margin:auto;
+}
+
+.footer-xf > .container {
+  /* margin: auto; */
+}
+.footer-xf > .container .container {
+  /* padding: unset;
+  max-width: 1200px !important;
+  margin: auto !important; */
+  
+}
+
+.footer-xf .aem-Grid {
+  display: flex;
+  
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.footer-xf .image {
+  width: 180px;
+}
+
+.footer-xf .navigation {
+  display: none;
+}
+
+.footer-xf .title, .buildingblock {
+  display: none;
+}
+
+.footer-xf .text > div {
+  display: flex;
+  flex-direction: column;
+}
+

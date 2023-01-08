@@ -1,0 +1,60 @@
+.main-body .article-screen {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  margin: 0 12px;
+}
+
+.main-body .article-screen > h1 {
+  font-size: 32px;
+}
+
+.cmp-contentfragment__elements > div:nth-child(2) {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.main-body .article-screen .pageref > div > p {
+  display: none;
+  font-weight: lighter;
+  font-size: 16px;
+  line-height: 2;
+  font-weight: lighter;
+}
+.main-body .article-screen .pageref > div > p:nth-child(1) {
+  display: unset;
+}
+
+.main-body .article-screen .pageref > div > div {
+  display: none;
+}
+
+.main-body .article-screen .pageref > div > div:nth-child(2) {
+  display: none;
+  background-color: red;
+}
+
+
+.main-body .article-screen .pageref > div > div .cmp-image > img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.article-screen > div {
+  height: 300px;
+}
+.article-screen > div > img {
+  width:100%;
+  height: auto;
+  top:0;
+  margin-top: -62px;
+  position: fixed;
+  overflow: hidden;
+}
+
+@media only screen and (min-width: 1000px) {
+
+}
+
