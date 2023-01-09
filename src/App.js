@@ -22,7 +22,7 @@ const App = () => {
         res: response.text().then(token => {
           if (token) {
             setAuthState({
-              auth: token,
+              auth: localStorage.auth ? localStorage.auth : token,
               endpoint: localStorage.endpoint || '/content/_cq_graphql/aem-demo-assets/endpoint.json',
               project: localStorage.project || 'gql-demo-template',
               loggedin: localStorage.loggedin || true,
@@ -30,7 +30,7 @@ const App = () => {
               publish: localStorage.publish || false,
               rda: localStorage.rda || 'v2'
             });
-            localStorage.setItem('auth', token);
+            localStorage.setItem('auth', localStorage.auth ? localStorage.auth : token);
             localStorage.setItem('loggedin', true);
           }
         }).catch(error => {
