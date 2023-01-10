@@ -71,9 +71,12 @@ const Settings = ({context}) => {
       localStorage.setItem('expiry', now.getTime() + 82800000);
 
     const sdk = new AEMHeadless({
-      serviceURL: serviceURL,
+      serviceURL: 'https://102588-505tanocelot.adobeioruntime.net/api/v1/web/aem/proxy',
       endpoint: endpoint,
-      auth: auth
+      auth: auth,
+      headers: {
+        'aem-url': serviceURL
+      }
     });
 
     const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
