@@ -99,11 +99,11 @@ const Navigation = ({ className, config, screen, context }) => {
         </div>
         <div className='nav-sections'>
           <ul>
-            <li><Link to={obj.pos1.path} className={`navItem ${className}`}>{obj.pos1.name}</Link></li>
-            <li><Link to={obj.pos2.path} className={`navItem ${className}`}>{obj.pos2.name}</Link></li>
-            <li><Link to={obj.pos3.path} className={`navItem ${className}`}>{obj.pos3.name}</Link></li>
-            <li><Link to={obj.pos4.path} className={`navItem ${className}`}>{obj.pos4.name}</Link></li>
-            <li><Link to={obj.pos5.path} className={`navItem ${className}`}>{obj.pos5.name}</Link></li>
+            <li><Link to={obj.pos1.path.replace('/content/dam/wknd_headless', '')} className={`navItem ${className}`}>{obj.pos1.name}</Link></li>
+            <li><Link to={obj.pos2.path.replace('/content/dam/wknd_headless', '')} className={`navItem ${className}`}>{obj.pos2.name}</Link></li>
+            <li><Link to={obj.pos3.path.replace('/content/dam/wknd_headless', '')} className={`navItem ${className}`}>{obj.pos3.name}</Link></li>
+            <li><Link to={obj.pos4.path.replace('/content/dam/wknd_headless', '')} className={`navItem ${className}`}>{obj.pos4.name}</Link></li>
+            <li><Link to={obj.pos5.path.replace('/content/dam/wknd_headless', '')} className={`navItem ${className}`}>{obj.pos5.name}</Link></li>
           </ul>
         </div>
         <div className='nav-tools'>
