@@ -3,6 +3,12 @@ import AEMHeadless from '@adobe/aem-headless-client-js';
 
 
 export const rootPath = '/content/dam';
+export const accessToken = 'https://20409-gqldemo202212-stage.adobeioruntime.net/api/v1/web/gql-demo-jwt/service-credentials';
+export const defaultEndpoint = '/content/_cq_graphql/aem-demo-assets/endpoint.json';
+export const defaultProject = 'gql-demo-template';
+export const defaultServiceURL = 'https://author-p91555-e868145.adobeaemcloud.com/';
+export const proxyURL = 'https://102588-505tanocelot-stage.adobeioruntime.net/api/v1/web/aem/proxy';
+
 const store = {};
 export const MagazineStore = (key, value) => {
   if (key && value)
@@ -73,16 +79,27 @@ export const externalizeImages = (image, context) => {
 };
 
 export const prepareRequest = (context) => {
-  if(!context) return;
-  
+  if (!context) return;
+
   const usePub = JSON.parse(context.publish);
   const url = usePub ?
     context.serviceURL.replace('author', 'publish') :
     context.serviceURL;
-  
-  return new AEMHeadless({
-    serviceURL: url,
-    endpoint: context.endpoint,
-    auth: context.auth
-  });
+
+
+
+  if (context.useProxy) {
+    return new AEMHeadless({
+      serviceURL: proxyURL,
+      endpoint: context.endpoint,
+      auth: context.auth,
+      headers: { 'aem-url': url }
+    });
+  } else {
+    return new AEMHeadless({
+      serviceURL: url,
+      endpoint: context.endpoint,
+      auth: context.auth,
+    });
+  }
 };

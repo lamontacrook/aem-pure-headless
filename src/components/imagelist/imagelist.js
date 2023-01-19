@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { LinkManager, externalizeImages, MagazineStore } from '../../utils';
+import { LinkManager, externalizeImages, MagazineStore, proxyURL } from '../../utils';
 import Image from '../image';
 
 import './imagelist.css';
@@ -28,12 +28,12 @@ export const ImageListGQL = `
 
 const promises = [];
 const ImageList = ({ content, config, context }) => {
- 
+
   const [items, setItems] = useState([]);
   const [position, setPosition] = useState(0);
   const [pageType, setPageType] = useState('');
   const handleError = useErrorHandler();
-  
+
   useEffect(() => {
 
     content.imageListItems.map(({ _path, _authorUrl, type, activity, tripLength, price, _publishUrl, __typename, title, primaryImage }) => {
@@ -48,19 +48,31 @@ const ImageList = ({ content, config, context }) => {
         const headers = usePub ?
           new Headers({
             'Authorization': '',
-            'Content-Type': 'text/html'
+            'Content-Type': 'text/html',
           }) :
           new Headers({
             'Authorization': `Bearer ${context.auth}`,
             'Content-Type': 'text/html',
           });
 
-        let promise = fetch(url, {
-          method: 'get',
-          headers: headers,
-          mode: 'cors',
-          referrerPolicy: 'origin-when-cross-origin'
-        }).then(res => ({
+        context.useProxy && headers.append('aem-url', url);
+
+        const req = context.useProxy ?
+          new Request(proxyURL, {
+            method: 'get',
+            headers: headers,
+            mode: 'cors',
+            referrerPolicy: 'origin-when-cross-origin'
+          }) :
+          new Request(url, {
+            method: 'get',
+            headers: headers,
+            mode: 'cors',
+            referrerPolicy: 'origin-when-cross-origin'
+          });
+
+
+        let promise = fetch(req).then(res => ({
           res: res.redirected ? handleError({ message: 'Bad Authentication.  Try again.' }) :
             res.text().then(html => {
 
@@ -93,7 +105,7 @@ const ImageList = ({ content, config, context }) => {
 
     if (promises.length > 0) Promise.all(promises);
 
-  }, [context.auth, content.imageListItems, content.style, config, handleError]);
+  }, [context, content.imageListItems, content.style, config, handleError]);
 
   const title = content._metadata.stringMetadata.map(item => {
     if (item.name === 'title') return item.value;

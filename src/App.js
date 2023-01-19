@@ -8,6 +8,7 @@ import Screendetails from './components/screendetails';
 import Error from './components/error';
 import { useErrorHandler } from 'react-error-boundary';
 import { ThreeDots } from 'react-loader-spinner';
+import { accessToken, defaultEndpoint, defaultProject, defaultServiceURL } from './utils';
 
 const App = () => {
 
@@ -16,19 +17,20 @@ const App = () => {
 
   useEffect(() => {
 
-    if (authState.loggedin) return;
-    fetch(process.env.REACT_APP_ACCESS_TOKEN)
+    if (authState.loggedin && authState.auth) return;
+    fetch(accessToken)
       .then(response => ({
         res: response.text().then(token => {
           if (token) {
             setAuthState({
-              auth: token,
-              endpoint: localStorage.endpoint || '/content/_cq_graphql/aem-demo-assets/endpoint.json',
-              project: localStorage.project || 'gql-demo-template',
-              loggedin: localStorage.loggedin || true,
-              serviceURL: localStorage.serviceURL || 'https://author-p91555-e868145.adobeaemcloud.com/',
-              publish: localStorage.publish || false,
-              rda: localStorage.rda || 'v2'
+              auth: localStorage.auth || token,
+              endpoint: localStorage.endpoint || defaultEndpoint,
+              project: localStorage.project || defaultProject,
+              loggedin: localStorage.loggedin ? JSON.parse(localStorage.loggedin) : true,
+              serviceURL: localStorage.serviceURL || defaultServiceURL,
+              publish: localStorage.publish ? JSON.parse(localStorage.publish) : false,
+              rda: localStorage.rda || 'v2',
+              useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false
             });
             localStorage.setItem('auth', token);
             localStorage.setItem('loggedin', true);

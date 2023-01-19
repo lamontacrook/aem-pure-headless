@@ -59,7 +59,7 @@ const Screen = ({context}) => {
       });
 
 
-  }, [handleError, navigate, path, loggedin, version, context.auth]);
+  }, [handleError, navigate, path, loggedin, version, context]);
 
   let i = 0;
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Proptypes from 'prop-types';
-import { externalizeImagesFromString } from '../../utils';
+import { externalizeImagesFromString, proxyURL } from '../../utils';
 import { useErrorHandler } from 'react-error-boundary';
 
 import './pageref.css';
@@ -13,8 +13,6 @@ const PageRef = ({ content, config, context }) => {
   const usePub = JSON.parse(context.publish);
 
   useEffect(() => {
-
-
 
     const url = usePub ?
       content._publishUrl.replace('.html', '.content.html') :
@@ -31,13 +29,25 @@ const PageRef = ({ content, config, context }) => {
         'Content-Type': 'text/html',
       });
 
+    context.useProxy && headers.append('aem-url', url);
 
-    fetch(url, {
-      method: 'get',
-      headers: headers,
-      mode: 'cors',
-      referrerPolicy: 'origin-when-cross-origin',
-    })
+    const req = context.useProxy ?
+      new Request(proxyURL, {
+        method: 'get',
+        headers: headers,
+        mode: 'cors',
+        referrerPolicy: 'origin-when-cross-origin'
+      }) :
+      new Request(url, {
+        method: 'get',
+        headers: headers,
+        mode: 'cors',
+        referrerPolicy: 'origin-when-cross-origin'
+      });
+
+
+
+    fetch(req)
       .then(res => ({
         res: res.text().then(html => {
           let body = externalizeImagesFromString(html, context);
@@ -50,7 +60,7 @@ const PageRef = ({ content, config, context }) => {
         handleError(error);
       });
 
-  }, [content, handleError, usePub, config]);
+  }, [content, handleError, usePub, config, context]);
 
   return (
     <div className='article-screen'>

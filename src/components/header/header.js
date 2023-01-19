@@ -10,7 +10,7 @@ const Header = ({ data, config, className, context }) => {
   const content =  data.screen.body.header;
 
   const fadeOutHandler = () => {
-    if(document.querySelector('#flyout').getAttribute('aria-expanded')) return;
+    if(document.querySelector('#flyout') && document.querySelector('#flyout').getAttribute('aria-expanded')) return;
     const hero = document.querySelector('header');
     if (!hero) return;
 

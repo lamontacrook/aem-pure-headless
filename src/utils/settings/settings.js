@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import Navigation from '../../components/navigation';
 import { marked } from 'marked';
 import './settings.css';
 import endpointmd from './endpoint.md';
@@ -8,8 +7,8 @@ import projectmd from './project.md';
 import authmd from './auth.md';
 import { AEMHeadless } from '@adobe/aem-headless-client-js';
 import { useErrorHandler } from 'react-error-boundary';
-import { createGlobalStyle } from 'styled-components';
 import PropTypes from 'prop-types';
+import { proxyURL } from '../index';
 
 const instructionsData = {
   'serviceURL': serviceURLmd,
@@ -20,11 +19,6 @@ const instructionsData = {
   'publish': projectmd
 };
 
-const GlobalStyles = createGlobalStyle`
-:root {
-  
-}
-`;
 
 export const expiry = () => {
   const now = new Date();
@@ -32,7 +26,7 @@ export const expiry = () => {
     localStorage.removeItem('expiry');
     localStorage.removeItem('auth');
     localStorage.setItem('loggedin', false);
-   
+
     return false;
   } else if (!localStorage.getItem('expiry')) {
     return false;
@@ -42,7 +36,7 @@ export const expiry = () => {
 };
 document.title = 'Settings';
 
-const Settings = ({context}) => {
+const Settings = ({ context }) => {
   const handleError = useErrorHandler();
   const [instructions, setInstructions] = useState('');
   const [endpoint, setEndpoint] = useState(context.endpoint);
@@ -51,11 +45,12 @@ const Settings = ({context}) => {
   const [auth, setAuth] = useState(context.auth);
   const [serviceURL, setServiceURL] = useState(context.serviceURL);
   const [config, setConfig] = useState({});
-  const [schema, setSchema] = useState('');
   const [publish, setPublish] = useState(context.publish);
+  const [statusCode, setStatusCode] = useState('');
+  const configPath = `/content/dam/${project}/site/configuration/configuration`;
+
 
   const getConfiguration = () => {
-    if (config && schema) return;
 
     const now = new Date();
 
@@ -76,45 +71,55 @@ const Settings = ({context}) => {
       auth: auth
     });
 
-    const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
-  
-    if (!config) {
-      sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
-        .then(({ data }) => {
 
-          if (data) {
-            
-            setConfig(data);
-            
-            localStorage.setItem('loggedin', true);
-          }
-        })
-        .catch((error) => {
-          localStorage.setItem('loggedin', false);
-          setAuth('');
-          handleError(error);
-        });
-    }
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
+      .then(({ data }) => {
 
-    if (!schema) {
-      fetch(`${serviceURL}content/cq:graphql/aem-demo-assets/endpoint.GQLschema.md`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'text/markdown',
-          'Authorization': 'Bearer ' + auth,
+        if (data) {
+          setConfig(data);
+          localStorage.setItem('loggedin', true);
         }
-      }).
-        then(res => res.text()
-          .then(data => {
-            data = data.substring(data.indexOf('AdventureModel {'), data.length);
-            data = data.substring(0, data.indexOf('}') + 1);
-            if (data.includes('adventureTitle'))
-              localStorage.setItem('rda', 'v1');
-            else
-              localStorage.setItem('rda', 'v2');
-            setSchema(data);
-          })).catch(error => handleError(error));
-    }
+      })
+      .catch((error) => {
+        localStorage.setItem('loggedin', false);
+        setAuth('');
+        handleError(error);
+      });
+
+    const url = `${serviceURL}/content/experience-fragments/wknde-site/language-masters/en/site/footer/master.content.html?wcmmode=disabled`;
+
+    const headers = new Headers({
+      'Authorization': `Bearer ${auth}`,
+      'Content-Type': 'text/html',
+    });
+
+    context.useProxy && headers.append('aem-url', url);
+
+    const req = context.useProxy ?
+      new Request(proxyURL, {
+        method: 'get',
+        headers: headers,
+        mode: 'cors',
+        referrerPolicy: 'origin-when-cross-origin'
+      }) :
+      new Request(url, {
+        method: 'get',
+        headers: headers,
+        mode: 'cors',
+        referrerPolicy: 'origin-when-cross-origin'
+      });
+
+    fetch(req)
+      .then((response) => {
+        if (response) {
+          setStatusCode(response.status);
+        }
+      })
+      .catch((error) => {
+        handleError(error);
+      });
+
+
   };
 
   if (!expiry() && auth !== '' && expiry !== '') {
@@ -146,8 +151,8 @@ const Settings = ({context}) => {
   }, [handleError]);
 
   const syncState = (value, func) => {
-    if(localStorage.getItem(value)) {
-      if(value === 'publish')
+    if (localStorage.getItem(value)) {
+      if (value === 'publish')
         func(JSON.parse(localStorage.getItem(value)));
       else
         func(localStorage.getItem(value));
@@ -158,14 +163,10 @@ const Settings = ({context}) => {
     localStorage.setItem(key, value);
   };
 
-  // if (auth && endpoint && project && serviceURL && JSON.parse(loggedin)) {
-  //   getConfiguration();
-  // }
-
   return (
     <React.Fragment>
-      <GlobalStyles></GlobalStyles>
-      {/* <header className='home-hero'><Navigation className='light-nav' config={config} /></header> */}
+
+      <header className='home-hero'></header>
       <div className='main-body settings'>
         <div className='settings-form'>
           <form>
@@ -217,9 +218,17 @@ const Settings = ({context}) => {
               name='authenticate'
               onClick={(e) => getConfiguration(e)}>Authenticate</button>
           </form>
-          {!schema && (<div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name] }}>
+          {!Object.keys(config).length && (<div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name] }}>
           </div>)}
-          <pre>{schema && (<div><h3>You are loggedin.  You can now navigate to the app.</h3></div>)}</pre>
+          {Object.keys(config).length !== 0 && (
+
+            <div className='instructions'>
+              <p>You are loggedin.  You can now navigate to the app <a href='/aem-pure-headless'>here</a>.</p>
+              <p>You can configuration the configuration fragment <a href={serviceURL + 'editor.html' + configPath} target='_blank' rel='noreferrer'>here</a>.</p>
+              {statusCode === 404 && (<p>The out of the box configuration depends on a the wknd site Experience Fragments with the name wknd-site.  This can be overriden with the wknd path configuration path, but all content fragments with references to the Experiense Fragments should be updated.</p>)}
+            </div>
+
+          )}
         </div>
       </div>
 

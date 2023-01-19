@@ -94,7 +94,7 @@ const Screendetails = ({context}) => {
       });
 
 
-  }, [handleError, navigate, loggedin, configPath, props, version, context.auth]);
+  }, [handleError, navigate, loggedin, configPath, props, version, context]);
 
   document.title = title;
   return (

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { externalizeImagesFromString} from '../../utils';
+import { externalizeImagesFromString, proxyURL } from '../../utils';
 import './footer.css';
 import { useErrorHandler } from 'react-error-boundary';
 
 const Footer = ({ config, context }) => {
   const [footer, setFooter] = useState('');
   const handleError = useErrorHandler();
- 
+
   useEffect(() => {
-    if(!config) return;
-    
+    if (!config) return;
+
     const usePub = JSON.parse(context.publish);
 
     const url = usePub ?
@@ -27,12 +27,24 @@ const Footer = ({ config, context }) => {
         'Content-Type': 'text/html',
       });
 
-    fetch(url, {
-      method: 'get',
-      headers: headers,
-      mode: 'cors',
-      referrerPolicy: 'origin-when-cross-origin',
-    })
+    context.useProxy && headers.append('aem-url', url);
+
+    const req = context.useProxy ?
+      new Request(proxyURL, {
+        method: 'get',
+        headers: headers,
+        mode: 'cors',
+        referrerPolicy: 'origin-when-cross-origin'
+      }) :
+      new Request(url, {
+        method: 'get',
+        headers: headers,
+        mode: 'cors',
+        referrerPolicy: 'origin-when-cross-origin'
+      });
+
+
+    fetch(req)
       .then((response) => {
         if (response) {
           response.text().then((html) => {
@@ -46,7 +58,7 @@ const Footer = ({ config, context }) => {
         handleError(error);
       });
 
-  }, [config, handleError, context.auth]);
+  }, [config, handleError, context]);
 
   return (
     <React.Fragment>

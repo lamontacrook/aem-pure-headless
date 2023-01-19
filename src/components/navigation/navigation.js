@@ -32,8 +32,6 @@ const Navigation = ({ className, config, screen, context }) => {
   const [logo, setLogo] = useState(wkndlogo);
   const handleError = useErrorHandler();
 
-  const sdk = prepareRequest(context);
-
   let obj = {
     pos1: { name: '', path: '#' },
     pos2: { name: '', path: '#' },
@@ -43,10 +41,11 @@ const Navigation = ({ className, config, screen, context }) => {
   };
 
   useEffect(() => {
-    
+    const sdk = prepareRequest(context);
+
     if (config && config.configurationByPath)
       setLogo(config.configurationByPath.item.siteLogo._publishUrl);
-    
+
 
 
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en' })
@@ -58,14 +57,16 @@ const Navigation = ({ className, config, screen, context }) => {
       .catch((error) => {
         handleError(error);
       });
-  }, [handleError, config]);
+  }, [handleError, config, context]);
 
   nav && nav.data.screenList.items.forEach((item) => {
-    let name = '';
-    item._metadata.stringMetadata.forEach(meta => {
-      meta.name === 'title' && (name = meta.value);
-    });
-    obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path, config, context) };
+    if (item._path.includes(context.project)) {
+      let name = '';
+      item._metadata.stringMetadata.forEach(meta => {
+        meta.name === 'title' && (name = meta.value);
+      });
+      obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path, config, context) };
+    }
   });
 
   function viewGQL() {
@@ -77,9 +78,11 @@ const Navigation = ({ className, config, screen, context }) => {
   window.onscroll = function () {
     let currentScrollPos = window.pageYOffset;
     if (prevScrollPos > currentScrollPos) {
-      document.getElementById('navbar').style.top = '0';
+      if(document.getElementById('navbar')) 
+        document.getElementById('navbar').style.top = '0';
     } else {
-      document.getElementById('navbar').style.top = '-80px';
+      if(document.getElementById('navbar')) 
+        document.getElementById('navbar').style.top = '-80px';
     }
     prevScrollPos = currentScrollPos;
   };
