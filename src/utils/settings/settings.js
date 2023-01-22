@@ -5,6 +5,7 @@ import endpointmd from './endpoint.md';
 import serviceURLmd from './serviceURL.md';
 import projectmd from './project.md';
 import authmd from './auth.md';
+import intromd from './intro.md';
 import { AEMHeadless } from '@adobe/aem-headless-client-js';
 import { useErrorHandler } from 'react-error-boundary';
 import PropTypes from 'prop-types';
@@ -12,6 +13,7 @@ import { proxyURL } from '../index';
 
 const instructionsData = {
   'serviceURL': serviceURLmd,
+  'intro': intromd,
   'auth': authmd,
   'endpoint': endpointmd,
   'authenticate': 'My error message',
@@ -41,14 +43,18 @@ const Settings = ({ context }) => {
   const [instructions, setInstructions] = useState('');
   const [endpoint, setEndpoint] = useState(context.endpoint);
   const [project, setProject] = useState(context.project);
-  const [loggedin, setLoggedin] = useState(context.loggedin);
+  const [loggedin, setLoggedin] = useState(JSON.parse(context.loggedin));
   const [auth, setAuth] = useState(context.auth);
   const [serviceURL, setServiceURL] = useState(context.serviceURL);
   const [config, setConfig] = useState({});
+  const [useProxy, setUseProxy] = useState(JSON.parse(context.useProxy));
   const [publish, setPublish] = useState(context.publish);
   const [statusCode, setStatusCode] = useState('');
   const configPath = `/content/dam/${project}/site/configuration/configuration`;
+  const [screenUpdates, setScreenUpdates] = useState([]);
+  const [imageListUpdates, setImageListUpdates] = useState([]);
 
+  console.log(typeof useProxy + ' ' + context.useProxy + ' ' + useProxy);
 
   const getConfiguration = () => {
 
@@ -60,12 +66,18 @@ const Settings = ({ context }) => {
     syncLocalStorage('project', project);
     syncLocalStorage('publish', publish);
     syncLocalStorage('loggedin', loggedin);
+    syncLocalStorage('useProxy', useProxy);
 
 
     if (localStorage.getItem('expiry') === null)
       localStorage.setItem('expiry', now.getTime() + 82800000);
 
-    const sdk = new AEMHeadless({
+    const sdk = useProxy ? new AEMHeadless({
+      serviceURL: proxyURL,
+      endpoint: endpoint,
+      auth: auth,
+      headers: { 'aem-url': serviceURL }
+    }) : new AEMHeadless({
       serviceURL: serviceURL,
       endpoint: endpoint,
       auth: auth
@@ -86,33 +98,65 @@ const Settings = ({ context }) => {
         handleError(error);
       });
 
-    const url = `${serviceURL}/content/experience-fragments/wknde-site/language-masters/en/site/footer/master.content.html?wcmmode=disabled`;
+    const url = '/content/experience-fragments/wknd-site/language-masters/en/site/footer/master.content.html?wcmmode=disabled';
 
-    const headers = new Headers({
-      'Authorization': `Bearer ${auth}`,
-      'Content-Type': 'text/html',
-    });
 
-    context.useProxy && headers.append('aem-url', url);
+    const headers = useProxy ?
+      new Headers({
+        'Authorization': `Bearer ${auth}`,
+        'Content-Type': 'text/html',
+        'aem-url': serviceURL
+      }) :
+      new Headers({
+        'Authorization': `Bearer ${auth}`,
+        'Content-Type': 'text/html',
+      });
 
-    const req = context.useProxy ?
-      new Request(proxyURL, {
+    const req = useProxy ?
+      new Request(proxyURL + url, {
         method: 'get',
         headers: headers,
         mode: 'cors',
         referrerPolicy: 'origin-when-cross-origin'
       }) :
-      new Request(url, {
+      new Request(serviceURL + url, {
         method: 'get',
         headers: headers,
         mode: 'cors',
         referrerPolicy: 'origin-when-cross-origin'
       });
 
+
     fetch(req)
       .then((response) => {
         if (response) {
           setStatusCode(response.status);
+
+          sdk.runPersistedQuery('aem-demo-assets/gql-demo-screen-setup')
+            .then(({ data }) => {
+              if (data) {
+                data.screenList.items.forEach(element => {
+                  if (element.block.length && element._path.includes(project))
+                    setScreenUpdates(e => [...e, element._path]);
+                });
+              }
+            })
+            .catch((error) => {
+              handleError(error);
+            });
+
+          sdk.runPersistedQuery('aem-demo-assets/gql-demo-imagelist-setup')
+            .then(({ data }) => {
+              if (data) {
+                data.imageListList.items.forEach(element => {
+                  if (element.imageListItems.length && element._path.includes(project))
+                    setImageListUpdates(e => [...e, element._path]);
+                });
+              }
+            })
+            .catch((error) => {
+              handleError(error);
+            });
         }
       })
       .catch((error) => {
@@ -147,8 +191,8 @@ const Settings = ({ context }) => {
     syncState('loggedin', setLoggedin);
     syncState('serviceURL', setServiceURL);
     syncState('publish', setPublish);
-
-  }, [handleError]);
+    syncState('useProxy', setUseProxy);
+  }, [handleError, instructions]);
 
   const syncState = (value, func) => {
     if (localStorage.getItem(value)) {
@@ -175,7 +219,7 @@ const Settings = ({ context }) => {
                 type='text'
                 placeholder='Enter the URL of your author environment'
                 name='serviceURL'
-                onSelect={(e) => setInstructions(e.target)}
+                onSelect={(e) => setInstructions(instructionsData[e.target.name])}
                 value={serviceURL}
                 onChange={(e) => setServiceURL(e.target.value)}>
 
@@ -187,7 +231,7 @@ const Settings = ({ context }) => {
                 rows={28}
                 placeholder='Paste your Bearer Token'
                 name='auth'
-                onSelect={(e) => setInstructions(e.target)}
+                onSelect={(e) => setInstructions(instructionsData[e.target.name])}
                 value={auth}
                 onChange={(e) => setAuth(e.target.value)}>
               </textarea>
@@ -197,7 +241,7 @@ const Settings = ({ context }) => {
                 type='text'
                 placeholder='/content/_cq_graphql/aem-demo-assets/endpoint.json'
                 name='endpoint'
-                onSelect={(e) => setInstructions(e.target)}
+                onSelect={(e) => setInstructions(instructionsData[e.target.name])}
                 value={endpoint}
                 onChange={(e) => setEndpoint(e.target.value)}>
               </input>
@@ -208,9 +252,18 @@ const Settings = ({ context }) => {
                 type='text'
                 placeholder='gql-demo'
                 name='project'
-                onSelect={(e) => setInstructions(e.target)}
+                onSelect={(e) => setInstructions(instructionsData[e.target.name])}
                 value={project}
                 onChange={(e) => setProject(e.target.value)}></input>
+            </label>
+
+            <label>Use Proxy {useProxy}
+              <input className='proxy'
+                type='checkbox'
+                name='useProxy'
+                {...JSON.parse(useProxy) && ('checked')}
+                onSelect={setInstructions(instructionsData['intro'])}
+                onChange={(e) => { setUseProxy(JSON.parse(e.target.checked)); }}></input>
             </label>
 
             <button className='button'
@@ -218,14 +271,41 @@ const Settings = ({ context }) => {
               name='authenticate'
               onClick={(e) => getConfiguration(e)}>Authenticate</button>
           </form>
-          {!Object.keys(config).length && (<div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name] }}>
-          </div>)}
+          {!Object.keys(config).length && (
+            <div className='instructions'>
+              <div className='overview' dangerouslySetInnerHTML={{ __html: instructionsData['intro'] }} />
+              <div className='item' dangerouslySetInnerHTML={{ __html: instructions }} />
+            </div>
+          )}
           {Object.keys(config).length !== 0 && (
 
             <div className='instructions'>
               <p>You are loggedin.  You can now navigate to the app <a href='/aem-pure-headless'>here</a>.</p>
               <p>You can configuration the configuration fragment <a href={serviceURL + 'editor.html' + configPath} target='_blank' rel='noreferrer'>here</a>.</p>
-              {statusCode === 404 && (<p>The out of the box configuration depends on a the wknd site Experience Fragments with the name wknd-site.  This can be overriden with the wknd path configuration path, but all content fragments with references to the Experiense Fragments should be updated.</p>)}
+              {statusCode === 404 && (
+                <React.Fragment>
+                  <p>The out of the box configuration depends on a the wknd site Experience Fragments with the name wknd-site.
+                    This can be overriden with the wknd path configuration path, but all content fragments with references to the
+                    Experiense Fragments should be updated.
+                  </p>
+                  <strong>Screens</strong>
+                  <ul className='pagerefs'>
+                    {screenUpdates && screenUpdates.map(e => (
+                      <li key={e}><a href={serviceURL + e} target='_blank' rel='noreferrer'>{e}</a></li>
+                    ))}
+                  </ul>
+
+                  <strong>ImageLists</strong>
+                  <ul className='pagerefs'>
+                    {imageListUpdates && imageListUpdates.map(e => (
+                      <li key={e}><a href={serviceURL + e} target='_blank' rel='noreferrer'>{e}</a></li>
+                    ))}
+                  </ul>
+
+                  <p>In addition to these, you will need to update the configuration fragment linked <a href={serviceURL + 'editor.html' + configPath} target='_blank' rel='noreferrer'>here</a>.</p>
+                </React.Fragment>
+              )}
+
             </div>
 
           )}

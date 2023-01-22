@@ -1,10 +1,12 @@
 .main-body>.settings-form {
   background-color: var(--main-color-opacity);
   min-width: 1200px;
-  max-width: 80vh;
+  /* max-width: 100vh; */
+  height: 92vh;
+  /* height: auto; */
   margin: auto;
   padding: 10px 12px;
-  margin-top: 120px;
+  /* margin-top: 120px; */
   display: flex;
   flex-direction: row;
   color: white;
@@ -16,7 +18,7 @@
 .main-body.settings {
   width: 100%;
   height: 100vh;
-  background: (var(--main-color-opacity));
+  background: var(--main-color-opacity);
   display: flex;
   background-image: url('../../media/AdobeStock_109806363.jpeg');
   top: 0;
@@ -25,6 +27,12 @@
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.main-body.settings a {
+  color: var(--main-accent-color);
+  font-family: inherit;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .main-body.settings p, li {
@@ -46,7 +54,7 @@
 .settings-form > form {
   width: 50%;
   margin-right: 10px;
-  padding: 20px 0;
+  padding: 20px 0px;
 }
 
 .settings-form > form > button {
@@ -58,14 +66,60 @@ textarea {
   padding: 10px;
   margin: 0 10px;
   border: 0;
-  border-bottom: 1px solid black;
+  border: 1px solid var(--main-accent-color);
   background: var(--main-color-opacity);
   /* opacity: .3; */
   color: var(--main-accent-color);
   /* padding: 10px; */
+  /* border-radius: 5px; */
+  /* box-shadow: .5px .5px 2px; */
+  width: 450px;
+}
+
+/* .settings input[type=checkbox] {
+  padding: 10px;
+  margin: 0 10px;
+  border: 0;
+  border-bottom: 1px solid black;
+  background: var(--main-color-opacity);
+  color: var(--main-accent-color);
   border-radius: 5px;
   box-shadow: .5px .5px 2px;
-  width: 450px;
+  width: auto;
+} */
+
+input[type=checkbox] {
+  position: relative;
+  cursor: pointer;
+  margin-right: 470px;
+}
+input[type=checkbox]:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+  border: 1px solid var(--main-accent-color);
+  border-radius: 3px;
+  box-shadow: .5px .5px 2px;
+  background-color: #222;
+  
+}
+input[type=checkbox]:checked:after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 10px;
+  border: solid var(--main-accent-color);
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+  top: 2px;
+  left: 6px;
 }
 
 .settings label {
@@ -95,6 +149,14 @@ textarea {
   border-left: .75px solid var(--main-accent-color);
   padding-left: 30px;
   height: 100%;
+}
+
+.settings .instructions p, .settings .instructions h2 {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.settings .instructions ol > li, .settings .instructions ol > li > ul > li, .settings .instructions ol > li > ul > li  {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .settings button.button {
