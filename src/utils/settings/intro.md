@@ -2,7 +2,7 @@
 
 This demo include pure headless and headful content delivered from Experience Fragments.  There are 3 possible setups for this demo.
 
-1. You can use the demo as is from <a href='/'>this link</a>.  This will be a fully headless site using GraphQL and Experience Fragments from AEM.  You can use the the View GQL button to share the Request and Response from AEM.
+1. You can use the demo as is from <a href='https://lamontacrook.github.io/aem-pure-headless'>this link</a>.  This will be a fully headless site using GraphQL and Experience Fragments from AEM.  You can use the the View GQL button to share the Request and Response from AEM.
 
 2. If you want to customize the content, you can install <a href='https://github.com/lamontacrook/aem-pure-headless#:~:text=last%20week-,gql%2Ddemo%2D0.0.4.zip,-update'>this</a> package to package manager.  This package includes the models and queries that will be use by the demo.  For the demo content, install <a href='https://github.com/lamontacrook/aem-pure-headless#:~:text=gql%2Ddemo%2Dtemplate%2D0.0.3.zip'>this</a> quicksite creation template using the quicksite creation tool.  This will allow you to create multiple headless sites and customize each differently.  You can find a full video of this process <a href=''>here</a>.  After installing, you can use this settings page to point this site to your instance.  Note: the site needs your assets to be published so make sure you have published all the adventures assets and the assets from you newly created site.
 
