@@ -10,6 +10,7 @@ import './screen.css';
 
 let configPath = '';
 const Screen = ({context}) => {
+  console.log(context.auth);
   const handleError = useErrorHandler();
   const navigate = useNavigate();
 

@@ -29,6 +29,10 @@
   background-size: cover;
 }
 
+.main-body.settings fieldset {
+  border: 0px;
+}
+
 .main-body.settings a {
   color: var(--main-accent-color);
   font-family: inherit;

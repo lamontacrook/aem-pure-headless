@@ -12,7 +12,16 @@ import { accessToken, defaultEndpoint, defaultProject, defaultServiceURL } from 
 
 const App = () => {
 
-  const [authState, setAuthState] = useState({ loggedin: false });
+  const [authState, setAuthState] = useState({
+    auth: localStorage.auth || '',
+    endpoint: localStorage.endpoint || defaultEndpoint,
+    project: localStorage.project || defaultProject,
+    loggedin: localStorage.publish ? JSON.parse(localStorage.loggedin) : false,
+    serviceURL: localStorage.serviceURL || defaultServiceURL,
+    publish: localStorage.publish ? JSON.parse(localStorage.publish) : false,
+    rda: localStorage.rda || 'v2',
+    useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false
+  });
   const handleError = useErrorHandler();
 
   useEffect(() => {
@@ -40,9 +49,10 @@ const App = () => {
           handleError(error);
         })
       }));
-  }), [];
 
-  if (!authState.loggedin && !authState.project) {
+  }), [setAuthState, handleError];
+
+  if (!JSON.parse(authState.loggedin) && authState.auth === '') {
     return (<ThreeDots
       height='120'
       width='120'
@@ -58,7 +68,16 @@ const App = () => {
       <div className='App'>
         <HashRouter>
           <Routes>
-            <Route exact={true} path={'/settings'} element={<Settings context={authState} />} />
+            <Route exact={true} path={'/settings'} element={
+              <ErrorBoundary
+                FallbackComponent={Error}
+                onReset={() => {
+                  localStorage.setItem('loggedin', false);
+                  localStorage.removeItem('auth');
+                  // location.href = '#/settings';
+                }}
+              >
+                <Settings context={authState} /> </ErrorBoundary>} />
             <Route exact={false} path={'/*'} element={
 
               <ErrorBoundary

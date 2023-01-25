@@ -1,1 +1,1 @@
-export { default, expiry } from './settings';
+export { default } from './settings';

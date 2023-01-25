@@ -5,6 +5,7 @@ import endpointmd from './endpoint.md';
 import serviceURLmd from './serviceURL.md';
 import projectmd from './project.md';
 import authmd from './auth.md';
+import proxymd from './proxymd.md';
 import intromd from './intro.md';
 import { AEMHeadless } from '@adobe/aem-headless-client-js';
 import { useErrorHandler } from 'react-error-boundary';
@@ -18,29 +19,16 @@ const instructionsData = {
   'endpoint': endpointmd,
   'authenticate': 'My error message',
   'project': projectmd,
-  'publish': projectmd
+  'publish': projectmd,
+  'proxy': proxymd
 };
 
-
-export const expiry = () => {
-  const now = new Date();
-  if (localStorage.getItem('expiry') && (now.getTime() > localStorage.getItem('expiry'))) {
-    localStorage.removeItem('expiry');
-    localStorage.removeItem('auth');
-    localStorage.setItem('loggedin', false);
-
-    return false;
-  } else if (!localStorage.getItem('expiry')) {
-    return false;
-  } else {
-    return true;
-  }
-};
 document.title = 'Settings';
 
 const Settings = ({ context }) => {
   const handleError = useErrorHandler();
   const [instructions, setInstructions] = useState('');
+  const [intro, setIntro] = useState('');
   const [endpoint, setEndpoint] = useState(context.endpoint);
   const [project, setProject] = useState(context.project);
   const [loggedin, setLoggedin] = useState(JSON.parse(context.loggedin));
@@ -51,10 +39,23 @@ const Settings = ({ context }) => {
   const [publish, setPublish] = useState(context.publish);
   const [statusCode, setStatusCode] = useState('');
   const configPath = `/content/dam/${project}/site/configuration/configuration`;
-  const [screenUpdates, setScreenUpdates] = useState([]);
-  const [imageListUpdates, setImageListUpdates] = useState([]);
 
-  console.log(typeof useProxy + ' ' + context.useProxy + ' ' + useProxy);
+  const imageListArray = [
+    `/content/dam/${project}/site/en/about-us/components/our-contributers`,
+    `/content/dam/${project}/site/en/home/components/recent-articles`,
+    `/content/dam/${project}/site/en/magazine/arctic-surfing/recent-articles`,
+    `/content/dam/${project}/site/en/magazine/components/featured-articles`,
+    `/content/dam/${project}/site/en/magazine/san-diego-surf/related-articles`,
+    `/content/dam/${project}/site/en/magazine/ski-touring/related-articles`,
+    `/content/dam/${project}/site/en/magazine/western-australia/recent-articles`,
+  ];
+
+  const screenListArray = [`/content/dam/${project}/site/en/magazine/arctic-surfing/arctic-surfing`,
+    `/content/dam/${project}/site/en/magazine/san-diego-surf/san-diego-surf`,
+    `/content/dam/${project}/site/en/magazine/ski-touring/ski-touring`,
+    `/content/dam/${project}/site/en/magazine/western-australia/western-australia`,
+    `/content/dam/${project}/site/en/new-adventure/new-adventure!!`,
+  ];
 
   const getConfiguration = () => {
 
@@ -72,7 +73,7 @@ const Settings = ({ context }) => {
     if (localStorage.getItem('expiry') === null)
       localStorage.setItem('expiry', now.getTime() + 82800000);
 
-    const sdk = useProxy ? new AEMHeadless({
+    const sdk = JSON.parse(useProxy) ? new AEMHeadless({
       serviceURL: proxyURL,
       endpoint: endpoint,
       auth: auth,
@@ -90,6 +91,7 @@ const Settings = ({ context }) => {
         if (data) {
           setConfig(data);
           localStorage.setItem('loggedin', true);
+          setLoggedin(true);
         }
       })
       .catch((error) => {
@@ -131,53 +133,23 @@ const Settings = ({ context }) => {
       .then((response) => {
         if (response) {
           setStatusCode(response.status);
-
-          sdk.runPersistedQuery('aem-demo-assets/gql-demo-screen-setup')
-            .then(({ data }) => {
-              if (data) {
-                data.screenList.items.forEach(element => {
-                  if (element.block.length && element._path.includes(project))
-                    setScreenUpdates(e => [...e, element._path]);
-                });
-              }
-            })
-            .catch((error) => {
-              handleError(error);
-            });
-
-          sdk.runPersistedQuery('aem-demo-assets/gql-demo-imagelist-setup')
-            .then(({ data }) => {
-              if (data) {
-                data.imageListList.items.forEach(element => {
-                  if (element.imageListItems.length && element._path.includes(project))
-                    setImageListUpdates(e => [...e, element._path]);
-                });
-              }
-            })
-            .catch((error) => {
-              handleError(error);
-            });
         }
       })
-      .catch((error) => {
-        handleError(error);
+      .catch(() => {
+        setStatusCode(404);
       });
-
 
   };
 
-  if (!expiry() && auth !== '' && expiry !== '') {
-    localStorage.setItem('loggedin', false);
-    localStorage.setItem('auth', '');
-  }
-
   useEffect(() => {
+
     for (let [key, value] of Object.entries(instructionsData)) {
       if (value.includes('/static/media')) {
         fetch(value)
           .then((r) => r.text())
           .then(text => {
             instructionsData[key] = marked.parse(text);
+            if (key === 'intro') setIntro(marked.parse(text));
           }).catch(error => {
             handleError(error);
           }).catch(error => {
@@ -185,27 +157,30 @@ const Settings = ({ context }) => {
           });
       }
     }
-    syncState('endpoint', setEndpoint);
-    syncState('auth', setAuth);
-    syncState('project', setProject);
-    syncState('loggedin', setLoggedin);
-    syncState('serviceURL', setServiceURL);
-    syncState('publish', setPublish);
-    syncState('useProxy', setUseProxy);
+    setPublish(false);
+
+    // syncState('endpoint', setEndpoint);
+    // syncState('auth', setAuth);
+    // syncState('project', setProject);
+    // syncState('loggedin', setLoggedin);
+    // syncState('serviceURL', setServiceURL);
+    // syncState('publish', setPublish);
+    // syncState('useProxy', setUseProxy);
   }, [handleError, instructions]);
 
-  const syncState = (value, func) => {
-    if (localStorage.getItem(value)) {
-      if (value === 'publish')
-        func(JSON.parse(localStorage.getItem(value)));
-      else
-        func(localStorage.getItem(value));
-    }
-  };
+  // const syncState = (value, func) => {
+  //   if (localStorage.getItem(value)) {
+  //     if (value === 'publish')
+  //       func(JSON.parse(localStorage.getItem(value)));
+  //     else
+  //       func(localStorage.getItem(value));
+  //   }
+  // };
 
   const syncLocalStorage = (key, value) => {
     localStorage.setItem(key, value);
   };
+
 
   return (
     <React.Fragment>
@@ -233,7 +208,7 @@ const Settings = ({ context }) => {
                 name='auth'
                 onSelect={(e) => setInstructions(instructionsData[e.target.name])}
                 value={auth}
-                onChange={(e) => setAuth(e.target.value)}>
+                onChange={(e) => { setAuth(e.target.value); }}>
               </textarea>
             </label>
             <label>GraphQL Endpoint
@@ -257,14 +232,18 @@ const Settings = ({ context }) => {
                 onChange={(e) => setProject(e.target.value)}></input>
             </label>
 
-            <label>Use Proxy {useProxy}
-              <input className='proxy'
-                type='checkbox'
-                name='useProxy'
-                {...JSON.parse(useProxy) && ('checked')}
-                onSelect={setInstructions(instructionsData['intro'])}
-                onChange={(e) => { setUseProxy(JSON.parse(e.target.checked)); }}></input>
-            </label>
+            <fieldset>
+              <legend>It is highly recommended you use this proxy to avoid CORS errors. By unselecting, you will need to update CORS setting in your AEM instance.</legend>
+              <label>Use Proxy
+                <input className='proxy'
+                  type='checkbox'
+                  name='useProxy'
+                  value='checked'
+                  onSelect={() => setInstructions(instructionsData['proxy'])}
+                  onChange={(e) => { setUseProxy(JSON.parse(e.target.checked)); }}
+                ></input>
+              </label>
+            </fieldset>
 
             <button className='button'
               type='button'
@@ -273,7 +252,7 @@ const Settings = ({ context }) => {
           </form>
           {!Object.keys(config).length && (
             <div className='instructions'>
-              <div className='overview' dangerouslySetInnerHTML={{ __html: instructionsData['intro'] }} />
+              <div className='overview' dangerouslySetInnerHTML={{ __html: intro }} />
               <div className='item' dangerouslySetInnerHTML={{ __html: instructions }} />
             </div>
           )}
@@ -290,15 +269,15 @@ const Settings = ({ context }) => {
                   </p>
                   <strong>Screens</strong>
                   <ul className='pagerefs'>
-                    {screenUpdates && screenUpdates.map(e => (
-                      <li key={e}><a href={serviceURL + e} target='_blank' rel='noreferrer'>{e}</a></li>
+                    {screenListArray.map(e => (
+                      <li key={e}><a href={serviceURL + 'editor.html' + e} target='_blank' rel='noreferrer'>{e}</a></li>
                     ))}
                   </ul>
 
                   <strong>ImageLists</strong>
                   <ul className='pagerefs'>
-                    {imageListUpdates && imageListUpdates.map(e => (
-                      <li key={e}><a href={serviceURL + e} target='_blank' rel='noreferrer'>{e}</a></li>
+                    {imageListArray.map(e => (
+                      <li key={e}><a href={serviceURL + 'editor.html' + e} target='_blank' rel='noreferrer'>{e}</a></li>
                     ))}
                   </ul>
 
@@ -311,7 +290,7 @@ const Settings = ({ context }) => {
           )}
         </div>
       </div>
-
+      <div>{intro}</div>
     </React.Fragment>
   );
 };
