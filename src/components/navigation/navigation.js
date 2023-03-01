@@ -48,7 +48,7 @@ const Navigation = ({ className, config, screen, context }) => {
 
 
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en' })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en', foo:'aemsucks' })
       .then((data) => {
         if (data) {
           setNav(data);

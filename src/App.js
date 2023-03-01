@@ -18,7 +18,7 @@ const App = () => {
     project: localStorage.project || defaultProject,
     loggedin: localStorage.publish ? JSON.parse(localStorage.loggedin) : false,
     serviceURL: localStorage.serviceURL || defaultServiceURL,
-    publish: localStorage.publish ? JSON.parse(localStorage.publish) : false,
+    publish: localStorage.publish ? JSON.parse(localStorage.publish) : true,
     rda: localStorage.rda || 'v2',
     useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false
   });
@@ -26,7 +26,7 @@ const App = () => {
 
   useEffect(() => {
 
-    if (authState.loggedin && authState.auth) return;
+    if (authState.publish || authState.loggedin && authState.auth) return;
     fetch(accessToken)
       .then(response => ({
         res: response.text().then(token => {
@@ -52,7 +52,7 @@ const App = () => {
 
   }), [setAuthState, handleError];
 
-  if (!JSON.parse(authState.loggedin) && authState.auth === '') {
+  if (!JSON.parse(authState.publish) && !JSON.parse(authState.loggedin) && authState.auth === '') {
     return (<ThreeDots
       height='120'
       width='120'

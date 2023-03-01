@@ -65,7 +65,7 @@ const Settings = ({ context }) => {
     syncLocalStorage('endpoint', endpoint);
     syncLocalStorage('auth', auth);
     syncLocalStorage('project', project);
-    syncLocalStorage('publish', publish);
+    syncLocalStorage('publish', false);
     syncLocalStorage('loggedin', loggedin);
     syncLocalStorage('useProxy', useProxy);
 
