@@ -60,12 +60,12 @@ const Settings = ({ context }) => {
   const getConfiguration = () => {
 
     const now = new Date();
-
+    setPublish(false);
     syncLocalStorage('serviceURL', serviceURL);
     syncLocalStorage('endpoint', endpoint);
     syncLocalStorage('auth', auth);
     syncLocalStorage('project', project);
-    syncLocalStorage('publish', false);
+    syncLocalStorage('publish', publish);
     syncLocalStorage('loggedin', loggedin);
     syncLocalStorage('useProxy', useProxy);
 
