@@ -9,6 +9,8 @@ export const defaultProject = 'gql-demo-template';
 export const defaultServiceURL = 'https://author-p91555-e868145.adobeaemcloud.com/';
 export const proxyURL = 'https://102588-505tanocelot-stage.adobeioruntime.net/api/v1/web/aem/proxy';
 
+
+
 const store = {};
 export const MagazineStore = (key, value) => {
   if (key && value)

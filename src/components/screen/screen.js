@@ -10,7 +10,6 @@ import './screen.css';
 
 let configPath = '';
 const Screen = ({context}) => {
-  console.log(context.auth);
   const handleError = useErrorHandler();
   const navigate = useNavigate();
 
@@ -31,11 +30,11 @@ const Screen = ({context}) => {
   useEffect(() => {
     const sdk = prepareRequest(context);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath, foo: 'aemsucks3' })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-          sdk.runPersistedQuery(`aem-demo-assets/gql-demo-screen-${version}`, { foo: 'aemsucks', path: path !== '' ? path : data.configurationByPath.item.homePage._path })
+          sdk.runPersistedQuery(`aem-demo-assets/gql-demo-screen-${version}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
