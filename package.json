@@ -1,7 +1,7 @@
 {
   "name": "pure-headless",
   "version": "0.1.0",
-  "homepage": "https://lamontacrook.github.io/aem-pure-headless",
+  "homepage": "https://aem-pure-headless-wknd.vercel.app/",
   "private": true,
   "dependencies": {
     "@adobe/aem-headless-client-js": "^3.2.0",
