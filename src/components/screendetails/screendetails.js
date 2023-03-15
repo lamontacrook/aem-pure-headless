@@ -26,8 +26,6 @@ const Screendetails = ({context}) => {
   let loggedin = JSON.parse(context.loggedin);
  
   useEffect(() => {
-    // if (!loggedin) navigate('/settings');
-
     let path = Object.values(props).pop();
 
     const findOverlap = (a, b) => {
