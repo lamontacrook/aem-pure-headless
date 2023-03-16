@@ -11,12 +11,11 @@ import { ThreeDots } from 'react-loader-spinner';
 import { accessToken, defaultEndpoint, defaultProject, defaultServiceURL } from './utils';
 
 const App = () => {
-
   const [authState, setAuthState] = useState({
     auth: localStorage.auth || '',
     endpoint: localStorage.endpoint || defaultEndpoint,
     project: localStorage.project || defaultProject,
-    loggedin: localStorage.publish ? JSON.parse(localStorage.loggedin) : false,
+    loggedin: localStorage.loggedin ? JSON.parse(localStorage.loggedin) : false,
     serviceURL: localStorage.serviceURL || defaultServiceURL,
     publish: localStorage.publish ? JSON.parse(localStorage.publish) : true,
     rda: localStorage.rda || 'v2',
@@ -37,7 +36,7 @@ const App = () => {
               project: localStorage.project || defaultProject,
               loggedin: localStorage.loggedin ? JSON.parse(localStorage.loggedin) : true,
               serviceURL: localStorage.serviceURL || defaultServiceURL,
-              publish: localStorage.publish ? JSON.parse(localStorage.publish) : false,
+              publish: localStorage.publish ? JSON.parse(localStorage.publish) : true,
               rda: localStorage.rda || 'v2',
               useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false
             });

@@ -30,7 +30,7 @@ const Screen = ({context}) => {
   useEffect(() => {
     const sdk = prepareRequest(context);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath, foo:'bar2' })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath, aem:'bar7' })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
