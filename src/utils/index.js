@@ -100,7 +100,8 @@ export const prepareRequest = (context) => {
   } else {
     return new AEMHeadless({
       serviceURL: url,
-      endpoint: context.endpoint
+      endpoint: context.endpoint,
+      auth: context.auth
     });
   }
 };
