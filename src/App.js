@@ -36,7 +36,7 @@ const App = () => {
               project: localStorage.project || defaultProject,
               loggedin: localStorage.loggedin ? JSON.parse(localStorage.loggedin) : true,
               serviceURL: localStorage.serviceURL || defaultServiceURL,
-              publish: localStorage.publish ? JSON.parse(localStorage.publish) : true,
+              publish: localStorage.publish ? JSON.parse(localStorage.publish) : false,
               rda: localStorage.rda || 'v2',
               useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false
             });
