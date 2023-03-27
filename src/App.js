@@ -12,10 +12,10 @@ import { accessToken, defaultEndpoint, defaultProject, defaultServiceURL } from 
 
 const App = () => {
   const [authState, setAuthState] = useState({
-    auth: localStorage.auth || '',
+    auth: sessionStorage.auth || '',
     endpoint: localStorage.endpoint || defaultEndpoint,
     project: localStorage.project || defaultProject,
-    loggedin: localStorage.loggedin ? JSON.parse(localStorage.loggedin) : false,
+    loggedin: sessionStorage.loggedin ? JSON.parse(sessionStorage.loggedin) : false,
     serviceURL: localStorage.serviceURL || defaultServiceURL,
     publish: localStorage.publish ? JSON.parse(localStorage.publish) : false,
     rda: localStorage.rda || 'v2',
@@ -31,17 +31,17 @@ const App = () => {
         res: response.text().then(token => {
           if (token) {
             setAuthState({
-              auth: localStorage.auth || token,
+              auth: sessionStorage.auth || token,
               endpoint: localStorage.endpoint || defaultEndpoint,
               project: localStorage.project || defaultProject,
-              loggedin: localStorage.loggedin ? JSON.parse(localStorage.loggedin) : true,
+              loggedin: sessionStorage.loggedin ? JSON.parse(sessionStorage.loggedin) : true,
               serviceURL: localStorage.serviceURL || defaultServiceURL,
               publish: localStorage.publish ? JSON.parse(localStorage.publish) : false,
               rda: localStorage.rda || 'v2',
               useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false
             });
-            localStorage.setItem('auth', token);
-            localStorage.setItem('loggedin', true);
+            sessionStorage.setItem('auth', token);
+            sessionStorage.setItem('loggedin', true);
           }
         }).catch(error => {
           error.message = `Error fetching token:\n ${error.message}`;

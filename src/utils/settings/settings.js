@@ -178,7 +178,10 @@ const Settings = ({ context }) => {
   // };
 
   const syncLocalStorage = (key, value) => {
-    localStorage.setItem(key, value);
+    if(key === 'auth' || key === 'loggedin') 
+      sessionStorage.setItem(key, value);
+    else
+      localStorage.setItem(key, value);
   };
 
 
