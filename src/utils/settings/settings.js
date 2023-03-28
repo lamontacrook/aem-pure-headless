@@ -159,23 +159,7 @@ const Settings = ({ context }) => {
     }
     setPublish(false);
 
-    // syncState('endpoint', setEndpoint);
-    // syncState('auth', setAuth);
-    // syncState('project', setProject);
-    // syncState('loggedin', setLoggedin);
-    // syncState('serviceURL', setServiceURL);
-    // syncState('publish', setPublish);
-    // syncState('useProxy', setUseProxy);
   }, [handleError, instructions]);
-
-  // const syncState = (value, func) => {
-  //   if (localStorage.getItem(value)) {
-  //     if (value === 'publish')
-  //       func(JSON.parse(localStorage.getItem(value)));
-  //     else
-  //       func(localStorage.getItem(value));
-  //   }
-  // };
 
   const syncLocalStorage = (key, value) => {
     if(key === 'auth' || key === 'loggedin') 
@@ -187,7 +171,6 @@ const Settings = ({ context }) => {
 
   return (
     <React.Fragment>
-
       <header className='home-hero'></header>
       <div className='main settings'>
         <div className='settings-form'>
@@ -287,9 +270,7 @@ const Settings = ({ context }) => {
                   <p>In addition to these, you will need to update the configuration fragment linked <a href={serviceURL + 'editor.html' + configPath} target='_blank' rel='noreferrer'>here</a>.</p>
                 </React.Fragment>
               )}
-
             </div>
-
           )}
         </div>
       </div>
