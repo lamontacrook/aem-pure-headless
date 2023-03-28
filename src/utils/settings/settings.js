@@ -189,7 +189,7 @@ const Settings = ({ context }) => {
     <React.Fragment>
 
       <header className='home-hero'></header>
-      <div className='main-body settings'>
+      <div className='main settings'>
         <div className='settings-form'>
           <form>
             <label>Author URL
@@ -293,7 +293,6 @@ const Settings = ({ context }) => {
           )}
         </div>
       </div>
-      <div>{intro}</div>
     </React.Fragment>
   );
 };
