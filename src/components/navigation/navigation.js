@@ -78,10 +78,10 @@ const Navigation = ({ className, config, screen, context }) => {
   window.onscroll = function () {
     let currentScrollPos = window.pageYOffset;
     if (prevScrollPos > currentScrollPos) {
-      if(document.getElementById('navbar')) 
+      if (document.getElementById('navbar'))
         document.getElementById('navbar').style.top = '0';
     } else {
-      if(document.getElementById('navbar')) 
+      if (document.getElementById('navbar'))
         document.getElementById('navbar').style.top = '-80px';
     }
     prevScrollPos = currentScrollPos;
@@ -101,13 +101,15 @@ const Navigation = ({ className, config, screen, context }) => {
           <Link to={'/'}><img src={logo} alt='logo' /></Link>
         </div>
         <div className='nav-sections'>
-          <ul>
-            <li><Link to={obj.pos1.path} className={`navItem ${className}`}>{obj.pos1.name}</Link></li>
-            <li><Link to={obj.pos2.path} className={`navItem ${className}`}>{obj.pos2.name}</Link></li>
-            <li><Link to={obj.pos3.path} className={`navItem ${className}`}>{obj.pos3.name}</Link></li>
-            <li><Link to={obj.pos4.path} className={`navItem ${className}`}>{obj.pos4.name}</Link></li>
-            <li><Link to={obj.pos5.path} className={`navItem ${className}`}>{obj.pos5.name}</Link></li>
-          </ul>
+          {nav && (
+            <ul>
+              <li><Link to={obj.pos1.path} className={`navItem ${className}`}>{obj.pos1.name}</Link></li>
+              <li><Link to={obj.pos2.path} className={`navItem ${className}`}>{obj.pos2.name}</Link></li>
+              <li><Link to={obj.pos3.path} className={`navItem ${className}`}>{obj.pos3.name}</Link></li>
+              <li><Link to={obj.pos4.path} className={`navItem ${className}`}>{obj.pos4.name}</Link></li>
+              <li><Link to={obj.pos5.path} className={`navItem ${className}`}>{obj.pos5.name}</Link></li>
+            </ul>
+          )}
         </div>
         <div className='nav-tools'>
           <button href='#' className='button view-gql' aria-expanded='false' aria-controls='flyout' onClick={viewGQL}>View GraphQL</button>
