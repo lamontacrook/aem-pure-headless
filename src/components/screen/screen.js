@@ -21,7 +21,9 @@ const Screen = ({context}) => {
   let path = '';
 
   if (Object.values(props)[0] !== '')
-    path = `${rootPath}/${context.project}/${Object.values(props)[0]}`;
+    path = (Object.values(props)[0].includes(rootPath)) ? 
+      `/${Object.values(props)[0]}` :
+      `/${rootPath}/${context.project}/${Object.values(props)[0]}`;
 
   configPath = `/content/dam/${context.project}/site/configuration/configuration`;
   let loggedin = JSON.parse(context.loggedin);
