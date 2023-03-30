@@ -6,9 +6,7 @@ import Image from '../image';
 
 import './header.css';
 
-const Header = ({ data, config, className, context }) => {
-  const content =  data.screen.body.header;
-
+const Header = ({ data, content, config, className, context }) => {
   const fadeOutHandler = () => {
     if(document.querySelector('#flyout') && document.querySelector('#flyout').getAttribute('aria-expanded')) return;
     const hero = document.querySelector('header');
@@ -41,7 +39,9 @@ const Header = ({ data, config, className, context }) => {
   
   return (
     <header className={`home-${content.teaser?'hero':'article'} ${className}`} role='banner' data-fragment={content._path} data-model={title && title.join('')}>
-      <Navigation className={content.navigationColor} config={config} screen={data} context={context} />
+      {data && (
+        <Navigation className={content.navigationColor} config={config} screen={data} context={context} />
+      )}
 
       {content.teaser &&
         <ModelManager

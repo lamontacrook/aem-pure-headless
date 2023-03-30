@@ -19,8 +19,8 @@ const Screen = ({context}) => {
 
   const props = useParams();
   let path = '';
-
-  if (Object.values(props)[0] !== '')
+  
+  if (Object.values(props).length && Object.values(props)[0] !== '')
     path = (Object.values(props)[0].includes(rootPath)) ? 
       `/${Object.values(props)[0]}` :
       `/${rootPath}/${context.project}/${Object.values(props)[0]}`;
@@ -32,7 +32,7 @@ const Screen = ({context}) => {
   useEffect(() => {
     const sdk = prepareRequest(context);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath, aem:new Date().getMilliseconds() })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
