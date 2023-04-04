@@ -36,12 +36,14 @@ const PageRef = ({ content, config, context }) => {
         method: 'get',
         headers: headers,
         mode: 'cors',
+        credentials: 'include',
         referrerPolicy: 'origin-when-cross-origin'
       }) :
       new Request(url, {
         method: 'get',
         headers: headers,
         mode: 'cors',
+        credentials: 'include',
         referrerPolicy: 'origin-when-cross-origin'
       });
 

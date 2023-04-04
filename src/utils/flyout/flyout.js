@@ -1,3 +1,11 @@
+/*
+Copyright 2023 Adobe
+All Rights Reserved.
+NOTICE: Adobe permits you to use, modify, and distribute this file in
+accordance with the terms of the Adobe license agreement accompanying
+it.
+*/
+
 import React, { useState, useEffect } from 'react';
 import PropsType from 'prop-types';
 import './flyout.css';
@@ -125,8 +133,5 @@ Flyout.propTypes = {
   screen: PropsType.object,
   context: PropsType.object
 };
-
-
-
 
 export default Flyout;

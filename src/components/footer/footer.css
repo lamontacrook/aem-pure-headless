@@ -1,3 +1,10 @@
+/*
+Copyright 2023 Adobe
+All Rights Reserved.
+NOTICE: Adobe permits you to use, modify, and distribute this file in
+accordance with the terms of the Adobe license agreement accompanying
+it.
+*/
 footer {
   width: 100%;
   background-color: #696969;
@@ -10,19 +17,8 @@ footer {
   margin:auto;
 }
 
-.footer-xf > .container {
-  /* margin: auto; */
-}
-.footer-xf > .container .container {
-  /* padding: unset;
-  max-width: 1200px !important;
-  margin: auto !important; */
-  
-}
-
 .footer-xf .aem-Grid {
   display: flex;
-  
   flex-direction: column;
   flex-wrap: wrap;
 }

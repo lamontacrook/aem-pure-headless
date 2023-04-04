@@ -50,11 +50,12 @@ const Header = ({ data, content, config, className, context }) => {
             .replace(' ', '-')}-entity-header`}
           type={content.teaser.__typename}
           content={content.teaser}
+          context={context}
           config={config.configurationByPath.item}
         ></ModelManager>}
 
       {content.banner && !content.teaser &&
-        <Image src={content.banner._publishUrl} config={config.configurationByPath.item} />
+        <Image asset={content.banner} config={config.configurationByPath.item} context={context} />
       }
     </header>
   );

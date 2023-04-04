@@ -36,7 +36,7 @@ const ImageList = ({ content, config, context }) => {
 
   useEffect(() => {
 
-    content.imageListItems.map(({ _path, _authorUrl, type, activity, tripLength, price, _publishUrl, __typename, title, primaryImage }) => {
+    content.imageListItems.map(({ _path, _authorUrl, adventureType, activity, tripLength, price, _publishUrl, __typename, title, primaryImage }) => {
       setPageType(__typename);
       if (__typename === 'PageRef') {
         const usePub = JSON.parse(context.publish);
@@ -62,12 +62,14 @@ const ImageList = ({ content, config, context }) => {
             method: 'get',
             headers: headers,
             mode: 'cors',
+            credentials: 'include',
             referrerPolicy: 'origin-when-cross-origin'
           }) :
           new Request(url, {
             method: 'get',
             headers: headers,
             mode: 'cors',
+            credentials:'include',
             referrerPolicy: 'origin-when-cross-origin'
           });
 
@@ -88,7 +90,15 @@ const ImageList = ({ content, config, context }) => {
 
                 setItems((item) => {
                   MagazineStore(LinkManager(_path, config, context), { path: _path, article: html });
-                  return [...item, { kind: __typename, style: content.style, name: name && name.innerHTML, profession: profession && profession.innerHTML, title: title && title.innerHTML, image: image, path: _path, type: 'xf' }];
+                  return [...item, { 
+                    kind: __typename, 
+                    style: content.style, 
+                    name: name && name.innerHTML, 
+                    profession: profession && profession.innerHTML, 
+                    title: title && title.innerHTML, 
+                    image: image, 
+                    path: _path, 
+                    type: 'xf' }];
                 });
 
               }
@@ -98,7 +108,17 @@ const ImageList = ({ content, config, context }) => {
         promises.push(promise);
       } else if (__typename === 'AdventureModel') {
         setItems((item) => {
-          return [...item, { kind: __typename, style: content.style, title: title, activityType: type, activity: activity, tripLength: tripLength, price: price, image: primaryImage._publishUrl, path: _path, type: 'cf' }];
+          return [...item, { 
+            kind: __typename, 
+            style: content.style, 
+            title: title, 
+            activityType: adventureType, 
+            activity: activity, 
+            tripLength: tripLength, 
+            price: price, 
+            image: primaryImage, 
+            path: _path, 
+            type: 'cf' }];
         });
       }
     });
@@ -186,7 +206,6 @@ const Card = ({ item, config, context }) => {
           <div className='details'>
             <ul>
               <li>{item.profession}</li>
-
             </ul>
           </div>
         )}
@@ -204,9 +223,7 @@ Card.propTypes = {
 const AdventureCard = ({ item, config, context }) => {
   return (
     <div className='list-item' key={item.title}>
-
-      <Image src={item.image} config={config} />
-
+      <Image asset={item.image} config={config} context={context}/>
       <Link key={item.path} to={LinkManager(item.path, config, context)}>
         <span className='title'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (

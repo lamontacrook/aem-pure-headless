@@ -20,7 +20,7 @@ const App = () => {
     serviceURL: localStorage.serviceURL || defaultServiceURL,
     publish: localStorage.publish ? JSON.parse(localStorage.publish) : false,
     rda: localStorage.rda || 'v2',
-    useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false
+    useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false,
   });
   const handleError = useErrorHandler();
 
