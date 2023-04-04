@@ -1,3 +1,10 @@
+/*
+Copyright 2023 Adobe
+All Rights Reserved.
+NOTICE: Adobe permits you to use, modify, and distribute this file in
+accordance with the terms of the Adobe license agreement accompanying
+it.
+*/
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { externalizeImagesFromString, proxyURL } from '../../utils';
@@ -34,12 +41,14 @@ const Footer = ({ config, context }) => {
         method: 'get',
         headers: headers,
         mode: 'cors',
+        credentials: 'include',
         referrerPolicy: 'origin-when-cross-origin'
       }) :
       new Request(url, {
         method: 'get',
         headers: headers,
         mode: 'cors',
+        credentials: 'include',
         referrerPolicy: 'origin-when-cross-origin'
       });
 

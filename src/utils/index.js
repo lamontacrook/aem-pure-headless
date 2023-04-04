@@ -43,9 +43,9 @@ export const LinkManager = (path, config, context) => {
     arry.shift();
     path = `${context.project}/${arry.join('/')}/${pos2}/${pos3}`;
   } else {
-    path = path.replace(`${rootPath}/${context.project}`, '');
+    path = path.replace(`/${rootPath}/${context.project}`, '');
   }
-
+  
   return (
     path
   );
@@ -61,8 +61,8 @@ export const externalizeImagesFromString = (html, context) => {
   let body = new DOMParser().parseFromString(html, 'text/html');
 
   for (let i = 0; i < [...body.images].length; i++) {
-    const pub = context.serviceURL.replace('author', 'publish');
-
+    const pub = context.serviceURL == defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
+    
     [...body.images][i].src = [...body.images][i].src.replace(document.location.origin, pub);
     [...body.images][i].srcset = [...body.images][i].srcset.replaceAll('/adobe/dynamicmedia/', `${pub}/adobe/dynamicmedia/`);
     [...body.images][i].srcset = [...body.images][i].srcset.replaceAll('/content/experience-fragments/', `${pub}/content/experience-fragments/`);
@@ -73,10 +73,12 @@ export const externalizeImagesFromString = (html, context) => {
 
 
 export const externalizeImages = (image, context) => {
+  const serviceURL = context.serviceURL === defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
+  
   if (image.includes('/content'))
-    image = image.replaceAll('/content/', `${context.serviceURL.replace('author', 'publish')}/content/`);
+    image = image.replaceAll('/content/', `${serviceURL}/content/`);
   else if (image.includes('/adobe/dynamicmedia'))
-    image = image.replaceAll('/adobe/dynamicmedia/', `${context.serviceURL.replace('author', 'publish')}/adobe/dynamicmedia/`);
+    image = image.replaceAll('/adobe/dynamicmedia/', `${serviceURL}/adobe/dynamicmedia/`);
   return image;
 };
 

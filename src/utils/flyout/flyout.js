@@ -1,3 +1,11 @@
+/*
+Copyright 2023 Adobe
+All Rights Reserved.
+NOTICE: Adobe permits you to use, modify, and distribute this file in
+accordance with the terms of the Adobe license agreement accompanying
+it.
+*/
+
 import React, { useState, useEffect } from 'react';
 import PropsType from 'prop-types';
 import './flyout.css';
@@ -14,10 +22,10 @@ const Flyout = ({ show, config, screen, context }) => {
     setConfigResponse(config);
 
     let components = {
-      Header: screen.screen.body.header._path
+      Header: screen.component === undefined ? screen.screen.body.header._path : screen.component.item._path
     };
 
-    screen.screen.body.block && screen.screen.body.block.forEach(e => {
+    screen.screen && screen.screen.body && screen.screen.body.block && screen.screen.body.block.forEach(e => {
       let title = '';
 
       if (e._metadata) {
@@ -65,12 +73,6 @@ const Flyout = ({ show, config, screen, context }) => {
       item.classList.toggle('selected');
     });
     e.target.classList.toggle('selected');
-    // let items = [];
-    // document.querySelectorAll('section, header').forEach(item => {
-    //   if (item.getAttribute('data-fragment'))
-    //     items.push(`<a href='${context.serviceURL}editor.html${item.getAttribute('data-fragment')}' target='_blank'>${item.getAttribute('data-model')}</a>`);
-    // });
-    // document.querySelector('.fly-out-gql > .sections.content').innerHTML = `<ul><li>${items.join('</li><li>')}</li></ul>`;
     document.querySelector('.fly-out-gql .response.content').style.display = 'none';
     document.querySelector('.fly-out-gql .payload.content').style.display = 'none';
     document.querySelector('.fly-out-gql .sections.content').style.display = 'unset';
@@ -131,8 +133,5 @@ Flyout.propTypes = {
   screen: PropsType.object,
   context: PropsType.object
 };
-
-
-
 
 export default Flyout;

@@ -16,16 +16,14 @@ const Teaser = ({ content, config, context }) => {
   
   return (
     <React.Fragment>
-
-
       <section className={'teaser ' + content.style} data-model={content.title} data-fragment={content._path}>
 
         <div className='container'>
           {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'format') &&
-            (<Video content={content.asset} />)}
+            (<Video content={content.asset} context={context} />)}
 
           {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType') &&
-            (<Image src={content.asset._publishUrl} config={config} width={content.asset.width} height={content.asset.height} />)}
+            (<Image asset={content.asset} config={config} context={context} />)}
 
           <div className='content-block'>
             {content.title && content.style === 'hero' && (

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Screen from './components/screen';
+import Preview from './components/preview';
 import Settings from './utils/settings';
 import { ErrorBoundary } from 'react-error-boundary';
 import Screendetails from './components/screendetails';
@@ -19,7 +20,7 @@ const App = () => {
     serviceURL: localStorage.serviceURL || defaultServiceURL,
     publish: localStorage.publish ? JSON.parse(localStorage.publish) : false,
     rda: localStorage.rda || 'v2',
-    useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false
+    useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false,
   });
   const handleError = useErrorHandler();
 
@@ -67,13 +68,22 @@ const App = () => {
       <div className='App'>
         <HashRouter>
           <Routes>
+            <Route exact={true} path={'/preview/*'} element={
+              <ErrorBoundary
+                FallbackComponent={Error}
+                onReset={() => {
+                  sessionStorage.removeItem('loggedin');
+                  sessionStorage.removeItem('auth');
+                }}
+              ><Preview context={authState} /></ErrorBoundary>
+            } />
+
             <Route exact={true} path={'/settings'} element={
               <ErrorBoundary
                 FallbackComponent={Error}
                 onReset={() => {
-                  localStorage.setItem('loggedin', false);
-                  localStorage.removeItem('auth');
-                  // location.href = '#/settings';
+                  sessionStorage.removeItem('loggedin');
+                  sessionStorage.removeItem('auth');
                 }}
               >
                 <Settings context={authState} /> </ErrorBoundary>} />
@@ -82,9 +92,8 @@ const App = () => {
               <ErrorBoundary
                 FallbackComponent={Error}
                 onReset={() => {
-                  localStorage.setItem('loggedin', false);
-                  localStorage.removeItem('auth');
-                  // location.href = '#/settings';
+                  sessionStorage.removeItem('loggedin');
+                  sessionStorage.removeItem('auth');
                 }}
               ><Screen context={authState} /></ErrorBoundary>
 
@@ -95,8 +104,8 @@ const App = () => {
               <ErrorBoundary
                 FallbackComponent={Error}
                 onReset={() => {
-                  localStorage.removeItem('loggedin');
-                  localStorage.removeItem('auth');
+                  sessionStorage.removeItem('loggedin');
+                  sessionStorage.removeItem('auth');
                 }}
               ><Screen context={authState} /></ErrorBoundary>
 
@@ -105,12 +114,11 @@ const App = () => {
               <ErrorBoundary
                 FallbackComponent={Error}
                 onReset={() => {
-                  localStorage.removeItem('loggedin');
-                  localStorage.removeItem('auth');
+                  sessionStorage.removeItem('loggedin');
+                  sessionStorage.removeItem('auth');
                 }}
               ><Screendetails context={authState} /></ErrorBoundary>
             } />
-
 
           </Routes>
         </HashRouter>

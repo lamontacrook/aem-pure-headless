@@ -1,0 +1,23 @@
+body {
+  background-color: var(--main-color);
+  background-image: unset;
+}
+.main-body {
+  display: flex;
+  flex-direction: column;
+}
+.main-body > .block {
+  width: 100%;
+  top:unset;
+  left:unset;
+  position: unset;
+  
+  background-color: white;
+  margin: unset;
+  padding: 32px 0;
+}
+
+.main-body > .block:nth-child(1) {
+  padding-top:64px;
+  opacity: 1;
+}
