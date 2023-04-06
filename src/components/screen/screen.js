@@ -32,7 +32,7 @@ const Screen = ({context}) => {
   useEffect(() => {
     const sdk = prepareRequest(context);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath, cs:'sucks' })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
@@ -85,7 +85,6 @@ const Screen = ({context}) => {
 
             <ModelManager
               key={`${item.__typename}-entity-${i++}`}
-              type={item.__typename}
               content={item}
               config={config.configurationByPath.item}
               context={context}

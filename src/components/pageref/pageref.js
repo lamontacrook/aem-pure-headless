@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Proptypes from 'prop-types';
-import { externalizeImagesFromString, proxyURL } from '../../utils';
+import { externalizeImagesFromString } from '../../utils';
 import { useErrorHandler } from 'react-error-boundary';
 
 import './pageref.css';
+import { pageRef } from '../../api/api';
 
 const PageRef = ({ content, config, context }) => {
   const [article, setArticle] = useState('');
@@ -18,38 +19,7 @@ const PageRef = ({ content, config, context }) => {
       content._publishUrl.replace('.html', '.content.html') :
       content._authorUrl.replace('.html', '.content.html?wcmmode=disabled');
 
-
-    const headers = usePub ?
-      new Headers({
-        'Authorization': '',
-        'Content-Type': 'text/html',
-      }) :
-      new Headers({
-        'Authorization': `Bearer ${context.auth}`,
-        'Content-Type': 'text/html',
-      });
-
-    context.useProxy && headers.append('aem-url', url);
-
-    const req = context.useProxy ?
-      new Request(proxyURL, {
-        method: 'get',
-        headers: headers,
-        mode: 'cors',
-        credentials: 'include',
-        referrerPolicy: 'origin-when-cross-origin'
-      }) :
-      new Request(url, {
-        method: 'get',
-        headers: headers,
-        mode: 'cors',
-        credentials: 'include',
-        referrerPolicy: 'origin-when-cross-origin'
-      });
-
-
-
-    fetch(req)
+    pageRef(url, context)
       .then(res => ({
         res: res.text().then(html => {
           let body = externalizeImagesFromString(html, context);

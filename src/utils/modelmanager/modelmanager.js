@@ -11,8 +11,8 @@ export const componentMapping = {
   PageRef
 };
 
-const ModelManager = ({ type, content, config, context }) => {
-  type = type.replace(/Model/g, '');
+const ModelManager = ({ content, config, context }) => {
+  const type = content.__typename.replace(/Model/g, '');
   const Component = componentMapping[type];
  
   if (typeof Component !== 'undefined')

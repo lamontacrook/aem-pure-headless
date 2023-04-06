@@ -1,15 +1,10 @@
-/* header.home-article .content-block > p {
-  display: none;
-}
-
-header.home-article img {
-  width: 100%;
-}
-
-header.home-article {
-  height: 460px;
-  overflow: hidden;
-} */
+/*
+Copyright 2023 Adobe
+All Rights Reserved.
+NOTICE: Adobe permits you to use, modify, and distribute this file in
+accordance with the terms of the Adobe license agreement accompanying
+it.
+*/
 
 header {
   position: relative;
