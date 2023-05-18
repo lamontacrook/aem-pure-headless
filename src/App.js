@@ -92,8 +92,8 @@ const App = () => {
               <ErrorBoundary
                 FallbackComponent={Error}
                 onReset={() => {
-                  sessionStorage.removeItem('loggedin');
-                  sessionStorage.removeItem('auth');
+                  sessionStorage.clear();
+                  localStorage.clear();
                 }}
               ><Screen context={authState} /></ErrorBoundary>
 
