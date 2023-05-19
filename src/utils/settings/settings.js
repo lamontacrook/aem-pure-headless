@@ -119,12 +119,14 @@ const Settings = ({ context }) => {
         method: 'get',
         headers: headers,
         mode: 'cors',
+        credentials: 'same-origin',
         referrerPolicy: 'origin-when-cross-origin'
       }) :
       new Request(serviceURL + url, {
         method: 'get',
         headers: headers,
         mode: 'cors',
+        credentials: 'same-origin',
         referrerPolicy: 'origin-when-cross-origin'
       });
 

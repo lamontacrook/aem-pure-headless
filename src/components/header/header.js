@@ -1,3 +1,11 @@
+/*
+Copyright 2023 Adobe
+All Rights Reserved.
+NOTICE: Adobe permits you to use, modify, and distribute this file in
+accordance with the terms of the Adobe license agreement accompanying
+it.
+*/
+
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Navigation from '../navigation';
@@ -6,7 +14,8 @@ import Image from '../image';
 
 import './header.css';
 
-const Header = ({ data, content, config, className, context }) => {
+const Header = ({ content, config, className, context }) => {
+
   const fadeOutHandler = () => {
     if(document.querySelector('#flyout') && document.querySelector('#flyout').getAttribute('aria-expanded')) return;
     const hero = document.querySelector('header');
@@ -39,8 +48,8 @@ const Header = ({ data, content, config, className, context }) => {
   
   return (
     <header className={`home-${content.teaser?'hero':'article'} ${className}`} role='banner' data-fragment={content._path} data-model={title && title.join('')}>
-      {data && (
-        <Navigation className={content.navigationColor} config={config} screen={data} context={context} />
+      {content && (
+        <Navigation className={content.navigationColor} config={config} screen={content} context={context} />
       )}
 
       {content.teaser &&
@@ -48,7 +57,6 @@ const Header = ({ data, content, config, className, context }) => {
           key={`${content.teaser.__typename
             .toLowerCase()
             .replace(' ', '-')}-entity-header`}
-          type={content.teaser.__typename}
           content={content.teaser}
           context={context}
           config={config.configurationByPath.item}

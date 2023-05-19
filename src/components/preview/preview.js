@@ -61,7 +61,6 @@ const Preview = ({ context }) => {
 
             <ModelManager
               key={`${data.component.item.__typename}-entity-${i++}`}
-              type={data.component.item.__typename}
               content={data.component.item}
               config={config.configurationByPath.item}
               context={context}

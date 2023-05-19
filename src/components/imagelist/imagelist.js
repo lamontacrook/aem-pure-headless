@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { LinkManager, externalizeImages, MagazineStore, proxyURL } from '../../utils';
+import { LinkManager, externalizeImages, MagazineStore } from '../../utils';
 import Image from '../image';
 
 import './imagelist.css';
 import { useErrorHandler } from 'react-error-boundary';
+import { pageRef } from '../../api/api';
 
 export const ImageListGQL = `
 ...on ImageListModel {
@@ -45,36 +46,7 @@ const ImageList = ({ content, config, context }) => {
           _publishUrl.replace('.html', '.content.html') :
           _authorUrl.replace('.html', '.content.html?wcmmode=disabled');
 
-        const headers = usePub ?
-          new Headers({
-            'Authorization': '',
-            'Content-Type': 'text/html',
-          }) :
-          new Headers({
-            'Authorization': `Bearer ${context.auth}`,
-            'Content-Type': 'text/html',
-          });
-
-        context.useProxy && headers.append('aem-url', url);
-
-        const req = context.useProxy ?
-          new Request(proxyURL, {
-            method: 'get',
-            headers: headers,
-            mode: 'cors',
-            credentials: 'include',
-            referrerPolicy: 'origin-when-cross-origin'
-          }) :
-          new Request(url, {
-            method: 'get',
-            headers: headers,
-            mode: 'cors',
-            credentials:'include',
-            referrerPolicy: 'origin-when-cross-origin'
-          });
-
-
-        let promise = fetch(req).then(res => ({
+        let promise = pageRef(url, context).then(res => ({
           res: res.redirected ? handleError({ message: 'Bad Authentication.  Try again.' }) :
             res.text().then(html => {
 

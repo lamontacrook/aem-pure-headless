@@ -90,8 +90,6 @@ export const prepareRequest = (context) => {
     context.serviceURL.replace('author', 'publish') :
     context.serviceURL;
 
-
-
   if (context.useProxy) {
     return new AEMHeadless({
       serviceURL: proxyURL,
@@ -99,11 +97,16 @@ export const prepareRequest = (context) => {
       auth: context.auth,
       headers: { 'aem-url': url }
     });
-  } else {
+  } else if(!context.useProxy && !context.publish) {
     return new AEMHeadless({
       serviceURL: url,
       endpoint: context.endpoint,
       auth: context.auth
+    });
+  } else if(context.publish) {
+    return new AEMHeadless({
+      serviceURL: url,
+      endpoint: context.endpoint
     });
   }
 };

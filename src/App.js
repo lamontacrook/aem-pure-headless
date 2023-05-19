@@ -26,7 +26,7 @@ const App = () => {
 
   useEffect(() => {
 
-    if (authState.publish || authState.loggedin && authState.auth) return;
+    if (authState.publish || authState.loggedin) return;
     fetch(accessToken)
       .then(response => ({
         res: response.text().then(token => {
@@ -92,8 +92,8 @@ const App = () => {
               <ErrorBoundary
                 FallbackComponent={Error}
                 onReset={() => {
-                  sessionStorage.removeItem('loggedin');
-                  sessionStorage.removeItem('auth');
+                  sessionStorage.clear();
+                  localStorage.clear();
                 }}
               ><Screen context={authState} /></ErrorBoundary>
 
