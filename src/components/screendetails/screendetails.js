@@ -53,12 +53,12 @@ const Screendetails = ({context}) => {
           sdk.runPersistedQuery(`aem-demo-assets/gql-demo-adventure-${version}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
               if (data) {
-
                 let pretitle = data.adventureByPath.item.description.plaintext;
                 pretitle = pretitle && pretitle.substring(0, pretitle.indexOf('.'));
 
-                let content = {
+                console.log(data);
 
+                let content = {
                   screen: {
                     body: {
                       header: {
@@ -73,7 +73,6 @@ const Screendetails = ({context}) => {
                           _path: data.adventureByPath.item._path
                         }
                       }
-
                     }
                   }
                 };
@@ -95,10 +94,11 @@ const Screendetails = ({context}) => {
   }, [handleError, navigate, loggedin, configPath, props, version, context]);
 
   document.title = title;
+
   return (
     <React.Fragment>
       {content && content.screen && config.configurationByPath &&
-        <Header data={content} config={config} className='screendetail' context={context} />
+        <Header content={content.screen.body.header} config={config} className='screendetail' context={context} />
       }
 
       {overview && itinerary && whatToBring && adventure && adventure.adventureByPath && (

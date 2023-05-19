@@ -22,7 +22,7 @@ const Flyout = ({ show, config, screen, context }) => {
     setConfigResponse(config);
 
     let components = {
-      Header: screen.component === undefined ? screen.screen.body.header._path : screen.component.item._path
+      Header: screen.component === undefined ? screen._path : screen.component.item._path
     };
 
     screen.screen && screen.screen.body && screen.screen.body.block && screen.screen.body.block.forEach(e => {

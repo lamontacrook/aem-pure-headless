@@ -26,7 +26,7 @@ const App = () => {
 
   useEffect(() => {
 
-    if (authState.publish || authState.loggedin && authState.auth) return;
+    if (authState.publish || authState.loggedin) return;
     fetch(accessToken)
       .then(response => ({
         res: response.text().then(token => {

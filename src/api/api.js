@@ -1,17 +1,16 @@
 import { proxyURL } from '../utils';
 
 export const pageRef = (url, context) => {
-  console.log(context);
   const usePub = JSON.parse(context.publish);
 
   const headers = usePub ?
     new Headers({
       'Authorization': '',
-      'Content-Type': 'text/html',
+      'Content-Type': 'text/html'
     }) :
     new Headers({
       'Authorization': `Bearer ${context.auth}`,
-      'Content-Type': 'text/html',
+      'Content-Type': 'text/html'
     });
 
   context.useProxy && headers.append('aem-url', url);
@@ -21,14 +20,14 @@ export const pageRef = (url, context) => {
       method: 'get',
       headers: headers,
       mode: 'cors',
-      credentials: 'include',
+      credentials: 'same-origin',
       referrerPolicy: 'origin-when-cross-origin'
     }) :
     new Request(url, {
       method: 'get',
       headers: headers,
       mode: 'cors',
-      credentials: 'include',
+      credentials: 'same-origin',
       referrerPolicy: 'origin-when-cross-origin'
     });
 
