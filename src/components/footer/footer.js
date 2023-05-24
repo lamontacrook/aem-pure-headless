@@ -46,6 +46,11 @@ const Footer = ({ config }) => {
   return (
     <React.Fragment>
       <div className="footer-xf" dangerouslySetInnerHTML={{ __html: footer }} />
+      <div className='version'>
+        <span>version 1.0</span>
+        <span>{context.serviceURL}</span>
+        <span>{context.project}</span>
+      </div>
     </React.Fragment>
   );
 };
