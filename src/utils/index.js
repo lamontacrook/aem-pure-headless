@@ -9,8 +9,6 @@ export const defaultProject = 'gql-demo-template';
 export const defaultServiceURL = 'https://author-p91555-e868145.adobeaemcloud.com/';
 export const proxyURL = 'https://102588-505tanocelot-stage.adobeioruntime.net/api/v1/web/aem/proxy';
 
-
-
 const store = {};
 export const MagazineStore = (key, value) => {
   if (key && value)
@@ -45,7 +43,7 @@ export const LinkManager = (path, config, context) => {
   } else {
     path = path.replace(`/${rootPath}/${context.project}`, '');
   }
-  
+
   return (
     path
   );
@@ -62,7 +60,7 @@ export const externalizeImagesFromString = (html, context) => {
 
   for (let i = 0; i < [...body.images].length; i++) {
     const pub = context.serviceURL == defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
-    
+
     [...body.images][i].src = [...body.images][i].src.replace(document.location.origin, pub);
     [...body.images][i].srcset = [...body.images][i].srcset.replaceAll('/adobe/dynamicmedia/', `${pub}/adobe/dynamicmedia/`);
     [...body.images][i].srcset = [...body.images][i].srcset.replaceAll('/content/experience-fragments/', `${pub}/content/experience-fragments/`);
@@ -74,7 +72,7 @@ export const externalizeImagesFromString = (html, context) => {
 
 export const externalizeImages = (image, context) => {
   const serviceURL = context.serviceURL === defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
-  
+
   if (image.includes('/content'))
     image = image.replaceAll('/content/', `${serviceURL}/content/`);
   else if (image.includes('/adobe/dynamicmedia'))
@@ -85,28 +83,30 @@ export const externalizeImages = (image, context) => {
 export const prepareRequest = (context) => {
   if (!context) return;
 
-  const usePub = JSON.parse(context.publish);
-  const url = usePub ?
-    context.serviceURL.replace('author', 'publish') :
-    context.serviceURL;
+  // const usePub = JSON.parse(context.publish);
+  // const url = usePub ?
+  //   context.serviceURL.replace('author', 'publish') :
+  //   context.serviceURL;
 
-  if (context.useProxy) {
-    return new AEMHeadless({
-      serviceURL: proxyURL,
-      endpoint: context.endpoint,
-      auth: context.auth,
-      headers: { 'aem-url': url }
-    });
-  } else if(!context.useProxy && !context.publish) {
-    return new AEMHeadless({
-      serviceURL: url,
-      endpoint: context.endpoint,
-      auth: context.auth
-    });
-  } else if(context.publish) {
-    return new AEMHeadless({
-      serviceURL: url,
-      endpoint: context.endpoint
-    });
-  }
+  const _fetch = function (resource, options) {
+    if (!options) options = {};
+
+    options.credentials = 'include';
+    return window.fetch(resource, options);
+  };
+
+  // if (!usePub) {
+
+  return new AEMHeadless({
+    serviceURL: context.serviceURL,
+    endpoint: context.endpoint,
+    auth: context.auth,
+    fetch: _fetch
+  });
+  // } else if (usePub) {
+  //   return new AEMHeadless({
+  //     serviceURL: url,
+  //     endpoint: context.endpoint
+  //   });
+  // }
 };

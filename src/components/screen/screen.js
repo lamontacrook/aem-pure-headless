@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ModelManager from '../../utils/modelmanager';
 import Footer from '../footer';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -7,9 +7,11 @@ import { prepareRequest, rootPath } from '../../utils';
 import Header from '../header';
 import { useErrorHandler } from 'react-error-boundary';
 import './screen.css';
+import { AppContext } from '../../utils/context';
 
 let configPath = '';
-const Screen = ({context}) => {
+const Screen = () => {
+  const context = useContext(AppContext);
   const handleError = useErrorHandler();
   const navigate = useNavigate();
 
@@ -26,13 +28,12 @@ const Screen = ({context}) => {
       `/${rootPath}/${context.project}/${Object.values(props)[0]}`;
 
   configPath = `/content/dam/${context.project}/site/configuration/configuration`;
-  let loggedin = JSON.parse(context.loggedin);
-  const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
+  
+  const version = 'v2';
 
   useEffect(() => {
     const sdk = prepareRequest(context);
-
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath, cs:'sucks' })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
@@ -51,6 +52,7 @@ const Screen = ({context}) => {
               }
             })
             .catch((error) => {
+              error.message = `Error with gql-demo-screen-v2 request:\n ${error.message}`;
               handleError(error);
             });
         }
@@ -61,7 +63,7 @@ const Screen = ({context}) => {
       });
 
 
-  }, [handleError, navigate, path, loggedin, version, context]);
+  }, [handleError, navigate, path, version, context]);
 
   let i = 0;
 
@@ -71,7 +73,7 @@ const Screen = ({context}) => {
     <React.Fragment>
 
       {data && data.screen && data.screen.body.header && config.configurationByPath &&
-        <Header data={data} content={data.screen.body.header} config={config} className='screen' context={context} />
+        <Header data={data} content={data.screen.body.header} config={config} className='screen' />
       }
 
       <div className='main-body'>
@@ -87,14 +89,13 @@ const Screen = ({context}) => {
               key={`${item.__typename}-entity-${i++}`}
               content={item}
               config={config.configurationByPath.item}
-              context={context}
             ></ModelManager>
           </div>
         ))}
       </div>
       <footer>
         {config && config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
-          <Footer config={config.configurationByPath.item.footerExperienceFragment} context={context} />
+          <Footer config={config.configurationByPath.item.footerExperienceFragment} />
         }
       </footer>
     </React.Fragment>

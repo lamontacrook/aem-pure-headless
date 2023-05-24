@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useErrorHandler } from 'react-error-boundary';
 import Header from '../header';
@@ -6,8 +6,10 @@ import Footer from '../footer';
 import './screendetails.css';
 import { prepareRequest } from '../../utils';
 import PropTypes from 'prop-types';
+import { AppContext } from '../../utils/context';
 
-const Screendetails = ({context}) => {
+const Screendetails = () => {
+  const context = useContext(AppContext);
   const handleError = useErrorHandler();
 
   const [config, setConfiguration] = useState('');
@@ -23,7 +25,6 @@ const Screendetails = ({context}) => {
 
   const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
   const configPath = `/content/dam/${context.project}/site/configuration/configuration`;
-  let loggedin = JSON.parse(context.loggedin);
  
   useEffect(() => {
     let path = Object.values(props).pop();
@@ -91,14 +92,14 @@ const Screendetails = ({context}) => {
       });
 
 
-  }, [handleError, navigate, loggedin, configPath, props, version, context]);
+  }, [handleError, navigate, configPath, props, version, context]);
 
   document.title = title;
 
   return (
     <React.Fragment>
       {content && content.screen && config.configurationByPath &&
-        <Header content={content.screen.body.header} config={config} className='screendetail' context={context} />
+        <Header content={content.screen.body.header} config={config} className='screendetail' />
       }
 
       {overview && itinerary && whatToBring && adventure && adventure.adventureByPath && (
@@ -164,7 +165,7 @@ const Screendetails = ({context}) => {
 
       <footer>
         {config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
-          <Footer config={config.configurationByPath.item.footerExperienceFragment} context={context} />
+          <Footer config={config.configurationByPath.item.footerExperienceFragment} />
         }
       </footer>
     </React.Fragment >

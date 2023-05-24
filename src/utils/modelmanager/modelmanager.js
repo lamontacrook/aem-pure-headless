@@ -4,19 +4,18 @@ import ImageList from '../../components/imagelist';
 import PageRef from '../../components/pageref';
 import PropTypes from 'prop-types';
 
-
 export const componentMapping = {
   Teaser,
   ImageList,
   PageRef
 };
 
-const ModelManager = ({ content, config, context }) => {
+const ModelManager = ({ content, config }) => {
   const type = content.__typename.replace(/Model/g, '');
   const Component = componentMapping[type];
  
   if (typeof Component !== 'undefined')
-    return <Component content={content} config={config} context={context} />;
+    return <Component content={content} config={config} />;
   else return <p>Neet to add {type} to ModelManager.</p>;
 };
 

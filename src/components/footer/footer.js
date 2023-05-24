@@ -5,21 +5,23 @@ NOTICE: Adobe permits you to use, modify, and distribute this file in
 accordance with the terms of the Adobe license agreement accompanying
 it.
 */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { externalizeImagesFromString } from '../../utils';
 import './footer.css';
 import { useErrorHandler } from 'react-error-boundary';
 import { pageRef } from '../../api/api';
+import { AppContext } from '../../utils/context';
 
-const Footer = ({ config, context }) => {
+const Footer = ({ config }) => {
+  const context = useContext(AppContext);
   const [footer, setFooter] = useState('');
   const handleError = useErrorHandler();
 
   useEffect(() => {
     if (!config) return;
 
-    const usePub = JSON.parse(context.publish);
+    const usePub = false; //JSON.parse(context.publish);
 
     const url = usePub ?
       config._publishUrl.replace('.html', '.content.html') :

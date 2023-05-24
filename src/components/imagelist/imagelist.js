@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { LinkManager, externalizeImages, MagazineStore } from '../../utils';
+import { LinkManager, externalizeImages } from '../../utils';
 import Image from '../image';
 
 import './imagelist.css';
 import { useErrorHandler } from 'react-error-boundary';
 import { pageRef } from '../../api/api';
+import { AppContext } from '../../utils/context';
 
 export const ImageListGQL = `
 ...on ImageListModel {
@@ -27,20 +28,20 @@ export const ImageListGQL = `
   }
 }`;
 
-const promises = [];
-const ImageList = ({ content, config, context }) => {
-
+const ImageList = ({ content, config }) => {
+  const context = useContext(AppContext);
   const [items, setItems] = useState([]);
+  const [authors, setAuthors] = useState([]);
   const [position, setPosition] = useState(0);
   const [pageType, setPageType] = useState('');
   const handleError = useErrorHandler();
 
   useEffect(() => {
-
+    const promises = [];
     content.imageListItems.map(({ _path, _authorUrl, adventureType, activity, tripLength, price, _publishUrl, __typename, title, primaryImage }) => {
       setPageType(__typename);
       if (__typename === 'PageRef') {
-        const usePub = JSON.parse(context.publish);
+        const usePub = false; //JSON.parse(context.publish);
 
         const url = usePub ?
           _publishUrl.replace('.html', '.content.html') :
@@ -60,17 +61,17 @@ const ImageList = ({ content, config, context }) => {
                 if (image && image.innerHTML)
                   image = externalizeImages(image.innerHTML, context);
 
-                setItems((item) => {
-                  MagazineStore(LinkManager(_path, config, context), { path: _path, article: html });
-                  return [...item, { 
-                    kind: __typename, 
-                    style: content.style, 
-                    name: name && name.innerHTML, 
-                    profession: profession && profession.innerHTML, 
-                    title: title && title.innerHTML, 
-                    image: image, 
-                    path: _path, 
-                    type: 'xf' }];
+                setAuthors((item) => {
+                  return [...item, {
+                    kind: __typename,
+                    style: content.style,
+                    name: name && name.innerHTML,
+                    profession: profession && profession.innerHTML,
+                    title: title && title.innerHTML,
+                    image: image,
+                    path: _path,
+                    type: 'xf'
+                  }];
                 });
 
               }
@@ -80,17 +81,18 @@ const ImageList = ({ content, config, context }) => {
         promises.push(promise);
       } else if (__typename === 'AdventureModel') {
         setItems((item) => {
-          return [...item, { 
-            kind: __typename, 
-            style: content.style, 
-            title: title, 
-            activityType: adventureType, 
-            activity: activity, 
-            tripLength: tripLength, 
-            price: price, 
-            image: primaryImage, 
-            path: _path, 
-            type: 'cf' }];
+          return [...item, {
+            kind: __typename,
+            style: content.style,
+            title: title,
+            activityType: adventureType,
+            activity: activity,
+            tripLength: tripLength,
+            price: price,
+            image: primaryImage,
+            path: _path,
+            type: 'cf'
+          }];
         });
       }
     });
@@ -147,10 +149,15 @@ const ImageList = ({ content, config, context }) => {
         <i className='arrow left' onClick={e => scrollLeft(e, 300)}></i>
         <div className='list' id='list-container-body' onScroll={e => containerChange(e)}>
 
-          {[...new Map(items.map(itm => [itm['path'], itm])).values()].map((item) => (
+          {pageType === 'AdventureModel' && [...new Map(items.map(itm => [itm['path'], itm])).values()].map((item) => (
             <React.Fragment key={`${item.kind}-${item.title || item.name}`}>
-              {(pageType === 'PageRef' && pageType !== 'AdventureModel') && <Card key={item.name} item={item} config={config} context={context} />}
-              {(pageType === 'AdventureModel' && pageType !== 'PageRef') && <AdventureCard key={item.title} item={item} config={config} context={context} />}
+              <AdventureCard key={item.title} item={item} config={config} />
+            </React.Fragment>
+          ))}
+
+          {pageType === 'PageRef' && [...new Map(authors.map(itm => [itm['path'], itm])).values()].map((item) => (
+            <React.Fragment key={`${item.kind}-${item.title || item.name}`}>
+              <Card key={item.name} item={item} config={config} />
             </React.Fragment>
           ))}
 
@@ -167,7 +174,8 @@ ImageList.propTypes = {
   context: PropTypes.object
 };
 
-const Card = ({ item, config, context }) => {
+const Card = ({ item, config }) => {
+  const context = useContext(AppContext);
   return (
     <div className='list-item' key={item.title}>
       <picture dangerouslySetInnerHTML={{ __html: item.image }} />
@@ -192,10 +200,12 @@ Card.propTypes = {
   context: PropTypes.object
 };
 
-const AdventureCard = ({ item, config, context }) => {
+const AdventureCard = ({ item, config }) => {
+  const context = useContext(AppContext);
+
   return (
     <div className='list-item' key={item.title}>
-      <Image asset={item.image} config={config} context={context}/>
+      <Image asset={item.image} config={config} />
       <Link key={item.path} to={LinkManager(item.path, config, context)}>
         <span className='title'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (

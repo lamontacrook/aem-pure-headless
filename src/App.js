@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Screen from './components/screen';
@@ -9,50 +9,39 @@ import Screendetails from './components/screendetails';
 import Error from './components/error';
 import { useErrorHandler } from 'react-error-boundary';
 import { ThreeDots } from 'react-loader-spinner';
-import { accessToken, defaultEndpoint, defaultProject, defaultServiceURL } from './utils';
+import { AppContext } from './utils/context';
 
 const App = () => {
-  const [authState, setAuthState] = useState({
-    auth: sessionStorage.auth || '',
-    endpoint: localStorage.endpoint || defaultEndpoint,
-    project: localStorage.project || defaultProject,
-    loggedin: sessionStorage.loggedin ? JSON.parse(sessionStorage.loggedin) : false,
-    serviceURL: localStorage.serviceURL || defaultServiceURL,
-    publish: localStorage.publish ? JSON.parse(localStorage.publish) : false,
-    rda: localStorage.rda || 'v2',
-    useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false,
-  });
+  const context = useContext(AppContext);
+  const [wait, setWait] = useState(true);
   const handleError = useErrorHandler();
 
   useEffect(() => {
 
-    if (authState.publish || authState.loggedin) return;
-    fetch(accessToken)
-      .then(response => ({
-        res: response.text().then(token => {
-          if (token) {
-            setAuthState({
-              auth: sessionStorage.auth || token,
-              endpoint: localStorage.endpoint || defaultEndpoint,
-              project: localStorage.project || defaultProject,
-              loggedin: sessionStorage.loggedin ? JSON.parse(sessionStorage.loggedin) : true,
-              serviceURL: localStorage.serviceURL || defaultServiceURL,
-              publish: localStorage.publish ? JSON.parse(localStorage.publish) : false,
-              rda: localStorage.rda || 'v2',
-              useProxy: localStorage.useProxy ? JSON.parse(localStorage.useProxy) : false
-            });
-            sessionStorage.setItem('auth', token);
-            sessionStorage.setItem('loggedin', true);
-          }
-        }).catch(error => {
-          error.message = `Error fetching token:\n ${error.message}`;
-          handleError(error);
-        })
-      }));
+    const configured = (context.serviceURL !== context.defaultServiceURL);
+    const hasAuth = context.auth !== '';
 
-  }), [setAuthState, handleError];
+    if (!configured && !hasAuth) {
+      fetch(context.accessToken)
+        .then(response => ({
+          res: response.text().then(token => {
+            if (token) {
+              sessionStorage.setItem('auth', token);
+              sessionStorage.setItem('loggedin', true);
+              context.auth = token;
+              setWait(false);
+            }
+          }).catch(error => {
+            error.message = `Error fetching token:\n ${error.message}`;
+            handleError(error);
+          })
+        }));
+    } else
+      setWait(false);
 
-  if (!JSON.parse(authState.publish) && !JSON.parse(authState.loggedin) && authState.auth === '') {
+  }, [context, handleError]);
+
+  if (wait) {
     return (<ThreeDots
       height='120'
       width='120'
@@ -75,7 +64,7 @@ const App = () => {
                   sessionStorage.removeItem('loggedin');
                   sessionStorage.removeItem('auth');
                 }}
-              ><Preview context={authState} /></ErrorBoundary>
+              ><Preview /></ErrorBoundary>
             } />
 
             <Route exact={true} path={'/settings'} element={
@@ -86,7 +75,7 @@ const App = () => {
                   sessionStorage.removeItem('auth');
                 }}
               >
-                <Settings context={authState} /> </ErrorBoundary>} />
+                <Settings /> </ErrorBoundary>} />
             <Route exact={false} path={'/*'} element={
 
               <ErrorBoundary
@@ -95,7 +84,7 @@ const App = () => {
                   sessionStorage.clear();
                   localStorage.clear();
                 }}
-              ><Screen context={authState} /></ErrorBoundary>
+              ><Screen /></ErrorBoundary>
 
             } />
 
@@ -107,17 +96,17 @@ const App = () => {
                   sessionStorage.removeItem('loggedin');
                   sessionStorage.removeItem('auth');
                 }}
-              ><Screen context={authState} /></ErrorBoundary>
+              ><Screen /></ErrorBoundary>
 
             } />
-            <Route exact={true} path={`/${authState.project}/*`} element={
+            <Route exact={true} path={`/${context.project}/*`} element={
               <ErrorBoundary
                 FallbackComponent={Error}
                 onReset={() => {
                   sessionStorage.removeItem('loggedin');
                   sessionStorage.removeItem('auth');
                 }}
-              ><Screendetails context={authState} /></ErrorBoundary>
+              ><Screendetails /></ErrorBoundary>
             } />
 
           </Routes>

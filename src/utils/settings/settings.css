@@ -19,6 +19,7 @@
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100vh;
 }
 
 .main>.settings-form {
@@ -31,6 +32,7 @@
   font-size: small;
   align-items: flex-start;
   align-content: center;
+  width: 90vw;
 }
 
 .main.settings fieldset {

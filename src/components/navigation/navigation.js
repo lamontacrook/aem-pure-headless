@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import './navigation.css';
 import wkndlogo from '../../media/wknd-logo-light.png';
@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { useErrorHandler } from 'react-error-boundary';
 import Flyout from '../../utils/flyout';
 import { defaultServiceURL } from '../../utils';
+import { AppContext } from '../../utils/context';
 
 export const NavigationGQL = `query ScreenList($locale: String!) {
   screenList(
@@ -27,7 +28,8 @@ export const NavigationGQL = `query ScreenList($locale: String!) {
   }
 }`;
 
-const Navigation = ({ className, config, screen, context }) => {
+const Navigation = ({ className, config, screen }) => {
+  const context = useContext(AppContext);
   const [nav, setNav] = useState('');
   const [expanded, setExpanded] = useState(false);
   const [logo, setLogo] = useState(wkndlogo);
@@ -116,7 +118,7 @@ const Navigation = ({ className, config, screen, context }) => {
           <button href='#' className='button view-gql' aria-expanded='false' aria-controls='flyout' onClick={viewGQL}>View GraphQL</button>
         </div>
       </nav >
-      <Flyout show={false} config={config} screen={screen} context={context} />
+      <Flyout show={false} config={config} screen={screen} />
     </React.Fragment>
   );
 };

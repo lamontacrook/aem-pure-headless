@@ -6,9 +6,10 @@ accordance with the terms of the Adobe license agreement accompanying
 it.
 */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { defaultServiceURL } from '../../utils';
+import { AppContext } from '../../utils/context';
 
 import './image.css';
 
@@ -29,7 +30,8 @@ const SrcSet = (src) => {
 
 };
 
-const Image = ({ asset, config, context }) => {
+const Image = ({ asset, config }) => {
+  const context = useContext(AppContext);
   const src = context.serviceURL === defaultServiceURL ? asset._publishUrl : asset._authorUrl;
   const width = asset.width;
   const height = asset.height;

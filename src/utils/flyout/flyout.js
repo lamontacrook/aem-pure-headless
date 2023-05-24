@@ -6,13 +6,15 @@ accordance with the terms of the Adobe license agreement accompanying
 it.
 */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropsType from 'prop-types';
 import './flyout.css';
 import { NavigationGQL } from '../../components/navigation';
 import { ConfigurationGQL, ScreenGQL } from '../../components/screen';
+import { AppContext } from '../context';
 
-const Flyout = ({ show, config, screen, context }) => {
+const Flyout = ({ show, config, screen }) => {
+  const context = useContext(AppContext);
   const [response, setResponse] = useState({});
   const [configResponse, setConfigResponse] = useState({});
   const [blocks, setBlocks] = useState({});

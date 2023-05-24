@@ -1,29 +1,28 @@
 
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Video from '../video';
 import Image from '../image';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../../utils/context';
 
 import './teaser.css';
 import { LinkManager} from '../../utils';
 
 
-const Teaser = ({ content, config, context }) => {
-  useEffect(() => {
-   
-  }, []);
-  
+const Teaser = ({ content, config }) => {
+  const context = useContext(AppContext);
+ 
   return (
     <React.Fragment>
       <section className={'teaser ' + content.style} data-model={content.title} data-fragment={content._path}>
 
         <div className='container'>
           {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'format') &&
-            (<Video content={content.asset} context={context} />)}
+            (<Video content={content.asset} />)}
 
           {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType') &&
-            (<Image asset={content.asset} config={config} context={context} />)}
+            (<Image asset={content.asset} config={config} />)}
 
           <div className='content-block'>
             {content.title && content.style === 'hero' && (

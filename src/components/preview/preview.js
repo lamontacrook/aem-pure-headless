@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ModelManager from '../../utils/modelmanager';
 import Header from '../header/header';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { prepareRequest } from '../../utils';
 import { useErrorHandler } from 'react-error-boundary';
+import { AppContext } from '../../utils/context';
 import './preview.css';
 
-const Preview = ({ context }) => {
+const Preview = () => {
+  const context = useContext(AppContext);
   const handleError = useErrorHandler();
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
@@ -47,7 +49,7 @@ const Preview = ({ context }) => {
   return (
     <React.Fragment>
       {data && data.component && data.component.item && config.configurationByPath && data.component.item.__typename === 'HeaderModel' &&
-        <Header data={data} content={data.component.item} config={config} className='screen' context={context} />
+        <Header data={data} content={data.component.item} config={config} className='screen' />
       }
 
       <div className='main-body'>
@@ -63,7 +65,6 @@ const Preview = ({ context }) => {
               key={`${data.component.item.__typename}-entity-${i++}`}
               content={data.component.item}
               config={config.configurationByPath.item}
-              context={context}
             ></ModelManager>
           </div>
         )}

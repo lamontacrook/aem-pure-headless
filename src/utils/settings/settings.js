@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { marked } from 'marked';
 import './settings.css';
 import endpointmd from './endpoint.md';
@@ -7,10 +7,12 @@ import projectmd from './project.md';
 import authmd from './auth.md';
 import proxymd from './proxymd.md';
 import intromd from './intro.md';
-import { AEMHeadless } from '@adobe/aem-headless-client-js';
+// import { AEMHeadless } from '@adobe/aem-headless-client-js';
 import { useErrorHandler } from 'react-error-boundary';
 import PropTypes from 'prop-types';
-import { proxyURL } from '../index';
+import { prepareRequest } from '../index';
+import { Helmet } from 'react-helmet';
+import { AppContext } from '../context';
 
 const instructionsData = {
   'serviceURL': serviceURLmd,
@@ -23,20 +25,17 @@ const instructionsData = {
   'proxy': proxymd
 };
 
-document.title = 'Settings';
-
-const Settings = ({ context }) => {
+const Settings = () => {
+  const context = useContext(AppContext);
   const handleError = useErrorHandler();
   const [instructions, setInstructions] = useState('');
   const [intro, setIntro] = useState('');
-  const [endpoint, setEndpoint] = useState(context.endpoint);
+  // const [endpoint, setEndpoint] = useState(context.endpoint);
   const [project, setProject] = useState(context.project);
-  const [loggedin, setLoggedin] = useState(JSON.parse(context.loggedin));
-  const [auth, setAuth] = useState(context.auth);
+  // const [loggedin, setLoggedin] = useState(JSON.parse(context.loggedin));
+  // const [auth, setAuth] = useState(context.auth);
   const [serviceURL, setServiceURL] = useState(context.serviceURL);
   const [config, setConfig] = useState({});
-  const [useProxy, setUseProxy] = useState(JSON.parse(context.useProxy));
-  const [publish, setPublish] = useState(context.publish);
   const [statusCode, setStatusCode] = useState('');
   const configPath = `/content/dam/${project}/site/configuration/configuration`;
 
@@ -50,7 +49,8 @@ const Settings = ({ context }) => {
     `/content/dam/${project}/site/en/magazine/western-australia/recent-articles`,
   ];
 
-  const screenListArray = [`/content/dam/${project}/site/en/magazine/arctic-surfing/arctic-surfing`,
+  const screenListArray = [
+    `/content/dam/${project}/site/en/magazine/arctic-surfing/arctic-surfing`,
     `/content/dam/${project}/site/en/magazine/san-diego-surf/san-diego-surf`,
     `/content/dam/${project}/site/en/magazine/ski-touring/ski-touring`,
     `/content/dam/${project}/site/en/magazine/western-australia/western-australia`,
@@ -59,76 +59,41 @@ const Settings = ({ context }) => {
 
   const getConfiguration = () => {
 
-    const now = new Date();
-    setPublish(false);
     syncLocalStorage('serviceURL', serviceURL);
-    syncLocalStorage('endpoint', endpoint);
-    syncLocalStorage('auth', auth);
     syncLocalStorage('project', project);
-    syncLocalStorage('publish', publish);
-    syncLocalStorage('loggedin', loggedin);
-    syncLocalStorage('useProxy', useProxy);
+    syncLocalStorage('endpoint', context.endpoint);
+    // syncLocalStorage('auth', auth);
 
-
-    if (localStorage.getItem('expiry') === null)
-      localStorage.setItem('expiry', now.getTime() + 82800000);
-
-    const sdk = JSON.parse(useProxy) ? new AEMHeadless({
-      serviceURL: proxyURL,
-      endpoint: endpoint,
-      auth: auth,
-      headers: { 'aem-url': serviceURL }
-    }) : new AEMHeadless({
-      serviceURL: serviceURL,
-      endpoint: endpoint,
-      auth: auth
-    });
-
+    const sdk = prepareRequest(context);
 
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
       .then(({ data }) => {
 
         if (data) {
           setConfig(data);
-          localStorage.setItem('loggedin', true);
-          setLoggedin(true);
+          // sessionStorage.setItem('auth', auth);
+          // sessionStorage.setItem('loggedin', true);
+          // setLoggedin(true);
+          sessionStorage.removeItem('auth');
+          sessionStorage.removeItem('loggedin');
         }
       })
       .catch((error) => {
-        localStorage.setItem('loggedin', false);
-        setAuth('');
         handleError(error);
       });
 
     const url = '/content/experience-fragments/wknd-site/language-masters/en/site/footer/master.content.html?wcmmode=disabled';
 
 
-    const headers = useProxy ?
-      new Headers({
-        'Authorization': `Bearer ${auth}`,
-        'Content-Type': 'text/html',
-        'aem-url': serviceURL
-      }) :
-      new Headers({
-        'Authorization': `Bearer ${auth}`,
-        'Content-Type': 'text/html',
-      });
+    const headers = new Headers({
+      'Content-Type': 'text/html',
+    });
 
-    const req = useProxy ?
-      new Request(proxyURL + url, {
-        method: 'get',
-        headers: headers,
-        mode: 'cors',
-        credentials: 'same-origin',
-        referrerPolicy: 'origin-when-cross-origin'
-      }) :
-      new Request(serviceURL + url, {
-        method: 'get',
-        headers: headers,
-        mode: 'cors',
-        credentials: 'same-origin',
-        referrerPolicy: 'origin-when-cross-origin'
-      });
+    const req = new Request(serviceURL + url, {
+      method: 'get',
+      headers: headers,
+      credentials: 'include',
+    });
 
 
     fetch(req)
@@ -159,12 +124,11 @@ const Settings = ({ context }) => {
           });
       }
     }
-    setPublish(false);
 
   }, [handleError, instructions]);
 
   const syncLocalStorage = (key, value) => {
-    if(key === 'auth' || key === 'loggedin') 
+    if (key === 'auth' || key === 'loggedin')
       sessionStorage.setItem(key, value);
     else
       localStorage.setItem(key, value);
@@ -173,109 +137,91 @@ const Settings = ({ context }) => {
 
   return (
     <React.Fragment>
-      <header className='home-hero'></header>
-      <div className='main settings'>
-        <div className='settings-form'>
-          <form>
-            <label>Author URL
-              <input className='author-url'
-                type='text'
-                placeholder='Enter the URL of your author environment'
-                name='serviceURL'
-                onSelect={(e) => setInstructions(instructionsData[e.target.name])}
-                value={serviceURL}
-                onChange={(e) => setServiceURL(e.target.value)}>
+      <Helmet>
+        <title>Settings</title>
+      </Helmet>
+      <AppContext.Provider value={context}>
+        <header className='home-hero'></header>
+        <div className='main settings'>
+          <div className='settings-form'>
+            <form>
+              <label>Author URL
+                <input className='author-url'
+                  type='text'
+                  placeholder='Enter the URL of your author environment'
+                  name='serviceURL'
+                  onSelect={(e) => setInstructions(instructionsData[e.target.name])}
+                  value={serviceURL}
+                  onChange={(e) => setServiceURL(e.target.value)}>
 
-              </input>
-            </label>
-            <label>Developer Token
-              <textarea className='developer-token'
-                type='text'
-                rows={28}
-                placeholder='Paste your Bearer Token'
-                name='auth'
-                onSelect={(e) => setInstructions(instructionsData[e.target.name])}
-                value={auth}
-                onChange={(e) => { setAuth(e.target.value); }}>
-              </textarea>
-            </label>
-            <label>GraphQL Endpoint
-              <input className='graphql-endpoint'
-                type='text'
-                placeholder='/content/_cq_graphql/aem-demo-assets/endpoint.json'
-                name='endpoint'
-                onSelect={(e) => setInstructions(instructionsData[e.target.name])}
-                value={endpoint}
-                onChange={(e) => setEndpoint(e.target.value)}>
-              </input>
-            </label>
-
-            <label>Project Name
-              <input className='shared-project'
-                type='text'
-                placeholder='gql-demo'
-                name='project'
-                onSelect={(e) => setInstructions(instructionsData[e.target.name])}
-                value={project}
-                onChange={(e) => setProject(e.target.value)}></input>
-            </label>
-
-            <fieldset>
-              <legend>It is highly recommended you use this proxy to avoid CORS errors. By unselecting, you will need to update CORS setting in your AEM instance.</legend>
-              <label>Use Proxy
-                <input className='proxy'
-                  type='checkbox'
-                  name='useProxy'
-                  value='checked'
-                  onSelect={() => setInstructions(instructionsData['proxy'])}
-                  onChange={(e) => { setUseProxy(JSON.parse(e.target.checked)); }}
-                ></input>
+                </input>
               </label>
-            </fieldset>
+              {/* <label>Developer Token
+                <textarea className='developer-token'
+                  type='text'
+                  rows={28}
+                  placeholder='Paste your Bearer Token'
+                  name='auth'
+                  onSelect={(e) => setInstructions(instructionsData[e.target.name])}
+                  value={auth}
+                  onChange={(e) => { setAuth(e.target.value); }}>
+                </textarea>
+              </label> */}
 
-            <button className='button'
-              type='button'
-              name='authenticate'
-              onClick={(e) => getConfiguration(e)}>Authenticate</button>
-          </form>
-          {!Object.keys(config).length && (
-            <div className='instructions'>
-              <div className='overview' dangerouslySetInnerHTML={{ __html: intro }} />
-              <div className='item' dangerouslySetInnerHTML={{ __html: instructions }} />
-            </div>
-          )}
-          {Object.keys(config).length !== 0 && (
+              <label>Project Name
+                <input className='shared-project'
+                  type='text'
+                  placeholder='gql-demo'
+                  name='project'
+                  onSelect={(e) => setInstructions(instructionsData[e.target.name])}
+                  value={project}
+                  onChange={(e) => setProject(e.target.value)}></input>
+              </label>
 
-            <div className='instructions'>
-              <p>You are loggedin.  You can now navigate to the app <a href='/aem-pure-headless'>here</a>.</p>
-              <p>You can configuration the configuration fragment <a href={serviceURL + 'editor.html' + configPath} target='_blank' rel='noreferrer'>here</a>.</p>
-              {statusCode === 404 && (
-                <React.Fragment>
-                  <p>The out of the box configuration depends on a the wknd site Experience Fragments with the name wknd-site.
-                    This can be overriden with the wknd path configuration path, but all content fragments with references to the
-                    Experiense Fragments should be updated.
-                  </p>
-                  <strong>Screens</strong>
-                  <ul className='pagerefs'>
-                    {screenListArray.map(e => (
-                      <li key={e}><a href={serviceURL + 'editor.html' + e} target='_blank' rel='noreferrer'>{e}</a></li>
-                    ))}
-                  </ul>
+              <button className='button'
+                type='button'
+                name='authenticate'
+                onClick={(e) => getConfiguration(e)}>Authenticate</button>
+            </form>
+            {!Object.keys(config).length && (
+              <div className='instructions'>
+                <div className='overview' dangerouslySetInnerHTML={{ __html: intro }} />
+                <div className='item' dangerouslySetInnerHTML={{ __html: instructions }} />
+              </div>
+            )}
+            {Object.keys(config).length !== 0 && (
 
-                  <strong>ImageLists</strong>
-                  <ul className='pagerefs'>
-                    {imageListArray.map(e => (
-                      <li key={e}><a href={serviceURL + 'editor.html' + e} target='_blank' rel='noreferrer'>{e}</a></li>
-                    ))}
-                  </ul>
+              <div className='instructions'>
+                <p>You are loggedin.  You can now navigate to the app <a href='/aem-pure-headless'>here</a>.</p>
+                <p>You can configuration the configuration fragment <a href={serviceURL + 'editor.html' + configPath} target='_blank' rel='noreferrer'>here</a>.</p>
+                {statusCode === 404 && (
+                  <React.Fragment>
+                    <p>The out of the box configuration depends on a the wknd site Experience Fragments with the name wknd-site.
+                      This can be overriden with the wknd path configuration path, but all content fragments with references to the
+                      Experiense Fragments should be updated.
+                    </p>
+                    <strong>Screens</strong>
+                    <ul className='pagerefs'>
+                      {screenListArray.map(e => (
+                        <li key={e}><a href={serviceURL + 'editor.html' + e} target='_blank' rel='noreferrer'>{e}</a></li>
+                      ))}
+                    </ul>
 
-                  <p>In addition to these, you will need to update the configuration fragment linked <a href={serviceURL + 'editor.html' + configPath} target='_blank' rel='noreferrer'>here</a>.</p>
-                </React.Fragment>
-              )}
-            </div>
-          )}
+                    <strong>ImageLists</strong>
+                    <ul className='pagerefs'>
+                      {imageListArray.map(e => (
+                        <li key={e}><a href={serviceURL + 'editor.html' + e} target='_blank' rel='noreferrer'>{e}</a></li>
+                      ))}
+                    </ul>
+
+                    <p>In addition to these, you will need to update the configuration fragment linked <a href={serviceURL + 'editor.html' + configPath} target='_blank' rel='noreferrer'>here</a>.</p>
+                  </React.Fragment>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </AppContext.Provider>
     </React.Fragment>
   );
 };

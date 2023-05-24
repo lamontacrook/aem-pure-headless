@@ -14,8 +14,7 @@ import Image from '../image';
 
 import './header.css';
 
-const Header = ({ content, config, className, context }) => {
-
+const Header = ({ content, config, className }) => {
   const fadeOutHandler = () => {
     if(document.querySelector('#flyout') && document.querySelector('#flyout').getAttribute('aria-expanded')) return;
     const hero = document.querySelector('header');
@@ -49,7 +48,7 @@ const Header = ({ content, config, className, context }) => {
   return (
     <header className={`home-${content.teaser?'hero':'article'} ${className}`} role='banner' data-fragment={content._path} data-model={title && title.join('')}>
       {content && (
-        <Navigation className={content.navigationColor} config={config} screen={content} context={context} />
+        <Navigation className={content.navigationColor} config={config} screen={content} />
       )}
 
       {content.teaser &&
@@ -58,12 +57,11 @@ const Header = ({ content, config, className, context }) => {
             .toLowerCase()
             .replace(' ', '-')}-entity-header`}
           content={content.teaser}
-          context={context}
           config={config.configurationByPath.item}
         ></ModelManager>}
 
       {content.banner && !content.teaser &&
-        <Image asset={content.banner} config={config.configurationByPath.item} context={context} />
+        <Image asset={content.banner} config={config.configurationByPath.item} />
       }
     </header>
   );
