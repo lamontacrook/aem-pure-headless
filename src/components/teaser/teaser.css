@@ -8,14 +8,7 @@
   opacity: 1;
 }
 
-/* .hero>.container {
-  height: 100vh;
-  padding-bottom: 50px;
-  padding-top: 50px;
-} */
-
 header .hero>.container img {
-  /* min-width: 100%; */
   width: 100%;
   height: 100%;
   object-fit: cover;
