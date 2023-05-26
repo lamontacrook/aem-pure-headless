@@ -18,6 +18,7 @@ module.exports = {
 		"react-hooks"
 	],
 	'rules': {
+		'react/no-unknown-property': ['warn', { ignore: ['itemfilter'] }],
 		'indent': [
 			'error',
 			2

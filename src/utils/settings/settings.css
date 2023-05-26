@@ -22,6 +22,10 @@
   height: 100vh;
 }
 
+.main.settings.iframe {
+  height: 800px;
+}
+
 .main>.settings-form {
   background-color: var(--main-color-opacity);
   margin: auto;

@@ -7,7 +7,7 @@ import './screendetails.css';
 import { prepareRequest } from '../../utils';
 import PropTypes from 'prop-types';
 import { AppContext } from '../../utils/context';
-
+import { Helmet } from 'react-helmet';
 const Screendetails = () => {
   const context = useContext(AppContext);
   const handleError = useErrorHandler();
@@ -94,10 +94,11 @@ const Screendetails = () => {
 
   }, [handleError, navigate, configPath, props, version, context]);
 
-  document.title = title;
-
   return (
     <React.Fragment>
+      <Helmet>
+        <title>WKND: {title}</title>
+      </Helmet>
       {content && content.screen && config.configurationByPath &&
         <Header content={content.screen.body.header} config={config} className='screendetail' />
       }

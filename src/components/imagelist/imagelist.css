@@ -21,11 +21,14 @@ it.
   flex-basis: 350px;
 }
 
-image-grid>.list .list-item::after {
+.image-grid>.list .list-item::after {
   flex-basis: 350px;
   content: "";
 }
 
+.image-grid {
+  margin-bottom: 100px;
+}
 
 .image-grid>.list .list-item .title {
   font-size: 16px;
@@ -51,10 +54,6 @@ image-grid>.list .list-item::after {
 .image-grid>.list .list-item .details li {
   line-height: 1.1em;
 }
-
-/* .image-grid > .list .list-item .title::after {
-  content: "\n";
-} */
 
 .image-grid.list-container .list .list-item img {
   object-fit: cover;

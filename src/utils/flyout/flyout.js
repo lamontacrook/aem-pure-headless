@@ -6,18 +6,15 @@ accordance with the terms of the Adobe license agreement accompanying
 it.
 */
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropsType from 'prop-types';
 import './flyout.css';
 import { NavigationGQL } from '../../components/navigation';
 import { ConfigurationGQL, ScreenGQL } from '../../components/screen';
-import { AppContext } from '../context';
 
 const Flyout = ({ show, config, screen }) => {
-  const context = useContext(AppContext);
   const [response, setResponse] = useState({});
   const [configResponse, setConfigResponse] = useState({});
-  const [blocks, setBlocks] = useState({});
 
   useEffect(() => {
     setResponse(screen);
@@ -38,7 +35,7 @@ const Flyout = ({ show, config, screen }) => {
       }
       components[title] = e._path;
 
-      setBlocks(components);
+      // setBlocks(components);
 
     });
 
@@ -70,23 +67,12 @@ const Flyout = ({ show, config, screen }) => {
     document.querySelector('.fly-out-gql .sections.content').style.display = 'none';
   }
 
-  function getSections(e) {
-    document.querySelectorAll('.selected').forEach(item => {
-      item.classList.toggle('selected');
-    });
-    e.target.classList.toggle('selected');
-    document.querySelector('.fly-out-gql .response.content').style.display = 'none';
-    document.querySelector('.fly-out-gql .payload.content').style.display = 'none';
-    document.querySelector('.fly-out-gql .sections.content').style.display = 'unset';
-  }
-
   return (
     <div className='fly-out-gql payload' id='flyout' aria-expanded={show}>
       <div className='button-group'>
         <a onClick={(e) => showResponse(e)} className='button tab selected'>Show Response</a>
         <a onClick={(e) => showPayload(e)} className='button tab'>Show Request</a>
-        <a onClick={(e) => getSections(e)} className='button tab'>Edit Content Fragments</a>
-
+ 
         <div className='tab' onClick={hideGQL}>
           <div className='flyout-icon'></div>
         </div>
@@ -114,15 +100,6 @@ const Flyout = ({ show, config, screen }) => {
           <legend>Configuration</legend>
           <pre>{JSON.stringify(configResponse, null, 1)}</pre>
         </fieldset>
-      </section>
-      <section id='sections' className='sections content'>
-        <ul>
-          {blocks && Object.keys(blocks).map((title) =>
-            <li key={blocks[title]}>
-              <a href={context.serviceURL + 'editor.html' + blocks[title]} rel='noreferrer' target='_blank'>{title}</a>
-            </li>
-          )}
-        </ul>
       </section>
     </div>
   );

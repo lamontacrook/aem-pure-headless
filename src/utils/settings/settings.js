@@ -30,14 +30,16 @@ const Settings = () => {
   const handleError = useErrorHandler();
   const [instructions, setInstructions] = useState('');
   const [intro, setIntro] = useState('');
-  // const [endpoint, setEndpoint] = useState(context.endpoint);
   const [project, setProject] = useState(context.project);
-  // const [loggedin, setLoggedin] = useState(JSON.parse(context.loggedin));
-  // const [auth, setAuth] = useState(context.auth);
   const [serviceURL, setServiceURL] = useState(context.serviceURL);
   const [config, setConfig] = useState({});
   const [statusCode, setStatusCode] = useState('');
   const configPath = `/content/dam/${project}/site/configuration/configuration`;
+
+  let inFrame = false;
+  if(window.location !== window.parent.location) {
+    inFrame = true;
+  }
 
   const imageListArray = [
     `/content/dam/${project}/site/en/about-us/components/our-contributers`,
@@ -62,7 +64,6 @@ const Settings = () => {
     syncLocalStorage('serviceURL', serviceURL);
     syncLocalStorage('project', project);
     syncLocalStorage('endpoint', context.endpoint);
-    // syncLocalStorage('auth', auth);
 
     const sdk = prepareRequest(context);
 
@@ -71,9 +72,6 @@ const Settings = () => {
 
         if (data) {
           setConfig(data);
-          // sessionStorage.setItem('auth', auth);
-          // sessionStorage.setItem('loggedin', true);
-          // setLoggedin(true);
           sessionStorage.removeItem('auth');
           sessionStorage.removeItem('loggedin');
         }
@@ -142,7 +140,7 @@ const Settings = () => {
       </Helmet>
       <AppContext.Provider value={context}>
         <header className='home-hero'></header>
-        <div className='main settings'>
+        <div className={'main settings' + (inFrame ? ' iframe' : '')}>
           <div className='settings-form'>
             <form>
               <label>Author URL

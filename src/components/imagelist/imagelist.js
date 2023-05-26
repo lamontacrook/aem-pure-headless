@@ -144,7 +144,7 @@ const ImageList = ({ content, config }) => {
 
   return (
     <React.Fragment>
-      <section className={`${content.style} list-container`} data-model={title.join('')} data-fragment={content._path}>
+      <section className={`${content.style} list-container`} itemID={`urn:aemconnection:${content._path}/jcr:content/data/master`} itemfilter='cf' itemType='reference' itemScope>
         {title && <h4>{title.join('')}</h4>}
         <i className='arrow left' onClick={e => scrollLeft(e, 300)}></i>
         <div className='list' id='list-container-body' onScroll={e => containerChange(e)}>
@@ -177,11 +177,11 @@ ImageList.propTypes = {
 const Card = ({ item, config }) => {
   const context = useContext(AppContext);
   return (
-    <div className='list-item' key={item.title}>
+    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/root/container/title`} itemType='container'>
       <picture dangerouslySetInnerHTML={{ __html: item.image }} />
 
       <Link key={item.path} to={LinkManager(item.path, config, context)}>
-        <span className='title'>{item.title || item.name}</span>
+        <span className='title' itemID={`urn:aemconnection:${item.path}/jcr:content/root/container/title`} itemProp='jcr:title' itemType='text'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (
           <div className='details'>
             <ul>
@@ -204,16 +204,16 @@ const AdventureCard = ({ item, config }) => {
   const context = useContext(AppContext);
 
   return (
-    <div className='list-item' key={item.title}>
+    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/data/master`} itemfilter='cf' itemType='reference' itemScope>
       <Image asset={item.image} config={config} />
       <Link key={item.path} to={LinkManager(item.path, config, context)}>
-        <span className='title'>{item.title || item.name}</span>
+        <span className='title' itemProp='title' itemType='text'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (
           <div className='details'>
             <ul>
-              <li>{item.activityType}</li>
-              <li>{item.activity}</li>
-              <li>{item.tripLength}</li>
+              <li itemProp='activityType' itemType='text'>{item.activityType}</li>
+              <li itemProp='activityLength' itemType='text'>{item.activity}</li>
+              <li itemProp='tripLength' itemType='text'>{item.tripLength}</li>
             </ul>
           </div>
         )}

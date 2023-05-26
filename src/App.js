@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Screen from './components/screen';
 import Preview from './components/preview';
@@ -10,12 +10,13 @@ import Error from './components/error';
 import { useErrorHandler } from 'react-error-boundary';
 import { ThreeDots } from 'react-loader-spinner';
 import { AppContext } from './utils/context';
+import { Helmet } from 'react-helmet';
 
 const App = () => {
   const context = useContext(AppContext);
   const [wait, setWait] = useState(true);
   const handleError = useErrorHandler();
-
+  const aemUrl = context.serviceURL.replace(/\/$/, '');
   useEffect(() => {
 
     const configured = (context.serviceURL !== context.defaultServiceURL);
@@ -55,7 +56,10 @@ const App = () => {
   } else {
     return (
       <div className='App'>
-        <HashRouter>
+        <Helmet>
+          <meta name='urn:auecon:aemconnection' content={`aem:${aemUrl}`} />
+        </Helmet>
+        <BrowserRouter>
           <Routes>
             <Route exact={true} path={'/preview/*'} element={
               <ErrorBoundary
@@ -110,7 +114,7 @@ const App = () => {
             } />
 
           </Routes>
-        </HashRouter>
+        </BrowserRouter>
       </div>
     );
   }

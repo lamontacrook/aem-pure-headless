@@ -8,6 +8,7 @@ import Header from '../header';
 import { useErrorHandler } from 'react-error-boundary';
 import './screen.css';
 import { AppContext } from '../../utils/context';
+import { Helmet } from 'react-helmet';
 
 let configPath = '';
 const Screen = () => {
@@ -67,11 +68,11 @@ const Screen = () => {
 
   let i = 0;
 
-  document.title = title;
-
   return (
     <React.Fragment>
-
+      <Helmet>
+        <title>WKND: {title}</title>
+      </Helmet>
       {data && data.screen && data.screen.body.header && config.configurationByPath &&
         <Header data={data} content={data.screen.body.header} config={config} className='screen' />
       }
