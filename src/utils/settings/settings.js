@@ -65,6 +65,9 @@ const Settings = () => {
     syncLocalStorage('project', project);
     syncLocalStorage('endpoint', context.endpoint);
 
+    context.serviceURL = serviceURL;
+    context.project = project;
+
     const sdk = prepareRequest(context);
 
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
