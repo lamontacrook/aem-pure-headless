@@ -21,11 +21,7 @@ const Footer = ({ config }) => {
   useEffect(() => {
     if (!config) return;
 
-    const usePub = false; //JSON.parse(context.publish);
-
-    const url = usePub ?
-      config._publishUrl.replace('.html', '.content.html') :
-      config._authorUrl.replace('.html', '.content.html?wcmmode=disabled');
+    const url = config._authorUrl.replace('.html', '.content.html?wcmmode=disabled');
 
     pageRef(url, context)
       .then((response) => {
@@ -50,6 +46,7 @@ const Footer = ({ config }) => {
         <span>version 1.0</span>
         <span>{context.serviceURL}</span>
         <span>{context.project}</span>
+        <span><a href='https://experience.adobe.com/#/aem/editor' target='_blank' rel='noreferrer'>Open in Editor</a></span>
       </div>
     </React.Fragment>
   );

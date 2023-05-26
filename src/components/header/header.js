@@ -40,13 +40,16 @@ const Header = ({ content, config, className }) => {
   }), [];
 
 
-  const title = content._metadata && content._metadata.stringMetadata.map(item => {
-    if (item.name === 'title') return item.value;
-    else return '';
-  });
+  // const title = content._metadata && content._metadata.stringMetadata.map(item => {
+  //   if (item.name === 'title') return item.value;
+  //   else return '';
+  // });
   
+  if(!content.banner)
+    content['teaser']['_path'] = !content['teaser']['_path'] ? content._path.replace('header', 'hero') : content['teaser']['_path'];
+
   return (
-    <header className={`home-${content.teaser?'hero':'article'} ${className}`} role='banner' data-fragment={content._path} data-model={title && title.join('')}>
+    <header className={`home-${content.teaser?'hero':'article'} ${className}`} role='banner'>
       {content && (
         <Navigation className={content.navigationColor} config={config} screen={content} />
       )}

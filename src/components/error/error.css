@@ -19,6 +19,10 @@ it.
   background-size: cover;
 }
 
+.error.iframe {
+  height: 800px;
+}
+
 .error .alert {
   position: relative;
   margin: auto;

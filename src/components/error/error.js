@@ -10,8 +10,13 @@ import PropTypes from 'prop-types';
 import './error.css';
 
 const Error = ({ error, resetErrorBoundary }) => {
+  let inFrame = false;
+  if(window.location !== window.parent.location) {
+    inFrame = true;
+  }
+  
   return (
-    <div className='main-body error'>
+    <div className={'main-body error' + (inFrame ? ' iframe' : '')}>
       <div className="alert" role="alert">
         <h1>{error.heading}</h1>
         <pre>{error.message}</pre>

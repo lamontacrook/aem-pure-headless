@@ -1,4 +1,4 @@
-export const pageRef = (url, context) => {
+export const pageRef = (url) => {
   
   const headers = new Headers({
     // 'Authorization': `Bearer  ${context.auth}`,

@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import '@adobe/universal-editor-cors';
+
 window.Buffer = window.Buffer || require('buffer').Buffer; 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

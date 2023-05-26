@@ -8,6 +8,10 @@
   opacity: 1;
 }
 
+.hero.iframe {
+  height: 800px;
+}
+
 header .hero>.container img {
   width: 100%;
   height: 100%;
