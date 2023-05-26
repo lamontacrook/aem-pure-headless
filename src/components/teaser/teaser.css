@@ -10,6 +10,7 @@
 
 .hero.iframe {
   height: 800px;
+  background-color: var(--main-dark-background);
 }
 
 header .hero>.container img {
