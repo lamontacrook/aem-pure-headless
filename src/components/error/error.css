@@ -21,6 +21,7 @@ it.
 
 .error.iframe {
   height: 800px;
+  background-color: var(--main-dark-background);
 }
 
 .error .alert {
