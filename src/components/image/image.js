@@ -8,7 +8,6 @@ it.
 
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { defaultServiceURL } from '../../utils';
 import { AppContext } from '../../utils/context';
 
 import './image.css';
@@ -20,8 +19,23 @@ let renditions = {
   '600': 'web-optimized-medium.webp'
 };
 
-const SrcSet = (src) => {
+const SrcSet = (asset) => {
+  const context = useContext(AppContext);
+  let src = '';
   
+  if(Object.keys(asset).includes('_dynamicUrl')) {
+    src = asset._dynamicUrl;
+    const srcs = [
+      `${context.serviceURL.replace(/\/$/, '') + src} 1900w`,
+      `${context.serviceURL.replace(/\/$/, '') + src.replace('width=1900', 'width=1200')} 1200w`,
+      `${context.serviceURL.replace(/\/$/, '') + src.replace('width=1900', 'width=900')} 900w`,
+      `${context.serviceURL.replace(/\/$/, '') + src.replace('width=1900', 'width=')} 600w`
+    ];
+    return srcs;
+
+  } else
+    src = asset._authorUrl;
+
   const srcset = Object.keys(renditions).map((key) => (
     `${src}/jcr:content/renditions/${renditions[key]} ${key}w`
   ));
@@ -30,21 +44,29 @@ const SrcSet = (src) => {
 
 };
 
+
+
 const Image = ({ asset, config }) => {
   const context = useContext(AppContext);
-  const src = context.serviceURL === defaultServiceURL ? asset._publishUrl : asset._authorUrl;
+  let src = context.default ? asset._publishUrl : asset._authorUrl;
+  if(Object.keys(asset).includes('_dynamicUrl')) {
+    src = `${context.serviceURL.replace(/\/$/, '')}${asset._dynamicUrl}`;
+  }
+  else
+    src += `/jcr:content/renditions/${renditions[Object.keys(renditions).pop()]}`;
+
+  console.log(src); 
+
   const width = asset.width;
   const height = asset.height;
 
   if( config ) {
     renditions = config.renditionsConfiguration;
   }
-  else
-    console.log(config.renditionsConfiguration);
 
   return (
     <picture>
-      <img src={`${src}/jcr:content/renditions/${renditions[Object.keys(renditions).pop()]}`} width={width} height={height} srcSet={SrcSet(src)} />
+      <img src={src} width={width} height={height} srcSet={SrcSet(asset)} />
     </picture>
   );
 };

@@ -3,11 +3,11 @@ import AEMHeadless from '@adobe/aem-headless-client-js';
 
 
 export const rootPath = 'content/dam';
-export const accessToken = 'https://20409-gqldemo202212-stage.adobeioruntime.net/api/v1/web/gql-demo-jwt/service-credentials';
-export const defaultEndpoint = '/content/_cq_graphql/aem-demo-assets/endpoint.json';
-export const defaultProject = 'gql-demo-template';
-export const defaultServiceURL = 'https://author-p91555-e868145.adobeaemcloud.com/';
-export const proxyURL = 'https://102588-505tanocelot-stage.adobeioruntime.net/api/v1/web/aem/proxy';
+// export const accessToken = 'https://20409-gqldemo202212-stage.adobeioruntime.net/api/v1/web/gql-demo-jwt/service-credentials';
+// export const defaultEndpoint = '/content/_cq_graphql/aem-demo-assets/endpoint.json';
+// export const defaultProject = 'gql-demo-template';
+// export const defaultServiceURL = 'https://author-p91555-e868145.adobeaemcloud.com/';
+// export const proxyURL = 'https://102588-505tanocelot-stage.adobeioruntime.net/api/v1/web/aem/proxy';
 
 const store = {};
 export const MagazineStore = (key, value) => {
@@ -59,7 +59,7 @@ export const externalizeImagesFromString = (html, context) => {
   let body = new DOMParser().parseFromString(html, 'text/html');
 
   for (let i = 0; i < [...body.images].length; i++) {
-    const pub = context.serviceURL == defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
+    const pub = context.serviceURL == context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
 
     [...body.images][i].src = [...body.images][i].src.replace(document.location.origin, pub);
     [...body.images][i].srcset = [...body.images][i].srcset.replaceAll('/adobe/dynamicmedia/', `${pub}/adobe/dynamicmedia/`);
@@ -71,7 +71,7 @@ export const externalizeImagesFromString = (html, context) => {
 
 
 export const externalizeImages = (image, context) => {
-  const serviceURL = context.serviceURL === defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
+  const serviceURL = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
 
   if (image.includes('/content'))
     image = image.replaceAll('/content/', `${serviceURL}/content/`);

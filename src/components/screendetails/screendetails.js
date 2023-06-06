@@ -42,9 +42,22 @@ const Screendetails = () => {
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-          setOverview({ backgroundImage: 'url("' + `${data.configurationByPath.item.overview._publishUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
-          setItinerary({ backgroundImage: 'url("' + `${data.configurationByPath.item.itinerary._publishUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
-          setWhatToBring({ backgroundImage: 'url("' + `${data.configurationByPath.item.whatToBring._publishUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
+
+          const items = {'overview':setOverview, 'itinerary':setItinerary, 'whatToBring': setWhatToBring};
+
+          // Object.keys(asset).includes('_dynamicUrl')
+          console.log(data);
+
+          Object.keys(items).forEach((key) => {
+            if(Object.keys(data.configurationByPath.item[key]).includes('_dynamicUrl'))
+              items[key]({ backgroundImage: 'url("' + `${context.serviceURL.replace(/\/$/, '')}${data.configurationByPath.item[key]._dynamicUrl}` + '")' });
+            else
+              items[key]({ backgroundImage: 'url("' + `${data.configurationByPath.item[key]._authorUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
+          });
+
+          // setOverview({ backgroundImage: 'url("' + `${data.configurationByPath.item.overview._authorUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
+          // setItinerary({ backgroundImage: 'url("' + `${data.configurationByPath.item.itinerary._authorUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
+          // setWhatToBring({ backgroundImage: 'url("' + `${data.configurationByPath.item.whatToBring._authorUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
 
           if (data && data.configurationByPath) {
             let ovlp = findOverlap(data.configurationByPath.item.adventuresHome, path);

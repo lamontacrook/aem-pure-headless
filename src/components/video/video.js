@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { defaultServiceURL } from '../../utils';
 import { AppContext } from '../../utils/context';
 
 const Video = ({ content }) => {
   const context = useContext(AppContext);
-  let poster = context.serviceURL === defaultServiceURL ? content._publishUrl : content._authorUrl;
+  const defaultConfig = context.serviceURL === context.defaultServiceURL;
+  let poster =  defaultConfig ? content._publishUrl : content._authorUrl;
   poster += '/jcr%3Acontent/renditions/cq5dam.zoom.2048.2048.jpeg';
   
   return (<video
@@ -13,7 +13,7 @@ const Video = ({ content }) => {
     playsInline
     muted
     loop
-    src={content._authorUrl}
+    src={defaultConfig ? context._publishUrl : content._authorUrl}
     poster={poster} />);
 };
 

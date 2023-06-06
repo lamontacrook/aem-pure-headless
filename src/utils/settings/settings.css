@@ -78,7 +78,7 @@
 }
 
 .main.settings input,
-.main.settings textarea {
+.main.settings select {
   width: 60%;
   margin-top: 8px;
   width: 90%;
@@ -93,7 +93,7 @@
 }
 
 .main.settings input[type=text],
-.main.settings textarea {
+.main.settings select {
   padding: 10px;
   border: 0;
   border: 1px solid var(--main-accent-color);
