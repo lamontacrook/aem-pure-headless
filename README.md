@@ -14,7 +14,7 @@ There are 3 possible configurations for this demo.
 
 Then proceed to the settings tab in the app and enter the url of your author environment and the name of your project.  Your project name will be the same as the name of the new site you created using the Experience Template.
 
-A short video walking through how to configure can be found ![here](https://youtu.be/ZSuPDFAAwj8).
+A short video walking through how to configure can be found [here](https://youtu.be/ZSuPDFAAwj8).
 
 3. If you want to fully customize the demo, you clone the <a href='https://github.com/lamontacrook/aem-pure-headless'>project</a> and build it locally.  This site does not use an .env file for configuration properties.  Instead it uses this setting page for configuration.  Forthcoming video on how to navigate then project.
 
