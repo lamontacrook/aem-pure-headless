@@ -157,18 +157,6 @@ const Settings = () => {
 
                 </input>
               </label>
-              {/* <label>Developer Token
-                <textarea className='developer-token'
-                  type='text'
-                  rows={28}
-                  placeholder='Paste your Bearer Token'
-                  name='auth'
-                  onSelect={(e) => setInstructions(instructionsData[e.target.name])}
-                  value={auth}
-                  onChange={(e) => { setAuth(e.target.value); }}>
-                </textarea>
-              </label> */}
-
               <label>Project Name
                 <input className='shared-project'
                   type='text'
