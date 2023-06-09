@@ -7,7 +7,6 @@ import { LinkManager, prepareRequest } from '../../utils';
 import PropTypes from 'prop-types';
 import { useErrorHandler } from 'react-error-boundary';
 import Flyout from '../../utils/flyout';
-import { defaultServiceURL } from '../../utils';
 import { AppContext } from '../../utils/context';
 
 export const NavigationGQL = `query ScreenList($locale: String!) {
@@ -47,7 +46,7 @@ const Navigation = ({ className, config, screen }) => {
     const sdk = prepareRequest(context);
 
     if (config && config.configurationByPath)
-      setLogo(context.serviceURL == defaultServiceURL ? config.configurationByPath.item.siteLogo._publishUrl : config.configurationByPath.item.siteLogo._authorUrl);
+      setLogo(context.serviceURL == context.defaultServiceURL ? config.configurationByPath.item.siteLogo._publishUrl : config.configurationByPath.item.siteLogo._authorUrl);
 
 
 

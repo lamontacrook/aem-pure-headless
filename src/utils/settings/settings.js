@@ -7,7 +7,6 @@ import projectmd from './project.md';
 import authmd from './auth.md';
 import proxymd from './proxymd.md';
 import intromd from './intro.md';
-// import { AEMHeadless } from '@adobe/aem-headless-client-js';
 import { useErrorHandler } from 'react-error-boundary';
 import PropTypes from 'prop-types';
 import { prepareRequest } from '../index';
@@ -31,13 +30,14 @@ const Settings = () => {
   const [instructions, setInstructions] = useState('');
   const [intro, setIntro] = useState('');
   const [project, setProject] = useState(context.project);
+  const [drNumber, setDRNumber] = useState('optional');
   const [serviceURL, setServiceURL] = useState(context.serviceURL);
   const [config, setConfig] = useState({});
   const [statusCode, setStatusCode] = useState('');
   const configPath = `/content/dam/${project}/site/configuration/configuration`;
 
   let inFrame = false;
-  if(window.location !== window.parent.location) {
+  if (window.location !== window.parent.location) {
     inFrame = true;
   }
 
@@ -135,7 +135,6 @@ const Settings = () => {
       localStorage.setItem(key, value);
   };
 
-
   return (
     <React.Fragment>
       <Helmet>
@@ -154,7 +153,6 @@ const Settings = () => {
                   onSelect={(e) => setInstructions(instructionsData[e.target.name])}
                   value={serviceURL}
                   onChange={(e) => setServiceURL(e.target.value)}>
-
                 </input>
               </label>
               <label>Project Name
@@ -166,7 +164,15 @@ const Settings = () => {
                   value={project}
                   onChange={(e) => setProject(e.target.value)}></input>
               </label>
-
+              <label>DR#
+                <input className='dr-number'
+                  type='text'
+                  placeholder=''
+                  name='dr-number'
+                  onSelect={(e) => setInstructions(instructionsData[e.target.name])}
+                  value={drNumber}
+                  onChange={(e) => setDRNumber(e.target.value)}></input>
+              </label>
               <button className='button'
                 type='button'
                 name='authenticate'

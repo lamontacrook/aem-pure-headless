@@ -11,7 +11,7 @@ export const AppContext = createContext({
   project: localStorage.project || defaultProject,
   serviceURL: localStorage.serviceURL || defaultServiceURL,
   accessToken: accessToken,
-  defaultServiceURL: defaultServiceURL
+  defaultServiceURL: defaultServiceURL,
 });
 
 
