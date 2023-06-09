@@ -13,7 +13,7 @@ const Video = ({ content }) => {
     playsInline
     muted
     loop
-    src={defaultConfig ? context._publishUrl : content._authorUrl}
+    src={defaultConfig ? content._publishUrl : content._authorUrl}
     poster={poster} />);
 };
 
