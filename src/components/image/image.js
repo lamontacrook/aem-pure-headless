@@ -21,15 +21,17 @@ let renditions = {
 
 const SrcSet = (asset) => {
   const context = useContext(AppContext);
-  let src = '';
   
+  let src = '';
+
   if(Object.keys(asset).includes('_dynamicUrl')) {
+    const url = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
     src = asset._dynamicUrl;
     const srcs = [
-      `${context.serviceURL.replace(/\/$/, '') + src} 1900w`,
-      `${context.serviceURL.replace(/\/$/, '') + src.replace('width=1900', 'width=1200')} 1200w`,
-      `${context.serviceURL.replace(/\/$/, '') + src.replace('width=1900', 'width=900')} 900w`,
-      `${context.serviceURL.replace(/\/$/, '') + src.replace('width=1900', 'width=')} 600w`
+      `${url.replace(/\/$/, '') + src} 1900w`,
+      `${url.replace(/\/$/, '') + src.replace('width=1900', 'width=1200')} 1200w`,
+      `${url.replace(/\/$/, '') + src.replace('width=1900', 'width=900')} 900w`,
+      `${url.replace(/\/$/, '') + src.replace('width=1900', 'width=')} 600w`
     ];
     return srcs;
 
@@ -50,12 +52,11 @@ const Image = ({ asset, config }) => {
   const context = useContext(AppContext);
   let src = context.default ? asset._publishUrl : asset._authorUrl;
   if(Object.keys(asset).includes('_dynamicUrl')) {
-    src = `${context.serviceURL.replace(/\/$/, '')}${asset._dynamicUrl}`;
+    const url = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
+    src = `${url.replace(/\/$/, '')}${asset._dynamicUrl}`;
   }
   else
     src += `/jcr:content/renditions/${renditions[Object.keys(renditions).pop()]}`;
-
-  console.log(src); 
 
   const width = asset.width;
   const height = asset.height;

@@ -48,7 +48,7 @@ const ImageList = ({ content, config }) => {
           _authorUrl.replace('.html', '.content.html?wcmmode=disabled');
 
         let promise = pageRef(url, context).then(res => ({
-          res: res.redirected ? handleError({ message: 'Bad Authentication.  Try again.' }) :
+          res: res.redirected ? handleError({ message: `Bad Authentication.  Try again. ${url}` }) :
             res.text().then(html => {
 
               if (html) {

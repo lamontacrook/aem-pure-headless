@@ -39,12 +39,6 @@ const Header = ({ content, config, className }) => {
     window.addEventListener('scroll', fadeOutHandler);
   }), [];
 
-
-  // const title = content._metadata && content._metadata.stringMetadata.map(item => {
-  //   if (item.name === 'title') return item.value;
-  //   else return '';
-  // });
-  
   if(!content.banner)
     content['teaser']['_path'] = !content['teaser']['_path'] ? content._path.replace('header', 'hero') : content['teaser']['_path'];
 

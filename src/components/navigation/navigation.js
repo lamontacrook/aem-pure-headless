@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import './navigation.css';
-import wkndlogo from '../../media/wknd-logo-light.png';
 import { Link } from 'react-router-dom';
 import { LinkManager, prepareRequest } from '../../utils';
 import PropTypes from 'prop-types';
 import { useErrorHandler } from 'react-error-boundary';
 import Flyout from '../../utils/flyout';
 import { AppContext } from '../../utils/context';
+import Image from '../image/image';
 
 export const NavigationGQL = `query ScreenList($locale: String!) {
   screenList(
@@ -31,7 +31,7 @@ const Navigation = ({ className, config, screen }) => {
   const context = useContext(AppContext);
   const [nav, setNav] = useState('');
   const [expanded, setExpanded] = useState(false);
-  const [logo, setLogo] = useState(wkndlogo);
+  const [logo, setLogo] = useState({});
   const handleError = useErrorHandler();
 
   let obj = {
@@ -44,11 +44,7 @@ const Navigation = ({ className, config, screen }) => {
 
   useEffect(() => {
     const sdk = prepareRequest(context);
-
-    if (config && config.configurationByPath)
-      setLogo(context.serviceURL == context.defaultServiceURL ? config.configurationByPath.item.siteLogo._publishUrl : config.configurationByPath.item.siteLogo._authorUrl);
-
-
+    setLogo(config.configurationByPath.item.siteLogo);
 
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en' })
       .then((data) => {
@@ -100,7 +96,7 @@ const Navigation = ({ className, config, screen }) => {
           <div className='nav-hamburger-icon'></div>
         </div>
         <div className='nav-brand'>
-          <Link to={'/'}><img src={logo} alt='logo' /></Link>
+          <Link to={'/'}><Image asset={logo} /></Link>
         </div>
         <div className='nav-sections'>
           {nav && (

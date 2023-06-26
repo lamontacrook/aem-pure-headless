@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Proptypes from 'prop-types';
 import { useErrorHandler } from 'react-error-boundary';
+import { AppContext } from '../../utils/context';
 
 import './pageref.css';
 import { pageRef } from '../../api/api';
 
-const PageRef = ({ content, config, context }) => {
+const PageRef = ({ content, config }) => {
+  const context = useContext(AppContext);
   const [article, setArticle] = useState('');
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
