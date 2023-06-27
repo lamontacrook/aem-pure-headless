@@ -27,14 +27,12 @@ const SrcSet = (asset) => {
   if(Object.keys(asset).includes('_dynamicUrl')) {
     const url = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
     src = asset._dynamicUrl;
-    const srcs = [
-      `${url.replace(/\/$/, '') + src} 1900w`,
-      `${url.replace(/\/$/, '') + src.replace('width=1900', 'width=1200')} 1200w`,
-      `${url.replace(/\/$/, '') + src.replace('width=1900', 'width=900')} 900w`,
-      `${url.replace(/\/$/, '') + src.replace('width=1900', 'width=')} 600w`
-    ];
-    return srcs;
 
+    const srcs = Object.keys(renditions).map((key) => {
+      return `${url.replace(/\/$/, '')}${src}&width=${key} ${key}w`;
+    });
+
+    return srcs;
   } else
     src = asset._authorUrl;
 
