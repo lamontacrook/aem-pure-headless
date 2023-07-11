@@ -13,7 +13,7 @@
   "private": true,
   "dependencies": {
     "@adobe/aem-headless-client-js": "^3.3.0",
-    "@adobe/universal-editor-cors": "^1.1.1",
+    "@adobe/universal-editor-cors": "^1.2.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
