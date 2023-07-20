@@ -8,7 +8,7 @@ import Header from '../header';
 import { useErrorHandler } from 'react-error-boundary';
 import './screen.css';
 import { AppContext } from '../../utils/context';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 let configPath = '';
 const Screen = () => {

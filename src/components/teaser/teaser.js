@@ -28,7 +28,7 @@ const Teaser = ({ content, config }) => {
 
           <div className='content-block'>
             {content.title && content.style === 'hero' && (
-              <h1 itemProp='title' itemType='text'>{content.title}</h1>
+              <h1 itemProp='title' itemType='text' data-editor-itemlabel='Title'>{content.title}</h1>
             )}
 
             {content.title && content.style === 'featured' && (

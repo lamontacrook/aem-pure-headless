@@ -10,7 +10,7 @@ import Error from './components/error';
 import { useErrorHandler } from 'react-error-boundary';
 import { ThreeDots } from 'react-loader-spinner';
 import { AppContext } from './utils/context';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const App = () => {
   const context = useContext(AppContext);
@@ -55,67 +55,69 @@ const App = () => {
     />);
   } else {
     return (
-      <div className='App'>
-        <Helmet>
-          <meta name='urn:auecon:aemconnection' content={`aem:${aemUrl}`} />
-        </Helmet>
-        <BrowserRouter>
-          <Routes>
-            <Route exact={true} path={'/preview/*'} element={
-              <ErrorBoundary
-                FallbackComponent={Error}
-                onReset={() => {
-                  sessionStorage.removeItem('loggedin');
-                  sessionStorage.removeItem('auth');
-                }}
-              ><Preview /></ErrorBoundary>
-            } />
+      <HelmetProvider>
+        <div className='App'>
+          <Helmet>
+            <meta name='urn:adobe:aem:editor:aemconnection' content={`aem:${aemUrl}`} />
+          </Helmet>
+          <BrowserRouter>
+            <Routes>
+              <Route exact={true} path={'/preview/*'} element={
+                <ErrorBoundary
+                  FallbackComponent={Error}
+                  onReset={() => {
+                    sessionStorage.removeItem('loggedin');
+                    sessionStorage.removeItem('auth');
+                  }}
+                ><Preview /></ErrorBoundary>
+              } />
 
-            <Route exact={true} path={'/settings'} element={
-              <ErrorBoundary
-                FallbackComponent={Error}
-                onReset={() => {
-                  sessionStorage.removeItem('loggedin');
-                  sessionStorage.removeItem('auth');
-                }}
-              >
-                <Settings /> </ErrorBoundary>} />
-            <Route exact={false} path={'/*'} element={
+              <Route exact={true} path={'/settings'} element={
+                <ErrorBoundary
+                  FallbackComponent={Error}
+                  onReset={() => {
+                    sessionStorage.removeItem('loggedin');
+                    sessionStorage.removeItem('auth');
+                  }}
+                >
+                  <Settings /> </ErrorBoundary>} />
+              <Route exact={false} path={'/*'} element={
 
-              <ErrorBoundary
-                FallbackComponent={Error}
-                onReset={() => {
-                  sessionStorage.clear();
-                  localStorage.clear();
-                }}
-              ><Screen /></ErrorBoundary>
+                <ErrorBoundary
+                  FallbackComponent={Error}
+                  onReset={() => {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                  }}
+                ><Screen /></ErrorBoundary>
 
-            } />
+              } />
 
-            <Route exact={true} path={'/aem-pure-headless/*'} element={
+              <Route exact={true} path={'/aem-pure-headless/*'} element={
 
-              <ErrorBoundary
-                FallbackComponent={Error}
-                onReset={() => {
-                  sessionStorage.removeItem('loggedin');
-                  sessionStorage.removeItem('auth');
-                }}
-              ><Screen /></ErrorBoundary>
+                <ErrorBoundary
+                  FallbackComponent={Error}
+                  onReset={() => {
+                    sessionStorage.removeItem('loggedin');
+                    sessionStorage.removeItem('auth');
+                  }}
+                ><Screen /></ErrorBoundary>
 
-            } />
-            <Route exact={true} path={`/${context.project}/*`} element={
-              <ErrorBoundary
-                FallbackComponent={Error}
-                onReset={() => {
-                  sessionStorage.removeItem('loggedin');
-                  sessionStorage.removeItem('auth');
-                }}
-              ><Screendetails /></ErrorBoundary>
-            } />
+              } />
+              <Route exact={true} path={`/${context.project}/*`} element={
+                <ErrorBoundary
+                  FallbackComponent={Error}
+                  onReset={() => {
+                    sessionStorage.removeItem('loggedin');
+                    sessionStorage.removeItem('auth');
+                  }}
+                ><Screendetails /></ErrorBoundary>
+              } />
 
-          </Routes>
-        </BrowserRouter>
-      </div>
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </HelmetProvider>
     );
   }
 };

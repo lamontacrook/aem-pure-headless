@@ -176,8 +176,9 @@ ImageList.propTypes = {
 
 const Card = ({ item, config }) => {
   const context = useContext(AppContext);
+
   return (
-    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/root/container/title`} itemType='container'>
+    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/root/container`} itemType='container'>
       <picture dangerouslySetInnerHTML={{ __html: item.image }} />
 
       <Link key={item.path} to={LinkManager(item.path, config, context)}>
