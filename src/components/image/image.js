@@ -49,12 +49,12 @@ const SrcSet = (asset) => {
 const Image = ({ asset, config }) => {
   const context = useContext(AppContext);
   let src = context.default ? asset._publishUrl : asset._authorUrl;
-  if(Object.keys(asset).includes('_dynamicUrl')) {
-    const url = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
-    src = `${url.replace(/\/$/, '')}${asset._dynamicUrl}`;
-  }
-  else
-    src += `/jcr:content/renditions/${renditions[Object.keys(renditions).pop()]}`;
+  // if(Object.keys(asset).includes('_dynamicUrl')) {
+  //   const url = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
+  //   // src = `${url.replace(/\/$/, '')}${asset._dynamicUrl}`;
+  // }
+  // else
+  //   src += `/jcr:content/renditions/${renditions[Object.keys(renditions).pop()]}`;
 
   const width = asset.width;
   const height = asset.height;
@@ -62,10 +62,10 @@ const Image = ({ asset, config }) => {
   if( config ) {
     renditions = config.renditionsConfiguration;
   }
-
+  
   return (
     <picture>
-      <img src={src} width={width} height={height} srcSet={SrcSet(asset)} />
+      <img src={src} width={width} height={height} srcSet={SrcSet(asset)} itemProp="asset" itemType="image"/>
     </picture>
   );
 };

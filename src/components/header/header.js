@@ -16,7 +16,7 @@ import './header.css';
 
 const Header = ({ content, config, className }) => {
   const fadeOutHandler = () => {
-    if(document.querySelector('#flyout') && document.querySelector('#flyout').getAttribute('aria-expanded')) return;
+    if (document.querySelector('#flyout') && document.querySelector('#flyout').getAttribute('aria-expanded')) return;
     const hero = document.querySelector('header');
     if (!hero) return;
 
@@ -39,11 +39,19 @@ const Header = ({ content, config, className }) => {
     window.addEventListener('scroll', fadeOutHandler);
   }), [];
 
-  if(!content.banner)
+  console.log(content._path);
+
+  const editorProps = {
+    itemID: 'urn:aemconnection:' + content._path + '/jcr:content/data/master',
+    itemType: 'reference',
+    itemfilter: 'cf'
+  };
+
+  if (!content.banner)
     content['teaser']['_path'] = !content['teaser']['_path'] ? content._path.replace('header', 'hero') : content['teaser']['_path'];
 
   return (
-    <header className={`home-${content.teaser?'hero':'article'} ${className}`} role='banner'>
+    <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner'>
       {content && (
         <Navigation className={content.navigationColor} config={config} screen={content} />
       )}

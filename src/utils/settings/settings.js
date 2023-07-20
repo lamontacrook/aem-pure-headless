@@ -10,7 +10,6 @@ import intromd from './intro.md';
 import { useErrorHandler } from 'react-error-boundary';
 import PropTypes from 'prop-types';
 import { prepareRequest } from '../index';
-import { Helmet } from 'react-helmet';
 import { AppContext } from '../context';
 
 const instructionsData = {
@@ -137,9 +136,6 @@ const Settings = () => {
 
   return (
     <React.Fragment>
-      <Helmet>
-        <title>Settings</title>
-      </Helmet>
       <AppContext.Provider value={context}>
         <header className='home-hero'></header>
         <div className={'main settings' + (inFrame ? ' iframe' : '')}>
