@@ -8,6 +8,10 @@ import { AppContext } from '../../utils/context';
 import { LinkManager } from '../../utils';
 import './teaser.css';
 
+//https://experience.adobe.com/?repo=author-p101152-e938206.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content/dam/wknd-headless/site/en/home/components/featured-article?appId=aem-cf-editor
+//https://experience.adobe.com/?repo=author-p101152-e938206.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content/dam/wknd-headless/site/en/home/components/featured-article?appId=aem-cf-editor
+//https://experience.adobe.com/?repo=author-p101152-e938206.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content/dam/wknd-headless/site/en/home/components/hero/
+//https://experience.adobe.com/?repo=author-p24020-e1129912.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content%2Fdam%2Fgql-demo-template%2Fsite%2Fen%2Fhome%2Fcomponents%2Ffeatured-article
 const Teaser = ({ content, config }) => {
   const context = useContext(AppContext);
   let inFrame = false;
@@ -17,8 +21,8 @@ const Teaser = ({ content, config }) => {
   
 
   return (
-    <React.Fragment>
-      <section className={'teaser ' + content.style + (inFrame ? ' iframe' : '')} itemID={`urn:aemconnection:${content._path}/jcr:content/data/master`} itemfilter='cf' itemType='reference' itemScope>
+    <div itemID={`urn:aemconnection:${content._path}/jcr:content/data/master`} itemfilter='cf' itemType='reference' data-editor-itemlabel={`Teaser(${content.style})`} itemScope>
+      <section className={'teaser ' + content.style + (inFrame ? ' iframe' : '')}>
         <div className='container'>
           {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'format') &&
             (<Video content={content.asset} />)}
@@ -32,17 +36,17 @@ const Teaser = ({ content, config }) => {
             )}
 
             {content.title && content.style === 'featured' && (
-              <h2 itemProp='title' itemType='text'>{content.title}</h2>
+              <h2 itemProp='title' itemType='text' data-editor-itemlabel='Title'>{content.title}</h2>
             )}
 
             <span className='seperator'></span>
 
             {content.preTitle && content.style === 'hero' && (
-              <h2 itemProp='preTitle' itemType='text'>{content.preTitle}</h2>
+              <h2 itemProp='preTitle' itemType='text'data-editor-itemlabel='Pre-Title'>{content.preTitle}</h2>
             )}
 
             {content.preTitle && content.style === 'featured' && (
-              <h5 itemProp='preTitle' itemType='text'>{content.preTitle}</h5>
+              <h5 itemProp='preTitle' itemType='text' data-editor-itemlabel='Pre-Title'>{content.preTitle}</h5>
             )}
 
 
@@ -51,7 +55,8 @@ const Teaser = ({ content, config }) => {
             )}
 
             {content.callToAction && content.callToActionLink && content.style === 'featured' && (
-              <Link to={LinkManager(content.callToActionLink._path, config, context)} className='button'>{content.callToAction}</Link>
+              <Link to={LinkManager(content.callToActionLink._path, config, context)} 
+                itemType='reference' itemProp='callToActionLink' data-editor-itemlabel='Call to Action' className='button'>{content.callToAction}</Link>
             )}
           </div>
         </div>
@@ -60,7 +65,7 @@ const Teaser = ({ content, config }) => {
 
       </section>
 
-    </React.Fragment>
+    </div>
   );
 };
 

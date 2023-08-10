@@ -46,7 +46,7 @@ const SrcSet = (asset) => {
 
 
 
-const Image = ({ asset, config }) => {
+const Image = ({ asset, config, itemProp='asset' }) => {
   const context = useContext(AppContext);
   let src = context.default ? asset._publishUrl : asset._authorUrl;
   // if(Object.keys(asset).includes('_dynamicUrl')) {
@@ -65,7 +65,7 @@ const Image = ({ asset, config }) => {
   
   return (
     <picture>
-      <img src={src} width={width} height={height} srcSet={SrcSet(asset)} itemProp="asset" itemType="image"/>
+      <img src={src} width={width} height={height} srcSet={SrcSet(asset)} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
     </picture>
   );
 };
@@ -73,7 +73,8 @@ const Image = ({ asset, config }) => {
 Image.propTypes = {
   asset: PropTypes.object,
   config: PropTypes.object,
-  context: PropTypes.object
+  context: PropTypes.object,
+  itemProp: PropTypes.string
 };
 
 SrcSet.propTypes = {
