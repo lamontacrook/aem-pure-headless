@@ -14,7 +14,7 @@ const Video = ({ content }) => {
     muted
     loop
     src={defaultConfig ? content._publishUrl : content._authorUrl}
-    poster={poster} />);
+    poster={poster} itemProp="asset" itemType="media" />);
 };
 
 Video.propTypes = {

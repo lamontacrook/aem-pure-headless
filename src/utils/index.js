@@ -70,13 +70,19 @@ export const externalizeImagesFromString = (html, context) => {
 };
 
 
-export const externalizeImages = (image, context) => {
-  const serviceURL = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
+export const externalizeImage = (image, context) => {
+ 
+  const serviceURL = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL.replace(/\/$/, '');
 
-  if (image.includes('/content'))
-    image = image.replaceAll('/content/', `${serviceURL}/content/`);
-  else if (image.includes('/adobe/dynamicmedia'))
-    image = image.replaceAll('/adobe/dynamicmedia/', `${serviceURL}/adobe/dynamicmedia/`);
+  [...image.attributes].forEach((elem) => {
+    if(elem.value.startsWith('/')) {
+      elem.value = elem.value.replaceAll('/content/', `${serviceURL}/content/`);    
+    }
+    // image.setAttribute('itemProp', 'asset');
+    // image.setAttribute('itemType', 'media');
+    image.setAttribute('data-editor-itemlabel', 'Image');
+  });
+
   return image;
 };
 

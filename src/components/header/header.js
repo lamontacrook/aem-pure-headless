@@ -39,19 +39,18 @@ const Header = ({ content, config, className }) => {
     window.addEventListener('scroll', fadeOutHandler);
   }), [];
 
-  console.log(content._path);
-
   const editorProps = {
     itemID: 'urn:aemconnection:' + content._path + '/jcr:content/data/master',
     itemType: 'reference',
-    itemfilter: 'cf'
+    itemfilter: 'cf',
+    'data-editor-itemlabel': 'Header',
   };
 
   if (!content.banner)
     content['teaser']['_path'] = !content['teaser']['_path'] ? content._path.replace('header', 'hero') : content['teaser']['_path'];
 
   return (
-    <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner'>
+    <header {...editorProps} className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner'>
       {content && (
         <Navigation className={content.navigationColor} config={config} screen={content} />
       )}

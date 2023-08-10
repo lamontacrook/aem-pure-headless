@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { LinkManager, externalizeImages } from '../../utils';
+import { LinkManager, externalizeImage } from '../../utils';
 import Image from '../image';
 
 import './imagelist.css';
@@ -52,14 +52,16 @@ const ImageList = ({ content, config }) => {
             res.text().then(html => {
 
               if (html) {
-                let body = new DOMParser().parseFromString(html, 'text/html');
-                let title = body.querySelector('h1');
-                let name = body.querySelector('h3');
-                let profession = body.querySelector('h5');
+                const body = new DOMParser().parseFromString(html, 'text/html');
+                const title = body.querySelector('h1');
+                const name = body.querySelector('h3');
+                const profession = body.querySelector('h5');
 
-                let image = body.querySelector('.cmp-image');
-                if (image && image.innerHTML)
-                  image = externalizeImages(image.innerHTML, context);
+                let image = body.querySelector('.cmp-image > img');  
+                image = image ? externalizeImage(image, context) : '';
+                image.setAttribute('itemID', `urn:aemconnection:${url}/jcr:content/root/container/contentfragment/par1/image`); 
+                image.setAttribute('itemProp', 'jcr:primaryType');
+                image.setAttribute('itemType', 'media');
 
                 setAuthors((item) => {
                   return [...item, {
@@ -68,7 +70,7 @@ const ImageList = ({ content, config }) => {
                     name: name && name.innerHTML,
                     profession: profession && profession.innerHTML,
                     title: title && title.innerHTML,
-                    image: image,
+                    image: new XMLSerializer().serializeToString(image),
                     path: _path,
                     type: 'xf'
                   }];
@@ -144,7 +146,7 @@ const ImageList = ({ content, config }) => {
 
   return (
     <React.Fragment>
-      <section className={`${content.style} list-container`} itemID={`urn:aemconnection:${content._path}/jcr:content/data/master`} itemfilter='cf' itemType='reference' itemScope>
+      <section className={`${content.style} list-container`} itemID={`urn:aemconnection:${content._path}/jcr:content/data/master`} itemfilter='cf' itemType='reference' data-editor-itemlabel={`ImageList(${content.style})`} itemScope>
         {title && <h4>{title.join('')}</h4>}
         <i className='arrow left' onClick={e => scrollLeft(e, 300)}></i>
         <div className='list' id='list-container-body' onScroll={e => containerChange(e)}>
@@ -178,9 +180,9 @@ const Card = ({ item, config }) => {
   const context = useContext(AppContext);
 
   return (
-    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/root/container`} itemType='container'>
-      <picture dangerouslySetInnerHTML={{ __html: item.image }} />
-
+    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/root/container`} itemType='container' data-editor-itemlabel='Experience Fragment'>
+      <picture dangerouslySetInnerHTML={{__html: item.image}}></picture>
+     
       <Link key={item.path} to={LinkManager(item.path, config, context)}>
         <span className='title' itemID={`urn:aemconnection:${item.path}/jcr:content/root/container/title`} itemProp='jcr:title' itemType='text'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (
@@ -201,12 +203,33 @@ Card.propTypes = {
   context: PropTypes.object
 };
 
+const XFImage = ({item}) => {
+  let pic = document.createElement('picture');
+
+  pic.innerHTML = item.image;
+
+  pic.querySelector('img');
+  // pic = new XMLSerializer().serializeToString(pic);
+  // console.log(pic);
+  return (
+    <React.Fragment >
+      {new XMLSerializer().serializeToString(pic)}
+    </React.Fragment>
+    
+  );
+};
+
+XFImage.propTypes = {
+  item: PropTypes.string
+};
+
 const AdventureCard = ({ item, config }) => {
   const context = useContext(AppContext);
 
   return (
-    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/data/master`} itemfilter='cf' itemType='reference' itemScope>
-      <Image asset={item.image} config={config} />
+    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/data/master`} 
+      itemfilter='cf' itemType='reference' data-editor-itemlabel='Adventure Fragment' itemScope>
+      <Image asset={item.image} config={config} itemProp='primaryImage' />
       <Link key={item.path} to={LinkManager(item.path, config, context)}>
         <span className='title' itemProp='title' itemType='text'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (
