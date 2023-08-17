@@ -7,6 +7,7 @@ import projectmd from './project.md';
 import authmd from './auth.md';
 import proxymd from './proxymd.md';
 import intromd from './intro.md';
+import placeholdersExtensionURLmd from './placeholdersExtensionURL.md';
 import { useErrorHandler } from 'react-error-boundary';
 import PropTypes from 'prop-types';
 import { prepareRequest } from '../index';
@@ -20,7 +21,8 @@ const instructionsData = {
   'authenticate': 'My error message',
   'project': projectmd,
   'publish': projectmd,
-  'proxy': proxymd
+  'proxy': proxymd,
+  'placeholdersExtensionURL': placeholdersExtensionURLmd,
 };
 
 const Settings = () => {
@@ -33,6 +35,7 @@ const Settings = () => {
   const [serviceURL, setServiceURL] = useState(context.serviceURL);
   const [config, setConfig] = useState({});
   const [statusCode, setStatusCode] = useState('');
+  const [placeholdersExtensionURL, setPlaceholdersExtensionURL] = useState(context.placeholdersExtensionURL);
   const configPath = `/content/dam/${project}/site/configuration/configuration`;
 
   let inFrame = false;
@@ -168,6 +171,16 @@ const Settings = () => {
                   onSelect={(e) => setInstructions(instructionsData[e.target.name])}
                   value={drNumber}
                   onChange={(e) => setDRNumber(e.target.value)}></input>
+              </label>
+              <label>Placeholders Extension URL
+                <input className='placeholders-extension-url'
+                  type='text'
+                  placeholder='Enter the URL of your placeholders extension'
+                  name='placeholdersExtensionURL'
+                  onSelect={(e) => setInstructions(instructionsData[e.target.name])}
+                  value={placeholdersExtensionURL}
+                  onChange={(e) => setPlaceholdersExtensionURL(e.target.value)}>
+                </input>
               </label>
               <button className='button'
                 type='button'
