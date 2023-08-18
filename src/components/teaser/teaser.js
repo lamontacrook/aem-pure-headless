@@ -5,6 +5,7 @@ import Video from '../video';
 import Image from '../image';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../../utils/context';
+import {TextWithPlaceholders} from '../../utils/placeholders';
 import { LinkManager } from '../../utils';
 import './teaser.css';
 
@@ -51,7 +52,7 @@ const Teaser = ({ content, config }) => {
 
 
             {content.description && content.style === 'featured' && (
-              <p itemProp='description' itemType='text'>{content.description.plaintext}</p>
+              <p itemProp='description' itemType='text'><TextWithPlaceholders>{content.description.plaintext}</TextWithPlaceholders></p>
             )}
 
             {content.callToAction && content.callToActionLink && content.style === 'featured' && (
