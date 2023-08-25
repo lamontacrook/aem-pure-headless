@@ -8,10 +8,6 @@ import { AppContext } from '../../utils/context';
 import { LinkManager } from '../../utils';
 import './teaser.css';
 
-//https://experience.adobe.com/?repo=author-p101152-e938206.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content/dam/wknd-headless/site/en/home/components/featured-article?appId=aem-cf-editor
-//https://experience.adobe.com/?repo=author-p101152-e938206.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content/dam/wknd-headless/site/en/home/components/featured-article?appId=aem-cf-editor
-//https://experience.adobe.com/?repo=author-p101152-e938206.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content/dam/wknd-headless/site/en/home/components/hero/
-//https://experience.adobe.com/?repo=author-p24020-e1129912.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content%2Fdam%2Fgql-demo-template%2Fsite%2Fen%2Fhome%2Fcomponents%2Ffeatured-article
 const Teaser = ({ content, config }) => {
   const context = useContext(AppContext);
   let inFrame = false;

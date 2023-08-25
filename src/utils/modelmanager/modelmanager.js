@@ -2,12 +2,14 @@ import React from 'react';
 import Teaser from '../../components/teaser';
 import ImageList from '../../components/imagelist';
 import PageRef from '../../components/pageref';
+import Testimonial from '../../components/testimonial';
 import PropTypes from 'prop-types';
 
 export const componentMapping = {
   Teaser,
   ImageList,
-  PageRef
+  PageRef,
+  Testimonial
 };
 
 const ModelManager = ({ content, config }) => {

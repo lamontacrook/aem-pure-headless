@@ -1,0 +1,28 @@
+.block:has(.testimonial > div) {
+  text-align: center;
+}
+
+.testimonial { 
+  max-width: 1290px;
+  margin: auto;
+  background-color: var(--main-accent-color);
+  padding: 12px 62px;
+}
+
+.testimonial > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.testimonial .caption {
+  max-width: 600px;
+  text-align: left;
+  margin: auto;
+}
+
+.testimonial .customer-photo > picture > img {
+  object-fit: cover;
+  max-width: 60%;
+  height: 100%;
+}
