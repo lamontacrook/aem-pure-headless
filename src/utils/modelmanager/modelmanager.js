@@ -2,12 +2,14 @@ import React from 'react';
 import Teaser from '../../components/teaser';
 import ImageList from '../../components/imagelist';
 import PageRef from '../../components/pageref';
+import Gridteaser from '../../components/gridteaser';
 import PropTypes from 'prop-types';
 
 export const componentMapping = {
   Teaser,
   ImageList,
-  PageRef
+  PageRef,
+  Gridteaser
 };
 
 const ModelManager = ({ content, config }) => {

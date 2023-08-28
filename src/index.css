@@ -173,4 +173,5 @@ div[role=status] {
   --dark-nav: rgba(41,41,41);
   --main-dark-background: rgba(41,41,41);
   --light-nav: #fff;
+  --nav-height:79px;
 }

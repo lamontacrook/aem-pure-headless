@@ -37,6 +37,12 @@ const Screen = () => {
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
       .then(({ data }) => {
         if (data) {
+          const css = data.configurationByPath.item.cssVariables;
+          Object.keys(css.cssVariables).forEach((c) => {
+            document.documentElement.style.setProperty(c, css.cssVariables[c]);
+          });
+          
+          console.log(css.navHeight);
           setConfiguration(data);
           sdk.runPersistedQuery(`aem-demo-assets/gql-demo-screen-${version}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
@@ -63,6 +69,7 @@ const Screen = () => {
         handleError(error);
       });
 
+   
 
   }, [handleError, navigate, path, version, context]);
 
@@ -112,7 +119,10 @@ Screen.propTypes = {
 };
 
 export const ScreenGQL = `query ScreenByPath($path: String!) {
-  screen: screenByPath(_path: $path) {
+  screen: screenByPath(
+    _path: $path
+    _assetTransform: {format: PNG, preferWebp: true}
+  ) {
     body: item {
       __typename
       _metadata {
@@ -136,7 +146,7 @@ export const ScreenGQL = `query ScreenByPath($path: String!) {
             ... on ImageRef {
               mimeType
               _authorUrl
-              _publishUrl
+              _dynamicUrl
               width
               height
             }
@@ -144,40 +154,60 @@ export const ScreenGQL = `query ScreenByPath($path: String!) {
           navigationColor
           teaser {
             __typename
-            title
-            style
-            preTitle
-            callToAction
-            callToActionLink: link {
-              __typename
-              ... on AdventureModel {
-                _path
+            ... on GridteaserModel {
+              imagePosition1 {
+                ... on ImageRef {
+                  _authorUrl
+                  _dynamicUrl
+                  width
+                  height
+                }
               }
-              ... on PageRef {
-                _path
-                _authorUrl
-                _publishUrl
-              }
-            }
-            asset {
-              ... on MultimediaRef {
-                _authorUrl
-                format
-                _publishUrl
-              }
-              ... on ImageRef {
-                _authorUrl
-                _publishUrl
-                mimeType
-                width
-                height
+              imagePosition3 {
+                ... on ImageRef {
+                  _authorUrl
+                  _dynamicUrl
+                  width
+                  height
+                }
               }
             }
-            description {
-              html
-              plaintext
+            ... on TeaserModel {
+              title
+              style
+              preTitle
+              callToAction
+              callToActionLink: link {
+                __typename
+                ... on AdventureModel {
+                  _path
+                }
+                ... on PageRef {
+                  _path
+                  _authorUrl
+                  _publishUrl
+                }
+              }
+              asset {
+                ... on MultimediaRef {
+                  _authorUrl
+                  format
+                  _publishUrl
+                }
+                ... on ImageRef {
+                  _authorUrl
+                  _dynamicUrl
+                  mimeType
+                  width
+                  height
+                }
+              }
+              description {
+                html
+                plaintext
+              }
+              callToAction
             }
-            callToAction
           }
         }
       }
@@ -216,7 +246,7 @@ export const ScreenGQL = `query ScreenByPath($path: String!) {
               tripLength
               primaryImage {
                 ... on ImageRef {
-                  _publishUrl
+                  _dynamicUrl
                   mimeType
                   _authorUrl
                   width
@@ -246,7 +276,7 @@ export const ScreenGQL = `query ScreenByPath($path: String!) {
             }
             ... on ImageRef {
               _authorUrl
-              _publishUrl
+              _dynamicUrl
               mimeType
               width
               height

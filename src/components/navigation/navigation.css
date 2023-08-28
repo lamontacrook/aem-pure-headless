@@ -247,6 +247,20 @@ button.button {
     right: 14px;
   }
 
+  header nav .nav-sections .nav-drop:has(ul):after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: .6em;
+    right: 18px;
+    transform: rotate(135deg);
+    width: 6px;
+    height: 6px;
+    border: 2px solid var(--light-nav);
+    border-radius: 0 1px 0 0;
+    border-width: 2px 2px 0 0;
+  }
+
   header nav .nav-hamburger {
     display: none;
   }
@@ -296,23 +310,18 @@ button.button {
     font-size: var(--body-font-size-m);
   }
 
-  header nav .nav-sections > ul > li > ul::before {
-    content: '';
-    width: 0;
-    height: 0;
+  header nav .nav-sections .nav-drop > ul {
+    display: block;
     position: absolute;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;    
-    border-bottom: 15px solid var(--highlight-background-color);
-    top: -15px;
-    left: 20px;
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--light-nav);
   }
-
 
   header nav .nav-sections > ul > li > ul > li {
     font-size: 18px;
     padding: 8px 16px;
-
     padding:14px;
     font-size: medium;
     line-height: .8;

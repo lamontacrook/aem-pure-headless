@@ -1,0 +1,104 @@
+.gridteaser {
+  width: 1632px;
+  height: 655px;
+  margin: 120px auto;
+  /* padding-top:20px; */
+  display: grid;
+  column-gap: 23px;
+  row-gap: 23px;
+  background-color: white;
+  grid-template-columns: 40% 30% auto;
+  grid-template-rows: min-content 1fr;
+  grid-template-areas: 
+    "left right-topbar right-topbar"
+    "left bottom-left-box bottom-right-box";
+}
+
+.gridteaser > .left {
+  grid-area: left;
+  margin: 0;
+  border: 1px solid black;
+}
+
+.gridteaser > div > picture > img {
+  object-fit: scale-down;
+  width: 100%;
+  height: 100%;
+}
+
+.gridteaser > .right-topbar {
+  grid-area: right-topbar;
+  border: 1px solid black;
+  background-color: white;
+}
+
+.gridteaser > .right-topbar > ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gridteaser > .right-topbar li {
+  width: 25%;
+}
+
+.gridteaser > .right-topbar div {
+  height: 100%;
+  text-align: center;
+  margin:5px;
+}
+
+.gridteaser > .right-topbar p {
+  word-wrap: normal;
+  line-height: unset;
+  font-size: small;
+  padding: 0 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+  height: 20px;
+}
+
+.gridteaser > .right-topbar h4 {
+  margin: 0 7px;
+  padding: 0 7px;
+}
+
+.gridteaser > .right-topbar img {
+  object-fit: scale-down;
+  height: 106px;
+  width: auto;
+}
+
+.gridteaser > .bottom-left-box {
+  grid-area: bottom-left-box;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.gridteaser > .bottom-left-box img {
+  object-fit: contain;
+}
+
+.gridteaser > .bottom-right-box {
+  grid-area: bottom-right-box;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.gridteaser > .bottom-right-box > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  margin: 0 7px;
+}
+
+.gridteaser > .bottom-right-box img {
+  object-fit: scale-down;
+  height: 206px;
+  width: auto;
+}

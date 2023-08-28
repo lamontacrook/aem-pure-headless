@@ -2,17 +2,35 @@ import React, { useState, useEffect, useContext } from 'react';
 
 import './navigation.css';
 import { Link } from 'react-router-dom';
-import { LinkManager, prepareRequest } from '../../utils';
+import { LinkManager, prepareRequest, rootPath } from '../../utils';
 import PropTypes from 'prop-types';
 import { useErrorHandler } from 'react-error-boundary';
 import Flyout from '../../utils/flyout';
 import { AppContext } from '../../utils/context';
 import Image from '../image/image';
 
-export const NavigationGQL = `query ScreenList($locale: String!) {
+export const NavigationGQL = `query ScreenList($locale: String!, $project: ID="/content/dam/bestbuy", $limit: Int=6) {
   screenList(
-    filter: {positionInNavigation: {_expressions: [{value: "dni", _operator: CONTAINS_NOT}]}}
+    filter: {
+      _path: {
+        _expressions: [
+          {
+            value: $project
+            _operator:STARTS_WITH
+          }
+        ]
+      }
+      positionInNavigation: {
+        _expressions: [
+          {
+            value: "dni", 
+            _operator: CONTAINS_NOT
+          }
+        ]
+      }
+    }
     _locale: $locale
+    limit:$limit
   ) {
     items {
       _metadata {
@@ -25,7 +43,8 @@ export const NavigationGQL = `query ScreenList($locale: String!) {
       positionInNavigation
     }
   }
-}`;
+}
+`;
 
 const Navigation = ({ className, config, screen }) => {
   const context = useContext(AppContext);
@@ -34,19 +53,20 @@ const Navigation = ({ className, config, screen }) => {
   const [logo, setLogo] = useState({});
   const handleError = useErrorHandler();
 
-  let obj = {
-    pos1: { name: '', path: '#' },
-    pos2: { name: '', path: '#' },
-    pos3: { name: '', path: '#' },
-    pos4: { name: '', path: '#' },
-    pos5: { name: 'Settings', path: '/settings' },
-  };
+  // let obj = {
+  //   pos1: { name: '', path: '#' },
+  //   pos2: { name: '', path: '#' },
+  //   pos3: { name: '', path: '#' },
+  //   pos4: { name: '', path: '#' },
+  //   pos5: { name: 'Settings', path: '/settings' },
+  // };
 
+  // console.log(`/${rootPath}/${context.project}`);
   useEffect(() => {
     const sdk = prepareRequest(context);
     setLogo(config.configurationByPath.item.siteLogo);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en' })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en', project: `/${rootPath}/${context.project}` })
       .then((data) => {
         if (data) {
           setNav(data);
@@ -57,18 +77,33 @@ const Navigation = ({ className, config, screen }) => {
       });
   }, [handleError, config, context]);
 
-  nav && nav.data.screenList.items.forEach((item) => {
-    if (item._path.includes(context.project)) {
-      let name = '';
-      item._metadata.stringMetadata.forEach(meta => {
-        meta.name === 'title' && (name = meta.value);
-      });
-      obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path, config, context) };
-    }
-  });
+  // nav && nav.data.screenList.items.forEach((item) => {
+  //   if (item._path.includes(context.project)) {
+  //     let name = '';
+  //     item._metadata.stringMetadata.forEach(meta => {
+  //       meta.name === 'title' && (name = meta.value);
+  //     });
+  //     obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path, config, context) };
+  //   }
+  // });
+
+  function getName(obj) {
+    let name = '';
+    obj._metadata.stringMetadata.forEach((elem) => {
+      if (elem.name === 'title')
+        name = elem.value;
+    });
+    return name;
+  }
 
   function viewGQL() {
     document.querySelector('#flyout') && document.querySelector('#flyout').setAttribute('aria-expanded', true);
+    return false;
+  }
+
+  function dropDown(elem) {
+    console.log(elem);
+    elem.preventDefault();
     return false;
   }
 
@@ -85,6 +120,11 @@ const Navigation = ({ className, config, screen }) => {
     prevScrollPos = currentScrollPos;
   };
 
+  // if (nav.data && nav.data.screenList)
+  //   nav.data.screenList.items.forEach((item) => {
+  //     console.log(item._path);
+  //   });
+
   return (
     <React.Fragment>
       <nav id="navbar" aria-expanded={expanded}>
@@ -99,15 +139,19 @@ const Navigation = ({ className, config, screen }) => {
           <Link to={'/'}><Image asset={logo} /></Link>
         </div>
         <div className='nav-sections'>
-          {nav && (
-            <ul>
-              <li><Link to={obj.pos1.path} className={`navItem ${className}`}>{obj.pos1.name}</Link></li>
-              <li><Link to={obj.pos2.path} className={`navItem ${className}`}>{obj.pos2.name}</Link></li>
-              <li><Link to={obj.pos3.path} className={`navItem ${className}`}>{obj.pos3.name}</Link></li>
-              <li><Link to={obj.pos4.path} className={`navItem ${className}`}>{obj.pos4.name}</Link></li>
-              <li><Link to={obj.pos5.path} className={`navItem ${className}`}>{obj.pos5.name}</Link></li>
-            </ul>
-          )}
+          {/* {nav && nav.data && nav.data.screenList && ( */}
+          <ul>
+            {nav.data && nav.data.screenList.items.map((item) => (
+              <li key={item.positionInNavigation} className='nav-drop'>
+                <Link to={LinkManager(item._path, config, context)} className={`navItem ${className}`}>{getName(item)}</Link>
+                {/* <ul>
+                  <li>One</li>
+                  <li>Two</li>
+                </ul> */}
+              </li>
+            ))}
+            <li><Link to='/settings' className={`navItem ${className}`}>Settings</Link></li> 
+          </ul>
         </div>
         <div className='nav-tools'>
           <button href='#' className='button view-gql' aria-expanded='false' aria-controls='flyout' onClick={viewGQL}>View GraphQL</button>
