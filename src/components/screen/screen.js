@@ -34,7 +34,7 @@ const Screen = () => {
 
   useEffect(() => {
     const sdk = prepareRequest(context);
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration-v2', { path: configPath })
       .then(({ data }) => {
         if (data) {
           const css = data.configurationByPath.item.cssVariables;
@@ -44,7 +44,7 @@ const Screen = () => {
           
           console.log(css.navHeight);
           setConfiguration(data);
-          sdk.runPersistedQuery(`aem-demo-assets/gql-demo-screen-${version}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
+          sdk.runPersistedQuery('aem-demo-assets/gql-demo-screen-v3', { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {

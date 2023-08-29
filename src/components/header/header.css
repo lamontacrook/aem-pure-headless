@@ -8,6 +8,7 @@ it.
 
 header {
   position: relative;
+  margin-top: var(--content-top-margin);
 }
 
 header.home-article img {

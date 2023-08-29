@@ -3,13 +3,15 @@ import Teaser from '../../components/teaser';
 import ImageList from '../../components/imagelist';
 import PageRef from '../../components/pageref';
 import Gridteaser from '../../components/gridteaser';
+import Products from '../../components/products';
 import PropTypes from 'prop-types';
 
 export const componentMapping = {
   Teaser,
   ImageList,
   PageRef,
-  Gridteaser
+  Gridteaser,
+  Products
 };
 
 const ModelManager = ({ content, config }) => {

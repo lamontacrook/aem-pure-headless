@@ -76,6 +76,8 @@ it.
   width: auto;
   object-fit: cover;
   max-height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .slider-list.list-container {
@@ -117,6 +119,10 @@ it.
   position: relative;
   display: inline-block;
   margin: auto;
+
+  /* make variable */
+  width: 268px;
+  height: 183px;
 }
 
 .slider-list .list-item .title {

@@ -53,20 +53,11 @@ const Navigation = ({ className, config, screen }) => {
   const [logo, setLogo] = useState({});
   const handleError = useErrorHandler();
 
-  // let obj = {
-  //   pos1: { name: '', path: '#' },
-  //   pos2: { name: '', path: '#' },
-  //   pos3: { name: '', path: '#' },
-  //   pos4: { name: '', path: '#' },
-  //   pos5: { name: 'Settings', path: '/settings' },
-  // };
-
-  // console.log(`/${rootPath}/${context.project}`);
   useEffect(() => {
     const sdk = prepareRequest(context);
     setLogo(config.configurationByPath.item.siteLogo);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en', project: `/${rootPath}/${context.project}` })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation-v2', { locale: 'en', project: `/${rootPath}/${context.project}` })
       .then((data) => {
         if (data) {
           setNav(data);
@@ -76,16 +67,6 @@ const Navigation = ({ className, config, screen }) => {
         handleError(error);
       });
   }, [handleError, config, context]);
-
-  // nav && nav.data.screenList.items.forEach((item) => {
-  //   if (item._path.includes(context.project)) {
-  //     let name = '';
-  //     item._metadata.stringMetadata.forEach(meta => {
-  //       meta.name === 'title' && (name = meta.value);
-  //     });
-  //     obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path, config, context) };
-  //   }
-  // });
 
   function getName(obj) {
     let name = '';
@@ -102,7 +83,6 @@ const Navigation = ({ className, config, screen }) => {
   }
 
   function dropDown(elem) {
-    console.log(elem);
     elem.preventDefault();
     return false;
   }
@@ -119,11 +99,6 @@ const Navigation = ({ className, config, screen }) => {
     }
     prevScrollPos = currentScrollPos;
   };
-
-  // if (nav.data && nav.data.screenList)
-  //   nav.data.screenList.items.forEach((item) => {
-  //     console.log(item._path);
-  //   });
 
   return (
     <React.Fragment>
@@ -144,10 +119,6 @@ const Navigation = ({ className, config, screen }) => {
             {nav.data && nav.data.screenList.items.map((item) => (
               <li key={item.positionInNavigation} className='nav-drop'>
                 <Link to={LinkManager(item._path, config, context)} className={`navItem ${className}`}>{getName(item)}</Link>
-                {/* <ul>
-                  <li>One</li>
-                  <li>Two</li>
-                </ul> */}
               </li>
             ))}
             <li><Link to='/settings' className={`navItem ${className}`}>Settings</Link></li> 

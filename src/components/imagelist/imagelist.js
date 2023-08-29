@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { LinkManager, externalizeImage } from '../../utils';
 import Image from '../image';
+import DefaultImage from '../../media/AdobeStock_109806363.jpeg';
 
 import './imagelist.css';
 import { useErrorHandler } from 'react-error-boundary';
@@ -53,11 +54,16 @@ const ImageList = ({ content, config }) => {
 
               if (html) {
                 const body = new DOMParser().parseFromString(html, 'text/html');
-                const title = body.querySelector('h1');
-                const name = body.querySelector('h3');
-                const profession = body.querySelector('h5');
+                const title = body.querySelector('h1') || 'No title';
+                const name = body.querySelector('h3') || 'No Name';
+                const profession = body.querySelector('h5') || 'No Profession';
 
-                let image = body.querySelector('.cmp-image > img');  
+                let image = body.querySelector('.cmp-image > img');
+                if (!image) { 
+                  image = document.createElement('img'); 
+                  image.setAttribute('src', DefaultImage);
+                }
+                 
                 image = image ? externalizeImage(image, context) : '';
                 image.setAttribute('itemID', `urn:aemconnection:${url}/jcr:content/root/container/contentfragment/par1/image`); 
                 image.setAttribute('itemProp', 'jcr:primaryType');
