@@ -1,7 +1,7 @@
 .hero {
   position: sticky;
-  width: 100vw;
-  height: 100vh;
+  width: var(--teaser-width);
+  height: var(--teaser-height);
   display: flex;
   justify-content: center;
   align-items: center;

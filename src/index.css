@@ -1,13 +1,36 @@
-
-@import url("https://use.typekit.net/qni5gzm.css");
+:root {
+  --main-accent-color:#ffc719;
+  --highlight-background-color: red;
+  --main-text-color: rgba(41,41,41);
+  --main-color:#fff;
+  --main-color-opacity:rgba(4,25,45,.55);
+  --main-color-opacity-lighter:rgba(4,25,45,.45);
+  --main-color-opacity-darker:rgba(4,25,45,.95);
+  --main-light-background: #EBEBEB;
+  --main-nav-link-color: #fff;
+  --main-nav-color: red;
+  --dark-nav: rgba(41,41,41);
+  --main-dark-background: rgba(41,41,41);
+  --light-nav: #fff;
+  --nav-height:79px;
+  --content-top-margin:0;
+  --font-family: 'Human BBY Digital', Arial, Helvetica, sans-serif;
+  --font-nav-size: 2.125rem;
+  --teaser-height:100vh;
+  --teaser-width:100vw;
+}
 
 body {
   margin: 0;
-  font-family: future-pt Futura PT W02 Book,Futura,Trebuchet MS,Arial,sans-serif;
+  font-family: var(--font-family);
   width: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--main-color);
+  font-size: 1.2rem;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 code {
@@ -15,7 +38,7 @@ code {
     monospace;
 }
 
-@font-face {
+/* @font-face {
   font-display: block;
   font-family: wknd-icon-font;
   font-style: normal;
@@ -23,7 +46,7 @@ code {
   src: url(./media/fonts/wknd-icon-font.ttf) format("truetype"), 
     url(./media/fonts/wknd-icon-font.woff) format("woff"), 
     url(./media/fonts/wknd-icon-font.svg#wknd-icon-font) format("svg")
-}
+} */
 
 [class$=-icon],
 [class$=__icon],
@@ -41,29 +64,20 @@ code {
   text-transform: none
 }
 
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6,
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  color: var(--textColor, red);
+  color: var(--main-text-color);
   line-height: 1.5
 }
 
-.h1,
-.h2,
-.h3,
 h1,
 h2,
 h3 {
-  font-family: var(--fontFamilySerif, "Asar", Georgia, "Times New Roman", Times, serif);
+  font-family: var(--font-family);
   font-weight: var(--fontWeightNormal, normal);
   margin-bottom: 13.5px;
   margin-top: 27px
@@ -122,10 +136,10 @@ a {
 h1 a,
 h2 a,
 h3 a {
-  color: var(--textColor, red)
+  color: var(--textColor, black)
 }
 
-h1 a:after,
+/* h1 a:after,
 h2 a:after,
 h3 a:after {
   speak: none;
@@ -143,7 +157,7 @@ h3 a:after {
   position: relative;
   text-transform: none;
   top: -.5em
-}
+} */
 
 p {
   font-size: 18px;
@@ -156,23 +170,4 @@ div[role=status] {
   display: flex;
   justify-content: center;
   padding-top: 200px;
-}
-
-:root {
-  --main-accent-color:#ffc719;
-  --highlight-background-color: red;
-  --main-text-color: rgba(41,41,41);
-  --main-color:#fff;
-  --main-color-opacity:rgba(4,25,45,.55);
-  --main-color-opacity-lighter:rgba(4,25,45,.45);
-  --main-color-opacity-darker:rgba(4,25,45,.95);
-  --main-light-background: #EBEBEB;
-  --font-family: "wknd-icon-font" !important;
-  --main-nav-link-color: #fff;
-  --main-nav-color: red;
-  --dark-nav: rgba(41,41,41);
-  --main-dark-background: rgba(41,41,41);
-  --light-nav: #fff;
-  --nav-height:79px;
-  --content-top-margin:0;
 }

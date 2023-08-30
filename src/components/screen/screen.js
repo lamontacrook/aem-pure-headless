@@ -3,7 +3,7 @@ import ModelManager from '../../utils/modelmanager';
 import Footer from '../footer';
 import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { prepareRequest, rootPath } from '../../utils';
+import { prepareRequest, rootPath, SiteTitle } from '../../utils';
 import Header from '../header';
 import { useErrorHandler } from 'react-error-boundary';
 import './screen.css';
@@ -38,11 +38,19 @@ const Screen = () => {
       .then(({ data }) => {
         if (data) {
           const css = data.configurationByPath.item.cssVariables;
+          
+          /* add fonts */
+          Object.keys(css.fontFace).forEach(async (f) => {
+            const font = new FontFace(f, `${context.serviceURL}${rootPath}/${context.project}/assets/fonts/${css.fontFace[f]}`);
+            await font.load();
+            document.fonts.add(font);
+          });
+
+          /* add sytles */
           Object.keys(css.cssVariables).forEach((c) => {
             document.documentElement.style.setProperty(c, css.cssVariables[c]);
           });
           
-          console.log(css.navHeight);
           setConfiguration(data);
           sdk.runPersistedQuery('aem-demo-assets/gql-demo-screen-v3', { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
@@ -74,11 +82,11 @@ const Screen = () => {
   }, [handleError, navigate, path, version, context]);
 
   let i = 0;
-
+  
   return (
     <React.Fragment>
       <Helmet>
-        <title>WKND: {title}</title>
+        <title>{config && config.configurationByPath.item.siteTitle.replace('${screenTitle}', title)}</title>
       </Helmet>
       {data && data.screen && data.screen.body.header && config.configurationByPath &&
         <Header data={data} content={data.screen.body.header} config={config} className='screen' />

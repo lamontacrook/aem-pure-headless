@@ -8,7 +8,7 @@ body {
 h1 {
   color: white;
   font-size: 72px;
-  font-family: 'Futura PT W02 Heavy', Futura, 'Trebuchet MS', Arial, sans-serif;
+  font-family: var(--font-family);
   font-weight: 400;
   line-height: 76px;
   overflow-wrap: break-word;

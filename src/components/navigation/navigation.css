@@ -155,11 +155,11 @@ header nav[aria-expanded='true'] .nav-tools li {
 
 header .nav-sections a.navItem {
   text-decoration: none;
-  font-size: 2.125rem;
+  font-size: var(--font-nav-size);
   line-height: 3.125rem;
   text-transform: none;
   white-space: nowrap;
-  font-family: Futura PT W02 Book,Futura,Trebuchet MS,Arial,sans-serif;
+  font-family: var(--font-family);
   display: block;
   position: relative;
   padding: 0.2em 0;
@@ -347,7 +347,7 @@ button.button {
 
   nav .nav-sections a.navItem {
     color: var(--main-text-color);
-    font-size: 1.125rem;
+    font-size: var(--font-nav-size);
     line-height: 1.125rem;
   }
 
