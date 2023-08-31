@@ -24,7 +24,8 @@
   --fontSizeH4: 1pc;
   --fontSizeH5: 14px;
   --fontSizeP: 18px;
-  --featured-teaser-background: var(--main-light-background)
+  --featured-teaser-background: var(--main-light-background);
+  --footer-background-color:#696969;
 }
 
 p {

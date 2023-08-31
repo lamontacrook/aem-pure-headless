@@ -3,7 +3,7 @@ import ModelManager from '../../utils/modelmanager';
 import Footer from '../footer';
 import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { prepareRequest, rootPath, SiteTitle } from '../../utils';
+import { prepareRequest, rootPath } from '../../utils';
 import Header from '../header';
 import { useErrorHandler } from 'react-error-boundary';
 import './screen.css';

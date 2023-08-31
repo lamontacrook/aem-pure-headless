@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import AEMHeadless from '@adobe/aem-headless-client-js';
 
@@ -19,23 +18,27 @@ export const LinkManager = (path, config, context) => {
 
   if (!path) return '';
 
-  const pos = path.split('/');
-  const pos3 = pos.pop();
-  const pos2 = pos.pop();
-  const pos1 = pos.pop();
+  const pos = path.split('/').slice(-3);
+
+  pos.find((element, index) => {
+    if (element === 'master')
+      pos.splice(index, 1);
+
+  });
 
   if (path.indexOf('/experience-fragments/') >= 0) {
-    path = `/site/en/${pos1}/${pos2}/${pos3}`;
-  } else if (config && path.indexOf(config.adventuresHome) === 0) {
+    path = `/site/en/${pos.join('/')}`;
+    // } else if (config && path.indexOf(config.adventuresHome) === 0) {
 
-    let v = config.adventuresHome.indexOf('/') == 0 ?
-      config.adventuresHome.substring(1, config.adventuresHome.length) :
-      config.adventuresHome;
-    v = v.replace('content/dam', '');
-    let arry = v.split('/');
-    arry.shift();
-    arry.shift();
-    path = `${context.project}/${arry.join('/')}/${pos2}/${pos3}`;
+    //   let v = config.adventuresHome.indexOf('/') == 0 ?
+    //     config.adventuresHome.substring(1, config.adventuresHome.length) :
+    //     config.adventuresHome;
+    //   v = v.replace('content/dam', '');
+    //   let arry = v.split('/');
+    //   arry.shift();
+    //   arry.shift();
+    //   path = `${context.project}/${arry.join('/')}/${pos2}/${pos3}`;
+    // } 
   } else {
     path = path.replace(`/${rootPath}/${context.project}`, '');
   }
@@ -67,12 +70,12 @@ export const externalizeImagesFromString = (html, context) => {
 
 
 export const externalizeImage = (image, context) => {
- 
+
   const serviceURL = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL.replace(/\/$/, '');
 
   [...image.attributes].forEach((elem) => {
-    if(elem.value.startsWith('/')) {
-      elem.value = elem.value.replaceAll('/content/', `${serviceURL}/content/`);    
+    if (elem.value.startsWith('/')) {
+      elem.value = elem.value.replaceAll('/content/', `${serviceURL}/content/`);
     }
     // image.setAttribute('itemProp', 'asset');
     // image.setAttribute('itemType', 'media');

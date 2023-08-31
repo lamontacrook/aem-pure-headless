@@ -54,7 +54,6 @@ const ImageList = ({ content, config }) => {
 
               if (html) {
                 const body = new DOMParser().parseFromString(html, 'text/html');
-                console.log(body);
                 const title = body.querySelector('h1') || body.querySelector('h2') || 'No title';
                 const name = body.querySelector('h3') || 'No Name';
                 const profession = body.querySelector('h5') || 'No Profession';
@@ -69,8 +68,6 @@ const ImageList = ({ content, config }) => {
                 image.setAttribute('itemID', `urn:aemconnection:${url}/jcr:content/root/container/contentfragment/par1/image`); 
                 image.setAttribute('itemProp', 'jcr:primaryType');
                 image.setAttribute('itemType', 'media');
-
-                console.log(title);
 
                 setAuthors((item) => {
                   return [...item, {

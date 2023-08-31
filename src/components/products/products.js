@@ -1,12 +1,9 @@
 
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Image from '../image';
-import { AppContext } from '../../utils/context';
 import './products.css';
 
-const Products = ({ content, config }) => {
-  console.log(content.productFeed);
+const Products = ({ content }) => {
   return (
     <div>
       <section className='products'>

@@ -82,10 +82,10 @@ const Navigation = ({ className, config, screen }) => {
     return false;
   }
 
-  function dropDown(elem) {
-    elem.preventDefault();
-    return false;
-  }
+  // function dropDown(elem) {
+  //   elem.preventDefault();
+  //   return false;
+  // }
 
   let prevScrollPos = window.pageYOffset;
   window.onscroll = function () {

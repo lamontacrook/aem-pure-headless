@@ -1,17 +1,10 @@
 
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Image from '../image';
-import { AppContext } from '../../utils/context';
 import './gridteaser.css';
 
 const Gridteaser = ({ content, config }) => {
-  const context = useContext(AppContext);
-  let inFrame = false;
-  if (window.location !== window.parent.location) {
-    inFrame = true;
-  }
-
   const editorProps = {
     itemID: `urn:aemconnection:${content._path}/jcr:content/data/master`,
     itemfilter: 'cf',

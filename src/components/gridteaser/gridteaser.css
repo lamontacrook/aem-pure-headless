@@ -1,7 +1,7 @@
 .gridteaser {
   width: 1632px;
   height: 655px;
-  margin: var(--content-top-margin) auto;
+  margin: 120px auto;
   /* padding-top:20px; */
   display: grid;
   column-gap: 23px;
