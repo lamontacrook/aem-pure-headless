@@ -24,6 +24,7 @@
   --fontSizeH4: 1pc;
   --fontSizeH5: 14px;
   --fontSizeP: 18px;
+  --featured-teaser-background: var(--main-light-background)
 }
 
 p {

@@ -104,7 +104,7 @@ header .hero {
 
 /** featured **/
 .teaser.featured {
-  background-color: var(--main-light-background);
+  background-color: var(--featured-teaser-background);
   margin: auto;
   width: 100%;
 }
@@ -127,6 +127,12 @@ header .hero {
 .teaser.featured>.container>.content-block {
   max-width: 500px;
   padding: 0 22px 22px;
+  color: #fff;
+}
+
+.teaser.featured>.container>.content-block h2, 
+.teaser.featured>.container>.content-block h5 {
+  color:#fff;
 }
 
 .teaser.featured>.container>.content-block p {
@@ -139,7 +145,7 @@ header .hero {
 @media only screen and (min-width: 1000px) {
   .teaser.featured>.container>picture>img {
     width: 660px;
-    box-shadow: 20px 20px var(--main-accent-color);
+    /* box-shadow: 20px 20px var(--main-accent-color); */
   }
 
   .teaser.featured>.container>video {
