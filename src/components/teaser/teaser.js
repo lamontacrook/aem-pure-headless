@@ -5,7 +5,7 @@ import Video from '../video';
 import Image from '../image';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../../utils/context';
-import {TextWithPlaceholders} from '../../utils/placeholders';
+import { TextWithPlaceholders } from '../../utils/placeholders';
 import { LinkManager } from '../../utils';
 import './teaser.css';
 
@@ -16,10 +16,10 @@ import './teaser.css';
 const Teaser = ({ content, config }) => {
   const context = useContext(AppContext);
   let inFrame = false;
-  if(window.location !== window.parent.location) {
+  if (window.location !== window.parent.location) {
     inFrame = true;
   }
-  
+
 
   return (
     <div itemID={`urn:aemconnection:${content._path}/jcr:content/data/master`} itemfilter='cf' itemType='reference' data-editor-itemlabel={`Teaser(${content.style})`} itemScope>
@@ -33,33 +33,41 @@ const Teaser = ({ content, config }) => {
 
           <div className='content-block'>
             {content.title && content.style === 'hero' && (
-              <h1 itemProp='title' itemType='text' data-editor-itemlabel='Title'>{content.title}</h1>
+              <React.Fragment>
+                <h1 itemProp='title' itemType='text' data-editor-itemlabel='Title'>{content.title}</h1>
+                <span className='seperator'></span>
+                <h2 itemProp='preTitle' itemType='text' data-editor-itemlabel='Pre-Title'>{content.preTitle}</h2>
+              </React.Fragment>
             )}
 
             {content.title && content.style === 'featured' && (
-              <h2 itemProp='title' itemType='text' data-editor-itemlabel='Title'>{content.title}</h2>
+              <React.Fragment>
+                <h2 itemProp='title' itemType='text' data-editor-itemlabel='Title'>{content.title}</h2>
+                <span className='seperator'></span>
+                <h5 itemProp='preTitle' itemType='text' data-editor-itemlabel='Pre-Title'>{content.preTitle}</h5>
+                <p itemProp='description' itemType='text'><TextWithPlaceholders>{content.description.plaintext}</TextWithPlaceholders></p>
+                {content.callToAction && content.callToActionLink && content.style === 'featured' && (
+                  <Link to={LinkManager(content.callToActionLink._path, config, context)}
+                    itemType='reference' itemProp='callToActionLink' data-editor-itemlabel='Call to Action' className='button'>{content.callToAction}</Link>
+                )}
+              </React.Fragment>
             )}
 
-            <span className='seperator'></span>
-
-            {content.preTitle && content.style === 'hero' && (
-              <h2 itemProp='preTitle' itemType='text'data-editor-itemlabel='Pre-Title'>{content.preTitle}</h2>
+            {content.title && content.style === 'product' && (
+              <React.Fragment>
+                <h1 itemProp='title' itemType='text' data-editor-itemlabel='Title'>{content.title}</h1>
+                <span className='seperator'></span>
+                <h2 itemProp='preTitle' itemType='text' data-editor-itemlabel='Pre-Title'>{content.preTitle}</h2>
+                <p itemProp='description' itemType='text'><TextWithPlaceholders>{content.description.plaintext}</TextWithPlaceholders></p>
+                {content.callToAction && content.callToActionLink && content.style === 'featured' && (
+                  <Link to={LinkManager(content.callToActionLink._path, config, context)}
+                    itemType='reference' itemProp='callToActionLink' data-editor-itemlabel='Call to Action' className='button'>{content.callToAction}</Link>
+                )}
+              </React.Fragment>
             )}
 
-            {content.preTitle && content.style === 'featured' && (
-              <h5 itemProp='preTitle' itemType='text' data-editor-itemlabel='Pre-Title'>{content.preTitle}</h5>
-            )}
-
-
-            {content.description && content.style === 'featured' && (
-              <p itemProp='description' itemType='text'><TextWithPlaceholders>{content.description.plaintext}</TextWithPlaceholders></p>
-            )}
-
-            {content.callToAction && content.callToActionLink && content.style === 'featured' && (
-              <Link to={LinkManager(content.callToActionLink._path, config, context)} 
-                itemType='reference' itemProp='callToActionLink' data-editor-itemlabel='Call to Action' className='button'>{content.callToAction}</Link>
-            )}
           </div>
+
         </div>
 
         <div className='arrow'></div>

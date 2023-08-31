@@ -7,10 +7,10 @@ body {
 
 h1 {
   color: white;
-  font-size: 72px;
+  font-size: var(--fontSizeH1);
   font-family: var(--font-family);
   font-weight: 400;
-  line-height: 76px;
+  /* line-height: 76px; */
   overflow-wrap: break-word;
 }
 h2 {

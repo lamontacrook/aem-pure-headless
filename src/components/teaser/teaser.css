@@ -1,7 +1,38 @@
-.hero {
-  position: sticky;
+header .teaser.product .container {
+  background-color: red;
+}
+
+header .teaser.product .container {
   width: var(--teaser-width);
   height: var(--teaser-height);
+  display: flex;
+  flex-direction: row;
+  background-color: var(--main-color-opacity);
+}
+
+header .teaser.product img {
+  height: 100%;
+  object-fit: scale-down;
+  margin-left: -63px;
+}
+
+header .teaser.product picture {
+  width: 35%;
+  padding-right: 40px;
+}
+
+header .teaser.product .container .content-block, 
+header .teaser.product .container .content-block h1, 
+header .teaser.product .container .content-block h2 {
+  width: 60%;
+  color: #fff;
+  text-shadow: 1px 1px #333;
+}
+
+.teaser.hero {
+  width: var(--teaser-width);
+  height: var(--teaser-height);
+  position: sticky;
   display: flex;
   justify-content: center;
   align-items: center;

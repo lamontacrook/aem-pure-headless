@@ -18,6 +18,19 @@
   --font-nav-size: 2.125rem;
   --teaser-height:100vh;
   --teaser-width:100vw;
+  --fontSizeH1: 60px;
+  --fontSizeH2: 1.75em;
+  --fontSizeH3: 24px;
+  --fontSizeH4: 1pc;
+  --fontSizeH5: 14px;
+  --fontSizeP: 18px;
+}
+
+p {
+  font-size: var(--fontSizeP);
+  line-height: 2.5;
+  margin: 0 0 13.5px;
+  text-align: justify
 }
 
 body {
@@ -80,7 +93,6 @@ h3 {
   font-family: var(--font-family);
   font-weight: var(--fontWeightNormal, normal);
   margin-bottom: 13.5px;
-  margin-top: 27px
 }
 
 .h4,
@@ -96,27 +108,27 @@ h6 {
 
 .h1,
 .hero h1 {
-  font-size: var(--fontSizeH1, 60px)
+  font-size: var(--fontSizeH1)
 }
 
 .h2,
 h2 {
-  font-size: var(--fontSizeH2, 1.75em)
+  font-size: var(--fontSizeH2)
 }
 
 .h3,
 h3 {
-  font-size: var(--fontSizeH3, 24px)
+  font-size: var(--fontSizeH3)
 }
 
 .h4,
 h4 {
-  font-size: var(--fontSizeH4, 1pc)
+  font-size: var(--fontSizeH4)
 }
 
 .h5,
 h5 {
-  font-size: var(--fontSizeH5, 14px)
+  font-size: var(--fontSizeH5)
 }
 
 .h6,
@@ -158,13 +170,6 @@ h3 a:after {
   text-transform: none;
   top: -.5em
 } */
-
-p {
-  font-size: 18px;
-  line-height: 2.5;
-  margin: 0 0 13.5px;
-  text-align: justify
-}
 
 div[role=status] {
   display: flex;

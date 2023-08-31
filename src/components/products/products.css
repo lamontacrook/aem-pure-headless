@@ -23,6 +23,22 @@
   flex-wrap: wrap;
 }
 
+.products h3 {
+  margin-top: 7px
+}
+
+.products > .container > .left-rail ul {
+  list-style: none;
+}
+
+.products > .container > .left-rail li {
+  line-height: 35px;
+}
+
+.products > .container > .left-rail h3 {
+  padding-left: 10px;
+}
+
 .products > .container > .body .product-item {
   width: 200px;
   height: 250px;

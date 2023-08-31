@@ -11,7 +11,14 @@ const Products = ({ content, config }) => {
     <div>
       <section className='products'>
         <div className='container'>
-          <div className='left-rail'>left rail</div>
+          <div className='left-rail'>
+            <h3>Shop Refrigerators</h3>
+            <ul>
+              {content.productFeed.data.map((row) => (
+                <li key={row.category_uid}><a href='https://www.bestbuy.com/'>{row.category_name}</a></li>
+              ))}
+            </ul>
+          </div>
           <div className='body'>
             <h3>Shop By Type</h3>
             <div>
