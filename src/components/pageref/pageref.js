@@ -8,24 +8,37 @@ import { pageRef } from '../../api/api';
 
 const PageRef = ({ content, config }) => {
   const context = useContext(AppContext);
-  const [article, setArticle] = useState('');
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [cfPath, setCFPath] = useState('');
+  const [json, setJson] = useState('');
   const handleError = useErrorHandler();
-  
+
   useEffect(() => {
 
-    const url = content._authorUrl.replace('.html', '.content.html?wcmmode=disabled');
+    const url = content._authorUrl.replace('.html', '.model.json');
 
     pageRef(url, context)
       .then(res => ({
-        res: res.text().then(html => {
-          let body = new DOMParser().parseFromString(html, 'text/html'); //externalizeImagesFromString(html, context);
-          body.querySelector('.contentfragment > article') && setCFPath(body.querySelector('.contentfragment > article').getAttribute('data-cmp-contentfragment-path'));
-          body.querySelector('h1') && setTitle(body.querySelector('h1').innerHTML);
-          body.querySelector('.cmp-contentfragment__elements > div:nth-child(2)') && setArticle(new XMLSerializer().serializeToString(body.querySelector('.cmp-contentfragment__elements > div:nth-child(2)'), 'text/html'));
-          body.querySelector('h4.cmp-title__text') && setAuthor(body.querySelector('h4.cmp-title__text').innerHTML);
+        res: res.text().then(json => {
+          json = JSON.parse(json);
+          if (Object.prototype.hasOwnProperty.call(json, ':items')) {
+            json = json[':items'];
+            if (Object.prototype.hasOwnProperty.call(json, 'root')) {
+              json = json.root;
+              if (Object.prototype.hasOwnProperty.call(json, ':items')) {
+                json = json[':items'];
+                if (Object.prototype.hasOwnProperty.call(json, 'container')) {
+                  json = json.container;
+                }
+                else
+                  throw new Error('No Container Found');
+              } else
+                throw new Error('No :items found');
+            } else
+              throw new Error('No root found');
+          } else
+            throw new Error('No :items found');
+
+          setJson(json[':items']);
+
         })
       }))
       .catch(error => {
@@ -35,13 +48,58 @@ const PageRef = ({ content, config }) => {
   }, [content, handleError, config, context]);
 
   return (
-    <div className='article-screen'>
-      <h1 itemID={`urn:aemconnection:${content._path}/jcr:content/root/container/title`} itemProp='jcr:title' itemType='text'>{title}</h1>
-      <h4>{author}</h4>
-      <div itemID={`urn:aemconnection:${cfPath}/jcr:content/data/master`} itemfilter='cf' itemType='reference' itemScope className={content.__typename.toLowerCase()} dangerouslySetInnerHTML={{ __html: article }} />
-      <button className='button read-more'>Read More</button>
+    <div className='article-screen' >
+      {json && Object.keys(json).map((item) => {
+        if (item.startsWith('title')) {
+          const props = {
+            itemID: `urn:aemconnection:${content._path}/jcr:content/root/container/${item}`,
+            itemProp: 'jcr:title',
+            itemType: 'text'
+          };
+          const Element = `${json[item].type}`;
+          return (<Element {...props} key={json[item].id}>{json[item].text}</Element>);
+        } else if (item === 'contentfragment') {
+          const cf = json[item];
+          let x = 1;
+          return cf.paragraphs.map((par) => {
+            const parNo = cf[':items'][`par${x++}`];
+          
+            return (
+              <React.Fragment key={par}>
+                <div key={par} dangerouslySetInnerHTML={{ __html: par }} />
+                {parNo && Object.prototype.hasOwnProperty.call(parNo, ':items') && (
+                  <Par obj={parNo[':items']} />
+                )}
+              </React.Fragment>
+            );
+          });
+        }
+      })}
     </div>
   );
+};
+
+const Par = ({ obj }) => {
+  const context = useContext(AppContext);
+  let image = '';
+  let text = '';
+
+  if (Object.prototype.hasOwnProperty.call(obj, 'text')) {
+    text = obj.text;
+  } else if (Object.prototype.hasOwnProperty.call(obj, 'image')) {
+    image = obj.image;
+  }
+
+  return (
+    <React.Fragment>
+      {image && <img src={`${context.serviceURL}${image.src}`} />}
+      <span dangerouslySetInnerHTML={{ __html: text.text }} />
+    </React.Fragment>
+  );
+};
+
+Par.propTypes = {
+  obj: Proptypes.object
 };
 
 PageRef.propTypes = {
