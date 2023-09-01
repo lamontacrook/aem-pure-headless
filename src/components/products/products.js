@@ -4,8 +4,16 @@ import PropTypes from 'prop-types';
 import './products.css';
 
 const Products = ({ content }) => {
+  const editorProps = {
+    itemID: 'urn:aemconnection:' + content._path + '/jcr:content/data/master',
+    itemType: 'reference',
+    itemfilter: 'cf',
+    'data-editor-itemlabel': 'Product Grid',
+    'data-editor-behavior': 'component',
+  };
+
   return (
-    <div>
+    <div {...editorProps} itemScope>
       <section className='products'>
         <div className='container'>
           <div className='left-rail'>
