@@ -9,6 +9,7 @@ import { useErrorHandler } from 'react-error-boundary';
 import './screen.css';
 import { AppContext } from '../../utils/context';
 import { Helmet } from 'react-helmet-async';
+import Delayed from '../../utils/delayed';
 
 let configPath = '';
 const Screen = () => {
@@ -22,14 +23,14 @@ const Screen = () => {
 
   const props = useParams();
   let path = '';
-  
+
   if (Object.values(props).length && Object.values(props)[0] !== '')
-    path = (Object.values(props)[0].includes(rootPath)) ? 
+    path = (Object.values(props)[0].includes(rootPath)) ?
       `/${Object.values(props)[0]}` :
       `/${rootPath}/${context.project}/${Object.values(props)[0]}`;
 
   configPath = `/content/dam/${context.project}/site/configuration/configuration`;
-  
+
   const version = 'v2';
 
   useEffect(() => {
@@ -86,17 +87,19 @@ const Screen = () => {
             className='block'
           >
 
-            <ModelManager
-              key={`${item.__typename}-entity-${i++}`}
-              content={item}
-              config={config.configurationByPath.item}
-            ></ModelManager>
+            <Delayed waitBeforeShow={200}>
+              <ModelManager
+                key={`${item.__typename}-entity-${i++}`}
+                content={item}
+                config={config.configurationByPath.item}
+              ></ModelManager>
+            </Delayed>
           </div>
         ))}
       </div>
       <footer>
         {config && config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
-          <Footer config={config.configurationByPath.item.footerExperienceFragment} />
+          <Delayed waitBeforeShow={700}><Footer config={config.configurationByPath.item.footerExperienceFragment} /></Delayed>
         }
       </footer>
     </React.Fragment>
