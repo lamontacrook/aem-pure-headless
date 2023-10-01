@@ -1,7 +1,7 @@
 
 export const pageRef = (url, context) => {
 
-  const h = context.serviceURL === context.defaultServiceURL ? {
+  const h = context.serviceURL !== context.defaultServiceURL ? {
     'Authorization': `Bearer  ${context.auth}`,
     'Content-Type': 'text/html'
   } : {
@@ -10,13 +10,20 @@ export const pageRef = (url, context) => {
 
   const headers = new Headers(h);
 
-  const req = new Request(url, {
-    method: 'get',
-    headers: headers,
-    credentials: 'include',
-  });
-
-
-  return fetch(req);
+  if(url.includes('publish-')) {
+    const req = new Request(url, {
+      method: 'get',
+      headers: headers,
+    });
+    return fetch(req);
+  } else {
+    const req = new Request(url, {
+      method: 'get',
+      headers: headers,
+      credentials: 'include',
+    });
+    return fetch(req);
+  }
+  
 
 };

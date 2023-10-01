@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { LinkManager, externalizeImage } from '../../utils';
 import Image from '../image';
-
 import './imagelist.css';
 import { useErrorHandler } from 'react-error-boundary';
 import { pageRef } from '../../api/api';
@@ -41,9 +40,8 @@ const ImageList = ({ content, config }) => {
     content.imageListItems.map(({ _path, _authorUrl, adventureType, activity, tripLength, price, _publishUrl, __typename, title, primaryImage }) => {
       setPageType(__typename);
       if (__typename === 'PageRef') {
-        const usePub = false; //JSON.parse(context.publish);
 
-        const url = usePub ?
+        const url = context.defaultServiceURL === context.serviceURL ?
           _publishUrl.replace('.html', '.content.html') :
           _authorUrl.replace('.html', '.content.html?wcmmode=disabled');
 

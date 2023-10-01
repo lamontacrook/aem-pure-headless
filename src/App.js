@@ -19,26 +19,7 @@ const App = () => {
   const aemUrl = context.serviceURL.replace(/\/$/, '');
   useEffect(() => {
 
-    const configured = (context.serviceURL !== context.defaultServiceURL);
-    const hasAuth = context.auth !== '';
-
-    if (!configured && !hasAuth) {
-      fetch(context.accessToken)
-        .then(response => ({
-          res: response.text().then(token => {
-            if (token) {
-              sessionStorage.setItem('auth', token);
-              sessionStorage.setItem('loggedin', true);
-              context.auth = token;
-              setWait(false);
-            }
-          }).catch(error => {
-            error.message = `Error fetching token:\n ${error.message}`;
-            handleError(error);
-          })
-        }));
-    } else
-      setWait(false);
+    setWait(false);
 
   }, [context, handleError]);
 

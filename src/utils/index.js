@@ -65,12 +65,12 @@ export const externalizeImagesFromString = (html, context) => {
 
 
 export const externalizeImage = (image, context) => {
- 
+
   const serviceURL = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL.replace(/\/$/, '');
 
   [...image.attributes].forEach((elem) => {
-    if(elem.value.startsWith('/')) {
-      elem.value = elem.value.replaceAll('/content/', `${serviceURL}/content/`);    
+    if (elem.value.startsWith('/')) {
+      elem.value = elem.value.replaceAll('/content/', `${serviceURL}/content/`);
     }
     // image.setAttribute('itemProp', 'asset');
     // image.setAttribute('itemType', 'media');
@@ -95,18 +95,17 @@ export const prepareRequest = (context) => {
     return window.fetch(resource, options);
   };
 
-  // if (!usePub) {
-
-  return new AEMHeadless({
-    serviceURL: context.serviceURL,
-    endpoint: context.endpoint,
-    auth: context.auth,
-    fetch: _fetch
-  });
-  // } else if (usePub) {
-  //   return new AEMHeadless({
-  //     serviceURL: url,
-  //     endpoint: context.endpoint
-  //   });
-  // }
+  console.log(context.serviceURL);
+  if (context.serviceURL.includes('publish-')) {
+    return new AEMHeadless({
+      serviceURL: context.serviceURL,
+      endpoint: context.endpoint,
+    });
+  } else {
+    return new AEMHeadless({
+      serviceURL: context.serviceURL,
+      endpoint: context.endpoint,
+      fetch: _fetch
+    });
+  }
 };

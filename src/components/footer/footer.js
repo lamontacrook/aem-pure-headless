@@ -21,7 +21,9 @@ const Footer = ({ config }) => {
   useEffect(() => {
     if (!config) return;
 
-    const url = config._authorUrl.replace('.html', '.content.html?wcmmode=disabled');
+    const url = context.defaultServiceURL !== context.serviceURL ? 
+      config._authorUrl.replace('.html', '.content.html?wcmmode=disabled') :
+      config._publishUrl.replace('.html', '.content.html');
 
     pageRef(url, context)
       .then((response) => {
