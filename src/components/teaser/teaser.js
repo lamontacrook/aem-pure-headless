@@ -9,10 +9,6 @@ import {TextWithPlaceholders} from '../../utils/placeholders';
 import { LinkManager } from '../../utils';
 import './teaser.css';
 
-//https://experience.adobe.com/?repo=author-p101152-e938206.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content/dam/wknd-headless/site/en/home/components/featured-article?appId=aem-cf-editor
-//https://experience.adobe.com/?repo=author-p101152-e938206.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content/dam/wknd-headless/site/en/home/components/featured-article?appId=aem-cf-editor
-//https://experience.adobe.com/?repo=author-p101152-e938206.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content/dam/wknd-headless/site/en/home/components/hero/
-//https://experience.adobe.com/?repo=author-p24020-e1129912.adobeaemcloud.com#/@lamont/aem/cf/editor/editor/content%2Fdam%2Fgql-demo-template%2Fsite%2Fen%2Fhome%2Fcomponents%2Ffeatured-article
 const Teaser = ({ content, config }) => {
   const context = useContext(AppContext);
   let inFrame = false;
@@ -21,15 +17,20 @@ const Teaser = ({ content, config }) => {
   }
   
 
+  const renderAsset = ({asset}) => {
+    if(asset && Object.prototype.hasOwnProperty.call(content.asset, 'format'))
+      return (<Video content={content.asset} />);
+    else if(asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType'))
+      return (<Image asset={content.asset} config={config} />);
+    else
+      return (<Image asset={content.asset} config={config} />);
+  };
+
   return (
     <div itemID={`urn:aemconnection:${content._path}/jcr:content/data/master`} itemfilter='cf' itemType='reference' data-editor-itemlabel={`Teaser(${content.style})`} itemScope>
       <section className={'teaser ' + content.style + (inFrame ? ' iframe' : '')}>
         <div className='container'>
-          {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'format') &&
-            (<Video content={content.asset} />)}
-
-          {content.asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType') &&
-            (<Image asset={content.asset} config={config} />)}
+          { renderAsset(content) }
 
           <div className='content-block'>
             {content.title && content.style === 'hero' && (

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import Navigation from '../navigation';
 import ModelManager from '../../utils/modelmanager';
 import Image from '../image';
+import Delayed from '../../utils/delayed';
 
 import './header.css';
 
@@ -46,13 +47,13 @@ const Header = ({ content, config, className }) => {
     'data-editor-itemlabel': 'Header',
   };
 
-  if (!content.banner)
+  if (!content.banner && content.teaser)
     content['teaser']['_path'] = !content['teaser']['_path'] ? content._path.replace('header', 'hero') : content['teaser']['_path'];
 
   return (
     <header {...editorProps} className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner'>
       {content && (
-        <Navigation className={content.navigationColor} config={config} screen={content} />
+        <Delayed><Navigation className={content.navigationColor} config={config} screen={content} /></Delayed>
       )}
 
       {content.teaser &&

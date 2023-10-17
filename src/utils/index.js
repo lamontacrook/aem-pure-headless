@@ -83,11 +83,6 @@ export const externalizeImage = (image, context) => {
 export const prepareRequest = (context) => {
   if (!context) return;
 
-  // const usePub = JSON.parse(context.publish);
-  // const url = usePub ?
-  //   context.serviceURL.replace('author', 'publish') :
-  //   context.serviceURL;
-
   const _fetch = function (resource, options) {
     if (!options) options = {};
 
@@ -95,17 +90,11 @@ export const prepareRequest = (context) => {
     return window.fetch(resource, options);
   };
 
-  console.log(context.serviceURL);
-  if (context.serviceURL.includes('publish-')) {
-    return new AEMHeadless({
-      serviceURL: context.serviceURL,
-      endpoint: context.endpoint,
-    });
-  } else {
-    return new AEMHeadless({
-      serviceURL: context.serviceURL,
-      endpoint: context.endpoint,
-      fetch: _fetch
-    });
-  }
+  let obj = {
+    serviceURL: context.serviceURL,
+    endpoint: context.endpoint,
+  };
+
+  if(!context.serviceURL.includes('publish-')) obj.fetch = _fetch;
+  return new AEMHeadless(obj);
 };

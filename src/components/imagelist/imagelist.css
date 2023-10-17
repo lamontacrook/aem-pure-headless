@@ -66,6 +66,7 @@ it.
 .slider-list.list-container .list .list-item {
   height: 220px;
   padding-right: 16px;
+  max-width: 500px;
 }
 
 .slider-list.list-container .list .list-item:nth-last-child(1) {
@@ -73,7 +74,7 @@ it.
 }
 
 .slider-list .list .list-item img {
-  width: auto;
+  width: 100%;
   object-fit: cover;
   max-height: 100%;
 }
