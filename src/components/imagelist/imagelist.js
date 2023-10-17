@@ -44,11 +44,10 @@ const ImageList = ({ content, config }) => {
         const url = context.defaultServiceURL === context.serviceURL ?
           _publishUrl.replace('.html', '.content.html') :
           _authorUrl.replace('.html', '.content.html?wcmmode=disabled');
-
+          
         let promise = pageRef(url, context).then(res => ({
           res: res.redirected ? handleError({ message: `Bad Authentication.  Try again. ${url}` }) :
             res.text().then(html => {
-
               if (html) {
                 const body = new DOMParser().parseFromString(html, 'text/html');
                 const title = body.querySelector('h1');
@@ -207,8 +206,7 @@ const XFImage = ({item}) => {
   pic.innerHTML = item.image;
 
   pic.querySelector('img');
-  // pic = new XMLSerializer().serializeToString(pic);
-  // console.log(pic);
+
   return (
     <React.Fragment >
       {new XMLSerializer().serializeToString(pic)}
@@ -223,7 +221,6 @@ XFImage.propTypes = {
 
 const AdventureCard = ({ item, config }) => {
   const context = useContext(AppContext);
-
   return (
     <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/data/master`} 
       itemfilter='cf' itemType='reference' data-editor-itemlabel='Adventure Fragment' itemScope>

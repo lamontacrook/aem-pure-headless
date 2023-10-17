@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import BrokenImage from '../media/broken.jpg';
 
 const accessToken = 'https://20409-gqldemo202212-stage.adobeioruntime.net/api/v1/web/gql-demo-jwt/service-credentials';
 const defaultEndpoint = '/content/_cq_graphql/aem-demo-assets/endpoint.json';
@@ -14,6 +15,7 @@ export const AppContext = createContext({
   accessToken: accessToken,
   defaultServiceURL: defaultServiceURL,
   placeholdersExtensionURL: localStorage.placeholdersExtensionURL || defaultPlaceholdersExtensionURL,
+  brokenImage: BrokenImage
 });
 
 

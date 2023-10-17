@@ -47,7 +47,7 @@ const Header = ({ content, config, className }) => {
     'data-editor-itemlabel': 'Header',
   };
 
-  if (!content.banner)
+  if (!content.banner && content.teaser)
     content['teaser']['_path'] = !content['teaser']['_path'] ? content._path.replace('header', 'hero') : content['teaser']['_path'];
 
   return (
