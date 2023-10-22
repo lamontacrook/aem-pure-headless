@@ -76,6 +76,7 @@ header .hero {
   background-color: var(--main-light-background);
   margin: auto;
   width: 100%;
+  border-radius: 5px;
 }
 
 .teaser.featured>.container {

@@ -109,8 +109,8 @@ header nav .nav-sections {
 }
 
 header nav .nav-sections ul  {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: var(--navFontSize);
+  font-weight: var(--navFontWeight);
   list-style: none;
   padding-left: 0;
   display: flex;
@@ -119,8 +119,8 @@ header nav .nav-sections ul  {
 } 
 
 header nav .nav-sections li {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: var(--navFontSize);
+  font-weight: var(--navFontWeight);
 }
 
 header nav[aria-expanded='true'] .nav-sections {
@@ -155,11 +155,11 @@ header nav[aria-expanded='true'] .nav-tools li {
 
 header .nav-sections a.navItem {
   text-decoration: none;
-  font-size: 2.125rem;
-  line-height: 3.125rem;
+  font-size: var(--navFontSize);
+  line-height: var(--line-height-body);
   text-transform: none;
   white-space: nowrap;
-  font-family: Futura PT W02 Book,Futura,Trebuchet MS,Arial,sans-serif;
+  font-family: var(--body-font-family);
   display: block;
   position: relative;
   padding: 0.2em 0;
@@ -214,11 +214,6 @@ a:focus::after {
   white-space: nowrap;
   background: var(--main-color-opacity-lighter);
 }
-
-button.button {
-  /* background-color: var(--main-color); */
-} 
-
 
 /* desktop nav styles */
 @media (min-width: 1000px) {
@@ -276,7 +271,7 @@ button.button {
   header nav .nav-sections > ul > li {
     padding: 0 16px;
     position: relative;
-    font-size: 16px;
+    font-size: var(--fontSizeMed);
     margin: 0;
     cursor: pointer;
     padding-top: 0;
