@@ -19,3 +19,7 @@ export const AppContext = createContext({
 });
 
 
+// https://publish-p24020-e1129912.adobeaemcloud.com/graphql/execute.json/aem-demo-assets/gql-demo-configuration%3Bpath%3D%2Fcontent%2Fdam%2Fgql-demo-template%2Fsite%2Fconfiguration%2Fconfiguration
+
+// https://publish-p24020-e1129912.adobeaemcloud.com/graphql/execute.json/aem-demo-assets/gql-demo-configuration;path=/content/dam/gql-demo-template/site/configuration/configuration
+// https://publish-p24020-e1129912.adobeaemcloud.com/graphql/execute.json/aem-demo-assets/gql-demo-configuration;path=/content/dam/gql-demo-template/site/configuration/configuration

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { LinkManager, externalizeImage } from '../../utils';
+import { LinkManager } from '../../utils';
 import Image from '../image';
 import './imagelist.css';
 import { useErrorHandler } from 'react-error-boundary';
@@ -42,40 +42,50 @@ const ImageList = ({ content, config }) => {
       if (__typename === 'PageRef') {
 
         const url = context.defaultServiceURL === context.serviceURL ?
-          _publishUrl.replace('.html', '.content.html') :
-          _authorUrl.replace('.html', '.content.html?wcmmode=disabled');
-          
-        let promise = pageRef(url, context).then(res => ({
-          res: res.redirected ? handleError({ message: `Bad Authentication.  Try again. ${url}` }) :
-            res.text().then(html => {
-              if (html) {
-                const body = new DOMParser().parseFromString(html, 'text/html');
-                const title = body.querySelector('h1');
-                const name = body.querySelector('h3');
-                const profession = body.querySelector('h5');
+          _publishUrl.replace('.html', '.model.json') :
+          _authorUrl.replace('.html', '.model.json');
 
-                let image = body.querySelector('.cmp-image > img');  
-                image = image ? externalizeImage(image, context) : '';
-                image.setAttribute('itemID', `urn:aemconnection:${url}/jcr:content/root/container/contentfragment/par1/image`); 
-                image.setAttribute('itemProp', 'jcr:primaryType');
-                image.setAttribute('itemType', 'media');
+        const walk = [':items', 'root', ':items', 'container', ':items'];
+        let promise = pageRef(url, context, walk).then((json) => {
+    
+          const profession = json[Object.keys(json).find((elem) => {
+            if (elem.startsWith('title_')) {
+              json[elem].props = {
+                itemID: `urn:aemconnection:${url}/jcr:content/root/container/${elem}`,
+                itemProp: 'jcr:title',
+                itemType: 'text'
+              };
+              return json[elem];
+            }
+          })];
 
-                setAuthors((item) => {
-                  return [...item, {
-                    kind: __typename,
-                    style: content.style,
-                    name: name && name.innerHTML,
-                    profession: profession && profession.innerHTML,
-                    title: title && title.innerHTML,
-                    image: new XMLSerializer().serializeToString(image),
-                    path: _path,
-                    type: 'xf'
-                  }];
-                });
+          json.title.props = {
+            itemID: `urn:aemconnection:${url}/jcr:content/root/container/${json?.title?.id}`,
+            itemProp: 'jcr:title',
+            itemType: 'text'
+          };
 
-              }
-            }).catch(err => handleError(err)), promise: 'promise'
-        }));
+          const title = json.title;
+
+          const image = json?.image || json.contentfragment[':items'].par1[':items'].image || json.contentfragment[':items'].par2[':items'].image;
+          image.srcset = image.srcset.split(',').map((item) => {
+            return item = `${context.serviceURL}${item.substring(1)}`;
+          });
+          image.src = `${context.serviceURL}${image.src.substring(1)}`;
+          image.srcset = image.srcset.join(',');
+
+          setAuthors((item) => {
+            return [...item, {
+              kind: __typename,
+              style: content.style,
+              profession: profession,
+              title: title,
+              image: image,
+              path: _path,
+              type: 'xf'
+            }];
+          });
+        }).catch((error) => handleError(error));
 
         promises.push(promise);
       } else if (__typename === 'AdventureModel') {
@@ -141,9 +151,15 @@ const ImageList = ({ content, config }) => {
       e.target.previousElementSibling.style.display = 'unset';
   };
 
+  const itemProps = {
+    itemID: `urn:aemconnection:${content._path}/jcr:content/data/master`,
+    itemfilter: 'cf',
+    itemType: 'reference',
+    'data-editor-itemlabel': `ImageList(${content.style})`
+  };
   return (
     <React.Fragment>
-      <section className={`${content.style} list-container`} itemID={`urn:aemconnection:${content._path}/jcr:content/data/master`} itemfilter='cf' itemType='reference' data-editor-itemlabel={`ImageList(${content.style})`} itemScope>
+      <section className={`${content.style} list-container`} {...itemProps} itemScope>
         {title && <h4>{title.join('')}</h4>}
         <i className='arrow left' onClick={e => scrollLeft(e, 300)}></i>
         <div className='list' id='list-container-body' onScroll={e => containerChange(e)}>
@@ -155,7 +171,7 @@ const ImageList = ({ content, config }) => {
           ))}
 
           {pageType === 'PageRef' && [...new Map(authors.map(itm => [itm['path'], itm])).values()].map((item) => (
-            <React.Fragment key={`${item.kind}-${item.title || item.name}`}>
+            <React.Fragment key={`${item.kind}-${item.title?.id || item.name}`}>
               <Card key={item.name} item={item} config={config} />
             </React.Fragment>
           ))}
@@ -175,17 +191,23 @@ ImageList.propTypes = {
 
 const Card = ({ item, config }) => {
   const context = useContext(AppContext);
-
+  const itemProps = {
+    itemID: `urn:aemconnection:${item.path}/jcr:content/root/container`,
+    itemType: 'container',
+    'data-editor-itemlabel': 'Experience Fragment'
+  };
   return (
-    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/root/container`} itemType='container' data-editor-itemlabel='Experience Fragment'>
-      <picture dangerouslySetInnerHTML={{__html: item.image}}></picture>
-     
+    <div className='list-item' key={item.title.id} {...itemProps}>
+      <picture>
+        <img src={item?.image?.src} alt={item?.image?.alt} srcSet={item?.image?.srcset} />
+      </picture>
+
       <Link key={item.path} to={LinkManager(item.path, config, context)}>
-        <span className='title' itemID={`urn:aemconnection:${item.path}/jcr:content/root/container/title`} itemProp='jcr:title' itemType='text'>{item.title || item.name}</span>
+        <span className='title' {...item.title.props}>{item.title.text || item.name}</span>
         {item.style === 'image-grid' && (
           <div className='details'>
             <ul>
-              <li>{item.profession}</li>
+              <li {...item.profession?.props}>{item.profession?.text}</li>
             </ul>
           </div>
         )}
@@ -200,29 +222,29 @@ Card.propTypes = {
   context: PropTypes.object
 };
 
-const XFImage = ({item}) => {
-  let pic = document.createElement('picture');
+// const XFImage = ({ item }) => {
+//   let pic = document.createElement('picture');
 
-  pic.innerHTML = item.image;
+//   pic.innerHTML = item.image;
 
-  pic.querySelector('img');
+//   pic.querySelector('img');
 
-  return (
-    <React.Fragment >
-      {new XMLSerializer().serializeToString(pic)}
-    </React.Fragment>
-    
-  );
-};
+//   return (
+//     <React.Fragment >
+//       {new XMLSerializer().serializeToString(pic)}
+//     </React.Fragment>
 
-XFImage.propTypes = {
-  item: PropTypes.string
-};
+//   );
+// };
+
+// XFImage.propTypes = {
+//   item: PropTypes.string
+// };
 
 const AdventureCard = ({ item, config }) => {
   const context = useContext(AppContext);
   return (
-    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/data/master`} 
+    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/data/master`}
       itemfilter='cf' itemType='reference' data-editor-itemlabel='Adventure Fragment' itemScope>
       <Image asset={item.image} config={config} itemProp='primaryImage' />
       <Link key={item.path} to={LinkManager(item.path, config, context)}>

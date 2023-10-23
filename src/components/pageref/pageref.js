@@ -12,35 +12,18 @@ const PageRef = ({ content, config }) => {
   const handleError = useErrorHandler();
 
   useEffect(() => {
+    const { _publishUrl, _authorUrl } = content;
+    // const url = content._authorUrl.replace('.html', '.model.json');
+    const url = context.defaultServiceURL === context.serviceURL ?
+      _publishUrl.replace('.html', '.model.json') :
+      _authorUrl.replace('.html', '.model.json');
 
-    const url = content._authorUrl.replace('.html', '.model.json');
+    const walk = [':items', 'root', ':items', 'container', ':items'];
 
-    pageRef(url, context)
-      .then(res => ({
-        res: res.text().then(json => {
-          json = JSON.parse(json);
-          if (Object.prototype.hasOwnProperty.call(json, ':items')) {
-            json = json[':items'];
-            if (Object.prototype.hasOwnProperty.call(json, 'root')) {
-              json = json.root;
-              if (Object.prototype.hasOwnProperty.call(json, ':items')) {
-                json = json[':items'];
-                if (Object.prototype.hasOwnProperty.call(json, 'container')) {
-                  json = json.container;
-                }
-                else
-                  throw new Error('No Container Found');
-              } else
-                throw new Error('No :items found');
-            } else
-              throw new Error('No root found');
-          } else
-            throw new Error('No :items found');
-
-          setJson(json[':items']);
-
-        })
-      }))
+    pageRef(url, context, walk)
+      .then(res => {
+        setJson(res);
+      })
       .catch(error => {
         handleError(error);
       });
@@ -63,7 +46,7 @@ const PageRef = ({ content, config }) => {
           let x = 1;
           return cf.paragraphs.map((par) => {
             const parNo = cf[':items'][`par${x++}`];
-          
+
             return (
               <React.Fragment key={par}>
                 <div key={par} dangerouslySetInnerHTML={{ __html: par }} />
