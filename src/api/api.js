@@ -13,7 +13,7 @@ export const pageRef = (url, context, walk) => {
     method: 'get',
     headers: headers,
   };
-  if (url.includes('publish-')) obj.credentials = 'include';
+  if (!url.includes('publish-')) obj.credentials = 'include';
 
   const req = new Request(url, obj);
 
