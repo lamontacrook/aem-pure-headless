@@ -4,7 +4,7 @@ import { AppContext } from '../../utils/context';
 
 const Video = ({ content }) => {
   const context = useContext(AppContext);
-  const defaultConfig = context.serviceURL === context.defaultServiceURL;
+  const defaultConfig = context.defaultServiceURL === context.serviceURL || context.serviceURL.includes('publish-');
   let poster =  defaultConfig ? content._publishUrl : content._authorUrl;
   poster += '/jcr%3Acontent/renditions/cq5dam.zoom.2048.2048.jpeg';
   

@@ -19,7 +19,7 @@ const Footer = ({ config }) => {
 
   useEffect(() => {
     if (!config) return;
-    const url = context.defaultServiceURL === context.serviceURL ?
+    const url = context.defaultServiceURL === context.serviceURL || context.serviceURL.includes('publish-') ?
       config._publishUrl.replace('.html', '.model.json') :
       config._authorUrl.replace('.html', '.model.json');
 

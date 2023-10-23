@@ -13,11 +13,11 @@ const PageRef = ({ content, config }) => {
 
   useEffect(() => {
     const { _publishUrl, _authorUrl } = content;
-    // const url = content._authorUrl.replace('.html', '.model.json');
-    const url = context.defaultServiceURL === context.serviceURL ?
+
+    const url = context.defaultServiceURL === context.serviceURL || context.serviceURL.includes('publish-') ?
       _publishUrl.replace('.html', '.model.json') :
       _authorUrl.replace('.html', '.model.json');
-
+   
     const walk = [':items', 'root', ':items', 'container', ':items'];
 
     pageRef(url, context, walk)

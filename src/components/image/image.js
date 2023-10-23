@@ -25,7 +25,7 @@ const SrcSet = (asset) => {
   let src = '';
 
   if(Object.keys(asset).includes('_dynamicUrl')) {
-    const url = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
+    const url = context.serviceURL === context.defaultServiceURL || context.serviceURL.includes('publish-')? context.serviceURL.replace('author', 'publish') : context.serviceURL;
     src = asset._dynamicUrl;
 
     const srcs = Object.keys(renditions).map((key) => {

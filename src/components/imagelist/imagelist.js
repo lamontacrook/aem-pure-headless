@@ -41,7 +41,7 @@ const ImageList = ({ content, config }) => {
       setPageType(__typename);
       if (__typename === 'PageRef') {
 
-        const url = context.defaultServiceURL === context.serviceURL ?
+        const url = context.defaultServiceURL === context.serviceURL || context.serviceURL.includes('publish-') ?
           _publishUrl.replace('.html', '.model.json') :
           _authorUrl.replace('.html', '.model.json');
 

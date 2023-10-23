@@ -7,20 +7,24 @@ it.
 */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import './error.css';
 
 const Error = ({ error, resetErrorBoundary }) => {
   let inFrame = false;
-  if(window.location !== window.parent.location) {
+  if (window.location !== window.parent.location) {
     inFrame = true;
   }
-  
+
   return (
     <div className={'main-body error' + (inFrame ? ' iframe' : '')}>
       <div className="alert" role="alert">
         <h1>{error.heading}</h1>
         <pre>{error.message}</pre>
-        <button className='button' onClick={resetErrorBoundary}>Try again</button>
+        <div className='controls'>
+          <a className='button' onClick={resetErrorBoundary}>Try again</a>
+          <Link to='/settings' onClick={() => window.location.pathname = '/settings'} className='button'>Configure Settings</Link>
+        </div>
       </div>
     </div>
   );

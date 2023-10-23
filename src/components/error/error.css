@@ -19,6 +19,11 @@ it.
   background-size: cover;
 }
 
+.error .controls {
+  display: flex;
+  flex-direction: row;
+}
+
 .error.iframe {
   height: 800px;
   background-color: var(--main-dark-background);
@@ -45,8 +50,9 @@ it.
   text-shadow: 1px 1px #333;
 }
 
-.error .alert button.button {
+.error .alert .button {
   background-color: unset;
   display: flex;
   align-self: flex-end;
+  cursor: pointer;
 }
