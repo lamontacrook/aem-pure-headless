@@ -40,28 +40,37 @@ const Header = ({ content, config, className }) => {
     window.addEventListener('scroll', fadeOutHandler);
   }), [];
 
+  const editorProps = {
+    itemID: 'urn:aemconnection:' + content._path + '/jcr:content/data/master',
+    itemType: 'reference',
+    itemfilter: 'cf',
+    'data-editor-itemlabel': 'Header',
+  };
+
   if (!content.banner && content.teaser)
     content['teaser']['_path'] = !content['teaser']['_path'] ? content._path.replace('header', 'hero') : content['teaser']['_path'];
 
   return (
-    <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner'>
-      {content && (
-        <Delayed><Navigation className={content.navigationColor} config={config} screen={content} /></Delayed>
-      )}
+    <React.Fragment>
+      <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner' {...editorProps} itemScope>
+        {content && (
+          <Delayed><Navigation className={content.navigationColor} config={config} screen={content} /></Delayed>
+        )}
 
-      {content.teaser &&
-        <ModelManager
-          key={`${content.teaser.__typename
-            .toLowerCase()
-            .replace(' ', '-')}-entity-header`}
-          content={content.teaser}
-          config={config.configurationByPath.item}
-        ></ModelManager>}
+        {content.teaser &&
+          <ModelManager
+            key={`${content.teaser.__typename
+              .toLowerCase()
+              .replace(' ', '-')}-entity-header`}
+            content={content.teaser}
+            config={config.configurationByPath.item}
+          ></ModelManager>}
 
-      {content.banner && !content.teaser &&
-        <Image asset={content.banner} config={config.configurationByPath.item} />
-      }
-    </header>
+        {content.banner && !content.teaser &&
+          <Image asset={content.banner} config={config.configurationByPath.item} />
+        }
+      </header>
+    </React.Fragment>
   );
 };
 
