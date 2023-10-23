@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import AEMHeadless from '@adobe/aem-headless-client-js';
-
 export const rootPath = 'content/dam';
 
 const store = {};
@@ -47,37 +46,6 @@ LinkManager.propTypes = {
   path: PropTypes.object,
   config: PropTypes.object,
   context: PropTypes.object
-};
-
-export const externalizeImagesFromString = (html, context) => {
-  let body = new DOMParser().parseFromString(html, 'text/html');
-
-  for (let i = 0; i < [...body.images].length; i++) {
-    const pub = context.serviceURL == context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
-
-    [...body.images][i].src = [...body.images][i].src.replace(document.location.origin, pub);
-    [...body.images][i].srcset = [...body.images][i].srcset.replaceAll('/adobe/dynamicmedia/', `${pub}/adobe/dynamicmedia/`);
-    [...body.images][i].srcset = [...body.images][i].srcset.replaceAll('/content/experience-fragments/', `${pub}/content/experience-fragments/`);
-
-  }
-  return body;
-};
-
-
-export const externalizeImage = (image, context) => {
-
-  const serviceURL = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL.replace(/\/$/, '');
-
-  [...image.attributes].forEach((elem) => {
-    if (elem.value.startsWith('/')) {
-      elem.value = elem.value.replaceAll('/content/', `${serviceURL}/content/`);
-    }
-    // image.setAttribute('itemProp', 'asset');
-    // image.setAttribute('itemType', 'media');
-    image.setAttribute('data-editor-itemlabel', 'Image');
-  });
-
-  return image;
 };
 
 export const prepareRequest = (context) => {

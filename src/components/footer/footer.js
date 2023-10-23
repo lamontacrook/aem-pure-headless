@@ -7,7 +7,6 @@ it.
 */
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { externalizeImagesFromString } from '../../utils';
 import './footer.css';
 import { useErrorHandler } from 'react-error-boundary';
 import { pageRef } from '../../api/api';
@@ -15,25 +14,21 @@ import { AppContext } from '../../utils/context';
 
 const Footer = ({ config }) => {
   const context = useContext(AppContext);
-  const [footer, setFooter] = useState('');
+  const [footer, setFooter] = useState({});
   const handleError = useErrorHandler();
 
   useEffect(() => {
     if (!config) return;
+    const url = context.defaultServiceURL === context.serviceURL ?
+      config._publishUrl.replace('.html', '.model.json') :
+      config._authorUrl.replace('.html', '.model.json');
 
-    const url = context.defaultServiceURL !== context.serviceURL ? 
-      config._authorUrl.replace('.html', '.content.html?wcmmode=disabled') :
-      config._publishUrl.replace('.html', '.content.html');
+    const walk = [':items', 'root', ':items', 'container', ':items', 'container', ':items'];
 
-    pageRef(url, context)
-      .then((response) => {
-        if (response) {
-          response.text().then((html) => {
-            if (html) {
-              setFooter(new XMLSerializer().serializeToString(externalizeImagesFromString(html, context), 'text/html'));
-            }
-          });
-        }
+    pageRef(url, context, walk)
+      .then((res) => {
+        res.image.src = `${context.serviceURL}${res?.image?.src.substring(1)}`;
+        setFooter(res);
       })
       .catch((error) => {
         handleError(error);
@@ -41,14 +36,24 @@ const Footer = ({ config }) => {
 
   }, [config, handleError, context]);
 
+  const { host, pathname } = window.location;
+
   return (
     <React.Fragment>
-      <div className="footer-xf" dangerouslySetInnerHTML={{ __html: footer }} />
+      <div className="footer-xf">
+        {footer && (
+          <React.Fragment>
+            <div className='image'><img src={footer.image?.src} alt={footer.image?.alt} /></div>
+            <hr />
+            <p dangerouslySetInnerHTML={{ __html: footer.text?.text }} />
+          </React.Fragment>
+        )}
+      </div>
       <div className='version'>
         <span>version 1.0</span>
         <span>{context.serviceURL}</span>
         <span>{context.project}</span>
-        <span><a href={`https://experience.adobe.com/#/aem/editor/canvas/${window.location.host}${window.location.pathname}`} target='_blank' rel='noreferrer'>Open in Editor</a></span>
+        <span><a href={`https://experience.adobe.com/#/aem/editor/canvas/${host}${pathname}`} target='_blank' rel='noreferrer'>Open in Editor</a></span>
       </div>
     </React.Fragment>
   );

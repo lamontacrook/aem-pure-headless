@@ -1,5 +1,4 @@
-
-export const pageRef = (url, context) => {
+export const pageRef = (url, context, walk) => {
 
   const h = context.serviceURL !== context.defaultServiceURL ? {
     'Authorization': `Bearer  ${context.auth}`,
@@ -10,20 +9,29 @@ export const pageRef = (url, context) => {
 
   const headers = new Headers(h);
 
-  if(url.includes('publish-')) {
-    const req = new Request(url, {
-      method: 'get',
-      headers: headers,
-    });
-    return fetch(req);
-  } else {
-    const req = new Request(url, {
-      method: 'get',
-      headers: headers,
-      credentials: 'include',
-    });
-    return fetch(req);
-  }
-  
+  let obj = {
+    method: 'get',
+    headers: headers,
+  };
+  if (url.includes('publish-')) obj.credentials = 'include';
 
+  const req = new Request(url, obj);
+
+  if (!walk) return fetch(req);
+
+  return fetch(req).then((response) => {
+    if (response) {
+      return response.json().then((json) => { 
+        walk.forEach((item) => {
+          if (Object.prototype.hasOwnProperty.call(json, item)) {
+            json = json[item];
+          }
+        });
+        return json;
+      });
+    }
+  })
+    .catch((error) => {
+      throw (error);
+    });
 };

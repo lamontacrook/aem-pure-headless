@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { LinkManager, externalizeImage } from '../../utils';
+import { LinkManager } from '../../utils';
 import Image from '../image';
 import './imagelist.css';
 import { useErrorHandler } from 'react-error-boundary';
@@ -45,55 +45,47 @@ const ImageList = ({ content, config }) => {
           _publishUrl.replace('.html', '.model.json') :
           _authorUrl.replace('.html', '.model.json');
 
-        let walk = [':items', 'root', ':items', 'container', ':items'];
-        let promise = pageRef(url, context).then(res => ({
-          res: res.redirected ? handleError({ message: `Bad Authentication.  Try again. ${url}` }) :
-            res.json().then((json) => {
-              Object.keys(json).forEach((key) => {
-                if (Object.prototype.hasOwnProperty.call(json, walk[0])) {
-                  json = json[walk[0]];
-                  walk = walk.slice(1);
-                }
-              });
-              const profession = json[Object.keys(json).find((elem) => {
-                if (elem.startsWith('title_')) {
-                  json[elem].props = {
-                    itemID: `urn:aemconnection:${url}/jcr:content/root/container/${elem}`,
-                    itemProp: 'jcr:title',
-                    itemType: 'text'
-                  };
-                  return json[elem];
-                }
-              })];
-           
-              json.title.props = {
-                itemID: `urn:aemconnection:${url}/jcr:content/root/container/${json?.title?.id}`,
+        const walk = [':items', 'root', ':items', 'container', ':items'];
+        let promise = pageRef(url, context, walk).then((json) => {
+    
+          const profession = json[Object.keys(json).find((elem) => {
+            if (elem.startsWith('title_')) {
+              json[elem].props = {
+                itemID: `urn:aemconnection:${url}/jcr:content/root/container/${elem}`,
                 itemProp: 'jcr:title',
                 itemType: 'text'
               };
+              return json[elem];
+            }
+          })];
 
-              const title = json.title;
+          json.title.props = {
+            itemID: `urn:aemconnection:${url}/jcr:content/root/container/${json?.title?.id}`,
+            itemProp: 'jcr:title',
+            itemType: 'text'
+          };
 
-              const image = json?.image || json.contentfragment[':items'].par1[':items'].image || json.contentfragment[':items'].par2[':items'].image;
-              image.srcset = image.srcset.split(',').map((item) => {
-                return item = `${context.serviceURL}${item.substring(1)}`;
-              });
-              image.src = `${context.serviceURL}${image.src.substring(1)}`;
-              image.srcset = image.srcset.join(',');
+          const title = json.title;
 
-              setAuthors((item) => {
-                return [...item, {
-                  kind: __typename,
-                  style: content.style,
-                  profession: profession,
-                  title: title,
-                  image: image,
-                  path: _path,
-                  type: 'xf'
-                }];
-              });
-            }).catch((error) => handleError(error)), promise: 'promise'
-        }));
+          const image = json?.image || json.contentfragment[':items'].par1[':items'].image || json.contentfragment[':items'].par2[':items'].image;
+          image.srcset = image.srcset.split(',').map((item) => {
+            return item = `${context.serviceURL}${item.substring(1)}`;
+          });
+          image.src = `${context.serviceURL}${image.src.substring(1)}`;
+          image.srcset = image.srcset.join(',');
+
+          setAuthors((item) => {
+            return [...item, {
+              kind: __typename,
+              style: content.style,
+              profession: profession,
+              title: title,
+              image: image,
+              path: _path,
+              type: 'xf'
+            }];
+          });
+        }).catch((error) => handleError(error));
 
         promises.push(promise);
       } else if (__typename === 'AdventureModel') {
@@ -163,7 +155,7 @@ const ImageList = ({ content, config }) => {
     itemID: `urn:aemconnection:${content._path}/jcr:content/data/master`,
     itemfilter: 'cf',
     itemType: 'reference',
-    'data-editor-itemlabel': `ImageList(${content.style})` 
+    'data-editor-itemlabel': `ImageList(${content.style})`
   };
   return (
     <React.Fragment>
@@ -207,7 +199,7 @@ const Card = ({ item, config }) => {
   return (
     <div className='list-item' key={item.title.id} {...itemProps}>
       <picture>
-        <img src={item?.image?.src} srcSet={item?.image?.srcset} />
+        <img src={item?.image?.src} alt={item?.image?.alt} srcSet={item?.image?.srcset} />
       </picture>
 
       <Link key={item.path} to={LinkManager(item.path, config, context)}>
