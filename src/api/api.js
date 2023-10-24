@@ -1,6 +1,6 @@
 export const pageRef = (url, context, walk) => {
 
-  const h = context.serviceURL !== context.defaultServiceURL ? {
+  const h = context.serviceURL !== context.defaultServiceURL && !context.serviceURL.includes('publish-') ? {
     'Authorization': `Bearer  ${context.auth}`,
     'Content-Type': 'text/html'
   } : {

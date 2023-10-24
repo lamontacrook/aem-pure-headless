@@ -50,6 +50,7 @@ const Navigation = ({ className, config, screen }) => {
       .then((data) => {
         if (data) {
           setNav(data);
+          context.navigationResponse = data;
         }
       })
       .catch((error) => {

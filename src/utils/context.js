@@ -15,7 +15,9 @@ export const AppContext = createContext({
   accessToken: accessToken,
   defaultServiceURL: defaultServiceURL,
   placeholdersExtensionURL: localStorage.placeholdersExtensionURL || defaultPlaceholdersExtensionURL,
-  brokenImage: BrokenImage
+  brokenImage: BrokenImage,
+  screenResponse: {},
+  navigationResponse: {}
 });
 
 

@@ -1,7 +1,7 @@
 .hero {
   position: sticky;
-  width: 100vw;
-  height: 100vh;
+  width: var(--hero-teaser-width);
+  height: var(--hero-teaser-height);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,7 +62,7 @@ header .hero {
   height: 5px;
   display: block;
   content: "";
-  background-color: #ffc719;
+  background-color: var(--main-accent-color);
   transition: width .4s ease-in-out;
   margin: auto;
 }
@@ -118,7 +118,7 @@ header .hero {
   }
 
   .teaser.featured>.container {
-    flex-direction: row-reverse;
+    flex-direction: var(--featured-teaser-direction);
     align-items: center;
     padding: 7% 5%;
   }

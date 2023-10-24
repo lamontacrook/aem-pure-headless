@@ -229,6 +229,10 @@ div[role=status] {
 
 :root {
   --main-accent-color:#ffc719;
+  --hero-teaser-height:100vh;
+  --hero-teaser-width: 100vw;
+  --hero-teaser-positon: sticky;
+  --featured-teaser-direction: row-reverse;
   --highlight-background-color: red;
   --main-text-color: rgba(41,41,41);
   --main-color:#fff;

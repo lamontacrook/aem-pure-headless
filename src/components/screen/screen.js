@@ -51,6 +51,7 @@ const Screen = () => {
                   data.screen.body = data.screen.body[0];
                 }
                 setData(data);
+                context.screenResponse = data;
               }
             })
             .catch((error) => {
@@ -115,7 +116,7 @@ Screen.propTypes = {
 };
 
 export const ScreenGQL = `query ScreenByPath($path: String!) {
-  screen: screenByPath(_path: $path) {
+  screen: screenByPath(_path: $path, _assetTransform: {format: PNG, preferWebp: true}) {
     body: item {
       __typename
       _metadata {
@@ -139,7 +140,7 @@ export const ScreenGQL = `query ScreenByPath($path: String!) {
             ... on ImageRef {
               mimeType
               _authorUrl
-              _publishUrl
+              _dynamicUrl
               width
               height
             }
@@ -170,7 +171,7 @@ export const ScreenGQL = `query ScreenByPath($path: String!) {
               }
               ... on ImageRef {
                 _authorUrl
-                _publishUrl
+                _dynamicUrl
                 mimeType
                 width
                 height
@@ -219,7 +220,7 @@ export const ScreenGQL = `query ScreenByPath($path: String!) {
               tripLength
               primaryImage {
                 ... on ImageRef {
-                  _publishUrl
+                  _dynamicUrl
                   mimeType
                   _authorUrl
                   width
@@ -249,7 +250,7 @@ export const ScreenGQL = `query ScreenByPath($path: String!) {
             }
             ... on ImageRef {
               _authorUrl
-              _publishUrl
+              _dynamicUrl
               mimeType
               width
               height
@@ -280,30 +281,50 @@ export const ScreenGQL = `query ScreenByPath($path: String!) {
 }
 `;
 
-export const ConfigurationGQL = `query ConfigurationByPath($path: String!)
-{
-	configurationByPath(_path: $path) {
+export const ConfigurationGQL = `query ConfigurationByPath($path: String!) {
+  configurationByPath(
+    _path: $path
+    _assetTransform: {format: PNG, preferWebp: true}
+  ) {
     item {
       adventuresHome
       homePage {
-        ...on ScreenModel {
+        ... on ScreenModel {
           _path
         }
       }
       footerExperienceFragment {
-        ...on PageRef {
+        ... on PageRef {
           __typename
           _authorUrl
           _publishUrl
         }
       }
       siteLogo {
-        ...on ImageRef {
+        ... on ImageRef {
           _authorUrl
-          _publishUrl
+          _dynamicUrl
         }
       }
       renditionsConfiguration
+      overview {
+        ... on ImageRef {
+          _dynamicUrl
+          _authorUrl
+        }
+      }
+      itinerary {
+        ... on ImageRef {
+          _dynamicUrl
+          _authorUrl
+        }
+      }
+      whatToBring {
+        ... on ImageRef {
+          _dynamicUrl
+          _authorUrl
+        }
+      }
     }
   }
 }

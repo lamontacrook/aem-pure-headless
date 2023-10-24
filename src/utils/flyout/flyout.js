@@ -6,20 +6,17 @@ accordance with the terms of the Adobe license agreement accompanying
 it.
 */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropsType from 'prop-types';
 import './flyout.css';
 import { NavigationGQL } from '../../components/navigation';
 import { ConfigurationGQL, ScreenGQL } from '../../components/screen';
+import { AppContext } from '../context';
 
 const Flyout = ({ show, config, screen }) => {
-  const [response, setResponse] = useState({});
-  const [configResponse, setConfigResponse] = useState({});
+  const context = useContext(AppContext);
 
   useEffect(() => {
-    setResponse(screen);
-    setConfigResponse(config);
-
     let components = {
       Header: screen.component === undefined ? screen._path : screen.component.item._path
     };
@@ -39,7 +36,7 @@ const Flyout = ({ show, config, screen }) => {
 
     });
 
-  }, [screen, config]);
+  }, [screen, config, context]);
 
   function hideGQL() {
     document.querySelector('#flyout').setAttribute('aria-expanded', false);
@@ -94,11 +91,11 @@ const Flyout = ({ show, config, screen }) => {
       <section id='response' className='response content'>
         <fieldset className='code-block'>
           <legend>Screen</legend>
-          <pre>{JSON.stringify(response, null, 1)}</pre>
+          <pre>{JSON.stringify(context.screenResponse, null, 1)}</pre>
         </fieldset>
         <fieldset className='code-block'>
-          <legend>Configuration</legend>
-          <pre>{JSON.stringify(configResponse, null, 1)}</pre>
+          <legend>Navigation</legend>
+          <pre>{JSON.stringify(context.navigationResponse, null, 1)}</pre>
         </fieldset>
       </section>
     </div>
@@ -110,7 +107,7 @@ Flyout.propTypes = {
   show: PropsType.bool,
   config: PropsType.object,
   screen: PropsType.object,
-  context: PropsType.object
+  context: PropsType.object,
 };
 
 export default Flyout;
