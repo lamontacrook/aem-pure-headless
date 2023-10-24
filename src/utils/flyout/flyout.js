@@ -20,6 +20,7 @@ const Flyout = ({ show, config, screen }) => {
 
   useEffect(() => {
     setResponse(context.screenResponse);
+    console.log(context);
     setNavigation(context.navigationResponse);
 
     let components = {
