@@ -101,7 +101,7 @@ const Flyout = ({ show, config, screen }) => {
         </fieldset>
         <fieldset className='code-block'>
           <legend>Navigation</legend>
-          <pre>{JSON.stringify(navigation, null, 1)}</pre>
+          <pre>{JSON.stringify(context.navigationResponse, null, 1)}</pre>
         </fieldset>
       </section>
     </div>
