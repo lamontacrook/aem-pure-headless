@@ -6,7 +6,7 @@ accordance with the terms of the Adobe license agreement accompanying
 it.
 */
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropsType from 'prop-types';
 import './flyout.css';
 import { NavigationGQL } from '../../components/navigation';
