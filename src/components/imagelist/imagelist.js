@@ -42,7 +42,7 @@ const ImageList = ({ content, config }) => {
       if (__typename === 'PageRef') {
 
         const url = context.defaultServiceURL === context.serviceURL || context.serviceURL.includes('publish-') ?
-          _publishUrl.replace('.html', '.model.json') :
+          _publishUrl.replace('.html', '.model.json?two') :
           _authorUrl.replace('.html', '.model.json');
 
         const walk = [':items', 'root', ':items', 'container', ':items'];
