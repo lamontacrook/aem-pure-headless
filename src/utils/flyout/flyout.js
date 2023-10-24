@@ -15,14 +15,8 @@ import { AppContext } from '../context';
 
 const Flyout = ({ show, config, screen }) => {
   const context = useContext(AppContext);
-  const [response, setResponse] = useState({});
-  const [navigation, setNavigation] = useState({});
 
   useEffect(() => {
-    setResponse(context.screenResponse);
-    console.log(context);
-    setNavigation(context.navigationResponse);
-
     let components = {
       Header: screen.component === undefined ? screen._path : screen.component.item._path
     };
@@ -97,7 +91,7 @@ const Flyout = ({ show, config, screen }) => {
       <section id='response' className='response content'>
         <fieldset className='code-block'>
           <legend>Screen</legend>
-          <pre>{JSON.stringify(response, null, 1)}</pre>
+          <pre>{JSON.stringify(context.screenResponse, null, 1)}</pre>
         </fieldset>
         <fieldset className='code-block'>
           <legend>Navigation</legend>
