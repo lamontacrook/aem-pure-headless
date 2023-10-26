@@ -254,7 +254,7 @@ const AdventureCard = ({ item, config }) => {
   return (
     <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/data/master`}
       itemfilter='cf' itemType='reference' data-editor-itemlabel='Adventure Fragment' itemScope>
-      <Image asset={item.image} config={config} itemProp='primaryImage' />
+      <Image asset={item.image} config={config} alt={item.title} itemProp='primaryImage' />
       <Link key={item.path} name={item.title || item.name} to={LinkManager(item.path, config, context)}>
         <span className='title' itemProp='title' itemType='text'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (
