@@ -207,10 +207,10 @@ const Card = ({ item, config }) => {
   return (
     <div className='list-item' key={item.title.id} {...itemProps}>
       <picture>
-        <img src={item?.image?.src} alt={item?.image?.alt} srcSet={item?.image?.srcset} />
+        <img src={item?.image?.src} alt={item?.image?.alt || 'list image'} srcSet={item?.image?.srcset} />
       </picture>
 
-      <Link key={item.path} to={LinkManager(item.path, config, context)}>
+      <Link key={item.path} to={LinkManager(item.path, config, context)} name={item.title.text || item.name}>
         <span className='title' {...item.title.props}>{item.title.text || item.name}</span>
         {item.style === 'image-grid' && (
           <div className='details'>
@@ -255,7 +255,7 @@ const AdventureCard = ({ item, config }) => {
     <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/data/master`}
       itemfilter='cf' itemType='reference' data-editor-itemlabel='Adventure Fragment' itemScope>
       <Image asset={item.image} config={config} itemProp='primaryImage' />
-      <Link key={item.path} to={LinkManager(item.path, config, context)}>
+      <Link key={item.path} name={item.title || item.name} to={LinkManager(item.path, config, context)}>
         <span className='title' itemProp='title' itemType='text'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (
           <div className='details'>

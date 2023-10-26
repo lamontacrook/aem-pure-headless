@@ -46,11 +46,11 @@ const SrcSet = (asset) => {
 
 
 
-const Image = ({ asset, config, itemProp='asset' }) => {
+const Image = ({ asset, config, itemProp='asset', alt='no alt' }) => {
   const context = useContext(AppContext);
   if(!asset) return (
     <picture>
-      <img src={context.brokenImage} />
+      <img src={context.brokenImage} alt='broken image' />
     </picture>
   );
   let src = context.default ? asset?._publishUrl : asset?._authorUrl;
@@ -70,7 +70,7 @@ const Image = ({ asset, config, itemProp='asset' }) => {
   
   return (
     <picture>
-      <img src={src} width={width} height={height} srcSet={SrcSet(asset)} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
+      <img src={src} width={width} height={height} srcSet={SrcSet(asset)} alt={alt} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
     </picture>
   );
 };
@@ -79,7 +79,8 @@ Image.propTypes = {
   asset: PropTypes.object,
   config: PropTypes.object,
   context: PropTypes.object,
-  itemProp: PropTypes.string
+  itemProp: PropTypes.string,
+  alt: PropTypes.string
 };
 
 SrcSet.propTypes = {
