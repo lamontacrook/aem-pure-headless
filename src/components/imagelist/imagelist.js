@@ -211,7 +211,7 @@ const Card = ({ item, config }) => {
   return (
     <div className='list-item' key={item.title.id} {...itemProps}>
       <picture>
-        <img src={item?.image?.src} alt={item?.image?.alt || 'list image'} srcSet={item?.image?.srcset} />
+        <img src={item?.image?.src} loading='lazy' alt={item?.image?.alt || 'list image'} srcSet={item?.image?.srcset} />
       </picture>
 
       <Link key={item.path} to={LinkManager(item.path, config, context)} name={item.title.text || item.name}>

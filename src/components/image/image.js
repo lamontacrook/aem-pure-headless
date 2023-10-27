@@ -54,13 +54,7 @@ const Image = ({ asset, config, itemProp='asset', alt='no alt' }) => {
     </picture>
   );
   let src = context.default ? asset?._publishUrl : asset?._authorUrl;
-  // if(Object.keys(asset).includes('_dynamicUrl')) {
-  //   const url = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
-  //   // src = `${url.replace(/\/$/, '')}${asset._dynamicUrl}`;
-  // }
-  // else
-  //   src += `/jcr:content/renditions/${renditions[Object.keys(renditions).pop()]}`;
-
+  
   const width = asset?.width;
   const height = asset?.height;
 
@@ -70,7 +64,7 @@ const Image = ({ asset, config, itemProp='asset', alt='no alt' }) => {
   
   return (
     <picture>
-      <img src={src} width={width} height={height} srcSet={SrcSet(asset)} alt={alt} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
+      <img src={src} width={width} loading='lazy' height={height} srcSet={SrcSet(asset)} alt={alt} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
     </picture>
   );
 };
