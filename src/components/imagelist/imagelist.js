@@ -55,7 +55,7 @@ const ImageList = ({ content, config }) => {
 
         const walk = [':items', 'root', ':items', 'container', ':items'];
         let promise = pageRef(url, context, walk).then((json) => {
-    
+
           const profession = json[Object.keys(json).find((elem) => {
             if (elem.startsWith('title_')) {
               json[elem].props = {
@@ -76,11 +76,15 @@ const ImageList = ({ content, config }) => {
           const title = json.title;
 
           const image = json?.image || json.contentfragment[':items'].par1[':items'].image || json.contentfragment[':items'].par2[':items'].image;
-          image.srcset = image.srcset.split(',').map((item) => {
-            return item = `${context.serviceURL}${item.substring(1)}`;
-          });
-          image.src = `${context.serviceURL}${image.src.substring(1)}`;
-          image.srcset = image.srcset.join(',');
+          if (image && image.src) {
+            image.srcset = image.srcset.split(',').map((item) => {
+              return item = `${context.serviceURL}${item.substring(1)}`;
+            });
+            image.src = `${context.serviceURL}${image.src.substring(1)}`;
+            image.srcset = image.srcset.join(',');
+          } else {
+            image.src = context.brokenImage;
+          }
 
           setAuthors((item) => {
             return [...item, {
