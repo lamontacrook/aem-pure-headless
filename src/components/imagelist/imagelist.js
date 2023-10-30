@@ -80,7 +80,10 @@ const ImageList = ({ content, config }) => {
             image.srcset = image.srcset.split(',').map((item) => {
               return item = `${context.serviceURL}${item.substring(1)}`;
             });
-            image.src = `${context.serviceURL}${image.src.substring(1)}`;
+            if(image.srcset[0].endsWith('300w')) {
+              image.src = image.srcset[0].split(' ')[0];
+            } else
+              image.src = `${context.serviceURL}${image.src.substring(1)}`;
             image.srcset = image.srcset.join(',');
           } else {
             image.src = context.brokenImage;
