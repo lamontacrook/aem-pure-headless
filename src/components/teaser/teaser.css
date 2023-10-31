@@ -8,6 +8,12 @@
   opacity: 1;
 }
 
+@media only screen and (max-width: 999px) {
+  .hero {
+    height: calc(var(--hero-teaser-height) / 2);
+  }
+}
+
 .hero.iframe {
   height: 800px;
   background-color: var(--main-dark-background);

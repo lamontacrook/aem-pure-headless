@@ -11,60 +11,36 @@ import PropTypes from 'prop-types';
 import { AppContext } from '../../utils/context';
 
 import './image.css';
+import { srcSet, sizes } from '../../utils/responsive-image';
 
-let renditions = {
-  '1900': 'web-optimized-xlarge.webp',
-  '1200': 'web-optimized-large.webp',
-  '900': 'web-optimized-medium.webp',
-  '600': 'web-optimized-medium.webp'
-};
-
-const SrcSet = (asset) => {
-  const context = useContext(AppContext);
-  
-  let src = '';
-
+const imageUrl = (context, asset) => {
   if(Object.keys(asset).includes('_dynamicUrl')) {
-    const url = context.serviceURL === context.defaultServiceURL || context.serviceURL.includes('publish-')? context.serviceURL.replace('author', 'publish') : context.serviceURL;
-    src = asset._dynamicUrl;
-
-    const srcs = Object.keys(renditions).map((key) => {
-      return `${url.replace(/\/$/, '')}${src}&width=${key} ${key}w`;
-    });
-
-    return srcs;
-  } else
-    src = asset._authorUrl;
-
-  const srcset = Object.keys(renditions).map((key) => (
-    `${src}/jcr:content/renditions/${renditions[key]} ${key}w`
-  ));
-
-  return (srcset.join(', '));
-
+    const url = context.serviceURL === context.defaultServiceURL || context.serviceURL.includes('publish-')? context.serviceURL.replace('author', 'publish') : context.serviceURL;  
+    return url.replace(/\/$/, '') + asset._dynamicUrl;
+  } else {  
+    return asset._authorUrl;
+  }
 };
 
-
-
-const Image = ({ asset, config, itemProp='asset', alt='no alt' }) => {
+const Image = ({ asset, alt = 'WKND image', itemProp='asset', width, height, imageSizes }) => {
   const context = useContext(AppContext);
+
   if(!asset) return (
     <picture>
       <img src={context.brokenImage} alt='broken image' />
     </picture>
   );
+
   let src = context.default ? asset?._publishUrl : asset?._authorUrl;
   
-  const width = asset?.width;
-  const height = asset?.height;
+  width = width || asset?.width || '';
+  height = height || asset?.height || '';
 
-  if( config ) {
-    renditions = config.renditionsConfiguration;
-  }
-  
+  src = imageUrl(context, asset);
+
   return (
     <picture>
-      <img src={src} width={width} loading='lazy' height={height} srcSet={SrcSet(asset)} alt={alt} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
+      <img loading='lazy' alt={alt} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
     </picture>
   );
 };
@@ -74,11 +50,10 @@ Image.propTypes = {
   config: PropTypes.object,
   context: PropTypes.object,
   itemProp: PropTypes.string,
-  alt: PropTypes.string
-};
-
-SrcSet.propTypes = {
-  src: PropTypes.string,
+  imageSizes: PropTypes.array,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  alt: PropTypes.string,
 };
 
 export default Image;

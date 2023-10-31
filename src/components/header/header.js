@@ -15,6 +15,44 @@ import Delayed from '../../utils/delayed';
 
 import './header.css';
 
+const imageSizes = [
+  {
+    imageWidth: '2000px',
+    renditionName: 'web-optimized-xlarge.webp',
+  },
+  {
+    imageWidth: '1600px',
+    renditionName: 'web-optimized-xlarge.webp',
+  },
+  {
+    imageWidth: '1200px',
+    renditionName: 'web-optimized-xlarge.webp',
+  },
+  {
+    imageWidth: '1000px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '750px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '500px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '400px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '300px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    size: '100vw',
+  }
+];
+
 const Header = ({ content, config, className }) => {
   const fadeOutHandler = () => {
     if (document.querySelector('#flyout') && document.querySelector('#flyout').getAttribute('aria-expanded')) return;
@@ -65,9 +103,8 @@ const Header = ({ content, config, className }) => {
             content={content.teaser}
             config={config.configurationByPath.item}
           ></ModelManager>}
-
         {content.banner && !content.teaser &&
-          <Image asset={content.banner} alt='Banner Image' config={config.configurationByPath.item} />
+          <Image asset={content.banner} alt='Banner Image' config={config.configurationByPath.item} imageSizes={imageSizes} height={400}/>
         }
       </header>
     </React.Fragment>
