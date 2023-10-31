@@ -43,7 +43,7 @@ const Footer = ({ config }) => {
       <div className="footer-xf">
         {footer && (
           <React.Fragment>
-            <div className='image'><img src={footer.image?.src} alt={footer.image?.alt} /></div>
+            <div className='image'><img src={footer.image?.src} alt={footer.image?.alt} width={180} height={168} /></div>
             <hr />
             <p dangerouslySetInnerHTML={{ __html: footer.text?.text }} />
           </React.Fragment>
