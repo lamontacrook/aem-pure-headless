@@ -17,6 +17,13 @@ const App = () => {
   const [wait, setWait] = useState(true);
   const handleError = useErrorHandler();
   const aemUrl = context.serviceURL.replace(/\/$/, '');
+
+  useEffect(() => {
+    if (!document.querySelector(`head link[rel="preconnect"][href="${aemUrl}"]`)) {
+      document.querySelector('head').insertAdjacentHTML('beforeend', `<link rel="preconnect" href="${aemUrl}" />`);
+    }
+  },[aemUrl]);
+  
   useEffect(() => {
 
     setWait(false);

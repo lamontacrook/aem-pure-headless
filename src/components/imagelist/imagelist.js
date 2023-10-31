@@ -15,6 +15,7 @@ import './imagelist.css';
 import { useErrorHandler } from 'react-error-boundary';
 import { pageRef } from '../../api/api';
 import { AppContext } from '../../utils/context';
+import { sizes } from '../../utils/responsive-image';
 
 export const ImageListGQL = `
 ...on ImageListModel {
@@ -34,6 +35,19 @@ export const ImageListGQL = `
     }
   }
 }`;
+
+const imageSizes = [
+  {
+    imageWidth: '500px',
+    renditionName: 'web-optimized-large.webp',
+    size: '(min-width: 1000px) 500px',
+  },
+  { 
+    imageWidth: '331px',
+    renditionName: 'web-optimized-medium.webp',
+    size: '331px'
+  }
+];
 
 const ImageList = ({ content, config }) => {
   const context = useContext(AppContext);
@@ -76,6 +90,7 @@ const ImageList = ({ content, config }) => {
           const title = json.title;
 
           const image = json?.image || json.contentfragment[':items'].par1[':items'].image || json.contentfragment[':items'].par2[':items'].image;
+          
           image.srcset = image.srcset.split(',').map((item) => {
             return item = `${context.serviceURL}${item.substring(1)}`;
           });
@@ -207,7 +222,12 @@ const Card = ({ item, config }) => {
   return (
     <div className='list-item' key={item.title.id} {...itemProps}>
       <picture>
-        <img src={item?.image?.src} alt={item?.image?.alt} srcSet={item?.image?.srcset} />
+        <img src={item?.image?.src} 
+          alt={item?.image?.alt} 
+          srcSet={item?.image?.srcset}
+          width="500"
+          height="333"
+          sizes={sizes(imageSizes)}/>
       </picture>
 
       <Link key={item.path} to={LinkManager(item.path, config, context)}>
@@ -227,7 +247,7 @@ const Card = ({ item, config }) => {
 Card.propTypes = {
   item: PropTypes.object,
   config: PropTypes.object,
-  context: PropTypes.object
+  context: PropTypes.object,
 };
 
 // const XFImage = ({ item }) => {
@@ -251,10 +271,27 @@ Card.propTypes = {
 
 const AdventureCard = ({ item, config }) => {
   const context = useContext(AppContext);
+
+  const adventureCardImageSizes = [
+    { 
+      imageWidth: '350px',
+      renditionName: 'web-optimized-small.webp',
+      size: '350px'
+    }
+  ];
+
+  let width = 500;
+  let height = 360;
+
+  if (item.style === 'image-grid') {
+    width = 350;
+    height = 320;
+  }
+
   return (
     <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/data/master`}
       itemfilter='cf' itemType='reference' data-editor-itemlabel='Adventure Fragment' itemScope>
-      <Image asset={item.image} config={config} itemProp='primaryImage' />
+      <Image asset={item.image} config={config} itemProp='primaryImage' width={width} height={height} imageSizes={adventureCardImageSizes} />
       <Link key={item.path} to={LinkManager(item.path, config, context)}>
         <span className='title' itemProp='title' itemType='text'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (
@@ -274,7 +311,7 @@ const AdventureCard = ({ item, config }) => {
 AdventureCard.propTypes = {
   item: PropTypes.object,
   config: PropTypes.object,
-  context: PropTypes.object
+  context: PropTypes.object,
 };
 
 export default ImageList;

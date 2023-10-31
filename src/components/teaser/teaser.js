@@ -9,6 +9,68 @@ import {TextWithPlaceholders} from '../../utils/placeholders';
 import { LinkManager } from '../../utils';
 import './teaser.css';
 
+const imageSizes = [
+  {
+    imageWidth: '660px',
+    renditionName: 'web-optimized-large.webp',
+    size: '(min-width: 1000px) 660px'
+  },
+  {
+    imageWidth: '1000px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '800px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '600px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '400px',
+    renditionName: 'web-optimized-medium.webp',
+  },
+  {
+    imageWidth: '200px',
+    renditionName: 'web-optimized-medium.webp',
+  },
+  {
+    size: '100vw',
+  }
+];
+
+
+const imageSizesHero = [
+  {
+    imageWidth: '2000px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '1600px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '1200px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '1000px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '800px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    imageWidth: '600px',
+    renditionName: 'web-optimized-large.webp',
+  },
+  {
+    size: '100vw',
+  }
+];
+
 const Teaser = ({ content, config }) => {
   const context = useContext(AppContext);
   let inFrame = false;
@@ -16,14 +78,13 @@ const Teaser = ({ content, config }) => {
     inFrame = true;
   }
   
-
-  const renderAsset = ({asset}) => {
+  const renderAsset = ({asset}) => {    
     if(asset && Object.prototype.hasOwnProperty.call(content.asset, 'format'))
       return (<Video content={content.asset} />);
     else if(asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType'))
-      return (<Image asset={content.asset} config={config} />);
+      return (<Image asset={content.asset} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes}/>);
     else
-      return (<Image asset={content.asset} config={config} />);
+      return (<Image asset={content.asset} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes}/>);
   };
 
   return (
@@ -50,7 +111,6 @@ const Teaser = ({ content, config }) => {
             {content.preTitle && content.style === 'featured' && (
               <h5 itemProp='preTitle' itemType='text' data-editor-itemlabel='Pre-Title'>{content.preTitle}</h5>
             )}
-
 
             {content.description && content.style === 'featured' && (
               <p itemProp='description' itemType='text'><TextWithPlaceholders>{content.description.plaintext}</TextWithPlaceholders></p>

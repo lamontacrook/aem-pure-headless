@@ -97,7 +97,7 @@ const Navigation = ({ className, config, screen }) => {
           <div className='nav-hamburger-icon'></div>
         </div>
         <div className='nav-brand'>
-          <Link to={'/'}><Image asset={logo} /></Link>
+          <Link to={'/'}><Image asset={logo} width={108} height={56} alt="WKND"/></Link>
         </div>
         <div className='nav-sections'>
           {nav && (

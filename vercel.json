@@ -1,0 +1,22 @@
+{
+    "headers": [
+      {
+        "source": "/static/js/(.*).js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31557600, s-max-age=31557600, immutable"
+          }
+        ]
+      },
+      {
+        "source": "/static/css/(.*).css",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31557600, s-max-age=31557600, immutable"
+          }
+        ]
+      }
+    ]
+  }
