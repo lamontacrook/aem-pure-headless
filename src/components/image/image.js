@@ -22,7 +22,7 @@ const imageUrl = (context, asset) => {
   }
 };
 
-const Image = ({ asset, alt = "WKND image", itemProp='asset', width, height, imageSizes }) => {
+const Image = ({ asset, alt = 'WKND image', itemProp='asset', width, height, imageSizes }) => {
   const context = useContext(AppContext);
 
   if(!asset) return (
