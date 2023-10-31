@@ -69,7 +69,7 @@ const ImageList = ({ content, config }) => {
 
         const walk = [':items', 'root', ':items', 'container', ':items'];
         let promise = pageRef(url, context, walk).then((json) => {
-    
+
           const profession = json[Object.keys(json).find((elem) => {
             if (elem.startsWith('title_')) {
               json[elem].props = {
@@ -90,12 +90,18 @@ const ImageList = ({ content, config }) => {
           const title = json.title;
 
           const image = json?.image || json.contentfragment[':items'].par1[':items'].image || json.contentfragment[':items'].par2[':items'].image;
-          
-          image.srcset = image.srcset.split(',').map((item) => {
-            return item = `${context.serviceURL}${item.substring(1)}`;
-          });
-          image.src = `${context.serviceURL}${image.src.substring(1)}`;
-          image.srcset = image.srcset.join(',');
+          if (image && image.src) {
+            image.srcset = image.srcset.split(',').map((item) => {
+              return item = `${context.serviceURL}${item.substring(1)}`;
+            });
+            if(image.srcset[0].endsWith('300w')) {
+              image.src = image.srcset[0].split(' ')[0];
+            } else
+              image.src = `${context.serviceURL}${image.src.substring(1)}`;
+            image.srcset = image.srcset.join(',');
+          } else {
+            image.src = context.brokenImage;
+          }
 
           setAuthors((item) => {
             return [...item, {
@@ -222,15 +228,15 @@ const Card = ({ item, config }) => {
   return (
     <div className='list-item' key={item.title.id} {...itemProps}>
       <picture>
-        <img src={item?.image?.src} 
-          alt={item?.image?.alt} 
+        <img src={item?.image?.src} loading='lazy' 
+          alt={item?.image?.alt || 'list image'} 
           srcSet={item?.image?.srcset}
           width="500"
           height="333"
           sizes={sizes(imageSizes)}/>
       </picture>
 
-      <Link key={item.path} to={LinkManager(item.path, config, context)}>
+      <Link key={item.path} to={LinkManager(item.path, config, context)} name={item.title.text || item.name}>
         <span className='title' {...item.title.props}>{item.title.text || item.name}</span>
         {item.style === 'image-grid' && (
           <div className='details'>
@@ -291,8 +297,8 @@ const AdventureCard = ({ item, config }) => {
   return (
     <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/data/master`}
       itemfilter='cf' itemType='reference' data-editor-itemlabel='Adventure Fragment' itemScope>
-      <Image asset={item.image} config={config} itemProp='primaryImage' width={width} height={height} imageSizes={adventureCardImageSizes} />
-      <Link key={item.path} to={LinkManager(item.path, config, context)}>
+      <Image asset={item.image} config={config} alt={item.title} itemProp='primaryImage' width={width} height={height} imageSizes={adventureCardImageSizes} />
+      <Link key={item.path} name={item.title || item.name} to={LinkManager(item.path, config, context)}>
         <span className='title' itemProp='title' itemType='text'>{item.title || item.name}</span>
         {item.style === 'image-grid' && (
           <div className='details'>

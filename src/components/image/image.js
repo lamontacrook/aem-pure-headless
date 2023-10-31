@@ -22,21 +22,17 @@ const imageUrl = (context, asset) => {
   }
 };
 
-const Image = ({ asset, alt, itemProp='asset', width, height, imageSizes }) => {
+const Image = ({ asset, alt = "WKND image", itemProp='asset', width, height, imageSizes }) => {
   const context = useContext(AppContext);
 
   if(!asset) return (
-    <img src={context.brokenImage} />
+    <picture>
+      <img src={context.brokenImage} alt='broken image' />
+    </picture>
   );
 
   let src = context.default ? asset?._publishUrl : asset?._authorUrl;
-  // if(Object.keys(asset).includes('_dynamicUrl')) {
-  //   const url = context.serviceURL === context.defaultServiceURL ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
-  //   // src = `${url.replace(/\/$/, '')}${asset._dynamicUrl}`;
-  // }
-  // else
-  //   src += `/jcr:content/renditions/${renditions[Object.keys(renditions).pop()]}`;
-
+  
   width = width || asset?.width || '';
   height = height || asset?.height || '';
 
@@ -44,7 +40,7 @@ const Image = ({ asset, alt, itemProp='asset', width, height, imageSizes }) => {
 
   return (
     <picture>
-      <img alt={alt} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
+      <img loading='lazy' alt={alt} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
     </picture>
   );
 };

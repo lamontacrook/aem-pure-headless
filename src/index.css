@@ -268,3 +268,8 @@ div[role=status] {
   --body-font-family: adobe-clean, arial, sans-serif;
   --body-title-font-family: var(--body-font-family);
 }
+
+.blue-box {
+  border: 2px solid blue !important;
+  background-color: #0045ff;
+}

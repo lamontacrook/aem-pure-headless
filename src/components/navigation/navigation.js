@@ -97,16 +97,16 @@ const Navigation = ({ className, config, screen }) => {
           <div className='nav-hamburger-icon'></div>
         </div>
         <div className='nav-brand'>
-          <Link to={'/'}><Image asset={logo} width={108} height={56} alt="WKND"/></Link>
+          <Link to={'/'}><Image alt='logo' asset={logo} width={108} height={56} /></Link>
         </div>
         <div className='nav-sections'>
           {nav && (
             <ul>
-              <li><Link to={obj.pos1.path} className={`navItem ${className}`}>{obj.pos1.name}</Link></li>
-              <li><Link to={obj.pos2.path} className={`navItem ${className}`}>{obj.pos2.name}</Link></li>
-              <li><Link to={obj.pos3.path} className={`navItem ${className}`}>{obj.pos3.name}</Link></li>
-              <li><Link to={obj.pos4.path} className={`navItem ${className}`}>{obj.pos4.name}</Link></li>
-              <li><Link to={obj.pos5.path} className={`navItem ${className}`}>{obj.pos5.name}</Link></li>
+              <li><Link to={obj.pos1.path} className={`navItem ${className}`} name={obj.pos1.name}>{obj.pos1.name}</Link></li>
+              <li><Link to={obj.pos2.path} className={`navItem ${className}`} name={obj.pos2.name}>{obj.pos2.name}</Link></li>
+              <li><Link to={obj.pos3.path} className={`navItem ${className}`} name={obj.pos3.name}>{obj.pos3.name}</Link></li>
+              <li><Link to={obj.pos4.path} className={`navItem ${className}`} name={obj.pos4.name}>{obj.pos4.name}</Link></li>
+              <li><Link to={obj.pos5.path} className={`navItem ${className}`} name={obj.pos5.name}>{obj.pos5.name}</Link></li>
             </ul>
           )}
         </div>
