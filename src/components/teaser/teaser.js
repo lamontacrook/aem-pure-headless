@@ -28,11 +28,7 @@ const imageSizes = [
     renditionName: 'web-optimized-large.webp',
   },
   {
-    imageWidth: '400px',
-    renditionName: 'web-optimized-medium.webp',
-  },
-  {
-    imageWidth: '200px',
+    imageWidth: '412px',
     renditionName: 'web-optimized-medium.webp',
   },
   {
@@ -43,16 +39,12 @@ const imageSizes = [
 
 const imageSizesHero = [
   {
-    imageWidth: '2000px',
-    renditionName: 'web-optimized-large.webp',
-  },
-  {
     imageWidth: '1600px',
-    renditionName: 'web-optimized-large.webp',
+    renditionName: 'web-optimized-xlarge.webp',
   },
   {
     imageWidth: '1200px',
-    renditionName: 'web-optimized-large.webp',
+    renditionName: 'web-optimized-xlarge.webp',
   },
   {
     imageWidth: '1000px',
@@ -64,7 +56,11 @@ const imageSizesHero = [
   },
   {
     imageWidth: '600px',
-    renditionName: 'web-optimized-large.webp',
+    renditionName: 'web-optimized-medium.webp',
+  },
+  {
+    imageWidth: '412px',
+    renditionName: 'web-optimized-small.webp',
   },
   {
     size: '100vw',

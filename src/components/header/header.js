@@ -41,11 +41,7 @@ const imageSizes = [
     renditionName: 'web-optimized-large.webp',
   },
   {
-    imageWidth: '400px',
-    renditionName: 'web-optimized-large.webp',
-  },
-  {
-    imageWidth: '300px',
+    imageWidth: '412px',
     renditionName: 'web-optimized-large.webp',
   },
   {
