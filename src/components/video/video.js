@@ -53,24 +53,12 @@ function renderVideo(videoSrc, posterSrc) {
 function renderImagePlaceholder(posterSrc) {
   const imageSizes = [
     {
-      imageWidth: '2000px',
-      renditionName: 'cq5dam.zoom.2048.2048.jpeg',
-    },
-    {
-      imageWidth: '1600px',
-      renditionName: 'cq5dam.zoom.2048.2048.jpeg',
-    },
-    {
-      imageWidth: '1200px',
-      renditionName: 'cq5dam.zoom.2048.2048.jpeg',
-    },
-    {
-      imageWidth: '800px',
-      renditionName: 'cq5dam.zoom.2048.2048.jpeg',
+      imageWidth: '1080px',
+      renditionName: 'desktop-placeholder.webp',
     },
     {
       imageWidth: '412px',
-      renditionName: 'cq5dam.zoom.2048.2048.jpeg',
+      renditionName: 'mobile-placeholder.webp',
     },
     { 
       size: '100vw'
