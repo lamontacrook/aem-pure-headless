@@ -18,7 +18,7 @@ export function srcSet(url, definitions = []) {
     return definitions
       .filter((definition) => definition.imageWidth)
       .map((definition) => {   
-        return `${url}/jcr:content/renditions/${definition.renditionName} ${definition.imageWidth?.replace('px', 'w')}`;
+        return `${url}/_jcr_content/renditions/${definition.renditionName} ${definition.imageWidth?.replace('px', 'w')}`;
       }).reverse();
   }
 }

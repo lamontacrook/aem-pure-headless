@@ -8,6 +8,7 @@ import { prepareRequest } from '../../utils';
 import PropTypes from 'prop-types';
 import { AppContext } from '../../utils/context';
 import { Helmet } from 'react-helmet-async';
+import Delayed from '../../utils/delayed';
 
 const Screendetails = () => {
   const context = useContext(AppContext);
@@ -26,7 +27,7 @@ const Screendetails = () => {
 
   const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
   const configPath = `/content/dam/${context.project}/site/configuration/configuration`;
- 
+
   useEffect(() => {
     let path = Object.values(props).pop();
 
@@ -44,10 +45,10 @@ const Screendetails = () => {
         if (data) {
           setConfiguration(data);
 
-          const items = {'overview':setOverview, 'itinerary':setItinerary, 'whatToBring': setWhatToBring};
+          const items = { 'overview': setOverview, 'itinerary': setItinerary, 'whatToBring': setWhatToBring };
 
           Object.keys(items).forEach((key) => {
-            if(Object.keys(data.configurationByPath.item[key]).includes('_dynamicUrl'))
+            if (Object.keys(data.configurationByPath.item[key]).includes('_dynamicUrl'))
               items[key]({ backgroundImage: 'url("' + `${context.serviceURL.replace(/\/$/, '')}${data.configurationByPath.item[key]._dynamicUrl}` + '")' });
             else
               items[key]({ backgroundImage: 'url("' + `${data.configurationByPath.item[key]._authorUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
@@ -151,16 +152,22 @@ const Screendetails = () => {
             <div>
               <div className="tab">
                 <div className="item item-1" style={overview}>
-                  <span>Overview</span>
-                  <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.description.html }} />
+                  <div>
+                    <span>Overview</span>
+                    <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.description.html }} />
+                  </div>
                 </div>
                 <div className="item item-2" style={itinerary}>
-                  <span>Itinerary</span>
-                  <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.itinerary.html }} />
+                  <div>
+                    <span>Itinerary</span>
+                    <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.itinerary.html }} />
+                  </div>
                 </div>
                 <div className="item item-3" style={whatToBring}>
-                  <span>What to Bring</span>
-                  <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.gearList.html }} />
+                  <div>
+                    <span>What to Bring</span>
+                    <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.gearList.html }} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -170,7 +177,7 @@ const Screendetails = () => {
 
       <footer>
         {config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
-          <Footer config={config.configurationByPath.item.footerExperienceFragment} />
+          <Delayed waitBeforeShow={700}><Footer config={config.configurationByPath.item.footerExperienceFragment} /></Delayed>
         }
       </footer>
     </React.Fragment >

@@ -28,11 +28,7 @@ const imageSizes = [
     renditionName: 'web-optimized-large.webp',
   },
   {
-    imageWidth: '400px',
-    renditionName: 'web-optimized-medium.webp',
-  },
-  {
-    imageWidth: '200px',
+    imageWidth: '412px',
     renditionName: 'web-optimized-medium.webp',
   },
   {
@@ -43,16 +39,12 @@ const imageSizes = [
 
 const imageSizesHero = [
   {
-    imageWidth: '2000px',
-    renditionName: 'web-optimized-large.webp',
-  },
-  {
     imageWidth: '1600px',
-    renditionName: 'web-optimized-large.webp',
+    renditionName: 'web-optimized-xlarge.webp',
   },
   {
     imageWidth: '1200px',
-    renditionName: 'web-optimized-large.webp',
+    renditionName: 'web-optimized-xlarge.webp',
   },
   {
     imageWidth: '1000px',
@@ -64,7 +56,11 @@ const imageSizesHero = [
   },
   {
     imageWidth: '600px',
-    renditionName: 'web-optimized-large.webp',
+    renditionName: 'web-optimized-medium.webp',
+  },
+  {
+    imageWidth: '412px',
+    renditionName: 'web-optimized-small.webp',
   },
   {
     size: '100vw',
@@ -82,9 +78,9 @@ const Teaser = ({ content, config }) => {
     if(asset && Object.prototype.hasOwnProperty.call(content.asset, 'format'))
       return (<Video content={content.asset} />);
     else if(asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType'))
-      return (<Image asset={content.asset} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes}/>);
+      return (<Image asset={content.asset} alt={content.title} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes}/>);
     else
-      return (<Image asset={content.asset} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes}/>);
+      return (<Image asset={content.asset} alt={content.title} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes}/>);
   };
 
   return (
