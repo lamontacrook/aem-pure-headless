@@ -6,11 +6,11 @@ import { srcSet, sizes } from '../../utils/responsive-image';
 const Video = ({ content }) => {
   const context = useContext(AppContext);
   const [display, setDisplay] = useState('image');
-  
+
 
   const defaultConfig = context.defaultServiceURL === context.serviceURL || context.serviceURL.includes('publish-');
-  
-  const posterSrc =  (defaultConfig ? content._publishUrl : content._authorUrl);
+
+  const posterSrc = (defaultConfig ? content._publishUrl : content._authorUrl);
   const videoSrc = defaultConfig ? content._publishUrl : content._authorUrl;
 
 
@@ -18,21 +18,21 @@ const Video = ({ content }) => {
     if (!document.querySelector(`head link[rel="preload"][href="${videoSrc}"]`)) {
       document.querySelector('head').insertAdjacentHTML('beforeend', `<link rel="preload" href="${videoSrc}" as="video"/>`);
     }
-  },[videoSrc]);
+  }, [videoSrc]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {    
+    const timer = setTimeout(() => {
       setDisplay('video');
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
   if (display === 'image') {
-    return renderImagePlaceholder(posterSrc);
+    return renderImagePlaceholder(posterSrc, context);
   } else {
     return (
       <>
-        {renderImagePlaceholder(posterSrc)}
+        {renderImagePlaceholder(posterSrc, context)}
         {renderVideo(videoSrc, posterSrc)}
       </>
     );
@@ -50,8 +50,8 @@ function renderVideo(videoSrc, posterSrc) {
     poster={posterSrc} itemProp="asset" itemType="media" />);
 }
 
-function renderImagePlaceholder(posterSrc) {
-  const imageSizes = [
+function renderImagePlaceholder(posterSrc, context) {
+  const imageSizes = context.defaultServiceURL === context.serviceURL ? [
     {
       imageWidth: '1080px',
       renditionName: 'desktop-placeholder.webp',
@@ -60,17 +60,19 @@ function renderImagePlaceholder(posterSrc) {
       imageWidth: '412px',
       renditionName: 'mobile-placeholder.webp',
     },
-    { 
+    {
       size: '100vw'
     }
-  ];
+  ] : [];
 
   const src = posterSrc + '/_jcr_content/renditions/cq5dam.zoom.2048.2048.jpeg';
-  
-  return (  
-    <img 
+
+  return (
+    <img
       className='video-placeholder'
-      alt={'Its the WKND!'} src={src} width={412} srcSet={srcSet(posterSrc, imageSizes)} sizes={sizes(imageSizes)} itemProp="asset" itemType="media" data-editor-itemlabel='Asset'/>
+      alt={'Its the WKND!'} src={src} width={412} srcSet={srcSet(posterSrc, imageSizes)}
+      sizes={sizes(imageSizes)} itemProp="asset" itemType="media" data-editor-itemlabel='Asset'
+    />
   );
 }
 
