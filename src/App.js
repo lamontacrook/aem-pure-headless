@@ -46,7 +46,7 @@ const App = () => {
       <HelmetProvider>
         <div className='App'>
           <Helmet>
-            <meta name='urn:adobe:aem:editor:aemconnection' content={`aem:${aemUrl}`} />
+            <meta name='urn:adobe:aue:system:aemconnection' content={`aem:${aemUrl}`} />
           </Helmet>
           <BrowserRouter>
             <Routes>

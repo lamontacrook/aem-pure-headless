@@ -83,8 +83,15 @@ const Teaser = ({ content, config }) => {
       return (<Image asset={content.asset} alt={content.title} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes}/>);
   };
 
+  const editorProps = {
+    itemId: `urn:aemconnection:${content._path}/jcr:content/data/master`,
+    itemType: 'reference',
+    itemfilter: 'cf',
+    'data-editor-itemlabel': `Teaser(${content.style})`
+  };
+
   return (
-    <div itemID={`urn:aemconnection:${content._path}/jcr:content/data/master`} itemfilter='cf' itemType='reference' data-editor-itemlabel={`Teaser(${content.style})`} itemScope>
+    <div {...editorProps} itemScope>
       <section className={'teaser ' + content.style + (inFrame ? ' iframe' : '')}>
         <div className='container'>
           { renderAsset(content) }
