@@ -17,7 +17,7 @@ const PageRef = ({ content, config }) => {
     const url = context.defaultServiceURL === context.serviceURL || context.serviceURL.includes('publish-') ?
       _publishUrl.replace('.html', '.model.json') :
       _authorUrl.replace('.html', '.model.json');
-   
+
     const walk = [':items', 'root', ':items', 'container', ':items'];
 
     pageRef(url, context, walk)
@@ -33,33 +33,95 @@ const PageRef = ({ content, config }) => {
   return (
     <div className='article-screen' >
       {json && Object.keys(json).map((item) => {
-        if (item.startsWith('title')) {
-          const props = {
-            itemID: `urn:aemconnection:${content._path}/jcr:content/root/container/${item}`,
-            itemProp: 'jcr:title',
-            itemType: 'text'
-          };
-          const Element = `${json[item].type}`;
-          return (<Element {...props} key={json[item].id}>{json[item].text}</Element>);
-        } else if (item === 'contentfragment') {
-          const cf = json[item];
-          let x = 1;
-          return cf.paragraphs.map((par) => {
-            const parNo = cf[':items'][`par${x++}`];
-
-            return (
-              <React.Fragment key={par}>
-                <div key={par} dangerouslySetInnerHTML={{ __html: par }} />
-                {parNo && Object.prototype.hasOwnProperty.call(parNo, ':items') && (
-                  <Par obj={parNo[':items']} />
-                )}
-              </React.Fragment>
-            );
-          });
-        }
+        if (item.startsWith('title')) return <Title obj={json[item]} content={content} item={item} key={item} />; 
+        else if (item === 'contentfragment') return <ContentFragment obj={json[item]} key={item} />;
+        else if (item.startsWith('text')) return <Text key={item} obj={json[item]} item={item} content={content} />;
+        else if (item.startsWith('image')) return <Image key={item} obj={json[item]} context={context} />;
       })}
     </div>
   );
+};
+
+const ContentFragment = ({ obj }) => {
+
+  let x = 1;
+  return obj.paragraphs.map((par) => {
+    const parNo = obj[':items'][`par${x++}`];
+
+    return (
+      <React.Fragment key={par}>
+        <div key={par} dangerouslySetInnerHTML={{ __html: par }} />
+        {parNo && Object.prototype.hasOwnProperty.call(parNo, ':items') && (
+          <Par obj={parNo[':items']} />
+        )}
+      </React.Fragment>
+    );
+  });
+};
+
+ContentFragment.propTypes = {
+  obj: Proptypes.object,
+};
+
+const Text = ({ obj, content, item }) => {
+  const props = {
+    itemID: `urn:aemconnection:${content._path}/jcr:content/root/${item}`,
+    itemProp: item,
+    itemType: 'richtext',
+    'data-editor-itemlabel': 'Paragraph'
+  };
+
+  const { id, text } = obj;
+  return (<div className='text' {...props} key={id} dangerouslySetInnerHTML={{ __html: text }} />);
+};
+
+Text.propTypes = {
+  obj: Proptypes.object,
+  content: Proptypes.object,
+  item: Proptypes.string
+};
+
+const Title = ({ obj, content, item }) => {
+  const { type, text, id } = obj;
+
+  const props = {
+    itemID: `urn:aemconnection:${content._path}/jcr:content/root/${item}`,
+    itemProp: item,
+    itemType: 'text',
+    'data-editor-itemlabel': `Title ${type}`
+  };
+  
+  const Element = `${type || 'p'}`;
+  return <Element {...props} key={id}>{text}</Element>;
+};
+
+Title.propTypes = {
+  obj: Proptypes.object,
+  content: Proptypes.object,
+  item: Proptypes.string
+};
+
+const Image = ({ obj }) => {
+  const context = useContext(AppContext);
+  const { srcset, id, alt, src } = obj;
+
+  if (typeof srcset === 'string') {
+    obj.srcset = srcset.split(',').map((item) => {
+      return item = `${context.serviceURL}${item.substring(1)}`;
+    });
+  }
+  return (
+    <div key={id} className='image'>
+      <picture>
+        <img src={`${context.serviceURL}${src.substring(1)}`} alt={alt} srcSet={obj.srcset} />
+      </picture>
+    </div>
+  );
+
+};
+
+Image.propTypes = {
+  obj: Proptypes.object
 };
 
 const Par = ({ obj }) => {

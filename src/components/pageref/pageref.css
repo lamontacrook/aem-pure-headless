@@ -6,6 +6,7 @@
   margin: 0 12px;
   max-width: 1200px;
   margin: auto;
+  background-color: aqua;
 }
 
 .main-body .article-screen span:has(blockquote) {
@@ -55,7 +56,7 @@
 }
 
 .article-screen>div {
-  height: 300px;
+  /* height: 300px; */
 }
 
 .article-screen>div>img {
@@ -65,6 +66,11 @@
   margin-top: -62px;
   position: fixed;
   overflow: hidden;
+}
+
+.article-screen div.image > picture > img {
+  width: 100%;
+  object-fit: cover;
 }
 
 @media only screen and (min-width: 1000px) {}
