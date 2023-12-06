@@ -35,7 +35,7 @@ const Screen = () => {
 
   useEffect(() => {
     const sdk = prepareRequest(context);
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath, aem:'sucks' })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);

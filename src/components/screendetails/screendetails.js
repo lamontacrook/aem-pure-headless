@@ -39,19 +39,10 @@ const Screendetails = () => {
 
     const sdk = prepareRequest(context);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath, aem: 'sucks' })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-
-          // const items = { 'overview': setOverview, 'itinerary': setItinerary, 'whatToBring': setWhatToBring };
-
-          // Object.keys(items).forEach((key) => {
-          //   if (Object.keys(data.configurationByPath.item[key]).includes('_dynamicUrl'))
-          //     items[key]({ backgroundImage: 'url("' + `${context.serviceURL.replace(/\/$/, '')}${data.configurationByPath.item[key]._dynamicUrl}` + '")' });
-          //   else
-          //     items[key]({ backgroundImage: 'url("' + `${data.configurationByPath.item[key]._authorUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
-          // });
 
           if (data && data.configurationByPath) {
             let ovlp = findOverlap(data.configurationByPath.item.adventuresHome, path);
