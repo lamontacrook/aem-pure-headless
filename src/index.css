@@ -230,6 +230,7 @@ div[role=status] {
 :root {
   --main-accent-color:#ffc719;
   --hero-teaser-height:100vh;
+  --hero-teaser-adventure-height: 500px;
   --hero-teaser-width: 100vw;
   --hero-teaser-positon: sticky;
   --featured-teaser-direction: row-reverse;

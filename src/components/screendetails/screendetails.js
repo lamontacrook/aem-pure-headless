@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useErrorHandler } from 'react-error-boundary';
 import Header from '../header';
 import Footer from '../footer';
+import Products from '../products';
 import './screendetails.css';
 import { prepareRequest } from '../../utils';
 import PropTypes from 'prop-types';
@@ -17,16 +18,14 @@ const Screendetails = () => {
   const [config, setConfiguration] = useState('');
   const [content, setContent] = useState({});
   const [title, setTitle] = useState('');
-  const [overview, setOverview] = useState({});
-  const [itinerary, setItinerary] = useState({});
-  const [whatToBring, setWhatToBring] = useState({});
   const [adventure, setAdventure] = useState('');
-
+  const [productItems, setProductItems] = useState([]);
   const props = useParams();
   const navigate = useNavigate();
 
   const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
   const configPath = `/content/dam/${context.project}/site/configuration/configuration`;
+  const products = 'https://main--cif--jihuang-adobe.hlx.page/products.json?sheet=wknd';
 
   useEffect(() => {
     let path = Object.values(props).pop();
@@ -45,14 +44,14 @@ const Screendetails = () => {
         if (data) {
           setConfiguration(data);
 
-          const items = { 'overview': setOverview, 'itinerary': setItinerary, 'whatToBring': setWhatToBring };
+          // const items = { 'overview': setOverview, 'itinerary': setItinerary, 'whatToBring': setWhatToBring };
 
-          Object.keys(items).forEach((key) => {
-            if (Object.keys(data.configurationByPath.item[key]).includes('_dynamicUrl'))
-              items[key]({ backgroundImage: 'url("' + `${context.serviceURL.replace(/\/$/, '')}${data.configurationByPath.item[key]._dynamicUrl}` + '")' });
-            else
-              items[key]({ backgroundImage: 'url("' + `${data.configurationByPath.item[key]._authorUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
-          });
+          // Object.keys(items).forEach((key) => {
+          //   if (Object.keys(data.configurationByPath.item[key]).includes('_dynamicUrl'))
+          //     items[key]({ backgroundImage: 'url("' + `${context.serviceURL.replace(/\/$/, '')}${data.configurationByPath.item[key]._dynamicUrl}` + '")' });
+          //   else
+          //     items[key]({ backgroundImage: 'url("' + `${data.configurationByPath.item[key]._authorUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
+          // });
 
           if (data && data.configurationByPath) {
             let ovlp = findOverlap(data.configurationByPath.item.adventuresHome, path);
@@ -86,11 +85,37 @@ const Screendetails = () => {
                 setTitle(data.adventureByPath.item.title);
                 setAdventure(data);
                 setContent(content);
+                
+                fetch(products, {
+                  headers: {
+                    'Content-Type': 'text/html',
+                  },
+                  method: 'get'
+                }).then((p) => p.json()).then(json => {
+                  sdk.runPersistedQuery('aem-demo-assets/gql-demo-products', { slug: data.adventureByPath.item.slug })
+                    .then(({ data }) => {
+                      if (data) {
+                        data.productsList.items.forEach((item) => {
+                          if (data.productsList.items.length > 1 && item.adventure === 'default') return;
+                          json.data.forEach((p) => {
+                            item.products.find((elem) => {
+                              if (p.product_sku === elem) {
+                                setProductItems((e) => [...e, p]);
+                              }
+                            });
+
+                          });
+
+                        });
+                      }
+                    });
+                }).catch((error) => { throw new Error(error); });
               }
             })
             .catch((error) => {
               handleError(error);
             });
+
         }
       })
       .catch((error) => {
@@ -109,11 +134,9 @@ const Screendetails = () => {
         <Header content={content.screen.body.header} config={config} className='screendetail' />
       }
 
-      {overview && itinerary && whatToBring && adventure && adventure.adventureByPath && (
+      {adventure && adventure.adventureByPath && (
         <div className='main-body screendetail'>
           <div className='inner-content'>
-            <h2>{title}</h2>
-
             <div className='adventure-details'>
               <ul>
                 <li>
@@ -149,27 +172,31 @@ const Screendetails = () => {
               </ul>
             </div>
 
-            <div>
+            <div className='adventure-content'>
               <div className="tab">
-                <div className="item item-1" style={overview}>
+                <div className="item item-1">
                   <div>
                     <span>Overview</span>
                     <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.description.html }} />
                   </div>
                 </div>
-                <div className="item item-2" style={itinerary}>
+                <div className="item item-2">
                   <div>
                     <span>Itinerary</span>
                     <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.itinerary.html }} />
                   </div>
                 </div>
-                <div className="item item-3" style={whatToBring}>
+                <div className="item item-3">
                   <div>
                     <span>What to Bring</span>
                     <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.gearList.html }} />
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className='adventure-products'>
+              <Products productItems={productItems} />
             </div>
           </div>
         </div>

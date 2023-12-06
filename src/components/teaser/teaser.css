@@ -1,7 +1,9 @@
 .hero {
   position: sticky;
   width: var(--hero-teaser-width);
-  height: var(--hero-teaser-height);
+  height: auto; 
+  min-height: 500px;
+  /* var(--hero-teaser-height); */
   display: flex;
   justify-content: center;
   align-items: center;

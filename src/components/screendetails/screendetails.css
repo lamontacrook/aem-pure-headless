@@ -19,11 +19,30 @@
   font-size: large;
 }
 
-.main-body.main-body.screendetail>.inner-content {
+.main-body.screendetail>.inner-content {
   max-width: 1600px;
   margin: auto;
   width: 100%;
   padding-bottom: 50px;
+  display: grid;
+  grid-template-areas: "adventure-content";
+  grid-template-rows: auto;
+  grid-template-columns: auto;
+  align-items: flex-start;
+}
+
+.main-body.screendetail .adventure-content {
+  grid-area: adventure-content;
+}
+
+.main-body.screendetail .adventure-details {
+  grid-area: adventure-details;
+  display: none;
+}
+
+.main-body.screendetail .adventure-products {
+  grid-area: adventure-products;
+  display: none;
 }
 
 .main-body.screendetail .adventure-details>ul {
@@ -91,8 +110,12 @@
   color: white;
 }
 
+.main-body.screendetail .adventure-details>ul>li>h6 {
+  padding: unset;
+}
+
 .main-body.screendetail .adventure-details>ul>li>p {
-  padding-top: 0.5em;
+  /* padding-top: 0.5em; */
   font-weight: 600;
   font-size: 14px;
   -webkit-margin-start: 0;
@@ -135,21 +158,40 @@ body {
   opacity: 1;
 }
 
-@media screen and (min-width:1200px) {
-  .main-body.screendetail .tab {
-    display: flex;
-    flex-direction: row;
-  }
-}
-
 @media screen and (min-width:600px) {
   .main-body.screendetail .adventure-details>ul {
     display: flex;
-    flex-direction: row;
-    padding: 0;
+    flex-direction: column;
   }
 
   .main-body.screendetail .tab div.adventure-details > ul h6{
     text-align: center;
+  }
+}
+
+@media screen and (min-width:1024px) {
+  .main-body.screendetail>.inner-content {
+    grid-template-areas: "adventure-details adventure-content";
+    grid-template-columns: 20% auto;
+  }
+
+  .main-body.screendetail .adventure-details {
+    display: unset;
+  }
+}
+
+@media screen and (min-width:1200px) {
+  .main-body.screendetail .tab {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-body.screendetail>.inner-content {
+    grid-template-areas: "adventure-details adventure-content adventure-products";
+    grid-template-columns: 20% auto 400px;
+  }
+
+  .main-body.screendetail .adventure-products {
+    display: unset;
   }
 }

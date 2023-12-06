@@ -84,7 +84,7 @@ const Teaser = ({ content, config }) => {
   };
 
   const editorProps = {
-    itemId: `urn:aemconnection:${content._path}/jcr:content/data/master`,
+    itemID: `urn:aemconnection:${content._path}/jcr:content/data/master`,
     itemType: 'reference',
     itemfilter: 'cf',
     'data-editor-itemlabel': `Teaser(${content.style})`
