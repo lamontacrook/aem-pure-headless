@@ -39,7 +39,7 @@ const Screendetails = () => {
 
     const sdk = prepareRequest(context);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath, aem: 'sucks' })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
