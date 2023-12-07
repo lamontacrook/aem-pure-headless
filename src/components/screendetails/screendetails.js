@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { AppContext } from '../../utils/context';
 import { Helmet } from 'react-helmet-async';
 import Delayed from '../../utils/delayed';
+import { mapJsonRichText } from '../../utils/renderRichText';
 
 const Screendetails = () => {
   const context = useContext(AppContext);
@@ -39,7 +40,7 @@ const Screendetails = () => {
 
     const sdk = prepareRequest(context);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath, cache:'break' })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath, cache: 'break' })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
@@ -66,7 +67,7 @@ const Screendetails = () => {
                           title: data.adventureByPath.item.title,
                           preTitle: pretitle,
                           _metadata: data.adventureByPath.item._metadata,
-                          style: 'hero',
+                          style: 'hero adventure',
                           _path: data.adventureByPath.item._path
                         }
                       }
@@ -76,7 +77,7 @@ const Screendetails = () => {
                 setTitle(data.adventureByPath.item.title);
                 setAdventure(data);
                 setContent(content);
-                
+
                 fetch(products, {
                   headers: {
                     'Content-Type': 'text/html',
@@ -116,8 +117,29 @@ const Screendetails = () => {
 
   }, [handleError, navigate, configPath, props, version, context]);
 
+  const editorProps = {
+    itemID: `urn:aemconnection:${adventure.adventureByPath?.item?._path}/jcr:content/data/master`,
+    itemType: 'reference',
+    itemfilter: 'cf'
+  };
+
+  const adventureDetails = {
+    activity: 'Activity',
+    adventureType: 'Adventure Type',
+    tripLength: 'Trip Length',
+    groupSize: 'Group Size',
+    difficulty: 'Difficulty',
+    price: 'Price'
+  };
+
+  const adventureContent = {
+    description: 'Overview',
+    itinerary: 'Itinerary',
+    gearList: 'What to Bring'
+  };
+
   return (
-    <React.Fragment>
+    <div {...editorProps} data-editor-itemlabel='Adventure Details' itemScope>
       <Helmet>
         <title>WKND: {title}</title>
       </Helmet>
@@ -130,59 +152,28 @@ const Screendetails = () => {
           <div className='inner-content'>
             <div className='adventure-details'>
               <ul>
-                <li>
-                  <h6>Activity</h6>
-                  <hr />
-                  <p>{adventure.adventureByPath.item.activity}</p>
-                </li>
-                <li>
-                  <h6>Adventure Type</h6>
-                  <hr />
-                  <p>{adventure.adventureByPath.item.adventureType}</p>
-                </li>
-                <li>
-                  <h6>Trip Length</h6>
-                  <hr />
-                  <p>{adventure.adventureByPath.item.tripLength}</p>
-                </li>
-                <li>
-                  <h6>Group Size</h6>
-                  <hr />
-                  <p>{adventure.adventureByPath.item.groupSize}</p>
-                </li>
-                <li>
-                  <h6>Difficulty</h6>
-                  <hr />
-                  <p>{adventure.adventureByPath.item.difficulty}</p>
-                </li>
-                <li>
-                  <h6>Price</h6>
-                  <hr />
-                  <p>{adventure.adventureByPath.item.price}</p>
-                </li>
+                {Object.entries(adventureDetails).map(([key, val]) => (
+                  <li key={key}>
+                    <h6>{val}</h6>
+                    <hr />
+                    <p itemProp={key} itemType='text' data-editor-itemlabel={val} className={key}>{key === 'price' ? Number(adventure.adventureByPath.item[key]).toLocaleString('en') : adventure.adventureByPath.item[key]}</p>
+                  </li>
+                ))}
               </ul>
             </div>
 
             <div className='adventure-content'>
               <div className="tab">
-                <div className="item item-1">
-                  <div>
-                    <span>Overview</span>
-                    <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.description.html }} />
+                {Object.entries(adventureContent).map(([key, val]) => (
+                  <div className="item" key={key}>
+                    <div>
+                      <span>{val}</span>
+                      <div itemProp={key} itemType='text' data-editor-itemlabel={val} className='inner-text'>
+                        {mapJsonRichText(adventure.adventureByPath.item[key].json, customRenderOptions(adventure.adventureByPath._references))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="item item-2">
-                  <div>
-                    <span>Itinerary</span>
-                    <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.itinerary.html }} />
-                  </div>
-                </div>
-                <div className="item item-3">
-                  <div>
-                    <span>What to Bring</span>
-                    <div className="inner-text" dangerouslySetInnerHTML={{ __html: adventure && adventure.adventureByPath && adventure.adventureByPath.item.gearList.html }} />
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
@@ -198,9 +189,44 @@ const Screendetails = () => {
           <Delayed waitBeforeShow={700}><Footer config={config.configurationByPath.item.footerExperienceFragment} /></Delayed>
         }
       </footer>
-    </React.Fragment >
+    </div>
   );
 };
+
+function customRenderOptions(references) {
+
+  const renderReference = {
+    // node contains merged properties of the in-line reference and _references object
+    'ImageRef': (node) => {
+      // when __typename === ImageRef
+      return <img src={node._path} alt={'in-line reference'} />;
+    }
+  };
+
+  return {
+    nodeMap: {
+      'reference': (node) => {
+
+        // variable for reference in _references object
+        let reference;
+
+        // asset reference
+        if (node.data.path) {
+          // find reference based on path
+          reference = references.find(ref => ref._path === node.data.path);
+        }
+        // Fragment Reference
+        if (node.data.href) {
+          // find in-line reference within _references array based on href and _path properties
+          reference = references.find(ref => ref._path === node.data.href);
+        }
+
+        // if reference found return render method of it
+        return reference ? renderReference[reference.__typename]({ ...reference, ...node }) : null;
+      }
+    },
+  };
+}
 
 Screendetails.propTypes = {
   context: PropTypes.object

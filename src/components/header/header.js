@@ -74,19 +74,12 @@ const Header = ({ content, config, className }) => {
     window.addEventListener('scroll', fadeOutHandler);
   }), [];
 
-  const editorProps = {
-    itemID: 'urn:aemconnection:' + content._path + '/jcr:content/data/master',
-    itemType: 'reference',
-    itemfilter: 'cf',
-    'data-editor-itemlabel': 'Header',
-  };
-
   if (!content.banner && content.teaser)
     content['teaser']['_path'] = !content['teaser']['_path'] ? content._path.replace('header', 'hero') : content['teaser']['_path'];
 
   return (
     <React.Fragment>
-      <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner' {...editorProps} itemScope>
+      <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner'>
         {content && (
           <Delayed><Navigation className={content.navigationColor} config={config} screen={content} /></Delayed>
         )}
