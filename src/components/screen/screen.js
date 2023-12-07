@@ -69,11 +69,12 @@ const Screen = () => {
   }, [handleError, navigate, path, version, context]);
 
   let i = 0;
-
+  console.log(config);
   return (
     <React.Fragment>
       <Helmet>
         <title>WKND: {title}</title>
+        <meta property="og:image" content={config.configurationByPath?.item?.siteLogo?._authorUrl}></meta>
       </Helmet>
       {data && data.screen && data.screen.body.header && config.configurationByPath &&
         <Header data={data} content={data.screen.body.header} config={config} className='screen' />

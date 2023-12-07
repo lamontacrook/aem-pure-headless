@@ -47,6 +47,7 @@ const App = () => {
         <div className='App'>
           <Helmet>
             <meta name='urn:adobe:aue:system:aemconnection' content={`aem:${aemUrl}`} />
+            <meta property="og:url" content='https://aem-pure-headless-wknd.vercel.app/'></meta>
           </Helmet>
           <BrowserRouter>
             <Routes>
