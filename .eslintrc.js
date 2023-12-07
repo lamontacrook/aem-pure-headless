@@ -17,6 +17,7 @@ module.exports = {
 		'react',
 		"react-hooks"
 	],
+	'ignorePatterns': ["renderRichText.js"],
 	'rules': {
 		'react/no-unknown-property': ['warn', { ignore: ['itemfilter'] }],
 		'indent': [

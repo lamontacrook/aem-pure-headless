@@ -9,8 +9,12 @@
   opacity: 1;
 }
 
-.hero.details {
+.hero.adventure {
   height: auto; 
+}
+
+header .hero.adventure > .container img {
+  max-height: 500px;
 }
 
 /*
