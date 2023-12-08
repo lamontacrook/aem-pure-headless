@@ -31,12 +31,17 @@ const PageRef = ({ content, config }) => {
   }, [content, handleError, config, context]);
 
   return (
-    <div className='article-screen' >
+    <div className='article-screen' 
+      data-editor-itemmodel='container' 
+      itemID={`urn:aemconnection:${content._path}/jcr:content/root/container`} 
+      itemType='container' 
+      data-editor-behavior
+      itemScope>
       {json && Object.keys(json).map((item) => {
         if (item.startsWith('title')) return <Title obj={json[item]} content={content} item={item} key={item} />; 
         else if (item === 'contentfragment') return <ContentFragment obj={json[item]} key={item} />;
         else if (item.startsWith('text')) return <Text key={item} obj={json[item]} item={item} content={content} />;
-        else if (item.startsWith('image')) return <Image key={item} obj={json[item]} context={context} />;
+        else if (item.startsWith('image')) return <Image key={item} obj={json[item]} item={item} content={content} />;
       })}
     </div>
   );
@@ -67,7 +72,9 @@ const Text = ({ obj, content, item }) => {
   const props = {
     itemID: `urn:aemconnection:${content._path}/jcr:content/root/${item}`,
     itemProp: item,
-    itemType: 'richtext',
+    itemType: 'text',
+    'data-editor-behavior': 'component',
+    'data-editor-itemmodel': 'text',
     'data-editor-itemlabel': 'Paragraph'
   };
 
@@ -87,8 +94,10 @@ const Title = ({ obj, content, item }) => {
   const props = {
     itemID: `urn:aemconnection:${content._path}/jcr:content/root/${item}`,
     itemProp: item,
-    itemType: 'text',
-    'data-editor-itemlabel': `Title ${type}`
+    itemType: 'component',
+    'data-editor-behavior': 'component',
+    'data-editor-itemmodel': 'title',
+    'data-editor-itemlabel': `Title ${type}`,
   };
   
   const Element = `${type || 'p'}`;
@@ -101,9 +110,18 @@ Title.propTypes = {
   item: Proptypes.string
 };
 
-const Image = ({ obj }) => {
+const Image = ({ obj, content, item }) => {
   const context = useContext(AppContext);
   const { srcset, id, alt, src } = obj;
+  console.log(item);
+  const props = {
+    itemID: `urn:aemconnection:${content._path}/jcr:content/root/${item}`,
+    itemProp: item,
+    itemType: 'media',
+    'data-editor-behavior': 'component',
+    'data-editor-itemmodel': 'image',
+    'data-editor-itemlabel': 'Image',
+  };
 
   if (typeof srcset === 'string') {
     obj.srcset = srcset.split(',').map((item) => {
@@ -113,7 +131,7 @@ const Image = ({ obj }) => {
   return (
     <div key={id} className='image'>
       <picture>
-        <img src={`${context.serviceURL}${src.substring(1)}`} alt={alt} srcSet={obj.srcset} />
+        <img src={`${context.serviceURL}${src.substring(1)}`} {...props} alt={alt} srcSet={obj.srcset} />
       </picture>
     </div>
   );
@@ -121,7 +139,9 @@ const Image = ({ obj }) => {
 };
 
 Image.propTypes = {
-  obj: Proptypes.object
+  obj: Proptypes.object,
+  content: Proptypes.object,
+  item: Proptypes.string
 };
 
 const Par = ({ obj }) => {
