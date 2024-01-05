@@ -10,26 +10,30 @@ import { LinkManager } from '../../utils';
 import './teaser.css';
 
 const imageSizes = [
+  // {
+  //   imageWidth: '660px',
+  //   renditionName: 'web-optimized-large.webp',
+  //   size: '(min-width: 1000px) 660px'
+  // },
+  // {
+  //   imageWidth: '1000px',
+  //   renditionName: 'web-optimized-large.webp',
+  // },
+  // {
+  //   imageWidth: '800px',
+  //   renditionName: 'web-optimized-large.webp',
+  // },
+  // {
+  //   imageWidth: '600px',
+  //   renditionName: 'web-optimized-large.webp',
+  // },
+  // {
+  //   imageWidth: '412px',
+  //   renditionName: 'web-optimized-medium.webp',
+  // },
   {
-    imageWidth: '660px',
-    renditionName: 'web-optimized-large.webp',
-    size: '(min-width: 1000px) 660px'
-  },
-  {
-    imageWidth: '1000px',
-    renditionName: 'web-optimized-large.webp',
-  },
-  {
-    imageWidth: '800px',
-    renditionName: 'web-optimized-large.webp',
-  },
-  {
-    imageWidth: '600px',
-    renditionName: 'web-optimized-large.webp',
-  },
-  {
-    imageWidth: '412px',
-    renditionName: 'web-optimized-medium.webp',
+    imageWidth: '280px',
+    renditionName: '54vert',
   },
   {
     size: '100vw',
@@ -74,13 +78,13 @@ const Teaser = ({ content, config }) => {
     inFrame = true;
   }
 
-  const renderAsset = ({ asset, style, title }) => {
+  const renderAsset = ({ asset, style, title }, useDM=false) => {
     if (asset && Object.prototype.hasOwnProperty.call(asset, 'format'))
       return (<Video content={asset} />);
     else if (asset && Object.prototype.hasOwnProperty.call(asset, 'mimeType'))
-      return (<Image asset={asset} alt={content.title} config={config} imageSizes={style === 'hero' ? imageSizesHero : imageSizes} />);
+      return (<Image asset={asset} useDM={useDM} alt={content.title} config={config} imageSizes={style === 'hero' ? imageSizesHero : imageSizes} />);
     else
-      return (<Image asset={asset} alt={title} config={config} imageSizes={style === 'hero' ? imageSizesHero : imageSizes} />);
+      return (<Image asset={asset} useDM={useDM} alt={title} config={config} imageSizes={style === 'hero' ? imageSizesHero : imageSizes} />);
   };
 
   const editorProps = {
@@ -110,7 +114,7 @@ const Teaser = ({ content, config }) => {
 
         {content.title && content.style === 'featured' && (
           <div className='container' {...editorProps} itemScope>
-            {renderAsset(content)}
+            {renderAsset(content, true)}
             <FeaturedRender content={content} config={config} context={context} />
           </div>
         )}

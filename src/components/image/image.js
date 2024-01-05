@@ -22,7 +22,7 @@ const imageUrl = (context, asset) => {
   }
 };
 
-const Image = ({ asset, alt = 'WKND image', itemProp = 'asset', width, height, imageSizes }) => {
+const Image = ({ asset, alt = 'WKND image', itemProp = 'asset', width, height, imageSizes, useDM=false }) => {
   const context = useContext(AppContext);
 
   if (!asset) return (
@@ -36,7 +36,20 @@ const Image = ({ asset, alt = 'WKND image', itemProp = 'asset', width, height, i
   width = width || asset?.width || '';
   height = height || asset?.height || '';
 
-  src = imageUrl(context, asset);
+
+  if(useDM) {
+    //https://smartimaging.scene7.com/is/image/DynamicmediaNA1/AdobeStock_224179452:54vert
+    const parts = src.split('/');
+    const image = parts.pop().split('.')[0];
+    const name = imageSizes.filter((item) => {
+      if(Object.prototype.hasOwnProperty.call(item, 'renditionName'))
+        return item;
+    });
+    src = `https://smartimaging.scene7.com/is/image/DynamicmediaNA1/${image}-1:${name[0].renditionName}`;
+  } else {
+    src = imageUrl(context, asset);
+  }
+
   if (alt === 'logo')
     return (
       <picture>
@@ -60,6 +73,7 @@ Image.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   alt: PropTypes.string,
+  useDM: PropTypes.bool
 };
 
 export default Image;
