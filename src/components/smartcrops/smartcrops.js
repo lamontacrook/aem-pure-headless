@@ -18,6 +18,8 @@ const SmartCrops = ({ asset, alt = 'WKND image', title = 'Title Missing', itemPr
   const [domain, setDomain] = useState('');
 
   useEffect(() => {
+    const src = context.serviceURL === context.defaultServiceURL || context.serviceURL.includes('publish-') ? asset?._authorUrl.replace('author', 'publish') : asset?._authorUrl;
+
     const headers = new Headers({
       'Content-Type': 'text/html'
     });
@@ -26,10 +28,10 @@ const SmartCrops = ({ asset, alt = 'WKND image', title = 'Title Missing', itemPr
       method: 'get',
       headers: headers,
     };
-    if (!asset._authorUrl.includes('publish-')) obj.credentials = 'include';
-    const req = new Request(`${asset._authorUrl}/_jcr_content/metadata.json`, obj);
-    console.log(`${asset._authorUrl}/_jcr_content/metadata.json`);
 
+    if (!src.includes('publish-')) obj.credentials = 'include';
+    const req = new Request(`${src}/_jcr_content/metadata.json`, obj);
+   
     fetch(req).then((response) => {
       if (response) {
         response.json().then((json) => {
@@ -38,16 +40,12 @@ const SmartCrops = ({ asset, alt = 'WKND image', title = 'Title Missing', itemPr
 
           if (Object.prototype.hasOwnProperty.call(json, 'dam:scene7Domain')) setDomain(json['dam:scene7Domain']);
           else throw Error('No scene7 domain');
-
-          
-          console.log(json['dam:scene7File']);
         });
       }
     });
 
   }, [asset]);
 
-  console.log(imageFile);
   if (!asset) return (
     <picture>
       <img src={context.brokenImage} alt='broken image' />
