@@ -3,8 +3,8 @@ import BrokenImage from '../media/broken.jpg';
 
 const accessToken = 'https://20409-gqldemo202212-stage.adobeioruntime.net/api/v1/web/gql-demo-jwt/service-credentials';
 const defaultEndpoint = '/content/_cq_graphql/aem-demo-assets/endpoint.json';
-const defaultProject = 'gql-demo-template'; //'wknd-headless';
-const defaultServiceURL = 'https://publish-p124331-e1227315.adobeaemcloud.com/'; //'https://publish-p24020-e1129912.adobeaemcloud.com/'; //'https://publish-p101152-e938206.adobeaemcloud.com/';
+const defaultProject = 'pure-headless';
+const defaultServiceURL = 'https://publish-p127526-e1240386.adobeaemcloud.com/'; 
 const defaultPlaceholdersExtensionURL = 'https://1154643-geoipplaceholders.adobeio-static.net/api/v1/web/geoip-placeholders';
 
 export const AppContext = createContext({
@@ -19,9 +19,3 @@ export const AppContext = createContext({
   screenResponse: {},
   navigationResponse: {}
 });
-
-
-// https://publish-p24020-e1129912.adobeaemcloud.com/graphql/execute.json/aem-demo-assets/gql-demo-configuration%3Bpath%3D%2Fcontent%2Fdam%2Fgql-demo-template%2Fsite%2Fconfiguration%2Fconfiguration
-
-// https://publish-p24020-e1129912.adobeaemcloud.com/graphql/execute.json/aem-demo-assets/gql-demo-configuration;path=/content/dam/gql-demo-template/site/configuration/configuration
-// https://publish-p24020-e1129912.adobeaemcloud.com/graphql/execute.json/aem-demo-assets/gql-demo-configuration;path=/content/dam/gql-demo-template/site/configuration/configuration

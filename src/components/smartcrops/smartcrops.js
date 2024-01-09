@@ -28,6 +28,7 @@ const SmartCrops = ({ asset, alt = 'WKND image', title = 'Title Missing', itemPr
     };
     if (!asset._authorUrl.includes('publish-')) obj.credentials = 'include';
     const req = new Request(`${asset._authorUrl}/_jcr_content/metadata.json`, obj);
+    console.log(`${asset._authorUrl}/_jcr_content/metadata.json`);
 
     fetch(req).then((response) => {
       if (response) {
@@ -37,12 +38,16 @@ const SmartCrops = ({ asset, alt = 'WKND image', title = 'Title Missing', itemPr
 
           if (Object.prototype.hasOwnProperty.call(json, 'dam:scene7Domain')) setDomain(json['dam:scene7Domain']);
           else throw Error('No scene7 domain');
+
+          
+          console.log(json['dam:scene7File']);
         });
       }
     });
 
   }, [asset]);
 
+  console.log(imageFile);
   if (!asset) return (
     <picture>
       <img src={context.brokenImage} alt='broken image' />
@@ -54,10 +59,10 @@ const SmartCrops = ({ asset, alt = 'WKND image', title = 'Title Missing', itemPr
 
   return (
     <picture>
-      {domain && imageSizes.filter((definition) => definition.imageWidth).map((definition) => (
-        <source key={definition.renditionName} srcSet={`${domain}/is/image/${imageFile}:${definition.renditionName}`} media={`(min-width:${definition.imageWidth})`} />
+      {domain && imageFile && imageSizes.filter((definition) => definition.imageWidth).map((definition) => (
+        <source key={definition.renditionName} srcSet={`${domain}is/image/${imageFile}:${definition.renditionName}`} media={`(min-width:${definition.imageWidth})`} />
       ))}
-      <img loading='lazy' alt={alt} title={title} src={`${domain}/is/image/${imageFile}:${imageSizes[0].renditionName}`} width={width} height={height} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
+      <img loading='lazy' alt={alt} title={title} src={`${domain}is/image/${imageFile}:${imageSizes[0].renditionName}`} width={width} height={height} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
     </picture>
   );
 };

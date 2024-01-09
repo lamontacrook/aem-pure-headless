@@ -90,7 +90,7 @@ const ImageList = ({ content, config }) => {
           const title = json.title;
 
           const image = json?.image || json.contentfragment[':items'].par1[':items'].image || json.contentfragment[':items'].par2[':items'].image;
-          if (image && image.src) {
+          if (image && image.src && image.srcset) {
             image.srcset = image.srcset.split(',').map((item) => {
               return item = `${context.serviceURL}${item.substring(1)}`;
             });

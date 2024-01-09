@@ -1,0 +1,47 @@
+query adventureByPath($path: String!) {
+  adventureByPath(
+    _path: $path,
+    _assetTransform: {format: PNG, preferWebp: true}
+  ) {
+    item {
+      _metadata {
+        stringMetadata {
+          value
+          name
+        }
+      }
+      _path
+      title
+      adventureType
+      price
+      activity
+      groupSize
+      difficulty
+      tripLength
+      itinerary {
+        html
+        plaintext
+      }
+      gearList {
+        html
+        plaintext
+      }
+      description {
+        html
+        plaintext
+      }
+      primaryImage {
+        ... on ImageRef {
+          _path
+          _dynamicUrl
+          _authorUrl
+          width
+          height
+          mimeType
+          title
+          description
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+query TeaserByPath($path: String!) {
+  component: teaserByPath(
+    _path: $path,
+  	_assetTransform: {format: PNG, preferWebp: true}
+  ) {
+    item {
+      __typename
+      _path
+      _metadata {
+        stringMetadata {
+          name
+          value
+        }
+      }
+      title
+      preTitle
+      style
+      asset {
+        ... on MultimediaRef {
+          _authorUrl
+          format
+          _publishUrl
+        }
+        ... on ImageRef {
+          _authorUrl
+          _dynamicUrl
+          mimeType
+          width
+          height
+          title
+          description
+        }
+      }
+      useSmartCrops
+      description {
+        html
+        plaintext
+      }
+      callToAction
+      callToActionLink: link {
+        __typename
+        ... on AdventureModel {
+          __typename
+          _path
+        }
+        ... on PageRef {
+          __typename
+          _path
+          _publishUrl
+          _authorUrl
+        }
+      }
+    }
+  }
+}

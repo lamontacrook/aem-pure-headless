@@ -1,0 +1,17 @@
+query ScreenList($locale: String!) {
+  screenList(
+    filter: {positionInNavigation: {_expressions: [{value: "dni", _operator: CONTAINS_NOT}]}}
+    _locale: $locale
+  ) {
+    items {
+      _metadata {
+        stringMetadata {
+          name
+          value
+        }
+      }
+      _path
+      positionInNavigation
+    }
+  }
+}
