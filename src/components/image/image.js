@@ -14,54 +14,35 @@ import './image.css';
 import { srcSet, sizes } from '../../utils/responsive-image';
 
 const imageUrl = (context, asset) => {
-  if (Object.keys(asset).includes('_dynamicUrl')) {
-    const url = context.serviceURL === context.defaultServiceURL || context.serviceURL.includes('publish-') ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
+  if(Object.keys(asset).includes('_dynamicUrl')) {
+    const url = context.serviceURL === context.defaultServiceURL || context.serviceURL.includes('publish-')? context.serviceURL.replace('author', 'publish') : context.serviceURL;  
     return url.replace(/\/$/, '') + asset._dynamicUrl;
-  } else {
+  } else {  
     return asset._authorUrl;
   }
 };
 
-const Image = ({ asset, alt = 'WKND image', itemProp = 'asset', width, height, imageSizes, useDM=false }) => {
+const Image = ({ asset, alt = 'WKND image', itemProp='asset', width, height, imageSizes }) => {
   const context = useContext(AppContext);
 
-  if (!asset) return (
+  if(!asset) return (
     <picture>
       <img src={context.brokenImage} alt='broken image' />
     </picture>
   );
 
   let src = context.default ? asset?._publishUrl : asset?._authorUrl;
-
+  
   width = width || asset?.width || '';
   height = height || asset?.height || '';
 
+  src = imageUrl(context, asset);
 
-  if(useDM) {
-    //https://smartimaging.scene7.com/is/image/DynamicmediaNA1/AdobeStock_224179452:54vert
-    const parts = src.split('/');
-    const image = parts.pop().split('.')[0];
-    const name = imageSizes.filter((item) => {
-      if(Object.prototype.hasOwnProperty.call(item, 'renditionName'))
-        return item;
-    });
-    src = `https://smartimaging.scene7.com/is/image/DynamicmediaNA1/${image}-1:${name[0].renditionName}`;
-  } else {
-    src = imageUrl(context, asset);
-  }
-
-  if (alt === 'logo')
-    return (
-      <picture>
-        <img loading='lazy' alt={alt} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} />
-      </picture>
-    );
-  else
-    return (
-      <picture>
-        <img loading='lazy' alt={alt} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset' />
-      </picture>
-    );
+  return (
+    <picture>
+      <img loading='lazy' alt={alt} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
+    </picture>
+  );
 };
 
 Image.propTypes = {
@@ -73,7 +54,6 @@ Image.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   alt: PropTypes.string,
-  useDM: PropTypes.bool
 };
 
 export default Image;

@@ -69,7 +69,7 @@ const Screen = () => {
   }, [handleError, navigate, path, version, context]);
 
   let i = 0;
-  console.log(config);
+
   return (
     <React.Fragment>
       <Helmet>
