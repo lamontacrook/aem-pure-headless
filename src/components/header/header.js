@@ -12,7 +12,7 @@ import Navigation from '../navigation';
 import ModelManager from '../../utils/modelmanager';
 import Image from '../image';
 import Delayed from '../../utils/delayed';
-import Viewers from '../../components/viewers'
+import Viewers from '../../components/viewers';
 
 import './header.css';
 

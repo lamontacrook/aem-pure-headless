@@ -21,8 +21,6 @@ const Viewers = ({ data }) => {
   const [scene7Preset, setScene7Preset] = useState('');
   const viewerRef = useRef(true);
 
-
-
   useEffect(() => {
     const decorateViewer = () => {
       if (viewerRef.current && domain) {
