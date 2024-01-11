@@ -22,7 +22,7 @@ const imageUrl = (context, asset) => {
   }
 };
 
-const Image = ({ asset, alt = 'WKND image', itemProp='asset', width, height, imageSizes }) => {
+const Image = ({ asset, alt = 'WKND image', title = 'Title Missing', itemProp='asset', width, height, imageSizes }) => {
   const context = useContext(AppContext);
 
   if(!asset) return (
@@ -40,7 +40,7 @@ const Image = ({ asset, alt = 'WKND image', itemProp='asset', width, height, ima
 
   return (
     <picture>
-      <img loading='lazy' alt={alt} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
+      <img loading='lazy' alt={asset.description || alt} title={asset.title || title} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
     </picture>
   );
 };
@@ -54,6 +54,7 @@ Image.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   alt: PropTypes.string,
+  title: PropTypes.string
 };
 
 export default Image;

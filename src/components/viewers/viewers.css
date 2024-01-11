@@ -1,0 +1,9 @@
+header #viewer {
+  margin-top: 72px;
+  height: 700px;
+}
+
+#s7carousel_div.s7carouselviewer{
+  width:100%;
+  height:auto;
+}

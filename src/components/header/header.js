@@ -12,6 +12,7 @@ import Navigation from '../navigation';
 import ModelManager from '../../utils/modelmanager';
 import Image from '../image';
 import Delayed from '../../utils/delayed';
+import Viewers from '../../components/viewers'
 
 import './header.css';
 
@@ -92,8 +93,12 @@ const Header = ({ content, config, className }) => {
             content={content.teaser}
             config={config.configurationByPath.item}
           ></ModelManager>}
-        {content.banner && !content.teaser &&
-          <Image asset={content.banner} alt='Banner Image' config={config.configurationByPath.item} imageSizes={imageSizes} height={400}/>
+        {content.banner && !content.teaser && content.banner.__typename === 'ImageRef' &&
+          <Image asset={content.banner} alt='Banner Image' config={config.configurationByPath.item} imageSizes={imageSizes} height={400} />
+        }
+
+        {content.banner && !content.teaser && content.banner.__typename === 'DocumentRef' &&
+          <Viewers data={content.banner} />
         }
       </header>
     </React.Fragment>
