@@ -25,5 +25,6 @@ export const AppContext = createContext({
   placeholdersExtensionURL: localStorage.placeholdersExtensionURL || defaultPlaceholdersExtensionURL,
   brokenImage: BrokenImage,
   screenResponse: {},
-  navigationResponse: {}
+  navigationResponse: {},
+  rootPath: 'content/dam'
 });

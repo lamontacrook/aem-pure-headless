@@ -9,9 +9,33 @@ import Flyout from '../../utils/flyout';
 import { AppContext } from '../../utils/context';
 import Image from '../image/image';
 
-export const NavigationGQL = `query ScreenList($locale: String!) {
+export const NavigationGQL = `query ScreenList($locale: String!, $project: ID!) {
   screenList(
-    filter: {positionInNavigation: {_expressions: [{value: "dni", _operator: CONTAINS_NOT}]}}
+    filter: {
+      _logOp: AND
+      positionInNavigation: {
+        _logOp: AND
+        _expressions: [
+          {
+            value: "dni", 
+            _operator: CONTAINS_NOT
+          }
+          {
+          	value: null
+            _operator: CONTAINS_NOT
+          }
+        ]
+      }
+      _path: {
+        _expressions: [
+        {
+          value: $project,
+          _operator: STARTS_WITH
+        }
+      ]
+      }
+    }
+    sort: "positionInNavigation"
     _locale: $locale
   ) {
     items {
@@ -25,28 +49,22 @@ export const NavigationGQL = `query ScreenList($locale: String!) {
       positionInNavigation
     }
   }
-}`;
+}
+`;
 
 const Navigation = ({ className, config, screen }) => {
   const context = useContext(AppContext);
   const [nav, setNav] = useState('');
   const [expanded, setExpanded] = useState(false);
   const [logo, setLogo] = useState({});
-  const handleError = useErrorHandler();
 
-  let obj = {
-    pos1: { name: '', path: '#' },
-    pos2: { name: '', path: '#' },
-    pos3: { name: '', path: '#' },
-    pos4: { name: '', path: '#' },
-    pos5: { name: 'Settings', path: '/settings' },
-  };
+  const handleError = useErrorHandler();
 
   useEffect(() => {
     const sdk = prepareRequest(context);
     setLogo(config.configurationByPath.item.siteLogo);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en' })
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en', project: `/${context.rootPath}/${context.project}`, publishDate: '2024-01-11' })
       .then((data) => {
         if (data) {
           setNav(data);
@@ -57,16 +75,6 @@ const Navigation = ({ className, config, screen }) => {
         handleError(error);
       });
   }, [handleError, config, context]);
-
-  nav && nav.data.screenList.items.forEach((item) => {
-    if (item._path.includes(context.project)) {
-      let name = '';
-      item._metadata.stringMetadata.forEach(meta => {
-        meta.name === 'title' && (name = meta.value);
-      });
-      obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path, config, context) };
-    }
-  });
 
   function viewGQL() {
     document.querySelector('#flyout') && document.querySelector('#flyout').setAttribute('aria-expanded', true);
@@ -86,6 +94,14 @@ const Navigation = ({ className, config, screen }) => {
     prevScrollPos = currentScrollPos;
   };
 
+  function getTitle(item) {
+    const title = item._metadata.stringMetadata.reduce((accumulator, meta) => {
+      if (meta.name === 'title') accumulator = meta.value;
+      return accumulator;
+    });
+    return title.value;
+  }
+
   return (
     <React.Fragment>
       <nav id="navbar" aria-expanded={expanded}>
@@ -100,15 +116,17 @@ const Navigation = ({ className, config, screen }) => {
           <Link to={'/'}><Image alt='logo' asset={logo} width={108} height={56} /></Link>
         </div>
         <div className='nav-sections'>
-          {nav && (
-            <ul>
-              <li><Link to={obj.pos1.path} className={`navItem ${className}`} name={obj.pos1.name}>{obj.pos1.name}</Link></li>
-              <li><Link to={obj.pos2.path} className={`navItem ${className}`} name={obj.pos2.name}>{obj.pos2.name}</Link></li>
-              <li><Link to={obj.pos3.path} className={`navItem ${className}`} name={obj.pos3.name}>{obj.pos3.name}</Link></li>
-              <li><Link to={obj.pos4.path} className={`navItem ${className}`} name={obj.pos4.name}>{obj.pos4.name}</Link></li>
-              <li><Link to={obj.pos5.path} className={`navItem ${className}`} name={obj.pos5.name}>{obj.pos5.name}</Link></li>
-            </ul>
-          )}
+          <ul>
+            {
+              nav && nav.data.screenList.items.map((item) =>
+                <li key={item._path}>
+                  <Link to={LinkManager(item._path, config, context)} className={`navItem ${className}`} name={item.positionInNavigation.name}>
+                    {getTitle(item)}
+                  </Link>
+                </li>
+              )
+            }
+          </ul>
         </div>
         <div className='nav-tools'>
           <button href='#' className='button view-gql' aria-expanded='false' aria-controls='flyout' onClick={viewGQL}>View GraphQL</button>

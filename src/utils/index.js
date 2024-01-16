@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import AEMHeadless from '@adobe/aem-headless-client-js';
-export const rootPath = 'content/dam';
 
 const store = {};
 export const MagazineStore = (key, value) => {
@@ -34,7 +33,7 @@ export const LinkManager = (path, config, context) => {
     arry.shift();
     path = `${context.project}/${arry.join('/')}/${pos2}/${pos3}`;
   } else {
-    path = path.replace(`/${rootPath}/${context.project}`, '');
+    path = path.replace(`/${context.rootPath}/${context.project}`, '');
   }
 
   return (

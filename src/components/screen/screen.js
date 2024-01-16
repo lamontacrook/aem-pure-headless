@@ -3,7 +3,7 @@ import ModelManager from '../../utils/modelmanager';
 import Footer from '../footer';
 import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { prepareRequest, rootPath } from '../../utils';
+import { prepareRequest} from '../../utils';
 import Header from '../header';
 import { useErrorHandler } from 'react-error-boundary';
 import './screen.css';
@@ -25,9 +25,9 @@ const Screen = () => {
   let path = '';
 
   if (Object.values(props).length && Object.values(props)[0] !== '')
-    path = (Object.values(props)[0].includes(rootPath)) ?
+    path = (Object.values(props)[0].includes(context.rootPath)) ?
       `/${Object.values(props)[0]}` :
-      `/${rootPath}/${context.project}/${Object.values(props)[0]}`;
+      `/${context.rootPath}/${context.project}/${Object.values(props)[0]}`;
 
   configPath = `/content/dam/${context.project}/site/configuration/configuration`;
 
