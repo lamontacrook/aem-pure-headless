@@ -73,18 +73,18 @@ const ImageList = ({ content, config }) => {
           const profession = json[Object.keys(json).find((elem) => {
             if (elem.startsWith('title_')) {
               json[elem].props = {
-                itemID: `urn:aemconnection:${url}/jcr:content/root/container/${elem}`,
-                itemProp: 'jcr:title',
-                itemType: 'text'
+                'data-aue-resource': `urn:aemconnection:${url}/jcr:content/root/container/${elem}`,
+                'data-aue-prop': 'jcr:title',
+                'data-aue-type': 'text'
               };
               return json[elem];
             }
           })];
 
           json.title.props = {
-            itemID: `urn:aemconnection:${url}/jcr:content/root/container/${json?.title?.id}`,
-            itemProp: 'jcr:title',
-            itemType: 'text'
+            'data-aue-resource': `urn:aemconnection:${url}/jcr:content/root/container/${json?.title?.id}`,
+            'data-aue-prop': 'jcr:title',
+            'data-aue-type': 'text'
           };
 
           const title = json.title;
@@ -221,9 +221,9 @@ ImageList.propTypes = {
 const Card = ({ item, config }) => {
   const context = useContext(AppContext);
   const itemProps = {
-    itemID: `urn:aemconnection:${item.path}/jcr:content/root/container`,
-    itemType: 'container',
-    'data-editor-itemlabel': 'Experience Fragment'
+    'data-aue-resource': `urn:aemconnection:${item.path}/jcr:content/root/container`,
+    'data-aue-type': 'container',
+    'data-aue-label': 'Experience Fragment'
   };
   return (
     <div className='list-item' key={item.title.id} {...itemProps}>

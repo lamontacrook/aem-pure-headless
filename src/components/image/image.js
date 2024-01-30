@@ -40,7 +40,7 @@ const Image = ({ asset, alt = 'WKND image', itemProp='asset', width, height, ima
 
   return (
     <picture>
-      <img loading='lazy' alt={alt} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} itemProp={itemProp} itemType="media" data-editor-itemlabel='Asset'/>
+      <img loading='lazy' alt={alt} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} data-aue-prop={itemProp} data-aue-type="media" data-aue-label='Asset'/>
     </picture>
   );
 };

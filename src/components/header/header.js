@@ -75,10 +75,10 @@ const Header = ({ content, config, className }) => {
   }), [];
 
   const editorProps = {
-    itemID: 'urn:aemconnection:' + content._path + '/jcr:content/data/master',
-    itemType: 'reference',
-    itemfilter: 'cf',
-    'data-editor-itemlabel': 'Header',
+    'data-aue-resource': 'urn:aemconnection:' + content._path + '/jcr:content/data/master',
+    'data-aue-type': 'reference',
+    'data-aue-filter': 'cf',
+    'data-aue-label': 'Header',
   };
 
   if (!content.banner && content.teaser)
@@ -86,7 +86,7 @@ const Header = ({ content, config, className }) => {
 
   return (
     <React.Fragment>
-      <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner' {...editorProps} itemScope>
+      <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner' {...editorProps}>
         {content && (
           <Delayed><Navigation className={content.navigationColor} config={config} screen={content} /></Delayed>
         )}

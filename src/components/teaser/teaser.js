@@ -5,7 +5,7 @@ import Video from '../video';
 import Image from '../image';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../../utils/context';
-import {TextWithPlaceholders} from '../../utils/placeholders';
+import { TextWithPlaceholders } from '../../utils/placeholders';
 import { LinkManager } from '../../utils';
 import './teaser.css';
 
@@ -70,58 +70,58 @@ const imageSizesHero = [
 const Teaser = ({ content, config }) => {
   const context = useContext(AppContext);
   let inFrame = false;
-  if(window.location !== window.parent.location) {
+  if (window.location !== window.parent.location) {
     inFrame = true;
   }
-  
-  const renderAsset = ({asset}) => {    
-    if(asset && Object.prototype.hasOwnProperty.call(content.asset, 'format'))
+
+  const renderAsset = ({ asset }) => {
+    if (asset && Object.prototype.hasOwnProperty.call(content.asset, 'format'))
       return (<Video content={content.asset} />);
-    else if(asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType'))
-      return (<Image asset={content.asset} alt={content.title} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes}/>);
+    else if (asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType'))
+      return (<Image asset={content.asset} alt={content.title} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes} />);
     else
-      return (<Image asset={content.asset} alt={content.title} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes}/>);
+      return (<Image asset={content.asset} alt={content.title} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes} />);
   };
 
   const editorProps = {
-    itemId: `urn:aemconnection:${content._path}/jcr:content/data/master`,
-    itemType: 'reference',
-    itemfilter: 'cf',
-    'data-editor-itemlabel': `Teaser(${content.style})`
+    'data-aue-resource': `urn:aemconnection:${content._path}/jcr:content/data/master`,
+    'data-aue-type': 'reference',
+    'data-aue-filter': 'cf',
+    'data-aue-label': `Teaser(${content.style})`
   };
 
   return (
-    <div {...editorProps} itemScope>
+    <div {...editorProps}>
       <section className={'teaser ' + content.style + (inFrame ? ' iframe' : '')}>
         <div className='container'>
-          { renderAsset(content) }
+          {renderAsset(content)}
 
           <div className='content-block'>
             {content.title && content.style === 'hero' && (
-              <h1 itemProp='title' itemType='text' data-editor-itemlabel='Title'>{content.title}</h1>
+              <h1 data-aue-prop='title' data-aue-type='text' data-aue-label='Title'>{content.title}</h1>
             )}
 
             {content.title && content.style === 'featured' && (
-              <h2 itemProp='title' itemType='text' data-editor-itemlabel='Title'>{content.title}</h2>
+              <h2 data-aue-prop='title' data-aue-type='text' data-aue-label='Title'>{content.title}</h2>
             )}
 
             <span className='seperator'></span>
 
             {content.preTitle && content.style === 'hero' && (
-              <h2 itemProp='preTitle' itemType='text'data-editor-itemlabel='Pre-Title'>{content.preTitle}</h2>
+              <h2 data-aue-prop='preTitle' data-aue-type='text' data-aue-label='Pre-Title'>{content.preTitle}</h2>
             )}
 
             {content.preTitle && content.style === 'featured' && (
-              <h5 itemProp='preTitle' itemType='text' data-editor-itemlabel='Pre-Title'>{content.preTitle}</h5>
+              <h5 data-aue-prop='preTitle' data-aue-type='text' data-aue-label='Pre-Title'>{content.preTitle}</h5>
             )}
 
             {content.description && content.style === 'featured' && (
-              <p itemProp='description' itemType='text'><TextWithPlaceholders>{content.description.plaintext}</TextWithPlaceholders></p>
+              <p data-aue-prop='description' data-aue-type='text'><TextWithPlaceholders>{content.description.plaintext}</TextWithPlaceholders></p>
             )}
 
             {content.callToAction && content.callToActionLink && content.style === 'featured' && (
-              <Link to={LinkManager(content.callToActionLink._path, config, context)} 
-                itemType='reference' itemProp='callToActionLink' data-editor-itemlabel='Call to Action' className='button'>{content.callToAction}</Link>
+              <Link to={LinkManager(content.callToActionLink._path, config, context)}
+                data-aue-type='reference' data-aue-prop='callToActionLink' data-aue-label='Call to Action' className='button'>{content.callToAction}</Link>
             )}
           </div>
         </div>
