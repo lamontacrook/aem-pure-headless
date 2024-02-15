@@ -1,0 +1,197 @@
+query ScreenByPath($path: String!) {
+  screen: screenByPath(
+    _path: $path
+    _assetTransform: {format: PNG, preferWebp: true}
+  ) {
+    body: item {
+      __typename
+      _metadata {
+        stringMetadata {
+          name
+          value
+        }
+      }
+      header {
+        ... on HeaderModel {
+          __typename
+          _path
+          _model {
+            ... on ModelInfo {
+              _path
+              title
+            }
+          }
+          _metadata {
+            stringMetadata {
+              name
+              value
+            }
+          }
+          banner {
+            __typename
+            ... on ImageRef {
+              mimeType
+              _authorUrl
+              _dynamicUrl
+              width
+              height
+            }
+          }
+          navigationColor
+          teaser {
+            __typename
+            title
+            style
+            preTitle
+            callToAction
+            callToActionLink: link {
+              __typename
+              ... on AdventureModel {
+                _path
+              }
+              ... on PageRef {
+                _path
+                _authorUrl
+                _publishUrl
+              }
+            }
+            asset {
+              ... on MultimediaRef {
+                _authorUrl
+                format
+                _publishUrl
+              }
+              ... on ImageRef {
+                _authorUrl
+                _dynamicUrl
+                mimeType
+                width
+                height
+              }
+            }
+            description {
+              html
+              plaintext
+            }
+            callToAction
+          }
+        }
+      }
+      block {
+        ... on PageRef {
+          _path
+          _authorUrl
+          _publishUrl
+          __typename
+        }
+        ... on ImageListModel {
+          _path
+          _model {
+            ... on ModelInfo {
+              _path
+              title
+            }
+          }
+          style
+          __typename
+          _metadata {
+            stringMetadata {
+              value
+              name
+            }
+          }
+          imageListItems {
+            ... on PageRef {
+              __typename
+              _path
+              _authorUrl
+              _publishUrl
+              type
+            }
+            ... on AdventureModel {
+              _model {
+                ... on ModelInfo {
+                  _path
+                  title
+                }
+              }
+              __typename
+              _path
+              title
+              adventureType
+              price
+              activity
+              tripLength
+              primaryImage {
+                ... on ImageRef {
+                  _dynamicUrl
+                  mimeType
+                  _authorUrl
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }
+        ... on TeaserModel {
+          __typename
+          _path
+          _model {
+            ... on ModelInfo {
+              _path
+              title
+            }
+          }
+          _metadata {
+            stringMetadata {
+              name
+              value
+            }
+          }
+          title
+          preTitle
+          style
+          asset {
+            ... on MultimediaRef {
+              _authorUrl
+              format
+              _publishUrl
+            }
+            ... on ImageRef {
+              _authorUrl
+              _dynamicUrl
+              mimeType
+              width
+              height
+            }
+          }
+          description {
+            html
+            plaintext
+          }
+          callToAction
+          callToActionLink: link {
+            __typename
+            ... on AdventureModel {
+              __typename
+              _path
+              _model {
+                ... on ModelInfo {
+                  _path
+                  title
+                }
+              }
+            }
+            ... on PageRef {
+              __typename
+              _path
+              _publishUrl
+              _authorUrl
+            }
+          }
+        }
+      }
+    }
+  }
+}

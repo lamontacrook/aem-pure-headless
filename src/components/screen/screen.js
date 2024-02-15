@@ -3,7 +3,7 @@ import ModelManager from '../../utils/modelmanager';
 import Footer from '../footer';
 import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { prepareRequest, rootPath } from '../../utils';
+import { prepareRequest, rootPath, pqs } from '../../utils';
 import Header from '../header';
 import { useErrorHandler } from 'react-error-boundary';
 import './screen.css';
@@ -35,11 +35,11 @@ const Screen = () => {
 
   useEffect(() => {
     const sdk = prepareRequest(context);
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
+    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].config}`, { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-          sdk.runPersistedQuery(`aem-demo-assets/gql-demo-screen-${version}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
+          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
@@ -70,6 +70,14 @@ const Screen = () => {
 
   let i = 0;
 
+  console.log(data);
+  const editorProps = {
+    'data-aue-prop':'block',
+    'data-aue-type':'container',
+    'data-aue-filter':'screen',
+    'data-aue-label':'Screen'
+  };
+
   return (
     <React.Fragment>
       <Helmet>
@@ -79,7 +87,7 @@ const Screen = () => {
         <Header data={data} content={data.screen.body.header} config={config} className='screen' />
       }
 
-      <div className='main-body'>
+      <div className='main-body' {...editorProps}  data-aue-resource='urn:aemconnection:/content/dam/wknd-headless/site/en/home/home/jcr:content/data/master'>
         {data && data.screen && data.screen.body.block.map((item) => (
           <div
             key={`${item.__typename

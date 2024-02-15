@@ -22,7 +22,7 @@ const imageUrl = (context, asset) => {
   }
 };
 
-const Image = ({ asset, alt = 'WKND image', itemProp='asset', width, height, imageSizes }) => {
+const Image = ({ asset, alt = 'WKND image', imageProps='', width, height, imageSizes }) => {
   const context = useContext(AppContext);
 
   if(!asset) return (
@@ -40,7 +40,7 @@ const Image = ({ asset, alt = 'WKND image', itemProp='asset', width, height, ima
 
   return (
     <picture>
-      <img loading='lazy' alt={alt} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} data-aue-prop={itemProp} data-aue-type="media" data-aue-label='Asset'/>
+      <img loading='lazy' alt={alt} src={src} width={width} height={height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} {...imageProps}/>
     </picture>
   );
 };
@@ -49,7 +49,7 @@ Image.propTypes = {
   asset: PropTypes.object,
   config: PropTypes.object,
   context: PropTypes.object,
-  itemProp: PropTypes.string,
+  imageProps: PropTypes.object,
   imageSizes: PropTypes.array,
   width: PropTypes.number,
   height: PropTypes.number,

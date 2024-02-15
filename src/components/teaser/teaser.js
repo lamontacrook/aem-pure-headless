@@ -67,7 +67,7 @@ const imageSizesHero = [
   }
 ];
 
-const Teaser = ({ content, config }) => {
+const Teaser = ({ content, config, component=true }) => {
   const context = useContext(AppContext);
   let inFrame = false;
   if (window.location !== window.parent.location) {
@@ -75,20 +75,30 @@ const Teaser = ({ content, config }) => {
   }
 
   const renderAsset = ({ asset }) => {
+    const imageProps = {
+      'data-aue-prop':'asset',
+      'data-aue-type':'media',
+      'data-aue-label':'Asset'
+    };
     if (asset && Object.prototype.hasOwnProperty.call(content.asset, 'format'))
       return (<Video content={content.asset} />);
     else if (asset && Object.prototype.hasOwnProperty.call(content.asset, 'mimeType'))
-      return (<Image asset={content.asset} alt={content.title} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes} />);
+      return (<Image imageProps={imageProps} asset={content.asset} alt={content.title} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes} />);
     else
-      return (<Image asset={content.asset} alt={content.title} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes} />);
+      return (<Image imageProps={imageProps} asset={content.asset} alt={content.title} config={config} imageSizes={content.style === 'hero' ? imageSizesHero : imageSizes} />);
   };
+
 
   const editorProps = {
     'data-aue-resource': `urn:aemconnection:${content._path}/jcr:content/data/master`,
     'data-aue-type': 'reference',
-    'data-aue-filter': 'cf',
-    'data-aue-label': `Teaser(${content.style})`
+    'data-aue-label': `Teaser(${content.style})`,
+    'data-aue-model': content?._model?._path
   };
+
+  console.log(editorProps);
+
+  if(component) editorProps['data-aue-behavior'] = 'component';
 
   return (
     <div {...editorProps}>
@@ -116,7 +126,7 @@ const Teaser = ({ content, config }) => {
             )}
 
             {content.description && content.style === 'featured' && (
-              <p data-aue-prop='description' data-aue-type='text'><TextWithPlaceholders>{content.description.plaintext}</TextWithPlaceholders></p>
+              <p data-aue-prop='description' data-aue-type='text' data-aue-label='Description'><TextWithPlaceholders>{content.description.plaintext}</TextWithPlaceholders></p>
             )}
 
             {content.callToAction && content.callToActionLink && content.style === 'featured' && (
@@ -137,7 +147,8 @@ const Teaser = ({ content, config }) => {
 Teaser.propTypes = {
   content: PropTypes.object,
   config: PropTypes.object,
-  context: PropTypes.object
+  context: PropTypes.object,
+  component: PropTypes.bool
 };
 
 export default Teaser;

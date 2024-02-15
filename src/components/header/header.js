@@ -74,25 +74,26 @@ const Header = ({ content, config, className }) => {
     window.addEventListener('scroll', fadeOutHandler);
   }), [];
 
-  const editorProps = {
-    'data-aue-resource': 'urn:aemconnection:' + content._path + '/jcr:content/data/master',
-    'data-aue-type': 'reference',
-    'data-aue-filter': 'cf',
-    'data-aue-label': 'Header',
-  };
+  // const editorProps = {
+  //   'data-aue-resource': 'urn:aemconnection:' + content._path + '/jcr:content/data/master',
+  //   'data-aue-type': 'reference',
+  //   'data-aue-filter': 'cf',
+  //   'data-aue-label': 'Header',
+  // };
 
   if (!content.banner && content.teaser)
     content['teaser']['_path'] = !content['teaser']['_path'] ? content._path.replace('header', 'hero') : content['teaser']['_path'];
 
   return (
     <React.Fragment>
-      <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner' {...editorProps}>
+      <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner'>
         {content && (
           <Delayed><Navigation className={content.navigationColor} config={config} screen={content} /></Delayed>
         )}
 
         {content.teaser &&
           <ModelManager
+            component={false}
             key={`${content.teaser.__typename
               .toLowerCase()
               .replace(' ', '-')}-entity-header`}

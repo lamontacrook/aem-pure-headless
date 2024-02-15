@@ -1,0 +1,51 @@
+query ConfigurationByPath($path: String!) {
+  configurationByPath(
+    _path: $path
+    _assetTransform: {format: PNG, preferWebp: true}
+  ) {
+    item {
+      adventuresHome
+      homePage {
+        ... on ScreenModel {
+          _path
+        }
+      }
+      footerExperienceFragment {
+        ... on PageRef {
+          __typename
+          _authorUrl
+          _publishUrl
+        }
+      }
+      siteLogo {
+        ... on ImageRef {
+          _authorUrl
+          _dynamicUrl
+        }
+      }
+      renditionsConfiguration
+      overview {
+        ... on ImageRef {
+          _dynamicUrl
+          _authorUrl
+        }
+      }
+      itinerary {
+        ... on ImageRef {
+          _dynamicUrl
+          _authorUrl
+        }
+      }
+      whatToBring {
+        ... on ImageRef {
+          _dynamicUrl
+          _authorUrl
+        }
+      }
+      targetTenet
+      targetApiKey
+      audiences
+      siteTitle
+    }
+  }
+}

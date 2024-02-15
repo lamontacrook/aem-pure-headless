@@ -59,7 +59,7 @@ const ImageList = ({ content, config }) => {
 
   useEffect(() => {
     const promises = [];
-    content.imageListItems.map(({ _path, _authorUrl, adventureType, activity, tripLength, price, _publishUrl, __typename, title, primaryImage }) => {
+    content.imageListItems.map(({ _path, _authorUrl, adventureType, activity, tripLength, price, _publishUrl, __typename, title, primaryImage, _model }) => {
       setPageType(__typename);
       if (__typename === 'PageRef') {
 
@@ -129,6 +129,7 @@ const ImageList = ({ content, config }) => {
             price: price,
             image: primaryImage,
             path: _path,
+            model: _model,
             type: 'cf'
           }];
         });
@@ -180,15 +181,29 @@ const ImageList = ({ content, config }) => {
       e.target.previousElementSibling.style.display = 'unset';
   };
 
-  const itemProps = {
-    itemID: `urn:aemconnection:${content._path}/jcr:content/data/master`,
-    itemfilter: 'cf',
-    itemType: 'reference',
-    'data-editor-itemlabel': `ImageList(${content.style})`
+  // const itemProps = {
+  //   itemID: `urn:aemconnection:${content._path}/jcr:content/data/master`,
+  //   itemfilter: 'cf',
+  //   itemType: 'reference',
+  //   'data-editor-itemlabel': `ImageList(${content.style})`
+  // };
+
+  const editorProps = {
+    'data-aue-resource': `urn:aemconnection:${content._path}/jcr:content/data/master`,
+    'data-aue-type': 'container',
+    'data-aue-label': `Image List(${content.style})`,
+    'data-aue-behavior': 'component',
+    'data-aue-model': content?._model?._path
   };
+  // const editorProps = {
+  //   'data-aue-prop':'block',
+  //   'data-aue-type':'container',
+  //   'data-aue-filter':'screen',
+  //   'data-aue-label':'Screen'
+  // };
   return (
     <React.Fragment>
-      <section className={`${content.style} list-container`} {...itemProps} itemScope>
+      <section className={`${content.style} list-container`} {...editorProps} itemScope>
         {title && <h4>{title.join('')}</h4>}
         <i className='arrow left' onClick={e => scrollLeft(e, 300)}></i>
         <div className='list' id='list-container-body' onScroll={e => containerChange(e)}>
@@ -223,8 +238,18 @@ const Card = ({ item, config }) => {
   const itemProps = {
     'data-aue-resource': `urn:aemconnection:${item.path}/jcr:content/root/container`,
     'data-aue-type': 'container',
-    'data-aue-label': 'Experience Fragment'
+    'data-aue-label': 'Experience Fragment',
+    'data-aue-behavior': 'component',
   };
+
+  // const editorProps = {
+  //   'data-aue-resource': `urn:aemconnection:${item.path}/jcr:content/data/master`,
+  //   'data-aue-type': 'reference',
+  //   'data-aue-label': `${item.title} Adventure`,
+  //   'data-aue-behavior': 'component',
+  //   'data-aue-model': item.model
+  // };
+
   return (
     <div className='list-item' key={item.title.id} {...itemProps}>
       <picture>
@@ -278,6 +303,14 @@ Card.propTypes = {
 const AdventureCard = ({ item, config }) => {
   const context = useContext(AppContext);
 
+  const editorProps = {
+    'data-aue-resource': `urn:aemconnection:${item.path}/jcr:content/data/master`,
+    'data-aue-type': 'reference',
+    'data-aue-label': `${item.title} Adventure`,
+    'data-aue-behavior': 'component',
+    'data-aue-model': item.model
+  };
+
   const adventureCardImageSizes = [
     { 
       imageWidth: '350px',
@@ -295,8 +328,7 @@ const AdventureCard = ({ item, config }) => {
   }
 
   return (
-    <div className='list-item' key={item.title} itemID={`urn:aemconnection:${item.path}/jcr:content/data/master`}
-      itemfilter='cf' itemType='reference' data-editor-itemlabel='Adventure Fragment' itemScope>
+    <div className='list-item' key={item.title} {...editorProps}>
       <Image asset={item.image} config={config} alt={item.title} itemProp='primaryImage' width={width} height={height} imageSizes={adventureCardImageSizes} />
       <Link key={item.path} name={item.title || item.name} to={LinkManager(item.path, config, context)}>
         <span className='title' itemProp='title' itemType='text'>{item.title || item.name}</span>

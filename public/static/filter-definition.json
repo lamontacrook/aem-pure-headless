@@ -1,0 +1,10 @@
+[
+   {
+    "id": "screen",
+     "components": ["teaser", "image-list"]
+   },
+   {
+    "id":"image-list",
+    "components":["adventure", "article"]
+   }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "id": "teaser",
+    "fields": [
+      {
+        "component": "text-input",
+        "name": "title",
+        "label": "Title",
+        "valueType": "string"
+      },
+      {
+        "component": "text-area",
+        "name": "description",
+        "label": "Description",
+        "valueType": "string"
+      },
+      {
+        "component": "text-input",
+        "name": "cta",
+        "label": "CTA",
+        "valueType": "string"
+      }
+    ]
+  }
+]
