@@ -50,7 +50,7 @@ const Footer = ({ config }) => {
         )}
       </div>
       <div className='version'>
-        <span>version 1.0</span>
+        <span>{localStorage.getItem('version') && localStorage.getItem('version') === 'v2' ? 'version 2.0' : 'version 1.0'}</span>
         <span>{context.serviceURL}</span>
         <span>{context.project}</span>
         <span><a href={`https://experience.adobe.com/#/aem/editor/canvas/${host}${pathname}`} target='_blank' rel='noreferrer'>Open in Editor</a></span>
