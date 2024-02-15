@@ -39,7 +39,8 @@ const Screen = () => {
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path, audience: audience })
+          path = path !== '' ? path : data.configurationByPath.item.homePage._path;
+          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path })
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
@@ -70,12 +71,11 @@ const Screen = () => {
 
   let i = 0;
 
-  console.log(data);
   const editorProps = {
-    'data-aue-prop':'block',
-    'data-aue-type':'container',
-    'data-aue-filter':'screen',
-    'data-aue-label':'Screen'
+    'data-aue-prop': 'block',
+    'data-aue-type': 'container',
+    'data-aue-filter': 'screen',
+    'data-aue-label': 'Screen'
   };
 
   return (
@@ -87,24 +87,27 @@ const Screen = () => {
         <Header data={data} content={data.screen.body.header} config={config} className='screen' />
       }
 
-      <div className='main-body' {...editorProps}  data-aue-resource='urn:aemconnection:/content/dam/wknd-headless/site/en/home/home/jcr:content/data/master'>
-        {data && data.screen && data.screen.body.block.map((item) => (
-          <div
-            key={`${item.__typename
-              .toLowerCase()
-              .replace(' ', '-')}-block-${i}`}
-            className='block'
-          >
+      <div className='main-body' {...editorProps} data-aue-resource={`urn:aemconnection:${path}/jcr:content/data/master`}>
+        {data && data.screen && data.screen.body.block.map((item) => {
+          if (item && item.__typename) {
+            return (
+              <div
+                key={`${item.__typename
+                  .toLowerCase()
+                  .replace(' ', '-')}-block-${i}`}
+                className='block'
+              >
 
-            <Delayed waitBeforeShow={200}>
-              <ModelManager
-                key={`${item.__typename}-entity-${i++}`}
-                content={item}
-                config={config.configurationByPath.item}
-              ></ModelManager>
-            </Delayed>
-          </div>
-        ))}
+                <Delayed waitBeforeShow={200}>
+                  <ModelManager
+                    key={`${item.__typename}-entity-${i++}`}
+                    content={item}
+                    config={config.configurationByPath.item}
+                  ></ModelManager>
+                </Delayed>
+              </div>);
+          }
+        })}
       </div>
       <footer>
         {config && config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
