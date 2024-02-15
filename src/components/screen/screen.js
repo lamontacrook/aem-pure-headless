@@ -42,17 +42,8 @@ const Screen = () => {
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-<<<<<<< HEAD
-<<<<<<< HEAD
-          path.current = path.current !== '' ? path.current : data.configurationByPath.item.homePage._path;
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path.current, audience: context.audience?.value })
-=======
           path = path !== '' ? path : data.configurationByPath.item.homePage._path;
           sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path })
->>>>>>> b39f6e8 (fix bug)
-=======
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path, audience: audience })
->>>>>>> dc9f80a (update package.json)
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
