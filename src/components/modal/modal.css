@@ -1,0 +1,132 @@
+/* The Modal (background) */
+.modal {
+  /* display: none; Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  bottom: 5%;
+  right: 3%;
+  /* Full width */
+  width: 100%;
+  /* overflow: auto; */
+  /* Enable scroll if needed */
+  /* Black w/ opacity */
+  /* border: .5px solid #888; */
+  /* border-radius: 30px; */
+  min-height: 400px;
+}
+
+.modal.active {
+  min-height: 400px;
+  max-width: 400px;
+  background-color: #FF0000;
+}
+
+.modal.inactive {
+  min-height:50px;
+  max-width: 85px;
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal.inactive .modal-content {
+  display: none;
+}
+
+/* Modal Content/Box */
+.modal.active .modal-content {
+  display: block;
+  background-color: #FF0000;
+  /* width: 100%; */
+  min-height: 300px;
+  /* Could be more or less, depending on screen size */
+  height: 100%;
+  text-align: center;
+  padding: 10px 5px;
+}
+
+.modal-content select,
+.modal-content input,
+
+.modal button.expand {
+  width: 100%;
+}
+
+.modal button, .modal select, .modal input {
+  /* Reset */
+  appearance: none;
+  border: 0;
+  outline: 0;
+  font: 12px;
+  /* Personalize */
+  width: auto;
+  padding: .5rem 4rem .5rem 1rem;
+  background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center / 1.4em,
+    linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
+  color: white;
+  border-radius: 0.25em;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+
+  /* Remove IE arrow */
+  &::-ms-expand {
+    display: none;
+  }
+
+  /* Remove focus outline */
+  &:focus {
+    outline: none;
+  }
+
+  margin-bottom: 5px;
+}
+
+.modal.inactive button, .modal.inactive select, .modal.inactive input {
+  background-color: transparent;
+}
+
+.modal-content .form-element {
+  /*  display: inline-block; */
+  text-align: left;
+  position: relative;
+  z-index: 1;
+  min-width: 95%;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-gap: 5px;
+  padding: 5px 0;
+}
+
+.modal-content label {
+  color: white;
+  font-size: 16px;
+  min-width: 100px;
+  text-align: right;
+  padding-top: 5px;
+}
+
+.modal-content select>option {
+  color: inherit;
+  background-color: white;
+}
+
+.modal-content h4 {
+  color: white;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
