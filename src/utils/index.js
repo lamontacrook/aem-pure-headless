@@ -15,11 +15,13 @@ export const rootPath = 'content/dam';
 export const pqs = {
   'v1': {
     screen: 'gql-demo-screen-v2',
-    config: 'gql-demo-configuration'
+    config: 'gql-demo-configuration',
+    nav: 'gql-demo-navigation'
   },
   'v2': {
     screen: 'gql-demo-screen-v3',
-    config: 'gql-demo-configuration'
+    config: 'gql-demo-configuration',
+    nav: 'gql-demo-navigation-v2'
   }
 };
 

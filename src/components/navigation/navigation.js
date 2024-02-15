@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 
 import './navigation.css';
 import { Link } from 'react-router-dom';
-import { LinkManager, prepareRequest } from '../../utils';
+import { LinkManager, prepareRequest, pqs } from '../../utils';
 import PropTypes from 'prop-types';
 import { useErrorHandler } from 'react-error-boundary';
 import Flyout from '../../utils/flyout';
@@ -34,19 +34,19 @@ const Navigation = ({ className, config, screen }) => {
   const [logo, setLogo] = useState({});
   const handleError = useErrorHandler();
 
-  let obj = {
-    pos1: { name: '', path: '#' },
-    pos2: { name: '', path: '#' },
-    pos3: { name: '', path: '#' },
-    pos4: { name: '', path: '#' },
-    pos5: { name: 'Settings', path: '/settings' },
-  };
+  // let obj = {
+  //   pos1: { name: '', path: '#' },
+  //   pos2: { name: '', path: '#' },
+  //   pos3: { name: '', path: '#' },
+  //   pos4: { name: '', path: '#' },
+  //   pos5: { name: 'Settings', path: '/settings' },
+  // };
 
   useEffect(() => {
     const sdk = prepareRequest(context);
     setLogo(config.configurationByPath.item.siteLogo);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en' })
+    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].nav}`, { locale: 'en', project: `/content/dam/${context.project}` })
       .then((data) => {
         if (data) {
           setNav(data);
@@ -58,15 +58,15 @@ const Navigation = ({ className, config, screen }) => {
       });
   }, [handleError, config, context]);
 
-  nav && nav.data.screenList.items.forEach((item) => {
-    if (item._path.includes(context.project)) {
-      let name = '';
-      item._metadata.stringMetadata.forEach(meta => {
-        meta.name === 'title' && (name = meta.value);
-      });
-      obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path, config, context) };
-    }
-  });
+  // nav && nav.data.screenList.items.forEach((item) => {
+  //   if (item._path.includes(context.project)) {
+  //     let name = '';
+  //     item._metadata.stringMetadata.forEach(meta => {
+  //       meta.name === 'title' && (name = meta.value);
+  //     });
+  //     obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path, config, context) };
+  //   }
+  // });
 
   function viewGQL() {
     document.querySelector('#flyout') && document.querySelector('#flyout').setAttribute('aria-expanded', true);
@@ -86,6 +86,13 @@ const Navigation = ({ className, config, screen }) => {
     prevScrollPos = currentScrollPos;
   };
 
+  const getScreenName = (item) => {
+    const navName = item._metadata.stringMetadata.filter(meta => {
+      if(meta.name === 'title') return meta.value;
+    });
+    return navName[0].value;
+  };
+
   return (
     <React.Fragment>
       <nav id="navbar" aria-expanded={expanded}>
@@ -100,15 +107,12 @@ const Navigation = ({ className, config, screen }) => {
           <Link to={'/'}><Image alt='logo' asset={logo} width={108} height={56} /></Link>
         </div>
         <div className='nav-sections'>
-          {nav && (
-            <ul>
-              <li><Link to={obj.pos1.path} className={`navItem ${className}`} name={obj.pos1.name}>{obj.pos1.name}</Link></li>
-              <li><Link to={obj.pos2.path} className={`navItem ${className}`} name={obj.pos2.name}>{obj.pos2.name}</Link></li>
-              <li><Link to={obj.pos3.path} className={`navItem ${className}`} name={obj.pos3.name}>{obj.pos3.name}</Link></li>
-              <li><Link to={obj.pos4.path} className={`navItem ${className}`} name={obj.pos4.name}>{obj.pos4.name}</Link></li>
-              <li><Link to={obj.pos5.path} className={`navItem ${className}`} name={obj.pos5.name}>{obj.pos5.name}</Link></li>
-            </ul>
-          )}
+          <ul>
+            {nav && nav.data && nav.data.screenList && nav.data.screenList.items.map((item) => (
+              <li key={item._path}><Link to={LinkManager(item._path, config, context)} className={`navItem ${className}`} name={getScreenName(item)}>{getScreenName(item)}</Link></li>
+            ))}
+            <li><Link to={'/settings'} className={`navItem ${className}`} name={'Settings'}>{'Settings'}</Link></li>
+          </ul>
         </div>
         <div className='nav-tools'>
           <button href='#' className='button view-gql' aria-expanded='false' aria-controls='flyout' onClick={viewGQL}>View GraphQL</button>
