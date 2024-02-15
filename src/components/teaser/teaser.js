@@ -96,8 +96,6 @@ const Teaser = ({ content, config, component=true }) => {
     'data-aue-model': content?._model?._path
   };
 
-  console.log(editorProps);
-
   if(component) editorProps['data-aue-behavior'] = 'component';
 
   return (
