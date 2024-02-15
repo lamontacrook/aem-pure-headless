@@ -63,7 +63,7 @@ const Modal = ({ config, audience }) => {
           <label htmlFor='audience'>Audience</label>
           <select id="audience" name="audience" onChange={updateAudience} defaultValue={currentAudience}>
             <option key='none' value='none'>None</option>
-            {config && config.audiences.map((audience) => (
+            {config && config.audiences && config.audiences.map((audience) => (
               <option key={audience.toLowerCase().replaceAll(' ', '-')} value={audience.toLowerCase().replaceAll(' ', '-')}>{audience}</option>
             )
             )}

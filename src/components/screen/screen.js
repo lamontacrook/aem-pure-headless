@@ -10,6 +10,7 @@ import './screen.css';
 import { AppContext } from '../../utils/context';
 import { Helmet } from 'react-helmet-async';
 import Delayed from '../../utils/delayed';
+import Modal from '../modal';
 
 let configPath = '';
 const Screen = () => {
@@ -31,8 +32,6 @@ const Screen = () => {
 
   configPath = `/content/dam/${context.project}/site/configuration/configuration`;
 
-  const version = 'v2';
-
   useEffect(() => {
     const sdk = prepareRequest(context);
     sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].config}`, { path: configPath })
@@ -40,7 +39,7 @@ const Screen = () => {
         if (data) {
           setConfiguration(data);
           path = path !== '' ? path : data.configurationByPath.item.homePage._path;
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path })
+          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path, audience: audience })
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
@@ -67,7 +66,7 @@ const Screen = () => {
       });
 
 
-  }, [handleError, navigate, path, version, context]);
+  }, [handleError, navigate, path, context, audience]);
 
   let i = 0;
 
@@ -108,6 +107,9 @@ const Screen = () => {
               </div>);
           }
         })}
+        {config && config.configurationByPath && config.configurationByPath.item && (
+          <Modal config={config.configurationByPath.item} audience={audience} />
+        )}
       </div>
       <footer>
         {config && config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
