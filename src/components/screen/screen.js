@@ -21,7 +21,7 @@ const Screen = () => {
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
   const [title, setTitle] = useState('');
-  const audience = localStorage.getItem('audience') || 'master';
+  const [audience, setAudience] = useState(JSON.parse(localStorage.getItem('audience')) || {value: 'master', label: 'Master'});
   const props = useParams();
   let path = '';
 
@@ -39,7 +39,7 @@ const Screen = () => {
         if (data) {
           setConfiguration(data);
           path = path !== '' ? path : data.configurationByPath.item.homePage._path;
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path, audience: audience })
+          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path, audience: audience.value })
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
@@ -108,7 +108,7 @@ const Screen = () => {
           }
         })}
         {config && config.configurationByPath && config.configurationByPath.item && (
-          <Modal config={config.configurationByPath.item} audience={audience} />
+          <Modal config={config.configurationByPath.item} />
         )}
       </div>
       <footer>
