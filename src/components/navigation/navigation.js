@@ -41,7 +41,6 @@ const Navigation = ({ className, config, screen }) => {
     sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].nav}`, { locale: 'en', project: `/content/dam/${context.project}` })
       .then((data) => {
         if (data) {
-          console.log(data);
           setNav(data);
           context.navigationResponse = data;
         }

@@ -13,9 +13,14 @@ const Modal = ({ config }) => {
     cssList.forEach((css) => {
       if (css === item.label) repeat = true;
     });
-    if (!repeat) setCSSList([...cssList, item.label]);
+    console.log(repeat);
+    if (!repeat) {
+      setCSSList([...cssList, item.label]);
+      console.log(cssList);
+    }
   };
-  const [language, setLanguage] = useState(JSON.parse(localStorage.getItem('lang')) || { value: 'English', label: 'en' });
+
+  const [language, setLanguage] = useState(JSON.parse(localStorage.getItem('lang')) || { value: 'en', label: 'English' });
   const [audience, setAudience] = useState(JSON.parse(localStorage.getItem('audience')));
   let [cssVariables, setCSSVariables] = useState([]);
   const [cssList, setCSSList] = useState([]);
@@ -25,8 +30,12 @@ const Modal = ({ config }) => {
   }, []);
 
   const updateAudience = (event) => {
-    localStorage.setItem('audience', JSON.stringify(event));
-    setAudience(event);
+    if(event === null) {
+      localStorage.removeItem('audience');
+    } else {
+      localStorage.setItem('audience', JSON.stringify(event));
+      setAudience(event);
+    }
   };
 
   const updateLanguage = (event) => {
@@ -37,7 +46,7 @@ const Modal = ({ config }) => {
   const updatePage = () => {
     let { pathname } = location;
     if (pathname === '/') pathname = config.homePage._path.replace(`/content/dam/${context.project}`, '');
-    pathname = pathname.replace(/(\/site\/).*(\/.*\/)/g, '$1' + language + '$2');
+    pathname = pathname.replace(/(\/site\/).*(\/.*\/)/g, '$1' + language.value + '$2');
     window.location.replace(pathname);
   };
 
@@ -66,13 +75,12 @@ const Modal = ({ config }) => {
     const arry = vars.map((item) => {
       return { value: item, label: item };
     });
+    console.log(arry);
     setCSSVariables(arry);
   };
 
   const _langOptions = {
-    en: 'English',
-    fr: 'Français',
-    es: 'Español'
+    en: 'English'
   };
 
   const langOptions = [];
@@ -88,7 +96,6 @@ const Modal = ({ config }) => {
   });
 
   const closePanel = (event) => {
-    console.log(event);
     document.querySelector('.modal.active').classList.replace('active', 'inactive');
     event.preventDefault();
     return false;
@@ -146,7 +153,8 @@ const Modal = ({ config }) => {
   };
 
   const animatedComponents = makeAnimated();
-
+  console.log(audience);
+  console.log(language);
   return (
     <div id="audience-selector" className="modal inactive" onMouseEnter={expand}>
       <button className='close' onClick={closePanel}>Close</button>
@@ -155,7 +163,8 @@ const Modal = ({ config }) => {
           <label htmlFor='audience'>Audience</label>
           <Select id="audience"
             name="audience"
-            defaultInputValue={audience.label}
+            defaultValue={audience}
+            isClearable={true}
             onChange={updateAudience}
             components={animatedComponents}
             options={audienceOptions} />
@@ -163,7 +172,9 @@ const Modal = ({ config }) => {
           <Select id='lang'
             name='language'
             onChange={updateLanguage}
-            defaultInputValue={language.label}
+            defaultValue={language}
+            isClearable={false}
+            formatGroupLabel={'Languages'}
             options={langOptions} />
           <label htmlFor='update'></label>
           <button value='update' id='update' onClick={() => updatePage()}>Update Page</button>
@@ -171,14 +182,17 @@ const Modal = ({ config }) => {
           <Select id='cssVars'
             name='css-vars'
             onChange={updateCSSList}
-            defaultInputValue={''}
             options={cssVariables} />
+        </div>
+        <div className='form-element'>
           {cssList.map((item) => (
             <React.Fragment key={item}>
               <label key={`${item}-label`} htmlFor={item}>{item}</label>
               <input key={`${item}-input`} id={item} name={item} onKeyUp={updateCSS} />
             </React.Fragment>
           ))}
+        </div>
+        <div className='form-element'>
           <button onClick={downLoadConfig}>Save Configuration</button>
           <input id='configuration' type='file' onChange={handleConfiguration} />
         </div>

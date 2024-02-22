@@ -16,7 +16,7 @@ const Video = ({ content }) => {
 
   useEffect(() => {
     if (!document.querySelector(`head link[rel="preload"][href="${videoSrc}"]`)) {
-      document.querySelector('head').insertAdjacentHTML('beforeend', `<link rel="preload" href="${videoSrc}" as="video"/>`);
+      document.querySelector('head').insertAdjacentHTML('beforeend', `<link rel="prefetch" href="${videoSrc}" as="video"/>`);
     }
   }, [videoSrc]);
 

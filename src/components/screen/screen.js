@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import ModelManager from '../../utils/modelmanager';
 import Footer from '../footer';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -21,12 +21,12 @@ const Screen = () => {
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
   const [title, setTitle] = useState('');
-  const [audience, setAudience] = useState(JSON.parse(localStorage.getItem('audience')) || { value: 'master', label: 'Master' });
+  const [audience] = useState(JSON.parse(localStorage.getItem('audience')) || { value: 'master', label: 'Master' });
   const props = useParams();
-  let path = '';
+  const path = useRef('');
 
   if (Object.values(props).length && Object.values(props)[0] !== '')
-    path = (Object.values(props)[0].includes(rootPath)) ?
+    path.current = (Object.values(props)[0].includes(rootPath)) ?
       `/${Object.values(props)[0]}` :
       `/${rootPath}/${context.project}/${Object.values(props)[0]}`;
 
@@ -38,8 +38,8 @@ const Screen = () => {
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-          path = path !== '' ? path : data.configurationByPath.item.homePage._path;
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path, audience: audience.value })
+          path.current = path.current !== '' ? path.current : data.configurationByPath.item.homePage._path;
+          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path.current, audience: audience.value })
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
@@ -124,7 +124,6 @@ const Screen = () => {
 
 export const updateCss = () => {
   const cssVal = sessionStorage.getItem('css');
-  console.log(cssVal);
   if (cssVal) {
     cssVal.split(',').forEach((val) => {
       const [variable, value] = val.split(':');
