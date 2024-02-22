@@ -34,14 +34,6 @@ const Navigation = ({ className, config, screen }) => {
   const [logo, setLogo] = useState({});
   const handleError = useErrorHandler();
 
-  // let obj = {
-  //   pos1: { name: '', path: '#' },
-  //   pos2: { name: '', path: '#' },
-  //   pos3: { name: '', path: '#' },
-  //   pos4: { name: '', path: '#' },
-  //   pos5: { name: 'Settings', path: '/settings' },
-  // };
-
   useEffect(() => {
     const sdk = prepareRequest(context);
     setLogo(config.configurationByPath.item.siteLogo);
@@ -49,6 +41,7 @@ const Navigation = ({ className, config, screen }) => {
     sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].nav}`, { locale: 'en', project: `/content/dam/${context.project}` })
       .then((data) => {
         if (data) {
+          console.log(data);
           setNav(data);
           context.navigationResponse = data;
         }
@@ -57,16 +50,6 @@ const Navigation = ({ className, config, screen }) => {
         handleError(error);
       });
   }, [handleError, config, context]);
-
-  // nav && nav.data.screenList.items.forEach((item) => {
-  //   if (item._path.includes(context.project)) {
-  //     let name = '';
-  //     item._metadata.stringMetadata.forEach(meta => {
-  //       meta.name === 'title' && (name = meta.value);
-  //     });
-  //     obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path, config, context) };
-  //   }
-  // });
 
   function viewGQL() {
     document.querySelector('#flyout') && document.querySelector('#flyout').setAttribute('aria-expanded', true);

@@ -21,7 +21,7 @@ const Screen = () => {
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
   const [title, setTitle] = useState('');
-  const [audience, setAudience] = useState(JSON.parse(localStorage.getItem('audience')) || {value: 'master', label: 'Master'});
+  const [audience, setAudience] = useState(JSON.parse(localStorage.getItem('audience')) || { value: 'master', label: 'Master' });
   const props = useParams();
   let path = '';
 
@@ -77,6 +77,8 @@ const Screen = () => {
     'data-aue-label': 'Screen'
   };
 
+  updateCss();
+
   return (
     <React.Fragment>
       <Helmet>
@@ -118,6 +120,18 @@ const Screen = () => {
       </footer>
     </React.Fragment>
   );
+};
+
+export const updateCss = () => {
+  const cssVal = sessionStorage.getItem('css');
+  console.log(cssVal);
+  if (cssVal) {
+    cssVal.split(',').forEach((val) => {
+      const [variable, value] = val.split(':');
+      const root = document.querySelector(':root');
+      root.style.setProperty(variable, value);
+    });
+  }
 };
 
 Screen.propTypes = {

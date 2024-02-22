@@ -2,25 +2,15 @@ import PropTypes from 'prop-types';
 import AEMHeadless from '@adobe/aem-headless-client-js';
 export const rootPath = 'content/dam';
 
-// const store = {};
-// export const MagazineStore = (key, value) => {
-//   if (key && value)
-//     store[key] = value;
-//   else if (key)
-//     return store[key];
-
-//   return store;
-// };
-
 export const pqs = {
   'v1': {
     screen: 'gql-demo-screen-v2',
     config: 'gql-demo-configuration',
-    nav: 'gql-demo-navigation'
+    nav: 'gql-demo-navigation-v2'
   },
   'v2': {
     screen: 'gql-demo-screen-v3',
-    config: 'gql-demo-configuration',
+    config: 'gql-demo-configuration-v2',
     nav: 'gql-demo-navigation-v2'
   }
 };

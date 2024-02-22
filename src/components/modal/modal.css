@@ -1,28 +1,39 @@
 /* The Modal (background) */
 .modal {
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   top: 0;
   right: 0;
   width: 0;
   height: 100%;
-  padding-top: 100px;
+  padding-top: 27px;
+  opacity: .3;
+  transition: 200ms;
+}
+
+.modal .close {
+  position: absolute;
+  top:5px;
+  left: 5px;
 }
 
 .modal.active {
   background-color: #FF0000;
+  opacity: 1;
+  transform: translateX(0px);
+  transition: 1;
 }
 
 .modal.inactive {
   min-height:50px;
-  max-width: 85px;
+  max-width: 15px;
   background-color: rgb(0, 0, 0);
   /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal.inactive .modal-content {
-  /* display: none; */
+  display: none;
 }
 
 /* Modal Content/Box */
@@ -49,7 +60,7 @@
   outline: 0;
   font: 12px;
   width: auto;
-  padding: .5rem 4rem .5rem 1rem;
+  padding: .5rem 1rem .5rem 1rem;
   background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center / 1.4em,
     linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
   color: white;
@@ -64,6 +75,7 @@
     outline: none;
   }
   margin-bottom: 5px;
+  text-align: center;
 }
 
 /* .modal.inactive button, .modal.inactive select, .modal.inactive input {

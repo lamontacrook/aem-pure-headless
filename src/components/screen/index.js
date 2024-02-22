@@ -1,1 +1,1 @@
-export {default, ConfigurationGQL, ScreenGQL} from './screen';
+export {default, ConfigurationGQL, ScreenGQL, updateCss} from './screen';
