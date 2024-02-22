@@ -11,12 +11,6 @@
   transition: 200ms;
 }
 
-.modal .close {
-  position: absolute;
-  top:5px;
-  left: 5px;
-}
-
 .modal.active {
   background-color: #FF0000;
   opacity: 1;
@@ -78,6 +72,18 @@
   text-align: center;
 }
 
+.modal.active .close {
+  position: absolute;
+  top:5px;
+  left: -39px;
+  background: #FF0000;
+  box-shadow: none;
+}
+
+.modal.inactive .close {
+  display: none;
+}
+
 /* .modal.inactive button, .modal.inactive select, .modal.inactive input {
   background-color: transparent;
 } */
@@ -91,6 +97,11 @@
   display: flex;
   flex-direction: column;
   padding: 15px 3px;
+}
+
+.modal-content .form-element:nth-last-child(1) {
+  position: absolute;
+  bottom: 20px;
 }
 
 .modal-content label {

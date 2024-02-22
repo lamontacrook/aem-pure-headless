@@ -13,10 +13,8 @@ const Modal = ({ config }) => {
     cssList.forEach((css) => {
       if (css === item.label) repeat = true;
     });
-    console.log(repeat);
     if (!repeat) {
       setCSSList([...cssList, item.label]);
-      console.log(cssList);
     }
   };
 
@@ -75,7 +73,6 @@ const Modal = ({ config }) => {
     const arry = vars.map((item) => {
       return { value: item, label: item };
     });
-    console.log(arry);
     setCSSVariables(arry);
   };
 
@@ -96,7 +93,8 @@ const Modal = ({ config }) => {
   });
 
   const closePanel = (event) => {
-    document.querySelector('.modal.active').classList.replace('active', 'inactive');
+    const modal = document.querySelector('.modal.active');
+    if(modal) modal.classList.replace('active', 'inactive');
     event.preventDefault();
     return false;
   };
@@ -126,7 +124,8 @@ const Modal = ({ config }) => {
 
   const downLoadConfig = () => {
     const href = document.createElement('a');
-    const arry = JSON.stringify(sessionStorage.getItem('css').split(',').map(item => item));
+    let arry = JSON.stringify(sessionStorage.getItem('css'));
+    if(arry) arry = arry.split(',').map(item => item);
     const blob = new Blob([arry], { type: 'octet/stream' });
     const url = window.URL.createObjectURL(blob);
     href.href = url;
@@ -153,11 +152,10 @@ const Modal = ({ config }) => {
   };
 
   const animatedComponents = makeAnimated();
-  console.log(audience);
-  console.log(language);
+
   return (
     <div id="audience-selector" className="modal inactive" onMouseEnter={expand}>
-      <button className='close' onClick={closePanel}>Close</button>
+      <button className='close' onClick={closePanel}>X</button>
       <div className="modal-content">
         <div className='form-element'>
           <label htmlFor='audience'>Audience</label>
