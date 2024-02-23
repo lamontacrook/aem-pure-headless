@@ -21,7 +21,7 @@ const Screen = () => {
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
   const [title, setTitle] = useState('');
-  const [audience] = useState(JSON.parse(localStorage.getItem('audience')) || { value: 'master', label: 'Master' });
+  const [audience] = useState(localStorage.getItem('audience') ? JSON.parse(localStorage.getItem('audience')) : { value: 'master', label: 'Master' });
   const props = useParams();
   const path = useRef('');
 
