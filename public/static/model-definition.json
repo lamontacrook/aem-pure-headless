@@ -13,12 +13,6 @@
         "name": "description",
         "label": "Description",
         "valueType": "string"
-      },
-      {
-        "component": "text-input",
-        "name": "cta",
-        "label": "CTA",
-        "valueType": "string"
       }
     ]
   }

@@ -87,8 +87,8 @@ const Screen = () => {
       {data && data.screen && data.screen.body.header && config.configurationByPath &&
         <Header data={data} content={data.screen.body.header} config={config} className='screen' />
       }
-
-      <div className='main-body' {...editorProps} data-aue-resource={`urn:aemconnection:${path}/jcr:content/data/master`}>
+  
+      <div className='main-body' {...editorProps} data-aue-resource={`urn:aemconnection:${path.current}/jcr:content/data/master`}>
         {data && data.screen && data.screen.body.block.map((item) => {
           if (item && item.__typename) {
             return (
@@ -109,7 +109,7 @@ const Screen = () => {
               </div>);
           }
         })}
-        {config && config.configurationByPath && config.configurationByPath.item && (
+        {context.version === 'v2' && config && config.configurationByPath && config.configurationByPath.item && (
           <Modal config={config.configurationByPath.item} />
         )}
       </div>

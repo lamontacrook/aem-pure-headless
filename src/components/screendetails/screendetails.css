@@ -57,6 +57,7 @@
   color: white;
   text-shadow: .75px .75px #888;
   transition: opacity .8s ease;
+  overflow: scroll;
 }
 
 .main-body.screendetail .tab>.item>div {

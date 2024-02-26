@@ -38,7 +38,7 @@ const Navigation = ({ className, config, screen }) => {
     const sdk = prepareRequest(context);
     setLogo(config.configurationByPath.item.siteLogo);
 
-    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].nav}`, { locale: 'en', project: `/content/dam/${context.project}` })
+    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].nav}`, { locale: 'en' })
       .then((data) => {
         if (data) {
           setNav(data);
@@ -70,10 +70,28 @@ const Navigation = ({ className, config, screen }) => {
 
   const getScreenName = (item) => {
     const navName = item._metadata.stringMetadata.filter(meta => {
-      if(meta.name === 'title') return meta.value;
+      if (meta.name === 'title') return meta.value;
     });
     return navName[0].value;
   };
+
+  if (nav.data && nav.data.screenList && nav.data.screenList.items) {
+    console.log(nav.data.screenList.items);
+
+    nav.data.screenList.items = nav.data.screenList.items.filter((item) => {
+      if(item._path.includes(context.project)) {
+        console.log(item._path);
+        return true;
+      }
+      else return false;
+    });
+
+    nav.data.screenList.items = nav.data.screenList.items.sort((a, b) => {
+      if (a.positionInNavigation > b.positionInNavigation) return 1;
+      else if (b.positionInNavigation > a.positionInNavigation) return -1;
+    });
+    console.log(nav.data.screenList.items);
+  }
 
   return (
     <React.Fragment>

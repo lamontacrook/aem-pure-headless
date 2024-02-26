@@ -29,7 +29,6 @@ const App = () => {
     setWait(false);
 
   }, [context, handleError]);
-
   if (wait) {
     return (<ThreeDots
       height='120'

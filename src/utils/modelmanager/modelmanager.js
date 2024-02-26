@@ -12,6 +12,16 @@ export const componentMapping = {
 
 const ModelManager = ({ content, config }) => {
   const type = content.__typename.replace(/Model/g, '');
+
+  const editorProps2 = {
+    'data-aue-resource': `urn:aemconnection:${content._path}/jcr:content/data/master`,
+    'data-aue-type': 'reference',
+    'data-aue-label': `${type} (${content.style})`,
+    'data-aue-model': content?._model?._path
+  };
+  
+  console.log(editorProps2);
+
   const Component = componentMapping[type];
  
   if (typeof Component !== 'undefined')

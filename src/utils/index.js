@@ -6,7 +6,7 @@ export const pqs = {
   'v1': {
     screen: 'gql-demo-screen-v2',
     config: 'gql-demo-configuration',
-    nav: 'gql-demo-navigation-v2'
+    nav: 'gql-demo-navigation'
   },
   'v2': {
     screen: 'gql-demo-screen-v3',

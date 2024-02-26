@@ -12,14 +12,12 @@
                 "cf": {
                   "name": "teaser",
                   "cfModel": "/conf/aem-demo-assets/settings/dam/cfm/models/teaser",
-                  "cfFolder": "/content/dam/wknd-headless/site/en/",
+                  "cfFolder": "/content/dam/wknd-headless/site/en/home/components/",
                   "title": "Teaser",
                   "description": "Teaser Content Fragment",
                   "template": {
-                    "style": "featured",
                     "title": "The title",
-                    "text": "The text",
-                    "cta": "The CTA"
+                    "style": "hero"
                   }
                 }
               }

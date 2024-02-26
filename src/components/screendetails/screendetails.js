@@ -30,6 +30,7 @@ const Screendetails = () => {
 
   useEffect(() => {
     let path = Object.values(props).pop();
+    console.log(path);
 
     const findOverlap = (a, b) => {
       if (b.length === 0) return '';

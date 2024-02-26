@@ -7,6 +7,7 @@ import { updateCss } from '../screen';
 import './modal.css';
 
 const Modal = ({ config }) => {
+  console.log(config);
   const context = useContext(AppContext);
   const updateCSSList = (item) => {
     let repeat = false;
