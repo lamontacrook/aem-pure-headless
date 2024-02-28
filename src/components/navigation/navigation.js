@@ -76,11 +76,8 @@ const Navigation = ({ className, config, screen }) => {
   };
 
   if (nav.data && nav.data.screenList && nav.data.screenList.items) {
-    console.log(nav.data.screenList.items);
-
     nav.data.screenList.items = nav.data.screenList.items.filter((item) => {
       if(item._path.includes(context.project)) {
-        console.log(item._path);
         return true;
       }
       else return false;
@@ -90,7 +87,6 @@ const Navigation = ({ className, config, screen }) => {
       if (a.positionInNavigation > b.positionInNavigation) return 1;
       else if (b.positionInNavigation > a.positionInNavigation) return -1;
     });
-    console.log(nav.data.screenList.items);
   }
 
   return (

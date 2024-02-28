@@ -4,7 +4,7 @@ import { useErrorHandler } from 'react-error-boundary';
 import Header from '../header';
 import Footer from '../footer';
 import './screendetails.css';
-import { prepareRequest } from '../../utils';
+import { prepareRequest, pqs } from '../../utils';
 import PropTypes from 'prop-types';
 import { AppContext } from '../../utils/context';
 import { Helmet } from 'react-helmet-async';
@@ -26,11 +26,11 @@ const Screendetails = () => {
   const navigate = useNavigate();
 
   const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
+  
   const configPath = `/content/dam/${context.project}/site/configuration/configuration`;
 
   useEffect(() => {
     let path = Object.values(props).pop();
-    console.log(path);
 
     const findOverlap = (a, b) => {
       if (b.length === 0) return '';
@@ -41,7 +41,7 @@ const Screendetails = () => {
 
     const sdk = prepareRequest(context);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
+    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].config}`, { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
@@ -60,7 +60,7 @@ const Screendetails = () => {
             path = data.configurationByPath.item.adventuresHome + path.replace(ovlp, '');
           }
 
-          sdk.runPersistedQuery(`aem-demo-assets/gql-demo-adventure-${version}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
+          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].adventure}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
               if (data) {
                 let pretitle = data.adventureByPath.item.description.plaintext;

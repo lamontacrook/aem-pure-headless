@@ -6,19 +6,21 @@ export const pqs = {
   'v1': {
     screen: 'gql-demo-screen-v2',
     config: 'gql-demo-configuration',
-    nav: 'gql-demo-navigation'
+    nav: 'gql-demo-navigation',
+    adventure: 'gql-demo-adventure-v2'
   },
   'v2': {
     screen: 'gql-demo-screen-v3',
     config: 'gql-demo-configuration-v2',
-    nav: 'gql-demo-navigation-v2'
+    nav: 'gql-demo-navigation-v2',
+    adventure: 'gql-demo-adventure-v2'
   }
 };
 
 export const LinkManager = (path, config, context) => {
 
   if (!path) return '';
-
+  
   const pos = path.split('/');
   const pos3 = pos.pop();
   const pos2 = pos.pop();
