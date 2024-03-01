@@ -85,7 +85,7 @@ const Modal = ({ config }) => {
     return { value: lang, label: _langOptions[lang] };
   });
 
-  const audienceOptions = config.audienceConfiguration && config.audienceConfiguration.audiences.map((audience) => {
+  const audienceOptions = config.audienceConfiguration && config.audienceConfiguration.audiences && config.audienceConfiguration.audiences.map((audience) => {
     return { value: audience.toLowerCase().replaceAll(' ', '-'), label: audience };
   });
 
