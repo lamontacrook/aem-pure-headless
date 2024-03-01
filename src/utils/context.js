@@ -20,5 +20,7 @@ export const AppContext = createContext({
   brokenImage: BrokenImage,
   screenResponse: {},
   navigationResponse: {},
-  version: localStorage.version || defaultVersion
+  version: localStorage.version || defaultVersion,
+  lang: localStorage.lange ? JSON.parse(localStorage.lang) : {value:'en',label:'English'},
+  audience: localStorage.audience ? JSON.parse(localStorage.audience) : {}
 });

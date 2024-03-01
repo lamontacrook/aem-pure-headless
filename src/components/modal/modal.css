@@ -99,10 +99,10 @@
   padding: 15px 3px;
 }
 
-.modal-content .form-element:nth-last-child(1) {
+/* .modal-content .form-element:nth-last-child(1) {
   position: absolute;
   bottom: 20px;
-}
+} */
 
 .modal-content label {
   color: white;

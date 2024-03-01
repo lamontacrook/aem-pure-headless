@@ -37,8 +37,12 @@ const Navigation = ({ className, config, screen }) => {
   useEffect(() => {
     const sdk = prepareRequest(context);
     setLogo(config.configurationByPath.item.siteLogo);
+    const params = {
+      locale: context.lang?.value,
+      project: `/content/dam/${context.project}`
+    };
 
-    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].nav}`, { locale: 'en' })
+    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].nav}`, params)
       .then((data) => {
         if (data) {
           setNav(data);

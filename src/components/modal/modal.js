@@ -7,7 +7,6 @@ import { updateCss } from '../screen';
 import './modal.css';
 
 const Modal = ({ config }) => {
-  console.log(config);
   const context = useContext(AppContext);
   const updateCSSList = (item) => {
     let repeat = false;
@@ -18,7 +17,7 @@ const Modal = ({ config }) => {
       setCSSList([...cssList, item.label]);
     }
   };
-
+  const customize = false;
   const [language, setLanguage] = useState(JSON.parse(localStorage.getItem('lang')) || { value: 'en', label: 'English' });
   const [audience, setAudience] = useState(JSON.parse(localStorage.getItem('audience')));
   let [cssVariables, setCSSVariables] = useState([]);
@@ -29,7 +28,7 @@ const Modal = ({ config }) => {
   }, []);
 
   const updateAudience = (event) => {
-    if(event === null) {
+    if (event === null) {
       localStorage.removeItem('audience');
     } else {
       localStorage.setItem('audience', JSON.stringify(event));
@@ -78,24 +77,21 @@ const Modal = ({ config }) => {
   };
 
   const _langOptions = {
-    en: 'English'
+    en: 'English',
+    es: 'Español'
   };
 
-  const langOptions = [];
-
-  config?.languages.map((lang) => {
-    langOptions.push({ value: lang, label: _langOptions[lang] });
+  const langOptions = config.languages && config.languages.map((lang) => {
+    return { value: lang, label: _langOptions[lang] };
   });
 
-  const audienceOptions = [];
-
-  config?.audiences.map((audience) => {
-    audienceOptions.push({ value: audience.toLowerCase().replaceAll(' ', '-'), label: audience });
+  const audienceOptions = config.audienceConfiguration && config.audienceConfiguration.audiences.map((audience) => {
+    return { value: audience.toLowerCase().replaceAll(' ', '-'), label: audience };
   });
 
   const closePanel = (event) => {
     const modal = document.querySelector('.modal.active');
-    if(modal) modal.classList.replace('active', 'inactive');
+    if (modal) modal.classList.replace('active', 'inactive');
     event.preventDefault();
     return false;
   };
@@ -126,7 +122,7 @@ const Modal = ({ config }) => {
   const downLoadConfig = () => {
     const href = document.createElement('a');
     let arry = JSON.stringify(sessionStorage.getItem('css'));
-    if(arry) arry = arry.split(',').map(item => item);
+    if (arry) arry = arry.split(',').map(item => item);
     const blob = new Blob([arry], { type: 'octet/stream' });
     const url = window.URL.createObjectURL(blob);
     href.href = url;
@@ -177,24 +173,30 @@ const Modal = ({ config }) => {
             options={langOptions} />
           <label htmlFor='update'></label>
           <button value='update' id='update' onClick={() => updatePage()}>Update Page</button>
-          <label htmlFor='cssVars'>CSS Variables</label>
-          <Select id='cssVars'
-            name='css-vars'
-            onChange={updateCSSList}
-            options={cssVariables} />
         </div>
-        <div className='form-element'>
-          {cssList.map((item) => (
-            <React.Fragment key={item}>
-              <label key={`${item}-label`} htmlFor={item}>{item}</label>
-              <input key={`${item}-input`} id={item} name={item} onKeyUp={updateCSS} />
-            </React.Fragment>
-          ))}
-        </div>
-        <div className='form-element'>
-          <button onClick={downLoadConfig}>Save Configuration</button>
-          <input id='configuration' type='file' onChange={handleConfiguration} />
-        </div>
+        {customize && (
+          <React.Fragment>
+            <div className='form-element'>
+              <label htmlFor='cssVars'>CSS Variables</label>
+              <Select id='cssVars'
+                name='css-vars'
+                onChange={updateCSSList}
+                options={cssVariables} />
+            </div>
+            <div className='form-element'>
+              {cssList.map((item) => (
+                <React.Fragment key={item}>
+                  <label key={`${item}-label`} htmlFor={item}>{item}</label>
+                  <input key={`${item}-input`} id={item} name={item} onKeyUp={updateCSS} />
+                </React.Fragment>
+              ))}
+            </div>
+            <div className='form-element'>
+              <button onClick={downLoadConfig}>Save Configuration</button>
+              <input id='configuration' type='file' onChange={handleConfiguration} />
+            </div>
+          </React.Fragment>
+        )}
       </div>
     </div>
   );

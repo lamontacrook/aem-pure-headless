@@ -21,7 +21,7 @@ const Screen = () => {
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
   const [title, setTitle] = useState('');
-  const [audience] = useState(localStorage.getItem('audience') ? JSON.parse(localStorage.getItem('audience')) : { value: 'master', label: 'Master' });
+  // const [audience] = useState(localStorage.getItem('audience') ? JSON.parse(localStorage.getItem('audience')) : { value: 'master', label: 'Master' });
   const props = useParams();
   const path = useRef('');
 
@@ -39,7 +39,7 @@ const Screen = () => {
         if (data) {
           setConfiguration(data);
           path.current = path.current !== '' ? path.current : data.configurationByPath.item.homePage._path;
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path.current, audience: audience.value })
+          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path.current, audience: context.audience?.value })
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
@@ -66,7 +66,7 @@ const Screen = () => {
       });
 
 
-  }, [handleError, navigate, path, context, audience]);
+  }, [handleError, navigate, path, context]);
 
   let i = 0;
 
