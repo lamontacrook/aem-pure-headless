@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '@adobe/universal-editor-cors';
+// import * as serviceWorkerRegistration from './serviceWorkerRegistration.js';
+import { register as registerServiceWorker } from './serviceWorkerRegistration';
 
 window.Buffer = window.Buffer || require('buffer').Buffer; 
 
@@ -18,3 +20,4 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+registerServiceWorker();
