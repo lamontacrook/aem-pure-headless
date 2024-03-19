@@ -38,8 +38,13 @@ const Screen = () => {
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
+<<<<<<< HEAD
           path.current = path.current !== '' ? path.current : data.configurationByPath.item.homePage._path;
           sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path.current, audience: context.audience?.value })
+=======
+          path = path !== '' ? path : data.configurationByPath.item.homePage._path;
+          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path })
+>>>>>>> b39f6e8 (fix bug)
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
@@ -99,6 +104,20 @@ const Screen = () => {
                 className='block'
               >
 
+<<<<<<< HEAD
+=======
+      <div className='main-body' {...editorProps} data-aue-resource={`urn:aemconnection:${path}/jcr:content/data/master`}>
+        {data && data.screen && data.screen.body.block.map((item) => {
+          if (item && item.__typename) {
+            return (
+              <div
+                key={`${item.__typename
+                  .toLowerCase()
+                  .replace(' ', '-')}-block-${i}`}
+                className='block'
+              >
+
+>>>>>>> b39f6e8 (fix bug)
                 <Delayed waitBeforeShow={200}>
                   <ModelManager
                     key={`${item.__typename}-entity-${i++}`}
@@ -109,9 +128,12 @@ const Screen = () => {
               </div>);
           }
         })}
+<<<<<<< HEAD
         {context.version === 'v2' && config && config.configurationByPath && config.configurationByPath.item && (
           <Modal config={config.configurationByPath.item} />
         )}
+=======
+>>>>>>> b39f6e8 (fix bug)
       </div>
       <footer>
         {config && config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&

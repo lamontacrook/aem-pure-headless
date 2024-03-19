@@ -12,7 +12,7 @@
                 "cf": {
                   "name": "teaser",
                   "cfModel": "/conf/aem-demo-assets/settings/dam/cfm/models/teaser",
-                  "cfFolder": "/content/dam/wknd-headless/site/en/home/components/",
+                  "cfFolder": "/content/dam/wknd-headless/site/",
                   "title": "Teaser",
                   "description": "Teaser Content Fragment",
                   "template": {
