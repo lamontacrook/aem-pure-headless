@@ -34,6 +34,14 @@ const Navigation = ({ className, config, screen }) => {
   const [logo, setLogo] = useState({});
   const handleError = useErrorHandler();
 
+  let obj = {
+    pos1: { name: '', path: '#' },
+    pos2: { name: '', path: '#' },
+    pos3: { name: '', path: '#' },
+    pos4: { name: '', path: '#' },
+    pos5: { name: 'Settings', path: '/settings' },
+  };
+
   useEffect(() => {
     const sdk = prepareRequest(context);
     setLogo(config.configurationByPath.item.siteLogo);
@@ -42,7 +50,7 @@ const Navigation = ({ className, config, screen }) => {
       project: `/content/dam/${context.project}`
     };
 
-    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].nav}`, params)
+    sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en' })
       .then((data) => {
         if (data) {
           setNav(data);
@@ -53,6 +61,16 @@ const Navigation = ({ className, config, screen }) => {
         handleError(error);
       });
   }, [handleError, config, context]);
+
+  nav && nav.data.screenList.items.forEach((item) => {
+    if (item._path.includes(context.project)) {
+      let name = '';
+      item._metadata.stringMetadata.forEach(meta => {
+        meta.name === 'title' && (name = meta.value);
+      });
+      obj[item.positionInNavigation] = { name: name, path: LinkManager(item._path, config, context) };
+    }
+  });
 
   function viewGQL() {
     document.querySelector('#flyout') && document.querySelector('#flyout').setAttribute('aria-expanded', true);
@@ -71,27 +89,6 @@ const Navigation = ({ className, config, screen }) => {
     }
     prevScrollPos = currentScrollPos;
   };
-
-  const getScreenName = (item) => {
-    const navName = item._metadata.stringMetadata.filter(meta => {
-      if (meta.name === 'title') return meta.value;
-    });
-    return navName[0].value;
-  };
-
-  if (nav.data && nav.data.screenList && nav.data.screenList.items) {
-    nav.data.screenList.items = nav.data.screenList.items.filter((item) => {
-      if(item._path.includes(context.project)) {
-        return true;
-      }
-      else return false;
-    });
-
-    nav.data.screenList.items = nav.data.screenList.items.sort((a, b) => {
-      if (a.positionInNavigation > b.positionInNavigation) return 1;
-      else if (b.positionInNavigation > a.positionInNavigation) return -1;
-    });
-  }
 
   return (
     <React.Fragment>
