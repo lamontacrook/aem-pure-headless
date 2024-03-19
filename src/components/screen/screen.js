@@ -21,11 +21,7 @@ const Screen = () => {
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
   const [title, setTitle] = useState('');
-<<<<<<< HEAD
   // const [audience] = useState(localStorage.getItem('audience') ? JSON.parse(localStorage.getItem('audience')) : { value: 'master', label: 'Master' });
-=======
-  const audience = localStorage.getItem('audience') || 'master';
->>>>>>> dc9f80a (update package.json)
   const props = useParams();
   const path = useRef('');
 
@@ -42,8 +38,8 @@ const Screen = () => {
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-          path = path !== '' ? path : data.configurationByPath.item.homePage._path;
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path })
+          path.current = path.current !== '' ? path.current : data.configurationByPath.item.homePage._path;
+          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path.current, audience: context.audience?.value })
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
@@ -103,20 +99,6 @@ const Screen = () => {
                 className='block'
               >
 
-<<<<<<< HEAD
-=======
-      <div className='main-body' {...editorProps} data-aue-resource={`urn:aemconnection:${path}/jcr:content/data/master`}>
-        {data && data.screen && data.screen.body.block.map((item) => {
-          if (item && item.__typename) {
-            return (
-              <div
-                key={`${item.__typename
-                  .toLowerCase()
-                  .replace(' ', '-')}-block-${i}`}
-                className='block'
-              >
-
->>>>>>> b39f6e8 (fix bug)
                 <Delayed waitBeforeShow={200}>
                   <ModelManager
                     key={`${item.__typename}-entity-${i++}`}
@@ -127,12 +109,9 @@ const Screen = () => {
               </div>);
           }
         })}
-<<<<<<< HEAD
         {context.version === 'v2' && config && config.configurationByPath && config.configurationByPath.item && (
           <Modal config={config.configurationByPath.item} />
         )}
-=======
->>>>>>> b39f6e8 (fix bug)
       </div>
       <footer>
         {config && config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
