@@ -5,13 +5,14 @@ import endpointmd from './endpoint.md';
 import serviceURLmd from './serviceURL.md';
 import projectmd from './project.md';
 import authmd from './auth.md';
-import proxymd from './proxymd.md';
+import versionmd from './version.md';
 import intromd from './intro.md';
 import placeholdersExtensionURLmd from './placeholdersExtensionURL.md';
 import { useErrorHandler } from 'react-error-boundary';
 import PropTypes from 'prop-types';
 import { prepareRequest } from '../index';
 import { AppContext } from '../context';
+import { pqs } from '../../utils';
 
 const instructionsData = {
   'serviceURL': serviceURLmd,
@@ -21,7 +22,7 @@ const instructionsData = {
   'authenticate': 'My error message',
   'project': projectmd,
   'publish': projectmd,
-  'proxy': proxymd,
+  'version': versionmd,
   'placeholdersExtensionURL': placeholdersExtensionURLmd,
 };
 
@@ -35,6 +36,7 @@ const Settings = () => {
   const [serviceURL, setServiceURL] = useState(context.serviceURL);
   const [config, setConfig] = useState({});
   const [statusCode, setStatusCode] = useState('');
+  const [version, setVersion] = useState(context.version);
   const [placeholdersExtensionURL, setPlaceholdersExtensionURL] = useState(context.placeholdersExtensionURL);
   const configPath = `/content/dam/${project}/site/configuration/configuration`;
 
@@ -66,13 +68,14 @@ const Settings = () => {
     syncLocalStorage('serviceURL', serviceURL);
     syncLocalStorage('project', project);
     syncLocalStorage('endpoint', context.endpoint);
+    syncLocalStorage('version', version);
 
     context.serviceURL = serviceURL;
     context.project = project;
 
     const sdk = prepareRequest(context);
 
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
+    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].config}`, { path: configPath })
       .then(({ data }) => {
 
         if (data) {
@@ -171,6 +174,15 @@ const Settings = () => {
                   onSelect={(e) => setInstructions(instructionsData[e.target.name])}
                   value={drNumber}
                   onChange={(e) => setDRNumber(e.target.value)}></input>
+              </label>
+              <label>Version
+                <input className='version'
+                  type='text'
+                  placeholder=''
+                  name='version'
+                  onSelect={(e) => setInstructions(instructionsData[e.target.name])}
+                  value={version}
+                  onChange={(e) => setVersion(e.target.value)}></input>
               </label>
               <label>Placeholders Extension URL
                 <input className='placeholders-extension-url'
