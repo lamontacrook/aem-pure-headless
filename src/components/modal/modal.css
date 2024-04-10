@@ -19,7 +19,7 @@
 }
 
 .modal.inactive {
-  min-height:50px;
+  min-height: 50px;
   max-width: 15px;
   background-color: rgb(0, 0, 0);
   /* Fallback color */
@@ -48,7 +48,17 @@
   width: auto;
 }
 
-.modal button, .modal select {
+.modal-content input {
+  border-width: 1px;
+  border-color: light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+  border-image: initial;
+  border-radius: 5px;
+  border-style: solid;
+  height: 25px;
+}
+
+.modal button,
+.modal select {
   appearance: none;
   border: 0;
   outline: 0;
@@ -65,16 +75,18 @@
   &::-ms-expand {
     display: none;
   }
+
   &:focus {
     outline: none;
   }
+
   margin-bottom: 5px;
   text-align: center;
 }
 
 .modal.active .close {
   position: absolute;
-  top:5px;
+  top: 5px;
   left: -39px;
   background: #FF0000;
   box-shadow: none;
@@ -98,6 +110,29 @@
   flex-direction: column;
   padding: 15px 3px;
 }
+
+.modal-content .form-element:last-child {
+  position: absolute;
+  bottom: 30px
+}
+
+.modal-content .form-element:nth-last-child(2) {
+  z-index: 0;
+}
+
+.modal-content input[type=file] {
+  padding-top: 10px;
+  border: unset;
+}
+
+.modal-content input::file-selector-button {
+  font-weight: bold;
+  padding: 0.5em;
+  /* border: thin solid grey; */
+  border: unset;
+  background-color: #FF0000;
+}
+
 
 /* .modal-content .form-element:nth-last-child(1) {
   position: absolute;

@@ -17,7 +17,7 @@ const Modal = ({ config }) => {
       setCSSList([...cssList, item.label]);
     }
   };
-  const customize = false;
+  const customize = true;
   const [language, setLanguage] = useState(JSON.parse(localStorage.getItem('lang')) || { value: 'en', label: 'English' });
   const [audience, setAudience] = useState(JSON.parse(localStorage.getItem('audience')));
   let [cssVariables, setCSSVariables] = useState([]);
