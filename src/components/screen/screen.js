@@ -21,7 +21,6 @@ const Screen = () => {
   const [config, setConfiguration] = useState('');
   const [data, setData] = useState('');
   const [title, setTitle] = useState('');
-  // const [audience] = useState(localStorage.getItem('audience') ? JSON.parse(localStorage.getItem('audience')) : { value: 'master', label: 'Master' });
   const props = useParams();
   const path = useRef('');
 
@@ -70,15 +69,17 @@ const Screen = () => {
 
   let i = 0;
 
-  const editorProps = {
-    'data-aue-prop': 'block',
-    'data-aue-type': 'container',
-    'data-aue-filter': 'screen',
-    'data-aue-label': 'Screen'
-  };
-
   updateCss();
 
+  const editorProps = {
+    'data-aue-type': 'container',
+    'data-aue-behavior': 'container',
+    'data-aue-filter': 'screen',
+    'data-aue-label': title,
+    'data-aue-model': data?.screen?.body?._model._path,
+    'data-aue-prop': 'block',
+    'data-aue-resource': `urn:aemconnection:${data._path}/jcr:content/data/${data._variation}`
+  };
   return (
     <React.Fragment>
       <Helmet>
@@ -87,7 +88,7 @@ const Screen = () => {
       {data && data.screen && data.screen.body.header && config.configurationByPath &&
         <Header data={data} content={data.screen.body.header} config={config} className='screen' />
       }
-  
+
       <div className='main-body' {...editorProps} data-aue-resource={`urn:aemconnection:${path.current}/jcr:content/data/master`}>
         {data && data.screen && data.screen.body.block.map((item) => {
           if (item && item.__typename) {

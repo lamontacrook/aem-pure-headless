@@ -13,6 +13,18 @@
         "name": "description",
         "label": "Description",
         "valueType": "string"
+      },
+      {
+        "component": "text-input",
+        "name": "callToAction",
+        "label": "Call to Action",
+        "valueType": "string"
+      },
+      {
+        "component": "asset",
+        "name": "asset",
+        "label": "Asset",
+        "valueType": "asset"
       }
     ]
   }

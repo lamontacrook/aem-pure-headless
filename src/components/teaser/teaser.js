@@ -92,8 +92,9 @@ const Teaser = ({ content, config, component=true }) => {
   const editorProps = {
     'data-aue-resource': `urn:aemconnection:${content._path}/jcr:content/data/master`,
     'data-aue-type': 'reference',
-    'data-aue-label': `Teaser(${content.style})`,
-    'data-aue-model': 'content?._model?._path'
+    'data-aue-label': content?.title,
+    'data-aue-model': content?._model?._path,
+    'data-aue-behavior': 'component'
   };
 
   if(component) editorProps['data-aue-behavior'] = 'component';
