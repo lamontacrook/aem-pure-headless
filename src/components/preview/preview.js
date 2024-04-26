@@ -3,9 +3,10 @@ import ModelManager from '../../utils/modelmanager';
 import Header from '../header/header';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { prepareRequest } from '../../utils';
+import { prepareRequest, pqs } from '../../utils';
 import { useErrorHandler } from 'react-error-boundary';
 import { AppContext } from '../../utils/context';
+import Modal from '../modal';
 import './preview.css';
 
 const Preview = () => {
@@ -21,11 +22,12 @@ const Preview = () => {
   useEffect(() => {
     const configPath = `/content/dam/${context.project}/site/configuration/configuration`;
     const sdk = prepareRequest(context);
-    sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
+    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].config}`, { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-          sdk.runPersistedQuery(`aem-demo-assets/gql-demo-${modelType}`, { path: `/${path}` })
+          const params = { path: `/${path}`, variation: context.audience?.value };
+          sdk.runPersistedQuery(`aem-demo-assets/gql-demo-${modelType}`, params)
             .then(({ data }) => {
               if (data) {
                 setData(data);
@@ -67,6 +69,9 @@ const Preview = () => {
               config={config.configurationByPath.item}
             ></ModelManager>
           </div>
+        )}
+        {context.version === 'v2' && config && config.configurationByPath && config.configurationByPath.item && (
+          <Modal config={config.configurationByPath.item} />
         )}
 
       </div>

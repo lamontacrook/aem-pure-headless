@@ -6,7 +6,7 @@ import { AppContext } from '../context';
 const LinkManager = ({children, item, className}) => {
   const context = useContext(AppContext);
   
-  let path = item._path.replace(`/${context.rootPath}`, '');
+  let path = item._path ? item._path.replace(`/${context.rootPath}`, '') : '';
   let previous = '';
   const paths = path.split('/').map((item) => {
     if(item === 'article') return previous;
