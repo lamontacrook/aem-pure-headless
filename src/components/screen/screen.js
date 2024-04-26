@@ -39,7 +39,7 @@ const Screen = () => {
         if (data) {
           setConfiguration(data);
           path.current = path.current !== '' ? path.current : data.configurationByPath.item.homePage._path;
-          const params = { path: path.current, audience: context.audience?.value };
+          const params = { path: path.current, variation: context.audience?.value };
 
           if(context.serviceURL.includes('author')) params['ts'] = new Date().getTime();
           sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, params)
@@ -71,8 +71,6 @@ const Screen = () => {
 
   }, [handleError, navigate, path, context]);
 
-  let i = 0;
-
   updateCss();
 
   return (
@@ -93,9 +91,10 @@ const Screen = () => {
                   <div key={i} className='block'>
                     <Delayed waitBeforeShow={200}>
                       <ModelManager
-                        key={`${item.__typename}-entity-${i++}`}
+                        key={`${item.__typename}-entity-${i}`}
                         content={item}
                         config={config.configurationByPath.item}
+                        references={data.screen._references}
                       ></ModelManager>
                     </Delayed>
                   </div>

@@ -115,9 +115,9 @@ const ImageList = ({ content, config }) => {
         <i className='arrow left' onClick={e => scrollLeft(e, 300)}></i>
         <div className='list' id='list-container-body' onScroll={e => containerChange(e)}>
           {content && content.listItems.map((item, i) => {
-            if (item['__typename'] === 'AdventureModel') return <AdventureCard key={i} item={item} config={config} />;
-            else if (item['__typename'] === 'MagazineArticleModel') return <ArticleCard key={i} item={item} config={config} />;
-            else if (item['__typename'] === 'AuthorModel') return <AuthorCard key={i} item={item} />;
+            if (item['__typename'] === 'AdventureModel') return <AdventureCard key={i} item={item} style={content.style} config={config} />;
+            else if (item['__typename'] === 'MagazineArticleModel') return <ArticleCard key={i} style={content.style} item={item} config={config} />;
+            else if (item['__typename'] === 'AuthorModel') return <AuthorCard key={i} style={content.style} item={item} />;
           })}
         </div>
         <i className='arrow right' onClick={e => scrollRight(e, 300)}></i>
@@ -132,76 +132,14 @@ ImageList.propTypes = {
   context: PropTypes.object
 };
 
-const Card = ({ item }) => {
+const Card = ({ item, style }) => {
   const [image, setImage] = useState('');
 
   const title = item._metadata.stringMetadata.filter((metadata) => {
     if (metadata.name === 'title')
       return metadata.value;
   });
-  // console.log(item.reference);
-  // useEffect(() => {
-  //   const walk = [':items', 'root', ':items', 'container', ':items'];
-  //   function makeRequest() {
-  //     const url = context.serviceURL.includes('publish') ? item.reference._publishUrl.replace('.html', '.model.json') : item.reference._authorUrl.replace('.html', '.model.json');
-
-  //     pageRef(url, context, walk).then((json) => {
-
-  //       const profession = json[Object.keys(json).find((elem) => {
-  //         if (elem.startsWith('title_')) {
-  //           json[elem].props = {
-  //             'data-aue-resource': `urn:aemconnection:${item.reference._path}/jcr:content/root/container/${elem}`,
-  //             'data-aue-prop': 'jcr:title',
-  //             'data-aue-type': 'text'
-  //           };
-  //           return json[elem];
-  //         }
-  //       })];
-
-  //       json.title.props = {
-  //         'data-aue-resource': `urn:aemconnection:${item.reference._path}/jcr:content/root/container/${json?.title?.id}`,
-  //         'data-aue-prop': 'jcr:title',
-  //         'data-aue-type': 'text'
-  //       };
-
-  //       // setTitle(json.title);
-
-  //       const image = json?.image || json.contentfragment[':items'].par1[':items'].image || json.contentfragment[':items'].par2[':items'].image;
-  //       if (image && image.src) {
-  //         image.srcset = image.srcset.split(',').map((item) => {
-  //           return item = `${context.serviceURL}${item.substring(1)}`;
-  //         });
-  //         if (image.srcset[0].endsWith('300w')) {
-  //           image.src = image.srcset[0].split(' ')[0];
-  //         } else
-  //           image.src = `${context.serviceURL}${image.src.substring(1)}`;
-  //         image.srcset = image.srcset.join(',');
-  //       } else {
-  //         image.src = context.brokenImage;
-  //       }
-
-  //       setImage(image);
-
-
-
-  // setAuthors((item) => {
-  //   return [...item, {
-  //     kind: __typename,
-  //     style: content.style,
-  //     profession: profession,
-  //     title: title,
-  //     image: image,
-  //     path: _path,
-  //     type: 'xf'
-  //   }];
-  // })
-  // }
-
-  //     }).catch((error) => handleError(error));
-  //   }
-  //   makeRequest();
-  // }, [context, handleError, item]);
-
+  
   const itemProps = {
     'data-aue-resource': `urn:aemconnection:${item.path}/jcr:content/root/container`,
     'data-aue-type': 'container',
@@ -220,25 +158,16 @@ const Card = ({ item }) => {
           sizes={sizes(imageSizes)} />
       </picture>
 
-      {/* <Link key={item.path} to={LinkManager(item.path, config, context)} name={title || item.name}>
-        <span className='title' {...item.title.props}>{title || item.name}</span>
-        {item.style === 'image-grid' && (
-          <div className='details'>
-            <ul>
-              <li {...item.profession?.props}>{item.profession?.text}</li>
-            </ul>
-          </div>
-        )}
-      </Link> */}
     </div>
   );
 };
 
 Card.propTypes = {
-  item: PropTypes.object
+  item: PropTypes.object,
+  style: PropTypes.string
 };
 
-const ArticleCard = ({ item }) => {
+const ArticleCard = ({ item, style }) => {
   const editorProps = {
     'data-aue-resource': `urn:aemconnection:${item.path}/jcr:content/data/master`,
     'data-aue-type': 'component',
@@ -269,18 +198,20 @@ const ArticleCard = ({ item }) => {
 
 ArticleCard.propTypes = {
   item: PropTypes.object,
+  style: PropTypes.string
 };
 
-const AdventureCard = ({ item }) => {
+const AdventureCard = ({ item, style }) => {
   const editorProps = {
-    'data-aue-resource': `urn:aemconnection:${item.path}/jcr:content/data/master`,
+    'data-aue-resource': `urn:aemconnection:${item._path}/jcr:content/data/master`,
     'data-aue-type': 'component',
     'data-aue-label': `${item.title} Adventure`,
     'data-aue-behavior': 'component',
-    'data-aue-model': item.model
+    'data-aue-model': item.model,
+    'data-aue-prop':'listItems'
   };
 
-  if (item.style === 'image-grid') {
+  if (style === 'image-grid') {
     width = 350;
     height = 320;
   }
@@ -289,13 +220,13 @@ const AdventureCard = ({ item }) => {
     <div className='list-item' key={item.title} {...editorProps}>
       <Image asset={item.primaryImage} itemProp='primaryImage' imageSizes={cardImageSizes} />
       <LinkManager item={item}>
-        <span className='title' itemProp='title' itemType='text'>{item.title || item.name}</span>
-        {item.style === 'image-grid' && (
+        <span className='title' data-aue-prop='title' data-aue-label='Title' data-aue-type='text'>{item.title || item.name}</span>
+        {style === 'image-grid' && (
           <div className='details'>
             <ul>
-              <li itemProp='activityType' itemType='text'>{item.activityType}</li>
-              <li itemProp='activityLength' itemType='text'>{item.activity}</li>
-              <li itemProp='tripLength' itemType='text'>{item.tripLength}</li>
+              <li data-aue-prop='activityType' data-aue-label='Activity Type' data-aue-type='text'>{item.activityType}</li>
+              <li data-aue-prop='activityLength' data-aue-label='Activity Length' data-aue-type='text'>{item.activity}</li>
+              <li data-aue-prop='tripLength' data-aue-label='Trip Length' data-aue-type='text'>{item.tripLength}</li>
             </ul>
           </div>
         )}
@@ -306,6 +237,7 @@ const AdventureCard = ({ item }) => {
 
 AdventureCard.propTypes = {
   item: PropTypes.object,
+  style: PropTypes.string
 };
 
 const AuthorCard = ({ item }) => {

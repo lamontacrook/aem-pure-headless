@@ -79,7 +79,6 @@ export const componentDefinition = (context) => {
 };
 
 export const editorProps = (content, title, prop, type, behavior) => {
-  console.log(content);
   const props = {
     'data-aue-type': type,
     'data-aue-behavior': behavior,

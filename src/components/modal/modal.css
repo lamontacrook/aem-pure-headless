@@ -3,7 +3,7 @@
   position: fixed;
   z-index: 10;
   top: 0;
-  right: 0;
+  left: 0;
   width: 0;
   height: 100%;
   padding-top: 27px;
@@ -87,7 +87,7 @@
 .modal.active .close {
   position: absolute;
   top: 5px;
-  left: -39px;
+  right: -39px;
   background: #FF0000;
   box-shadow: none;
 }

@@ -88,7 +88,7 @@ const Settings = () => {
         handleError(error);
       });
 
-    const url = '/content/experience-fragments/wknd-site/language-masters/en/site/footer/master.content.html?wcmmode=disabled';
+    const url = `/content/experience-fragments/${context.project}/en/site/footer/master.model.json`;
 
 
     const headers = new Headers({
@@ -166,7 +166,7 @@ const Settings = () => {
                   value={project}
                   onChange={(e) => setProject(e.target.value)}></input>
               </label>
-              <label>DR#
+              {/* <label>DR#
                 <input className='dr-number'
                   type='text'
                   placeholder=''
@@ -174,7 +174,7 @@ const Settings = () => {
                   onSelect={(e) => setInstructions(instructionsData[e.target.name])}
                   value={drNumber}
                   onChange={(e) => setDRNumber(e.target.value)}></input>
-              </label>
+              </label> */}
               <label>Version
                 <input className='version'
                   type='text'
@@ -210,29 +210,6 @@ const Settings = () => {
               <div className='instructions'>
                 <p>You are loggedin.  You can now navigate to the app <a href='/aem-pure-headless'>here</a>.</p>
                 <p>You can configuration the configuration fragment <a href={serviceURL + 'editor.html' + configPath} target='_blank' rel='noreferrer'>here</a>.</p>
-                {statusCode === 404 && (
-                  <React.Fragment>
-                    <p>The out of the box configuration depends on a the wknd site Experience Fragments with the name wknd-site.
-                      This can be overriden with the wknd path configuration path, but all content fragments with references to the
-                      Experiense Fragments should be updated.
-                    </p>
-                    <strong>Screens</strong>
-                    <ul className='pagerefs'>
-                      {screenListArray.map(e => (
-                        <li key={e}><a href={serviceURL + 'editor.html' + e} target='_blank' rel='noreferrer'>{e}</a></li>
-                      ))}
-                    </ul>
-
-                    <strong>ImageLists</strong>
-                    <ul className='pagerefs'>
-                      {imageListArray.map(e => (
-                        <li key={e}><a href={serviceURL + 'editor.html' + e} target='_blank' rel='noreferrer'>{e}</a></li>
-                      ))}
-                    </ul>
-
-                    <p>In addition to these, you will need to update the configuration fragment linked <a href={serviceURL + 'editor.html' + configPath} target='_blank' rel='noreferrer'>here</a>.</p>
-                  </React.Fragment>
-                )}
               </div>
             )}
           </div>
