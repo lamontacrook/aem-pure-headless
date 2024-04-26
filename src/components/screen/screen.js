@@ -3,7 +3,7 @@ import ModelManager from '../../utils/modelmanager';
 import Footer from '../footer';
 import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { prepareRequest, rootPath, pqs } from '../../utils';
+import { prepareRequest, pqs } from '../../utils';
 import Header from '../header';
 import { useErrorHandler } from 'react-error-boundary';
 import './screen.css';
@@ -11,6 +11,7 @@ import { AppContext } from '../../utils/context';
 import { Helmet } from 'react-helmet-async';
 import Delayed from '../../utils/delayed';
 import Modal from '../modal';
+import { editorProps } from '../../utils/ue-definitions';
 
 let configPath = '';
 const Screen = () => {
@@ -25,9 +26,9 @@ const Screen = () => {
   const path = useRef('');
 
   if (Object.values(props).length && Object.values(props)[0] !== '')
-    path.current = (Object.values(props)[0].includes(rootPath)) ?
+    path.current = (Object.values(props)[0].includes(context.rootPath)) ?
       `/${Object.values(props)[0]}` :
-      `/${rootPath}/${context.project}/${Object.values(props)[0]}`;
+      `/${context.rootPath}/${context.project}/${Object.values(props)[0]}`;
 
   configPath = `/content/dam/${context.project}/site/configuration/configuration`;
 
@@ -38,7 +39,10 @@ const Screen = () => {
         if (data) {
           setConfiguration(data);
           path.current = path.current !== '' ? path.current : data.configurationByPath.item.homePage._path;
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, { path: path.current, audience: context.audience?.value })
+          const params = { path: path.current, audience: context.audience?.value };
+
+          if(context.serviceURL.includes('author')) params['ts'] = new Date().getTime();
+          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, params)
             .then(({ data }) => {
               if (data) {
                 data.screen.body._metadata.stringMetadata.map((metadata) => {
@@ -46,9 +50,9 @@ const Screen = () => {
                     setTitle(metadata.value);
                 });
 
-                if (Array.isArray(data.screen.body)) {
-                  data.screen.body = data.screen.body[0];
-                }
+                // if (Array.isArray(data.screen.body)) {
+                //   data.screen.body = data.screen.body[0];
+                // }
                 setData(data);
                 context.screenResponse = data;
               }
@@ -71,49 +75,38 @@ const Screen = () => {
 
   updateCss();
 
-  const editorProps = {
-    'data-aue-type': 'container',
-    'data-aue-behavior': 'container',
-    'data-aue-filter': 'screen',
-    'data-aue-label': title,
-    'data-aue-model': data?.screen?.body?._model._path,
-    'data-aue-prop': 'block',
-    'data-aue-resource': `urn:aemconnection:${data._path}/jcr:content/data/${data._variation}`
-  };
   return (
     <React.Fragment>
       <Helmet>
         <title>WKND: {title}</title>
       </Helmet>
-      {data && data.screen && data.screen.body.header && config.configurationByPath &&
-        <Header data={data} content={data.screen.body.header} config={config} className='screen' />
-      }
-
-      <div className='main-body' {...editorProps} data-aue-resource={`urn:aemconnection:${path.current}/jcr:content/data/master`}>
-        {data && data.screen && data.screen.body.block.map((item) => {
-          if (item && item.__typename) {
-            return (
-              <div
-                key={`${item.__typename
-                  .toLowerCase()
-                  .replace(' ', '-')}-block-${i}`}
-                className='block'
-              >
-
-                <Delayed waitBeforeShow={200}>
-                  <ModelManager
-                    key={`${item.__typename}-entity-${i++}`}
-                    content={item}
-                    config={config.configurationByPath.item}
-                  ></ModelManager>
-                </Delayed>
-              </div>);
+      {data && data.screen &&
+        <div className='screen' {...editorProps(data.screen.body, `${title} Screen`, '', 'reference')} >
+          {data.screen.body.header && config.configurationByPath &&
+            <Header data={data} content={data.screen.body.header} config={config} className='screen' />
           }
-        })}
-        {context.version === 'v2' && config && config.configurationByPath && config.configurationByPath.item && (
-          <Modal config={config.configurationByPath.item} />
-        )}
-      </div>
+
+          <div className='main-body' {...editorProps(data.screen.body, 'Screen Components', 'block', 'container', 'container')}>
+            {data.screen.body.block.map((item, i) => {
+              if (item && item?._model?.title) {
+                return (
+                  <div key={i} className='block'>
+                    <Delayed waitBeforeShow={200}>
+                      <ModelManager
+                        key={`${item.__typename}-entity-${i++}`}
+                        content={item}
+                        config={config.configurationByPath.item}
+                      ></ModelManager>
+                    </Delayed>
+                  </div>
+                );
+              }
+            })}
+            {context.version === 'v2' && config && config.configurationByPath && config.configurationByPath.item && (
+              <Modal config={config.configurationByPath.item} />
+            )}
+          </div>
+        </div>}
       <footer>
         {config && config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
           <Delayed waitBeforeShow={1200}><Footer config={config.configurationByPath.item.footerExperienceFragment} /></Delayed>

@@ -1,13 +1,13 @@
 import React from 'react';
 import Teaser from '../../components/teaser';
 import ImageList from '../../components/imagelist';
-import PageRef from '../../components/pageref';
+import MagazineArticle from '../../components/magazine-article';
 import PropTypes from 'prop-types';
 
 export const componentMapping = {
   Teaser,
   ImageList,
-  PageRef
+  MagazineArticle
 };
 
 const ModelManager = ({ content, config }) => {
@@ -20,11 +20,8 @@ const ModelManager = ({ content, config }) => {
 };
 
 ModelManager.propTypes = {
-  type: PropTypes.string,
   content: PropTypes.object,
-  references: PropTypes.string,
   config: PropTypes.object,
-  context: PropTypes.object
 };
 
 export default ModelManager;

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import Navigation from '../navigation';
 import ModelManager from '../../utils/modelmanager';
 import Image from '../image';
+import { editorProps } from '../../utils/ue-definitions';
 import Delayed from '../../utils/delayed';
 
 import './header.css';
@@ -86,17 +87,14 @@ const Header = ({ content, config, className }) => {
 
   return (
     <React.Fragment>
-      <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} role='banner'>
+      <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} 
+        {...editorProps(content, 'Header', 'header', 'container', 'contaner')} role='banner'>
         {content && (
           <Delayed><Navigation className={content.navigationColor} config={config} screen={content} /></Delayed>
         )}
 
         {content.teaser &&
           <ModelManager
-            component={false}
-            key={`${content.teaser.__typename
-              .toLowerCase()
-              .replace(' ', '-')}-entity-header`}
             content={content.teaser}
             config={config.configurationByPath.item}
           ></ModelManager>}

@@ -83,8 +83,19 @@ const App = () => {
                 ><Screen /></ErrorBoundary>
 
               } />
+              <Route exact={false} path={`/${context.project}/*`} element={
 
-              <Route exact={true} path={'/aem-pure-headless/*'} element={
+                <ErrorBoundary
+                  FallbackComponent={Error}
+                  onReset={() => {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                  }}
+                ><Screen /></ErrorBoundary>
+
+              } />
+
+              <Route exact={true} path={`/aem-pure-headless/${context.project}/*`} element={
 
                 <ErrorBoundary
                   FallbackComponent={Error}
@@ -95,7 +106,7 @@ const App = () => {
                 ><Screen /></ErrorBoundary>
 
               } />
-              <Route exact={true} path={`/${context.project}/*`} element={
+              <Route exact={true} path={'/aem-demo-assets/*'} element={
                 <ErrorBoundary
                   FallbackComponent={Error}
                   onReset={() => {

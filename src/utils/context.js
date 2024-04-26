@@ -22,5 +22,7 @@ export const AppContext = createContext({
   navigationResponse: {},
   version: localStorage.version || defaultVersion,
   lang: localStorage.lange ? JSON.parse(localStorage.lang) : {value:'en',label:'English'},
-  audience: localStorage.audience ? JSON.parse(localStorage.audience) : {}
+  audience: localStorage.audience ? JSON.parse(localStorage.audience) : {},
+  rootPath: localStorage.rootPath || 'content/dam'
+
 });

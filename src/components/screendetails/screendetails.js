@@ -23,6 +23,7 @@ const Screendetails = () => {
   const [adventure, setAdventure] = useState('');
 
   const props = useParams();
+
   const navigate = useNavigate();
 
   const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
@@ -33,6 +34,8 @@ const Screendetails = () => {
     let path = Object.values(props).pop();
 
     const findOverlap = (a, b) => {
+      console.log(a);
+      console.log(b);
       if (b.length === 0) return '';
       if (a.endsWith(b)) return b;
       if (a.indexOf(b) > 0) return b;
@@ -55,12 +58,9 @@ const Screendetails = () => {
               items[key]({ backgroundImage: 'url("' + `${data.configurationByPath.item[key]._authorUrl}/jcr:content/renditions/${data.configurationByPath.item.renditionsConfiguration[900]}` + '")' });
           });
 
-          if (data && data.configurationByPath) {
-            let ovlp = findOverlap(data.configurationByPath.item.adventuresHome, path);
-            path = data.configurationByPath.item.adventuresHome + path.replace(ovlp, '');
-          }
+          path = context.rootPath + '/aem-demo-assets/' + path;
 
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].adventure}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
+          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].adventure}`, { path: path !== '' ? '/' + path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
               if (data) {
                 let pretitle = data.adventureByPath.item.description.plaintext;

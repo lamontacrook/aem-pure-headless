@@ -77,3 +77,18 @@ export const componentDefinition = (context) => {
     ]
   };
 };
+
+export const editorProps = (content, title, prop, type, behavior) => {
+  console.log(content);
+  const props = {
+    'data-aue-type': type,
+    'data-aue-behavior': behavior,
+    'data-aue-filter': 'screen',
+    'data-aue-label': title,
+  };
+  if(content._model && content._model._path) props['data-aue-model'] = content._model._path;
+  if(content._path) props['data-aue-resource'] = `urn:aemconnection:${content?._path}/jcr:content/data/${content?._variation}`;
+  if(behavior) props['data-aue-behavior'] = behavior;
+  if(prop) props['data-aue-prop'] = prop;
+  return props;
+};

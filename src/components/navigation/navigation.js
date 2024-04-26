@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-
-import './navigation.css';
 import { Link } from 'react-router-dom';
-import { LinkManager, prepareRequest, pqs } from '../../utils';
+import { prepareRequest, pqs } from '../../utils';
+import LinkManager from '../../utils/link-manager';
 import PropTypes from 'prop-types';
 import { useErrorHandler } from 'react-error-boundary';
 import Flyout from '../../utils/flyout';
 import { AppContext } from '../../utils/context';
 import Image from '../image/image';
+import './navigation.css';
 
 export const NavigationGQL = `query ScreenList($locale: String!) {
   screenList(
@@ -109,7 +109,9 @@ const Navigation = ({ className, config, screen }) => {
         <div className='nav-sections'>
           <ul>
             {nav && nav.data && nav.data.screenList && nav.data.screenList.items.map((item) => (
-              <li key={item._path}><Link to={LinkManager(item._path, config, context)} className={`navItem ${className}`} name={getScreenName(item)}>{getScreenName(item)}</Link></li>
+              <li key={item._path}>
+                <LinkManager className={`navItem ${className}`} item={item}>{getScreenName(item)}</LinkManager>
+              </li>
             ))}
             <li><Link to={'/settings'} className={`navItem ${className}`} name={'Settings'}>{'Settings'}</Link></li>
           </ul>
