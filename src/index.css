@@ -268,6 +268,7 @@ div[role=status] {
   --body-font-family: adobe-clean, arial, sans-serif;
   --body-title-font-family: var(--body-font-family);
   --nav-height: 59px;
+  --nav-logo-width: 108px;
 }
 
 .blue-box {

@@ -30,7 +30,7 @@ header nav .nav-brand p {
 }
 
 header nav .nav-brand img {
-  width: 108px;
+  width: var(--nav-logo-width);
   height: auto;
   padding-top: 8px;;
 }
