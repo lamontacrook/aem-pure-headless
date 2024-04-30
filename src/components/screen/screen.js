@@ -41,7 +41,7 @@ const Screen = () => {
           path.current = path.current !== '' ? path.current : data.configurationByPath.item.homePage._path;
           const params = { path: path.current, variation: context.audience?.value };
 
-          if(context.serviceURL.includes('author')) params['ts'] = new Date().getTime();
+          if (context.serviceURL.includes('author')) params['ts'] = new Date().getTime();
           sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, params)
             .then(({ data }) => {
               if (data) {
@@ -83,6 +83,12 @@ const Screen = () => {
           {data.screen.body.header && config.configurationByPath &&
             <Header data={data} content={data.screen.body.header} config={config} className='screen' />
           }
+
+          {/* {!data.screen.body.header && config.configurationByPath &&
+            <header className={'home-hero screen'}
+              {...editorProps(data.screen.body, 'Header', 'header', 'container', 'container', 'header')} role='banner'>
+            </header>
+          } */}
 
           <div className='main-body' {...editorProps(data.screen.body, 'Screen Components', 'block', 'container', 'container')}>
             {data.screen.body.block.map((item, i) => {

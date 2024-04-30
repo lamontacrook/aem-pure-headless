@@ -60,7 +60,7 @@ export const componentDefinition = (context) => {
                 'cf': {
                   'name': 'teaser',
                   'cfModel': '/conf/aem-demo-assets/settings/dam/cfm/models/teaser',
-                  'cfFolder': `/content/dam/${context.project}/site/`,
+                  'cfFolder': `/content/dam/${context.project}/site/shared/`,
                   'title': 'Teaser',
                   'description': 'Teaser Content Fragment',
                   'template': {
@@ -71,6 +71,21 @@ export const componentDefinition = (context) => {
                 }
               }
             }
+          },
+          {
+            'title': 'Image List',
+            'id': 'image-list',
+            'plugins': {
+              'aem': {
+                'cf': {
+                  'name': 'image-list',
+                  'cfModel': '/conf/aem-demo-assets/settings/dam/cfm/models/image-list',
+                  'cfFolder': `/content/dam/${context.project}/site/shared/`,
+                  'title': 'Image List',
+                  'description': 'Image List Content Fragment',
+                }
+              }
+            }
           }
         ]
       }
@@ -78,11 +93,11 @@ export const componentDefinition = (context) => {
   };
 };
 
-export const editorProps = (content, title, prop, type, behavior) => {
+export const editorProps = (content, title, prop, type, behavior, filter='screen') => {
   const props = {
     'data-aue-type': type,
     'data-aue-behavior': behavior,
-    'data-aue-filter': 'screen',
+    'data-aue-filter': filter,
     'data-aue-label': title,
   };
   if(content._model && content._model._path) props['data-aue-model'] = content._model._path;

@@ -105,12 +105,13 @@ const ImageList = ({ content, config }) => {
     'data-aue-type': 'container',
     'data-aue-label': title.join(''),
     'data-aue-behavior': 'component',
-    'data-aue-model': content?._model?._path
+    'data-aue-model': content?._model?._path,
+    'data-aue-filter': 'image-list'
   };
 
   return (
     <React.Fragment>
-      <section className={`${content.style} list-container`} {...editorProps} itemScope>
+      <section className={`${content.style} list-container`} {...editorProps}>
         {title && <h4>{title.join('')}</h4>}
         <i className='arrow left' onClick={e => scrollLeft(e, 300)}></i>
         <div className='list' id='list-container-body' onScroll={e => containerChange(e)}>

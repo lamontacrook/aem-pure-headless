@@ -88,7 +88,7 @@ const Header = ({ content, config, className }) => {
   return (
     <React.Fragment>
       <header className={`home-${content.teaser ? 'hero' : 'article'} ${className}`} 
-        {...editorProps(content, 'Header', 'header', 'container', 'contaner')} role='banner'>
+        {...editorProps(content, 'Header', 'header', 'container', 'container')} role='banner'>
         {content && (
           <Delayed><Navigation className={content.navigationColor} config={config} screen={content} /></Delayed>
         )}

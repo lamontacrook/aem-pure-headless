@@ -47,7 +47,7 @@ const App = () => {
         <div className='App'>
           <Helmet>
             <meta name='urn:adobe:aue:system:aemconnection' content={`aem:${aemUrl}`} />
-            <script type='application/vnd.adobe.aue.filter+jso'>{JSON.stringify(filterDefinition(context))}</script>
+            <script type='application/vnd.adobe.aue.filter+json'>{JSON.stringify(filterDefinition(context))}</script>
             <script type='application/vnd.adobe.aue.component+json'>{JSON.stringify(componentDefinition(context))}</script>
             <script type='application/vnd.adobe.aue.model+json'>{JSON.stringify(modelDefinition(context))}</script>
           </Helmet>
