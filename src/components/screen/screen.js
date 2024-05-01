@@ -38,8 +38,9 @@ const Screen = () => {
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
+
           path.current = path.current !== '' ? path.current : data.configurationByPath.item.homePage._path;
-          const params = { path: path.current, variation: context.audience?.value };
+          const params = { path: path.current, variation: context.audience?.value,  };
 
           if (context.serviceURL.includes('author')) params['ts'] = new Date().getTime();
           sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, params)

@@ -41,6 +41,17 @@ export const modelDefinition = () => {
           'valueType': 'asset'
         }
       ]
+    },
+    {
+      'id': 'image-list',
+      'fields': [
+        {
+          'component': 'text-input',
+          'name': 'style',
+          'label': 'Style',
+          'valueType': 'enumeration'
+        }
+      ]
     }
   ];
 };
@@ -83,6 +94,9 @@ export const componentDefinition = (context) => {
                   'cfFolder': `/content/dam/${context.project}/site/shared/`,
                   'title': 'Image List',
                   'description': 'Image List Content Fragment',
+                  'template': {
+                    'style': 'slider-list'
+                  }
                 }
               }
             }

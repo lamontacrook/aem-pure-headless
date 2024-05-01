@@ -1,10 +1,8 @@
 
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Video from '../video';
 import Image from '../image';
-import { Link } from 'react-router-dom';
-import { AppContext } from '../../utils/context';
 import { TextWithPlaceholders } from '../../utils/placeholders';
 import LinkManager from '../../utils/link-manager';
 import './teaser.css';
@@ -67,8 +65,7 @@ const imageSizesHero = [
   }
 ];
 
-const Teaser = ({ content, config }) => {
-  const context = useContext(AppContext);
+const Teaser = ({ content }) => {
   let inFrame = false;
   if (window.location !== window.parent.location) {
     inFrame = true;
@@ -90,7 +87,7 @@ const Teaser = ({ content, config }) => {
 
 
   const editorProps = {
-    'data-aue-resource': `urn:aemconnection:${content._path}/jcr:content/data/master`,
+    'data-aue-resource': `urn:aemconnection:${content._path}/jcr:content/data/${content?._variation}`,
     'data-aue-type': 'reference',
     'data-aue-label': content?.title,
     'data-aue-model': content?._model?._path,
@@ -128,8 +125,6 @@ const Teaser = ({ content, config }) => {
 
             {content.callToAction && content.callToActionLink && content.style === 'featured' && (
               <LinkManager item={content} className='button'>{content.callToAction}</LinkManager>
-              // <Link to={LinkManager(content.callToActionLink._path, config, context)}
-              //   data-aue-type='reference' data-aue-prop='callToActionLink' data-aue-label='Call to Action' className='button'>{content.callToAction}</Link>
             )}
           </div>
         </div>

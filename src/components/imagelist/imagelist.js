@@ -217,9 +217,16 @@ const AdventureCard = ({ item, style }) => {
     height = 320;
   }
 
+  const imageProps = {
+    'data-aue-prop': 'primaryImage',
+    'data-aue-type': 'media',
+    'data-aue-label': 'Asset',
+    'data-aue-behavior': 'component'
+  };
+  
   return (
     <div className='list-item' key={item.title} {...editorProps}>
-      <Image asset={item.primaryImage} itemProp='primaryImage' imageSizes={cardImageSizes} />
+      <Image asset={item.primaryImage} imageProps={imageProps} imageSizes={cardImageSizes} />
       <LinkManager item={item}>
         <span className='title' data-aue-prop='title' data-aue-label='Title' data-aue-type='text'>{item.title || item.name}</span>
         {style === 'image-grid' && (

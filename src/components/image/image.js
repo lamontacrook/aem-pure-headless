@@ -13,7 +13,12 @@ import { AppContext } from '../../utils/context';
 import './image.css';
 import { srcSet, sizes } from '../../utils/responsive-image';
 
-const Image = ({ asset, imageProps = '', imageSizes }) => {
+const Image = ({ asset, imageProps = {
+  'data-aue-prop': 'asset',
+  'data-aue-type': 'media',
+  'data-aue-label': 'Asset',
+  'data-aue-behavior': 'component'
+}, imageSizes }) => {
   const context = useContext(AppContext);
 
   const imageUrl = () => {
@@ -37,7 +42,14 @@ const Image = ({ asset, imageProps = '', imageSizes }) => {
 
   return (
     <picture>
-      <img loading='lazy' alt={asset.description} title={asset.title} src={src} width={asset.width} height={asset.height} srcSet={srcSet(src, imageSizes)} sizes={sizes(imageSizes)} {...imageProps} />
+      <img loading='lazy'
+        alt={asset.description}
+        title={asset.title}
+        src={src}
+        width={asset.width}
+        height={asset.height}
+        srcSet={srcSet(src, imageSizes)}
+        sizes={sizes(imageSizes)} {...imageProps} />
     </picture>
   );
 };

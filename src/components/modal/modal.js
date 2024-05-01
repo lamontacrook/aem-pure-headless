@@ -18,7 +18,7 @@ const Modal = ({ config }) => {
     }
   };
   const customize = true;
-  const [language, setLanguage] = useState(JSON.parse(localStorage.getItem('lang')) || { value: 'en', label: 'English' });
+  const [language, setLanguage] = useState(JSON.parse(localStorage.getItem('lang')) || {value: 'en', label: 'English'});
   const [audience, setAudience] = useState(JSON.parse(localStorage.getItem('audience')));
   let [cssVariables, setCSSVariables] = useState([]);
   const [cssList, setCSSList] = useState([]);
@@ -37,8 +37,12 @@ const Modal = ({ config }) => {
   };
 
   const updateLanguage = (event) => {
-    localStorage.setItem('lang', JSON.stringify(event));
-    setLanguage(event);
+    if (event === null) {
+      localStorage.removeItem('lang');
+    } else {
+      localStorage.setItem('lang', JSON.stringify(event));
+      setLanguage(event);
+    }
   };
 
   const updatePage = () => {
@@ -151,13 +155,13 @@ const Modal = ({ config }) => {
   const animatedComponents = makeAnimated();
 
   return (
-    <div id="audience-selector" className="modal inactive" onMouseEnter={expand}>
+    <div id='audience-selector' className='modal inactive' onMouseEnter={expand}>
       <button className='close' onClick={closePanel}>X</button>
-      <div className="modal-content">
+      <div className='modal-content'>
         <div className='form-element'>
           <label htmlFor='audience'>Audience</label>
-          <Select id="audience"
-            name="audience"
+          <Select id='audience'
+            name='audience'
             defaultValue={audience}
             isClearable={true}
             onChange={updateAudience}
@@ -165,11 +169,11 @@ const Modal = ({ config }) => {
             options={audienceOptions} />
           <label htmlFor='lang'>Language</label>
           <Select id='lang'
-            name='language'
+            name='lang'
             onChange={updateLanguage}
             defaultValue={language}
             isClearable={false}
-            formatGroupLabel={'Languages'}
+            components={animatedComponents}
             options={langOptions} />
           <label htmlFor='update'></label>
           <button value='update' id='update' onClick={() => updatePage()}>Update Page</button>

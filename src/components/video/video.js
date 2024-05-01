@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { AppContext } from '../../utils/context';
 import { srcSet, sizes } from '../../utils/responsive-image';
 
-const Video = ({ content }) => {
+const Video = ({ content, videoProps = {
+  'data-aue-prop': 'asset',
+  'data-aue-type': 'media',
+  'data-aue-label': 'Asset'
+}}) => {
   const context = useContext(AppContext);
   const [display, setDisplay] = useState('image');
 
@@ -33,13 +37,13 @@ const Video = ({ content }) => {
     return (
       <>
         {renderImagePlaceholder(posterSrc, context)}
-        {renderVideo(videoSrc, posterSrc)}
+        {renderVideo(videoSrc, posterSrc, videoProps)}
       </>
     );
   }
 };
 
-function renderVideo(videoSrc, posterSrc) {
+function renderVideo(videoSrc, posterSrc, videoProps) {
   return (<video
     className='video'
     autoPlay
@@ -47,7 +51,8 @@ function renderVideo(videoSrc, posterSrc) {
     muted
     loop
     src={videoSrc}
-    poster={posterSrc} itemProp="asset" itemType="media" />);
+    poster={posterSrc} 
+    {...videoProps} />);
 }
 
 function renderImagePlaceholder(posterSrc, context) {
@@ -78,7 +83,8 @@ function renderImagePlaceholder(posterSrc, context) {
 
 Video.propTypes = {
   content: PropTypes.object,
-  context: PropTypes.object
+  context: PropTypes.object,
+  videoProps: PropTypes.object
 };
 
 export default Video;
