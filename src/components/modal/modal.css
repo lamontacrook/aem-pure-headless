@@ -107,7 +107,6 @@
 
 .modal-content .form-element:first-child {
   margin-bottom: 30px;
-  background-color: blue;
   z-index: 5;
 }
 
@@ -118,7 +117,6 @@
 
 .modal-content .form-element:nth-last-child(2) {
   z-index: 0;
-  background-color: aqua;
 }
 
 .modal-content input[type=file] {
