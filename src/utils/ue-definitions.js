@@ -6,7 +6,7 @@ export const filterDefinition = () => {
     },
     {
       'id': 'image-list',
-      'components': ['adventure', 'article']
+      'components': [ 'article']
     }
   ];
 };
@@ -49,7 +49,18 @@ export const modelDefinition = () => {
           'component': 'text-input',
           'name': 'style',
           'label': 'Style',
-          'valueType': 'enumeration'
+          'valueType': 'string'
+        }
+      ]
+    },
+    {
+      'id': 'article',
+      'fields': [
+        {
+          'component': 'text-input',
+          'name': 'title',
+          'label': 'Title',
+          'valueType': 'string'
         }
       ]
     }
@@ -71,7 +82,7 @@ export const componentDefinition = (context) => {
                 'cf': {
                   'name': 'teaser',
                   'cfModel': '/conf/aem-demo-assets/settings/dam/cfm/models/teaser',
-                  'cfFolder': `/content/dam/${context.project}/site/shared/`,
+                  'cfFolder': `/content/dam/${context.project}/site/en/shared/`,
                   'title': 'Teaser',
                   'description': 'Teaser Content Fragment',
                   'template': {
@@ -91,11 +102,29 @@ export const componentDefinition = (context) => {
                 'cf': {
                   'name': 'image-list',
                   'cfModel': '/conf/aem-demo-assets/settings/dam/cfm/models/image-list',
-                  'cfFolder': `/content/dam/${context.project}/site/shared/`,
+                  'cfFolder': `/content/dam/${context.project}/site/en/shared/`,
                   'title': 'Image List',
                   'description': 'Image List Content Fragment',
                   'template': {
                     'style': 'slider-list'
+                  }
+                }
+              }
+            }
+          },
+          {
+            'title': 'Magazine Article',
+            'id': 'article',
+            'plugins': {
+              'aem': {
+                'cf': {
+                  'name': 'article',
+                  'cfModel': '/conf/aem-demo-assets/settings/dam/cfm/models/magazine-article',
+                  'cfFolder': `/content/dam/${context.project}/site/en/shared/`,
+                  'title': 'Article',
+                  'description': 'Magazine Article Content Fragment',
+                  'template': {
+                    'title': 'Magazine Article'
                   }
                 }
               }
@@ -107,6 +136,16 @@ export const componentDefinition = (context) => {
   };
 };
 
+/**
+ * 
+ * @param {*} content 
+ * @param {*} title 
+ * @param {*} prop 
+ * @param {*} type 
+ * @param {*} behavior 
+ * @param {*} filter 
+ * @returns 
+ */
 export const editorProps = (content, title, prop, type, behavior, filter='screen') => {
   const props = {
     'data-aue-type': type,

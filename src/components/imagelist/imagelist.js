@@ -12,6 +12,7 @@ import LinkManager from '../../utils/link-manager';
 import Image from '../image';
 import './imagelist.css';
 import { sizes } from '../../utils/responsive-image';
+import { editorProps } from '../../utils/ue-definitions';
 
 export const ImageListGQL = `
 ...on ImageListModel {
@@ -100,21 +101,22 @@ const ImageList = ({ content, config }) => {
       e.target.previousElementSibling.style.display = 'unset';
   };
 
-  const editorProps = {
+  const listProps = {
     'data-aue-resource': `urn:aemconnection:${content._path}/jcr:content/data/${content._variation}`,
     'data-aue-type': 'container',
     'data-aue-label': title.join(''),
     'data-aue-behavior': 'component',
     'data-aue-model': content?._model?._path,
-    'data-aue-filter': 'image-list'
+    'data-aue-filter': 'image-list',
+    'data-aue-prop': 'listItems'
   };
 
   return (
     <React.Fragment>
-      <section className={`${content.style} list-container`} {...editorProps}>
+      <section className={`${content.style} list-container`} {...listProps}>
         {title && <h4>{title.join('')}</h4>}
         <i className='arrow left' onClick={e => scrollLeft(e, 300)}></i>
-        <div className='list' id='list-container-body' onScroll={e => containerChange(e)}>
+        <div className='list' id='list-container-body' onScroll={e => containerChange(e)} >
           {content && content.listItems.map((item, i) => {
             if (item['__typename'] === 'AdventureModel') return <AdventureCard key={i} item={item} style={content.style} config={config} />;
             else if (item['__typename'] === 'MagazineArticleModel') return <ArticleCard key={i} style={content.style} item={item} config={config} />;
@@ -133,44 +135,47 @@ ImageList.propTypes = {
   context: PropTypes.object
 };
 
-const Card = ({ item, style }) => {
-  const [image, setImage] = useState('');
+// const Card = ({ item, style }) => {
+//   const [image, setImage] = useState('');
 
-  const title = item._metadata.stringMetadata.filter((metadata) => {
-    if (metadata.name === 'title')
-      return metadata.value;
-  });
-  
-  const itemProps = {
-    'data-aue-resource': `urn:aemconnection:${item.path}/jcr:content/root/container`,
-    'data-aue-type': 'container',
-    'data-aue-label': title,
-    'data-aue-behavior': 'component',
-  };
+//   const title = item._metadata.stringMetadata.filter((metadata) => {
+//     if (metadata.name === 'title')
+//       return metadata.value;
+//   });
+//   console.log(item);
+//   const itemProps = {
+//     'data-aue-resource': `urn:aemconnection:${item._path}/jcr:content/data/${item?._variation}`,
+//     'data-aue-type': 'container',
+//     'data-aue-label': title,
+//     'data-aue-behavior': 'component',
+//     'data-aue-prop':'listItems',
+//     'data-aue-model': item?._model?._path,
+//   };
 
-  return (
-    <div className='list-item' key={title} {...itemProps}>
-      <picture>
-        <img src={image?.src} loading='lazy'
-          alt={image?.alt || 'list image'}
-          srcSet={image?.srcset}
-          width="500"
-          height="333"
-          sizes={sizes(imageSizes)} />
-      </picture>
+//   return (
+//     <div className='list-item' key={title} {...itemProps}>
+//       <picture>
+//         <img src={image?.src} loading='lazy'
+//           alt={image?.alt || 'list image'}
+//           srcSet={image?.srcset}
+//           width="500"
+//           height="333"
+//           sizes={sizes(imageSizes)} />
+//       </picture>
 
-    </div>
-  );
-};
+//     </div>
+//   );
+// };
 
-Card.propTypes = {
-  item: PropTypes.object,
-  style: PropTypes.string
-};
+// Card.propTypes = {
+//   item: PropTypes.object,
+//   style: PropTypes.string
+// };
 
 const ArticleCard = ({ item, style }) => {
+  console.log(item);
   const editorProps = {
-    'data-aue-resource': `urn:aemconnection:${item.path}/jcr:content/data/master`,
+    'data-aue-resource': `urn:aemconnection:${item._path}/jcr:content/data/master`,
     'data-aue-type': 'component',
     'data-aue-label': `${item.title} Adventure`,
     'data-aue-behavior': 'component',
@@ -223,7 +228,7 @@ const AdventureCard = ({ item, style }) => {
     'data-aue-label': 'Asset',
     'data-aue-behavior': 'component'
   };
-  
+
   return (
     <div className='list-item' key={item.title} {...editorProps}>
       <Image asset={item.primaryImage} imageProps={imageProps} imageSizes={cardImageSizes} />
