@@ -23,10 +23,9 @@ const Image = ({ asset, imageProps = {
 
   const imageUrl = () => {
     if (Object.keys(asset).includes('_dynamicUrl')) {
-      const url = context.serviceURL === context.defaultServiceURL || context.serviceURL.includes('publish-') ? context.serviceURL.replace('author', 'publish') : context.serviceURL;
-      return url.replace(/\/$/, '') + asset._dynamicUrl;
+      return context.serviceURL.replace(/\/$/, '') + asset._dynamicUrl;
     } else {
-      return asset._authorUrl;
+      return context.serviceURL.replace(/\/$/, '') + asset._path;
     }
   };
 

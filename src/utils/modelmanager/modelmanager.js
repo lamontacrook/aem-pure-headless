@@ -11,7 +11,7 @@ export const componentMapping = {
 };
 
 const ModelManager = ({ content, config, references }) => {
-  const type = content.__typename.replace(/Model/g, '');
+  const type = content.__typename.replace(/V2Model/g, '');
   const Component = componentMapping[type];
  
   if (typeof Component !== 'undefined')

@@ -11,12 +11,8 @@ const Video = ({ content, videoProps = {
   const context = useContext(AppContext);
   const [display, setDisplay] = useState('image');
 
-
-  const defaultConfig = context.defaultServiceURL === context.serviceURL || context.serviceURL.includes('publish-');
-
-  const posterSrc = (defaultConfig ? content._publishUrl : content._authorUrl);
-  const videoSrc = defaultConfig ? content._publishUrl : content._authorUrl;
-
+  const posterSrc = context.serviceURL.replace(/\/$/, '') + content._path;
+  const videoSrc = context.serviceURL.replace(/\/$/, '') + content._path; 
 
   useEffect(() => {
     if (!document.querySelector(`head link[rel="preload"][href="${videoSrc}"]`)) {

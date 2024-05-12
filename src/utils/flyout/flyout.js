@@ -31,9 +31,6 @@ const Flyout = ({ show, config, screen }) => {
         });
       }
       components[title] = e._path;
-
-      // setBlocks(components);
-
     });
 
   }, [screen, config, context]);

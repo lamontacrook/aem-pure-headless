@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import LinkManager from '../../utils/link-manager';
 import Image from '../image';
 import './imagelist.css';
+import { mapJsonRichText } from '../../utils/renderRichText';
 import { sizes } from '../../utils/responsive-image';
 import { editorProps } from '../../utils/ue-definitions';
 
@@ -60,11 +61,6 @@ let height = 360;
 const ImageList = ({ content, config }) => {
   const [position, setPosition] = useState(0);
 
-  const title = content._metadata.stringMetadata.map(item => {
-    if (item.name === 'title') return item.value;
-    else return '';
-  });
-
   const scrollLeft = (e, num) => {
     const element = e.target.nextElementSibling;
     element.scrollTo({
@@ -104,7 +100,7 @@ const ImageList = ({ content, config }) => {
   const listProps = {
     'data-aue-resource': `urn:aemconnection:${content._path}/jcr:content/data/${content._variation}`,
     'data-aue-type': 'container',
-    'data-aue-label': title.join(''),
+    'data-aue-label': content.headline.plaintext,
     'data-aue-behavior': 'component',
     'data-aue-model': content?._model?._path,
     'data-aue-filter': 'image-list',
@@ -114,7 +110,8 @@ const ImageList = ({ content, config }) => {
   return (
     <React.Fragment>
       <section className={`${content.style} list-container`} {...listProps}>
-        {title && <h4>{title.join('')}</h4>}
+        {mapJsonRichText(content.headline.json)}
+        {/* {title && <h4>{title.join('')}</h4>} */}
         <i className='arrow left' onClick={e => scrollLeft(e, 300)}></i>
         <div className='list' id='list-container-body' onScroll={e => containerChange(e)} >
           {content && content.listItems.map((item, i) => {

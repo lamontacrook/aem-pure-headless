@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { prepareRequest, pqs } from '../../utils';
+import { prepareRequest } from '../../utils';
 import LinkManager from '../../utils/link-manager';
 import PropTypes from 'prop-types';
 import { useErrorHandler } from 'react-error-boundary';
@@ -35,23 +35,27 @@ const Navigation = ({ className, config, screen }) => {
   const handleError = useErrorHandler();
 
   useEffect(() => {
-    const sdk = prepareRequest(context);
-    setLogo(config.configurationByPath.item.siteLogo);
-    const params = {
-      locale: context.lang?.value,
-      project: `/content/dam/${context.project}`
-    };
+    function fetchNav() {
+      const sdk = prepareRequest(context);
+      setLogo(config.configurationByPath.item.siteLogo);
+      const params = {
+        locale: context.lang?.value,
+        project: `/content/dam/${context.project}`
+      };
 
-    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].nav}`, params)
-      .then((data) => {
-        if (data) {
-          setNav(data);
-          context.navigationResponse = data;
-        }
-      })
-      .catch((error) => {
-        handleError(error);
-      });
+      sdk.runPersistedQuery(`aem-demo-assets/${context.pqs.nav}`, params)
+        .then((data) => {
+          if (data) {
+            setNav(data);
+            context.navigationResponse = data;
+          }
+        })
+        .catch((error) => {
+          handleError(error);
+        });
+    }
+
+    if(Object.keys(context.navigationResponse).length === 0) fetchNav();
   }, [handleError, config, context]);
 
   function viewGQL() {
@@ -72,27 +76,6 @@ const Navigation = ({ className, config, screen }) => {
     prevScrollPos = currentScrollPos;
   };
 
-  const getScreenName = (item) => {
-    const navName = item._metadata.stringMetadata.filter(meta => {
-      if (meta.name === 'title') return meta.value;
-    });
-    return navName[0].value;
-  };
-
-  if (nav.data && nav.data.screenList && nav.data.screenList.items) {
-    nav.data.screenList.items = nav.data.screenList.items.filter((item) => {
-      if(item._path.includes(context.project)) {
-        return true;
-      }
-      else return false;
-    });
-
-    nav.data.screenList.items = nav.data.screenList.items.sort((a, b) => {
-      if (a.positionInNavigation > b.positionInNavigation) return 1;
-      else if (b.positionInNavigation > a.positionInNavigation) return -1;
-    });
-  }
-
   return (
     <React.Fragment>
       <nav id="navbar" aria-expanded={expanded}>
@@ -108,9 +91,9 @@ const Navigation = ({ className, config, screen }) => {
         </div>
         <div className='nav-sections'>
           <ul>
-            {nav && nav.data && nav.data.screenList && nav.data.screenList.items.map((item) => (
-              <li key={item._path}>
-                <LinkManager className={`navItem ${className}`} item={item}>{getScreenName(item)}</LinkManager>
+            {nav && nav.data?.screenV2List?.items.map((item, i) => (
+              <li key={i}>
+                <LinkManager className={`navItem ${className}`} item={item}>{item.screenTitle}</LinkManager>
               </li>
             ))}
             <li><Link to={'/settings'} className={`navItem ${className}`} name={'Settings'}>{'Settings'}</Link></li>

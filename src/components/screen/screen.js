@@ -3,7 +3,7 @@ import ModelManager from '../../utils/modelmanager';
 import Footer from '../footer';
 import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { prepareRequest, pqs } from '../../utils';
+import { prepareRequest } from '../../utils';
 import Header from '../header';
 import { useErrorHandler } from 'react-error-boundary';
 import './screen.css';
@@ -30,11 +30,11 @@ const Screen = () => {
       `/${Object.values(props)[0]}` :
       `/${context.rootPath}/${context.project}/${Object.values(props)[0]}`;
 
-  configPath = `/content/dam/${context.project}/site/configuration/configuration`;
+  configPath = `/content/dam/${context.project}/site/configuration/configuration-v2`;
 
   useEffect(() => {
     const sdk = prepareRequest(context);
-    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].config}`, { path: configPath })
+    sdk.runPersistedQuery(`aem-demo-assets/${context.pqs.config}`, { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
@@ -43,17 +43,13 @@ const Screen = () => {
           const params = { path: path.current, variation: context.audience?.value,  };
 
           if (context.serviceURL.includes('author')) params['ts'] = new Date().getTime();
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].screen}`, params)
+          sdk.runPersistedQuery(`aem-demo-assets/${context.pqs.screen}`, params)
             .then(({ data }) => {
               if (data) {
-                data.screen.body._metadata.stringMetadata.map((metadata) => {
-                  if (metadata.name === 'title')
-                    setTitle(metadata.value);
-                });
-
-                // if (Array.isArray(data.screen.body)) {
-                //   data.screen.body = data.screen.body[0];
-                // }
+                if (Array.isArray(data.screen.body)) {
+                  data.screen.body = data.screen.body[0];
+                }
+                setTitle(data.screen.body.screenTitle);
                 setData(data);
                 context.screenResponse = data;
               }
@@ -84,13 +80,6 @@ const Screen = () => {
           {data.screen.body.header && config.configurationByPath &&
             <Header data={data} content={data.screen.body.header} config={config} className='screen' />
           }
-
-          {/* {!data.screen.body.header && config.configurationByPath &&
-            <header className={'home-hero screen'}
-              {...editorProps(data.screen.body, 'Header', 'header', 'container', 'container', 'header')} role='banner'>
-            </header>
-          } */}
-
           <div className='main-body' {...editorProps(data.screen.body, 'Screen Components', 'block', 'container', 'container')}>
             {data.screen.body.block.map((item, i) => {
               if (item && item?._model?.title) {
@@ -108,7 +97,7 @@ const Screen = () => {
                 );
               }
             })}
-            {context.version === 'v2' && config && config.configurationByPath && config.configurationByPath.item && (
+            {config && config.configurationByPath && config.configurationByPath.item && (
               <Modal config={config.configurationByPath.item} />
             )}
           </div>
