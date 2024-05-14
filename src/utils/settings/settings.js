@@ -67,7 +67,7 @@ const Settings = () => {
       .catch((error) => {
         handleError(error);
       });
-å
+
     const headers = new Headers({
       'Content-Type': 'text/html',
     });
