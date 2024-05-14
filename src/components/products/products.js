@@ -4,46 +4,9 @@ import { mapJsonRichText } from '../../utils/renderRichText';
 import { AppContext } from '../../utils/context';
 import './products.css';
 
-// const imageSizes = [
-//   {
-//     imageWidth: '1600px',
-//     renditionName: 'web-optimized-xlarge.webp',
-//   },
-//   {
-//     imageWidth: '1200px',
-//     renditionName: 'web-optimized-xlarge.webp',
-//   },
-//   {
-//     imageWidth: '1000px',
-//     renditionName: 'web-optimized-large.webp',
-//   },
-//   {
-//     imageWidth: '800px',
-//     renditionName: 'web-optimized-large.webp',
-//   },
-//   {
-//     imageWidth: '600px',
-//     renditionName: 'web-optimized-medium.webp',
-//   },
-//   {
-//     imageWidth: '412px',
-//     renditionName: 'web-optimized-small.webp',
-//   },
-//   {
-//     size: '100vw',
-//   }
-// ];
-
 const Products = ({ content, editorProps }) => {
   const context = useContext(AppContext);
   const [products, setProducts] = useState(null);
-
-  // const imageProps = {
-  //   'data-aue-prop': 'asset',
-  //   'data-aue-type': 'media',
-  //   'data-aue-label': 'Asset'
-  // };
-
   const {commerceSheet} = context.config.configurationByPath.item;
 
   useEffect(() => {
