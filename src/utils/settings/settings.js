@@ -71,25 +71,6 @@ const Settings = () => {
     const headers = new Headers({
       'Content-Type': 'text/html',
     });
-
-    const req = new Request(serviceURL + url, {
-      method: 'get',
-      headers: headers,
-      credentials: 'include',
-    });
-
-
-    fetch(req)
-      .then((response) => {
-        if (response) {
-          setStatusCode(response.status);
-          console.log(statusCode);
-        }
-      })
-      .catch(() => {
-        setStatusCode(404);
-      });
-
   };
 
   useEffect(() => {
