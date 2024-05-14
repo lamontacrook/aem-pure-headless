@@ -12,8 +12,6 @@ import LinkManager from '../../utils/link-manager';
 import Image from '../image';
 import './imagelist.css';
 import { mapJsonRichText } from '../../utils/renderRichText';
-import { sizes } from '../../utils/responsive-image';
-import { editorProps } from '../../utils/ue-definitions';
 
 export const ImageListGQL = `
 ...on ImageListModel {
@@ -34,18 +32,18 @@ export const ImageListGQL = `
   }
 }`;
 
-const imageSizes = [
-  {
-    imageWidth: '500px',
-    renditionName: 'web-optimized-large.webp',
-    size: '(min-width: 1000px) 500px',
-  },
-  {
-    imageWidth: '331px',
-    renditionName: 'web-optimized-medium.webp',
-    size: '331px'
-  }
-];
+// const imageSizes = [
+//   {
+//     imageWidth: '500px',
+//     renditionName: 'web-optimized-large.webp',
+//     size: '(min-width: 1000px) 500px',
+//   },
+//   {
+//     imageWidth: '331px',
+//     renditionName: 'web-optimized-medium.webp',
+//     size: '331px'
+//   }
+// ];
 
 const cardImageSizes = [
   {
@@ -54,9 +52,6 @@ const cardImageSizes = [
     size: '350px'
   }
 ];
-
-let width = 500;
-let height = 360;
 
 const ImageList = ({ content, config }) => {
   const [position, setPosition] = useState(0);
@@ -169,29 +164,32 @@ ImageList.propTypes = {
 //   style: PropTypes.string
 // };
 
-const ArticleCard = ({ item, style }) => {
+const ArticleCard = ({ item }) => {
   console.log(item);
   const editorProps = {
     'data-aue-resource': `urn:aemconnection:${item._path}/jcr:content/data/master`,
     'data-aue-type': 'component',
-    'data-aue-label': `${item.title} Adventure`,
+    'data-aue-label': `${item.headline.plaintext} Adventure`,
     'data-aue-behavior': 'component',
     'data-aue-model': item.model
   };
 
-  if (item.style === 'image-grid') {
-    width = 350;
-    height = 320;
-  }
+  // let width = 500;
+  // let height = 360;
+
+  // if (item.style === 'image-grid') {
+  //   width = 350;
+  //   height = 320;
+  // }
 
   return (<div className='list-item' key={item.title} {...editorProps}>
     <Image asset={item.primaryImage} itemProp='primaryImage' imageSizes={cardImageSizes} />
     <LinkManager item={item}>
-      <span className='title' itemProp='title' itemType='text'>{item.title || item.name}</span>
+      <span className='title' itemProp='title' itemType='text'>{item.headline.plaintext}</span>
       {item.style === 'image-grid' && (
         <div className='details'>
           <ul>
-            <li itemProp='articleTitle' itemType='text'>{item.title}</li>
+            <li itemProp='articleTitle' itemType='text'>{item.headline.plaintext}</li>
           </ul>
         </div>
       )}
@@ -214,10 +212,13 @@ const AdventureCard = ({ item, style }) => {
     'data-aue-prop':'listItems'
   };
 
-  if (style === 'image-grid') {
-    width = 350;
-    height = 320;
-  }
+  // let width = 500;
+  // let height = 360;
+
+  // if (style === 'image-grid') {
+  //   width = 350;
+  //   height = 320;
+  // }
 
   const imageProps = {
     'data-aue-prop': 'primaryImage',

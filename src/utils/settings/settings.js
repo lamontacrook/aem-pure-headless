@@ -12,7 +12,6 @@ import { useErrorHandler } from 'react-error-boundary';
 import PropTypes from 'prop-types';
 import { prepareRequest } from '../index';
 import { AppContext } from '../context';
-import { pqs } from '../../utils';
 
 const instructionsData = {
   'serviceURL': serviceURLmd,
@@ -32,7 +31,6 @@ const Settings = () => {
   const [instructions, setInstructions] = useState('');
   const [intro, setIntro] = useState('');
   const [project, setProject] = useState(context.project);
-  const [drNumber, setDRNumber] = useState('optional');
   const [serviceURL, setServiceURL] = useState(context.serviceURL);
   const [config, setConfig] = useState({});
   const [statusCode, setStatusCode] = useState('');
@@ -44,24 +42,6 @@ const Settings = () => {
   if (window.location !== window.parent.location) {
     inFrame = true;
   }
-
-  const imageListArray = [
-    `/content/dam/${project}/site/en/about-us/components/our-contributers`,
-    `/content/dam/${project}/site/en/home/components/recent-articles`,
-    `/content/dam/${project}/site/en/magazine/arctic-surfing/recent-articles`,
-    `/content/dam/${project}/site/en/magazine/components/featured-articles`,
-    `/content/dam/${project}/site/en/magazine/san-diego-surf/related-articles`,
-    `/content/dam/${project}/site/en/magazine/ski-touring/related-articles`,
-    `/content/dam/${project}/site/en/magazine/western-australia/recent-articles`,
-  ];
-
-  const screenListArray = [
-    `/content/dam/${project}/site/en/magazine/arctic-surfing/arctic-surfing`,
-    `/content/dam/${project}/site/en/magazine/san-diego-surf/san-diego-surf`,
-    `/content/dam/${project}/site/en/magazine/ski-touring/ski-touring`,
-    `/content/dam/${project}/site/en/magazine/western-australia/western-australia`,
-    `/content/dam/${project}/site/en/new-adventure/new-adventure!!`,
-  ];
 
   const getConfiguration = () => {
 
@@ -75,7 +55,7 @@ const Settings = () => {
 
     const sdk = prepareRequest(context);
 
-    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].config}`, { path: configPath })
+    sdk.runPersistedQuery(`aem-demo-assets/${context.pqs.config}`, { path: configPath })
       .then(({ data }) => {
 
         if (data) {
@@ -106,6 +86,7 @@ const Settings = () => {
       .then((response) => {
         if (response) {
           setStatusCode(response.status);
+          console.log(statusCode);
         }
       })
       .catch(() => {
@@ -166,15 +147,6 @@ const Settings = () => {
                   value={project}
                   onChange={(e) => setProject(e.target.value)}></input>
               </label>
-              {/* <label>DR#
-                <input className='dr-number'
-                  type='text'
-                  placeholder=''
-                  name='dr-number'
-                  onSelect={(e) => setInstructions(instructionsData[e.target.name])}
-                  value={drNumber}
-                  onChange={(e) => setDRNumber(e.target.value)}></input>
-              </label> */}
               <label>Version
                 <input className='version'
                   type='text'

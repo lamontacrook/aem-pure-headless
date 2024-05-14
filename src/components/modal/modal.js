@@ -83,7 +83,10 @@ const Modal = ({ config }) => {
 
   const _langOptions = {
     en: 'English',
-    es: 'Español'
+    es: 'Spanish',
+    fr: 'French',
+    it: 'Italian',
+    de: 'German'
   };
 
   const langOptions = config.languages && config.languages.map((lang) => {

@@ -38,7 +38,7 @@ const Screen = () => {
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-
+          context.config = data;
           path.current = path.current !== '' ? path.current : data.configurationByPath.item.homePage._path;
           const params = { path: path.current, variation: context.audience?.value,  };
 

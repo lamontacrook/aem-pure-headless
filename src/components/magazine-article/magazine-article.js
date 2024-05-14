@@ -41,7 +41,7 @@ const imageProps = {
 const MagazineArticle = ({ content, references }) => {
   return (
     <div className='article-screen' {...editorProps(content, 'Article', 'block', 'container', 'component')}>
-      <h1 className='title' {...editorProps(content, 'Article', 'title', 'reference', 'component')}>{content.title}</h1>
+      <span className='title' {...editorProps(content, 'Article', 'headline', 'reference', 'component')}>{mapJsonRichText(content.headline.json)}</span>
       <div className='body'>{mapJsonRichText(content.article.json, customRenderOptions(references))}</div>
     </div>
   );
@@ -53,7 +53,8 @@ function customRenderOptions(references) {
     // node contains merged properties of the in-line reference and _references object
     'ImageRef': (node) => {
       // when __typename === ImageRef
-      return <img src={node._path} alt={'in-line reference'} />;
+      // return <img src={node._path} alt={'in-line reference'} />;
+      return <Image imageProps={imageProps} asset={node} imageSizes={imageSizes} />;
     },
     'AdventureModel': (node) => {
       // when __typename === AdventureModel

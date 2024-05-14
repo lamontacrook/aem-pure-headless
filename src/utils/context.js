@@ -20,9 +20,10 @@ export const AppContext = createContext({
     screen: 'gql-screen-v3',
     config: 'gql-configuration-v2',
     nav: 'gql-navigation-v2',
-    adventure: 'gql-demo-adventure-v2'
+    adventure: 'gql-adventure-v2'
   },
   lang: localStorage.lange ? JSON.parse(localStorage.lang) : {value:'en',label:'English'},
   audience: localStorage.audience ? JSON.parse(localStorage.audience) : {},
-  rootPath: localStorage.rootPath || 'content/dam'
+  rootPath: localStorage.rootPath || 'content/dam',
+  config: {}
 });

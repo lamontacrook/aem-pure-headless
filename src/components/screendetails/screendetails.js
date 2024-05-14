@@ -4,7 +4,7 @@ import { useErrorHandler } from 'react-error-boundary';
 import Header from '../header';
 import Footer from '../footer';
 import './screendetails.css';
-import { prepareRequest, pqs } from '../../utils';
+import { prepareRequest } from '../../utils';
 import PropTypes from 'prop-types';
 import { AppContext } from '../../utils/context';
 import { Helmet } from 'react-helmet-async';
@@ -28,23 +28,21 @@ const Screendetails = () => {
 
   const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
   
-  const configPath = `/content/dam/${context.project}/site/configuration/configuration`;
+  const configPath = `/content/dam/${context.project}/site/configuration/configuration-v2`;
 
   useEffect(() => {
     let path = Object.values(props).pop();
 
-    const findOverlap = (a, b) => {
-      console.log(a);
-      console.log(b);
-      if (b.length === 0) return '';
-      if (a.endsWith(b)) return b;
-      if (a.indexOf(b) > 0) return b;
-      return findOverlap(a, b.substring(0, b.length - 1));
-    };
+    // const findOverlap = (a, b) => {
+    //   if (b.length === 0) return '';
+    //   if (a.endsWith(b)) return b;
+    //   if (a.indexOf(b) > 0) return b;
+    //   return findOverlap(a, b.substring(0, b.length - 1));
+    // };
 
     const sdk = prepareRequest(context);
 
-    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].config}`, { path: configPath })
+    sdk.runPersistedQuery(`aem-demo-assets/${context.pqs.config}`, { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
@@ -60,7 +58,7 @@ const Screendetails = () => {
 
           path = context.rootPath + '/aem-demo-assets/' + path;
 
-          sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].adventure}`, { path: path !== '' ? '/' + path : data.configurationByPath.item.homePage._path })
+          sdk.runPersistedQuery(`aem-demo-assets/${context.pqs.adventure}`, { path: path !== '' ? '/' + path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
               if (data) {
                 let pretitle = data.adventureByPath.item.description.plaintext;

@@ -55,11 +55,11 @@ function renderImagePlaceholder(posterSrc, context) {
   const imageSizes = context.defaultServiceURL === context.serviceURL ? [
     {
       imageWidth: '1080px',
-      renditionName: 'desktop-placeholder.webp',
+      renditionName: 'cq5dam.zoom.2048.2048.jpeg',
     },
     {
       imageWidth: '412px',
-      renditionName: 'mobile-placeholder.webp',
+      renditionName: 'cq5dam.zoom.1280.1280.jpeg',
     },
     {
       size: '100vw'

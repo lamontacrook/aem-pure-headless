@@ -1,0 +1,108 @@
+.main-body > .block > .productlist {
+  display: flex;
+  flex-direction: column;
+  padding: 34px 3% 48px;
+  max-width: 1500px;
+  max-width: var(--main-body-width);
+  margin: auto;
+}
+
+.main-body > .block > .productlist.highlighted-background {
+  background-color: rgb(252, 242, 246);
+}
+
+.main-body > .block > .productlist > .product-list-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 14px;
+}
+
+.main-body > .block > .productlist > .product-list-title p {
+  font-family: "franklin gothic", sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  margin: 0;
+  /* TODO: Figure out content fragment for section title/subtitle */
+}
+
+.main-body > .block > .productlist > .product-list-title button {
+  color: rgb(238, 74, 27);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.18;
+  border: none;
+  border-bottom: 1px solid rgb(238, 74, 27);
+  height: fit-content;
+  background: none;
+  padding: 0;
+}
+
+.main-body > .block > .productlist > .list-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(186px, 1fr));
+  grid-gap: 16px;
+}
+
+.main-body > .block > .productlist > .list-items > .list-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-body > .block > .productlist > .list-items > .list-item .product-favorite {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  top: -50px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.main-body > .block > .productlist > .list-items > .list-item .product-favorite::before {
+  display: block;
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-position: center center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  /* background-image: url('../../media/heart.svg'); */
+}
+
+.main-body > .block > .productlist > .list-items > .list-item .list-item-content {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 0 6px;
+  position: relative;
+}
+
+.main-body > .block > .productlist > .list-items > .list-item .product-name,
+.main-body > .block > .productlist > .list-items > .list-item .product-price
+ {
+  font-family: "franklin gothic", sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.02rem;
+  font-style: bold;
+  padding: 0 7.5%;
+}
+
+.block > .productlist > .list-items > .list-item .product-price::before {
+  content: '$';
+}
+
+.main-body > .block > .productlist > .list-items > .list-item .product-description {
+  font-family: "franklin gothic", sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  margin-bottom: -2px;
+  letter-spacing: 0.01rem;
+  font-style: normal;
+  padding: 0 7.5%;
+}
+

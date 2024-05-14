@@ -17,17 +17,21 @@ const Preview = () => {
 
   const props = useParams();
 
+  console.log(props);
   const [modelType, path] = Object.values(props)[0].split(/\/(.*)/s);
+  console.log(path);
 
   useEffect(() => {
-    const configPath = `/content/dam/${context.project}/site/configuration/configuration`;
+    const configPath = `/content/dam/${context.project}/site/configuration/configuration-v2`;
     const sdk = prepareRequest(context);
-    sdk.runPersistedQuery(`aem-demo-assets/${pqs[context.version].config}`, { path: configPath })
+    sdk.runPersistedQuery(`aem-demo-assets/${context.pqs.config}`, { path: configPath })
       .then(({ data }) => {
         if (data) {
           setConfiguration(data);
-          const params = { path: `/${path}`, variation: context.audience?.value };
-          sdk.runPersistedQuery(`aem-demo-assets/gql-demo-${modelType}`, params)
+          context.config = data;
+          const params = { path: `/${path}` };
+          if(context.audience?.value) params['variation'] = context.audience?.value;
+          sdk.runPersistedQuery(`aem-demo-assets/gql-${modelType}`, params)
             .then(({ data }) => {
               if (data) {
                 setData(data);
@@ -47,15 +51,15 @@ const Preview = () => {
   }, [context, handleError, modelType, path]);
 
   let i = 0;
-
+  console.log(data);
   return (
     <React.Fragment>
-      {data && data.component && data.component.item && config.configurationByPath && data.component.item.__typename === 'HeaderModel' &&
+      {data && data.component && data.component.item && config.configurationByPath && data.component.item.__typename === 'HeaderV2Model' &&
         <Header data={data} content={data.component.item} config={config} className='screen' />
       }
 
       <div className='main-body'>
-        {data && data.component && data.component.item && data.component.item.__typename !== 'HeaderModel' && (
+        {data && data.component && data.component.item && data.component.item.__typename !== 'HeaderV2Model' && (
           <div
             key={`${data.component.item.__typename
               .toLowerCase()
@@ -70,7 +74,7 @@ const Preview = () => {
             ></ModelManager>
           </div>
         )}
-        {context.version === 'v2' && config && config.configurationByPath && config.configurationByPath.item && (
+        {config && config.configurationByPath && config.configurationByPath.item && (
           <Modal config={config.configurationByPath.item} />
         )}
 
