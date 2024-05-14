@@ -165,7 +165,6 @@ ImageList.propTypes = {
 // };
 
 const ArticleCard = ({ item }) => {
-  console.log(item);
   const editorProps = {
     'data-aue-resource': `urn:aemconnection:${item._path}/jcr:content/data/master`,
     'data-aue-type': 'component',
