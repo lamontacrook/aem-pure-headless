@@ -36,7 +36,7 @@ const Settings = () => {
   const [statusCode, setStatusCode] = useState('');
   const [version, setVersion] = useState(context.version);
   const [placeholdersExtensionURL, setPlaceholdersExtensionURL] = useState(context.placeholdersExtensionURL);
-  const configPath = `/content/dam/${project}/site/configuration/configuration`;
+  const configPath = `/content/dam/${project}/site/configuration/configuration-v2`;
 
   let inFrame = false;
   if (window.location !== window.parent.location) {
@@ -67,10 +67,7 @@ const Settings = () => {
       .catch((error) => {
         handleError(error);
       });
-
-    const url = `/content/experience-fragments/${context.project}/en/site/footer/master.model.json`;
-
-
+å
     const headers = new Headers({
       'Content-Type': 'text/html',
     });
